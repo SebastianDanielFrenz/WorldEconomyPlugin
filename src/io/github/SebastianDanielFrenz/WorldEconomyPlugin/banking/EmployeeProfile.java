@@ -7,12 +7,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.ContractSig
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.employment.EmploymentContract;
 
 public class EmployeeProfile {
-
-	public final WorldEconomyProfile general_profile;
 	private ArrayList<EmploymentContract> contracts;
 
-	public EmployeeProfile(WorldEconomyProfile profile, ArrayList<EmploymentContract> contracts) {
-		general_profile = profile;
+	public EmployeeProfile(ArrayList<EmploymentContract> contracts) {
 		this.contracts = contracts;
 	}
 
