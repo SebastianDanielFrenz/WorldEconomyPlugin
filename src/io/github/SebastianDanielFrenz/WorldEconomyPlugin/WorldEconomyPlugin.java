@@ -73,7 +73,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	
 	public static int getNextEnumerator(String type) {
 		try {
-			ResultSet res = runSQL("SELECT status FROM sys_enumerator WHERE type = \""+type+"\"");
+			ResultSet res = runSQL("SELECT value FROM sys_enumerator WHERE key = \""+type+"\"");
 		if (!res.next()) {
 			throw new RuntimeException("The enumerator \""+type+"\" is not in the data base!");
 			}
@@ -82,18 +82,29 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			throw new RuntimeException(e.getStackTrace().toString());
 		}
 	}
+	
+	public static void moveEnumerator(String type) {
+		try {
+			runSQL("UPDATE sys_enumerator SET value = value + 1 WHERE key = \""+type+"\"");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void registerUserProfile(OfflinePlayer player) throws SQLException {
-		runSQL("INSERT INTO user_profiles (ID, employeeID, employerID, bankingID, username) VALUES (\""+player.getUniqueId().toString()+"\", ");
+		runSQL("INSERT INTO user_profiles (ID, employeeID, employerID, bankingID, username)" + " VALUES (\""
+				+ player.getUniqueId().toString() + "\", " + getNextEnumerator("employeeID") + ", "
+				+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", " + player.getName());
 	}
 
-	public static void registerUserBankAccount(OfflinePlayer player, BankAccount account) {
-		getUserProfile(player.getUniqueId()).bankingProfile.getBankCustomer(account.getBank())
-				.createAccount(account.getBank(), account.getName());
+	public static void registerUserBankAccount(OfflinePlayer player, BankAccount account) throws SQLException {
+		runSQL("INSERT INTO bank_accounts (balance, bankID) VALUES (" + account.getBalance() + ", "
+				+ account.getBankID());
 	}
-
-	public static void registerUserBankCustomer(OfflinePlayer player, BankCustomer customer) {
-		getUserProfile(player).bankingProfile.registerBankCustomer(customer);
+	
+	private static void setupEnumerator() {
+		runSQLsafe("INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1)");
 	}
 
 	private boolean setupEconomy() {
@@ -115,45 +126,60 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		// prepare DB
 
 		if (is_new) {
-			runSQL("CREATE TABLE " + T_GLOBAL_USER_PROFILES + " (\n"
-					+ "id text PRIMARY KEY\n" + ");");
-			// runSQL("CREATE TABLE "+T_BANK_PROFILES);
-
-			/*
-			 * runSQL("CREATE TABLE "+T_BANK_ACCOUNTS+" (\n" +
-			 * "id integer PRIMARY KEY,\n" + "balance BLOB NOT NULL,\n" +
-			 * "name text NOT NULL\n" + ");");
-			 */
-
-			runSQL("CREATE TABLE " + T_BANK_PROFILES + " (\n"
-			+ "player_id text PRIMARY KEY,\n"
-			+ "customer_profiles BLOB NOT NULL\n" + ");");
-		}
-
-		// load DB data into class structure
-
-		ResultSet globalProfileResult = runSQL("SELECT id FROM " + T_GLOBAL_USER_PROFILES + ";");
-
-		while (globalProfileResult.next()) {
-			String id = globalProfileResult.getString("id");
-
-			ResultSet bankProfileResult = runSQL(
-					"SELECT customer_profiles FROM " + T_BANK_PROFILES + " WHERE player_id = \"" + id + "\";");
-			ArrayList<BankCustomer> bankCustomers;
-
-			if (bankProfileResult.next()) {
-
-				bankCustomers = ((ArrayList<BankCustomer>) bankProfileResult.getObject("customer_profiles"));
-			} else {
-				throw new RuntimeException("no bank customer profiles for player with id \"" + id + "\"!");
-			}
-
-			OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(id));
-			registerUserProfile(player);
-			for (BankCustomer customer : bankCustomers) {
-				registerUserBankCustomer(player, customer);
-			}
-
+			runSQL("CREATE TABLE user_profiles ("
+					+ "UUID text PRIMARY KEY,"
+					+ "employeeID integer,"
+					+ "employerID integer,"
+					+ "username text,"
+					+ "bankingID integer"
+					+ ");");
+			
+			runSQL("CREATE TABLE sys_enumerator ("
+					+ "key text PRIMARY KEY,"
+					+ "value integer"
+					+ ");");
+			
+			runSQL("CREATE TABLE employee_matching ("
+					+ "ID integer PRIMARY KEY,"
+					+ "employerID integer,"
+					+ "employeeID integer,"
+					+ "contractID integer"
+					+ ");");
+			
+			runSQL("CREATE TABLE credits ("
+					+ "ID integer PRIMARY KEY,"
+					+ "amount real,"
+					+ "interest real,"
+					+ "creditorID integer"
+					+ ");");
+			
+			runSQL("CREATE TABLE contracts ("
+					+ "ID integer PRIMARY KEY,"
+					+ "type text,"
+					+ "data text"
+					+ ");");
+			
+			runSQL("CREATE TABLE companies ("
+					+ "ID integer PRIMARY KEY,"
+					+ "name text,"
+					+ "type text,"
+					+ "employerID integer"
+					+ ");");
+			
+			runSQL("CREATE TABLE banks ("
+					+ "ID integer PRIMARY KEY,"
+					+ "bankname text"
+					+ ");");
+			
+			runSQL("CREATE TABLE bank_accounts ("
+					+ "ID integer PRIMARY KEY,"
+					+ "balance real,"
+					+ "bankID integer,"
+					+ "customerBaningID integer,"
+					+ "accountName text"
+					+ ");");
+			
+			setupEnumerator();
 		}
 
 		return is_new;

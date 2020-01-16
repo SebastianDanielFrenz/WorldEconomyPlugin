@@ -1,17 +1,13 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking;
 
-import java.util.ArrayList;
-
 public class BankAccount {
 
 	private double balance;
-	private Bank bank;
-	private ArrayList<BankCustomer> customers;
+	private int bankID;
 	private String name;
 
-	public BankAccount(Bank bank, ArrayList<BankCustomer> customers, double balance, String name) {
-		this.bank = bank;
-		this.customers = customers;
+	public BankAccount(int bankID, double balance, String name) {
+		this.bankID = bankID;
 		this.balance = balance;
 		this.name = name;
 	}
@@ -20,12 +16,8 @@ public class BankAccount {
 		return balance;
 	}
 
-	public ArrayList<BankCustomer> getCustomers() {
-		return customers;
-	}
-
-	public Bank getBank() {
-		return bank;
+	public int getBankID() {
+		return bankID;
 	}
 
 	public String getName() {
