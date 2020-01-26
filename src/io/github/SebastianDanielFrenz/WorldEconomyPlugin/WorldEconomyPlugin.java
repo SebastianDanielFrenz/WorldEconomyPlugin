@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -32,11 +34,18 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		// register tick counter
+		System.out.println("§4lol3");
 
 		if (!setupEconomy()) {
 			getLogger().info("ERROR: Could not hook into Vault!");
 			getServer().getPluginManager().disablePlugin(this);
+		}
+
+		try {
+			Files.createDirectories(Paths.get("plugins/WorldEconomy"));
+
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 
 		try {
@@ -97,9 +106,14 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static void registerUserProfile(OfflinePlayer player) throws SQLException {
-		runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, bankingID, username)"
+		runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username)"
 				+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + getNextEnumerator("employeeID") + ", "
-				+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", " + player.getName());
+				+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", \"" + player.getName()
+				+ "\")");
+
+		moveEnumerator("employeeID");
+		moveEnumerator("employerID");
+		moveEnumerator("bankingID");
 	}
 
 	public static void registerUserBankAccount(OfflinePlayer player, BankAccount account) throws SQLException {
@@ -178,17 +192,27 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static long registerCompany(String name, String type) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
-		runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID) VALUES (" + companyID
-				+ ", \"" + name + "\", \"" + type + "\", " + getNextEnumerator("employerID") + ")");
+		runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
+				+ companyID + ", \"" + name + "\", \"" + type + "\", " + getNextEnumerator("employerID") + ", "
+				+ getNextEnumerator("bankingID") + ")");
 
 		moveEnumerator("companyID");
 		moveEnumerator("employerID");
+		moveEnumerator("bankingID");
 
 		return companyID;
 	}
-	
-	public static Company getCompany(String name) {
-		return 
+
+	public static Company getCompany(String name) throws SQLException {
+		ResultSet res = runSQLquery(
+				"SELECT companyID, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyName = \""
+						+ name + "\"");
+		if (res.next()) {
+			return new Company(res.getLong("companyID"), name, res.getString("companyType"),
+					res.getLong("companyEmployerID"), res.getLong("companyBankingID"));
+		} else {
+			return null;
+		}
 	}
 
 	public static long registerProduct(long productManifacturerID, String name, double price) throws SQLException {
@@ -244,9 +268,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	@SuppressWarnings("unchecked")
 	private boolean setupSQL() throws SQLException {
-		boolean is_new = !Files.exists(Paths.get(getDataFolder().toString() + "/data.db"));
+		boolean is_new = !Files.exists(Paths.get(getDataFolder().toString() + "\\data.db"));
 
-		sql_connection = DriverManager.getConnection("jdbc:sqlite:" + getDataFolder().toString() + "/data.db");
+		sql_connection = DriverManager.getConnection("jdbc:sqlite:" + getDataFolder().toString() + "\\data.db");
 
 		// prepare DB
 
@@ -266,7 +290,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "contractData text" + ");");
 
 			runSQL("CREATE TABLE companies (" + "companyID integer PRIMARY KEY," + "companyName text,"
-					+ "companyType text," + "companyEmployerID integer" + ");");
+					+ "companyType text," + "companyEmployerID integer," + "companyBankingID integer" + ");");
 
 			runSQL("CREATE TABLE banks (" + "bankID integer PRIMARY KEY," + "bankName text" + ");");
 
