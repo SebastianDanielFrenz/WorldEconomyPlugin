@@ -188,7 +188,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 	
 	public static Company getCompany(String name) {
-		
+		return 
 	}
 
 	public static long registerProduct(long productManifacturerID, String name, double price) throws SQLException {
