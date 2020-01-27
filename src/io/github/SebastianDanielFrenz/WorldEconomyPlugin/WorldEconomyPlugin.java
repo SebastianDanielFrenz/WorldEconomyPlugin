@@ -1,6 +1,5 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,11 +15,12 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
@@ -141,6 +141,15 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		moveEnumerator("bankID");
 	}
 
+	public static Bank getBank(String name) throws SQLException {
+		ResultSet r = runSQLquery("SELECT * FROM banks WHERE bankName = \"" + name + "\"");
+		if (!r.next()) {
+			return null;
+		} else {
+			return new Bank(r.getLong("bankID"), r.getString("bankName"));
+		}
+	}
+
 	public static long registerSupplyChest(Location location, long companyID) throws SQLException {
 		long chestID = getNextEnumerator("chestID");
 
@@ -158,8 +167,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 				+ " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ() + " AND signWorld = "
 				+ location.getWorld().getName());
 		if (res.next()) {
-			ResultSet res2 = runSQLquery("SELECT * FROM chests WHERE chestID = " + res.getLong("chestID"));
-
 			return new SupplyChest(res.getLong("chestID"), location, res.getLong("chestOwnerCompanyID"));
 		} else {
 			return null;
@@ -169,8 +176,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static SupplyChest getSupplyChest(long ID) throws SQLException {
 		ResultSet res = runSQLquery("SELECT * FROM supply_chests WHERE chestID = " + ID);
 		if (res.next()) {
-			ResultSet res2 = runSQLquery("SELECT * FROM chests WHERE chestID = " + res.getLong("chestID"));
-
 			return new SupplyChest(ID, new Location(Bukkit.getWorld(res.getString("chestWorld")), res.getInt("chestX"),
 					res.getInt("chestY"), res.getInt("chestZ")), res.getLong("chestOwnerCompanyID"));
 		} else {
@@ -193,21 +198,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		moveEnumerator("signID");
 
 		return signID;
-	}
-
-	@Deprecated
-	public static long registerCompany(String name, String type) throws SQLException {
-		long companyID = getNextEnumerator("companyID");
-
-		runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
-				+ companyID + ", \"" + name + "\", \"" + type + "\", " + getNextEnumerator("employerID") + ", "
-				+ getNextEnumerator("bankingID") + ")");
-
-		moveEnumerator("companyID");
-		moveEnumerator("employerID");
-		moveEnumerator("bankingID");
-
-		return companyID;
 	}
 
 	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
@@ -334,7 +324,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		return economy != null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean setupSQL() throws SQLException {
 		boolean is_new = !Files.exists(Paths.get(getDataFolder().toString() + "\\data.db"));
 
@@ -428,4 +417,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static final String T_BANK_ACCOUNTS = "bank_accounts";
 
 	public static String PREFIX = "§f[§eWorld Economy§f]: §e";
+
+	public static void removeShopSign(Block block) throws SQLException {
+		ResultSet r = runSQLquery(
+				"SELECT signID FROM signs WHERE signX = " + block.getX() + " AND signY = " + block.getY()
+						+ " AND signZ = " + block.getZ() + " AND signWorld = \"" + block.getWorld().getName() + "\"");
+		long signID = r.getLong("signID");
+		runSQL("DELETE FROM signs WHERE signID = " + signID);
+		runSQL("DELETE FROM shop_signs WHERE signID = " + signID);
+	}
 }

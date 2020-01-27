@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 
 public class WorldEconomyCommandExecutor implements CommandExecutor {
@@ -48,8 +49,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						}
 						try {
+							Bank bank = WorldEconomyPlugin.getBank(args[2]);
+							if (bank == null) {
+								sender.sendMessage(
+										WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2] + "\" does not exist!");
+								return true;
+							}
 							WorldEconomyPlugin.registerUserBankAccount((Player) sender,
-									new BankAccount((Player) sender, Long.parseLong(args[2]), 0, args[3]));
+									new BankAccount((Player) sender, bank.ID, 0, args[3]));
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Successfully created the bank account!");
 							return true;
 						} catch (SQLException e) {
@@ -219,7 +226,18 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							while (r.next()) {
 								sender.sendMessage(r.getLong("bankAccountID") + " - " + r.getString("bankAccountName")
 										+ " - " + r.getLong("bankID") + " - " + r.getLong("bankAccountBalance") + " - "
-										+ r.getLong("customerBankingID") +" - "+ r.getString("customerType"));
+										+ r.getLong("customerBankingID") + " - " + r.getString("customerType"));
+							}
+							return true;
+						} else if (args[1].equalsIgnoreCase("products")) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX
+									+ "ID - manifacturerID - price - name - itemID - itemCount");
+							ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM products");
+							while (r.next()) {
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + r.getLong("productID") + " - "
+										+ r.getLong("productManifacturerID") + " - " + r.getDouble("productPrice")
+										+ " - " + r.getString("productName") + " - " + r.getString("productItemID")
+										+ " - " + r.getInt("productItemAmount"));
 							}
 							return true;
 						} else {
@@ -229,6 +247,54 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						e.printStackTrace();
 						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
 						return true;
+					}
+				}
+			} else if (args[0].equalsIgnoreCase("manage")) {
+				if (args.length == 1) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					return true;
+				} else {
+					if (args[1].equalsIgnoreCase("bank_account")) {
+						if (args.length >= 4) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+							return true;
+						} else {
+							try {
+								BankAccount account = WorldEconomyPlugin.getBankAccount(
+										WorldEconomyPlugin.getUserProfile((Player) sender).bankingID, args[2]);
+								if (account == null) {
+									sender.sendMessage(
+											WorldEconomyPlugin.PREFIX + "§4That bank account does not exist!");
+									return true;
+								}
+
+								if (args[3].equalsIgnoreCase("set")) {
+									if (args.length >= 6) {
+										if (args[4].equalsIgnoreCase("balance")) {
+											WorldEconomyPlugin.runSQL("UPDATE bank_accounts SET bankAccountBalance = "
+													+ args[5] + " WHERE bankAccountName = \"" + account.getName()
+													+ "\" AND customerBankingID = " + account.getAccountHolderID());
+											return true;
+										} else {
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+											return false;
+										}
+									} else {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguements!");
+										return true;
+									}
+								} else {
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+									return false;
+								}
+							} catch (SQLException e) {
+								e.printStackTrace();
+								return true;
+							}
+						}
+					} else {
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+						return false;
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("SQL")) {

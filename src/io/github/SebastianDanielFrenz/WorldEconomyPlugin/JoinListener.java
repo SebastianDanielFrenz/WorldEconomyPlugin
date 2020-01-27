@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -43,11 +44,12 @@ public class JoinListener implements Listener {
 			if (block.getType() == Material.OAK_WALL_SIGN) {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
-				if (lines[0].equalsIgnoreCase("[§4World Economy§0]")) {
-					SignData signData = WorldEconomyPlugin.getSign(block.getLocation());
+				if (lines[0].equalsIgnoreCase("[§4Shop§0]")) {
+					ShopSignData signData = WorldEconomyPlugin.getShopSign(block.getLocation());
+
 					if (signData == null) {
 						player.sendMessage("not a world economy sign!");
-					} else if (signData instanceof ShopSignData) {
+					} else {
 						PlayerInventory playerInv = player.getInventory();
 						ItemStack itemStack = playerInv.getItemInMainHand();
 						if (itemStack.getType() == Material.PAPER) {
@@ -128,7 +130,7 @@ public class JoinListener implements Listener {
 
 				WorldEconomyPlugin.moveEnumerator("signID");
 
-				event.setLine(0, "[§4World Economy§0]");
+				event.setLine(0, "[§4Shop§0]");
 				event.setLine(1, companyName);
 				event.setLine(2, productName);
 				event.setLine(3, String.valueOf(price));
@@ -137,6 +139,18 @@ public class JoinListener implements Listener {
 
 			} else {
 				event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "§4The product does not exist!");
+			}
+		}
+	}
+
+	@EventHandler
+	public void onSignBreakEvent(BlockBreakEvent event) throws SQLException {
+		if (event.getBlock().getType() == Material.OAK_WALL_SIGN) {
+			if (((Sign) event.getBlock().getState()).getLine(0).equals("[§4Shop§0]")) {
+				ShopSignData sign = WorldEconomyPlugin.getShopSign(event.getBlock().getLocation());
+				if (sign != null) {
+					WorldEconomyPlugin.removeShopSign(event.getBlock());
+				}
 			}
 		}
 	}
