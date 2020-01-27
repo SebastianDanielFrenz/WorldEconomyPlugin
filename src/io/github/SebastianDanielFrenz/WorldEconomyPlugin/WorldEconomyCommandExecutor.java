@@ -9,6 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 
@@ -99,6 +101,29 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
 							return true;
 						}
+					} else if (args[1].equalsIgnoreCase("product")) {
+						if (!(sender instanceof Player)) {
+							sender.sendMessage(
+									WorldEconomyPlugin.PREFIX + "§4You have to be a player to register an item!");
+							return true;
+						}
+						try {
+							Player player = (Player) sender;
+							PlayerInventory inv = player.getInventory();
+							ItemStack itemStack = inv.getItemInMainHand();
+
+							Company manifacturer = WorldEconomyPlugin.getCompany(args[2]);
+
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Registered product with ID "
+									+ WorldEconomyPlugin.registerProduct(manifacturer.ID, args[3],
+											Double.parseDouble(args[4]), itemStack)
+									+ "!");
+							return true;
+						} catch (SQLException e) {
+							e.printStackTrace();
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							return true;
+						}
 					} else {
 						return false;
 					}
@@ -138,6 +163,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								sender.sendMessage(r.getString("playerUUID") + " - " + r.getString("username") + " - "
 										+ r.getString("playerAsEmployerID") + " - " + r.getLong("employeeID") + " - "
 										+ r.getLong("playerBankingID"));
+							}
+							return true;
+						} else if (args[1].equalsIgnoreCase("supply_chests")) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - companyID");
+
+							ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM supply_chests");
+							while (r.next()) {
+								sender.sendMessage(r.getLong("chestID") + " - " + r.getString("chestOwnerCompanyID"));
 							}
 							return true;
 						} else {

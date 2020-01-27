@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -215,11 +216,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		}
 	}
 
-	public static long registerProduct(long productManifacturerID, String name, double price) throws SQLException {
+	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
+			throws SQLException {
 		long productID = getNextEnumerator("productID");
 
-		runSQL("INSERT INTO products (productID, productName, productPrice, productManifacturerID) VALUES (" + productID
-				+ ", \"" + name + "\", " + price + ", " + productManifacturerID + ")");
+		runSQL("INSERT INTO products (productID, productName, productPrice, productManifacturerID, productItemID, productItemAmount) VALUES ("
+				+ productID + ", \"" + name + "\", " + price + ", " + productManifacturerID + ", "
+				+ product.getType().toString() + ", " + product.getAmount() + ")");
 
 		moveEnumerator("productID");
 
@@ -299,7 +302,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ ");");
 
 			runSQL("CREATE TABLE products (" + "productID integer PRIMARY KEY," + "productManifacturerID integer,"
-					+ "productPrice real," + "productName text" + ");");
+					+ "productPrice real," + "productName text," + "productItemID text," + "productItemAmount integer"
+					+ ");");
 
 			runSQL("CREATE TABLE chests (" + "chestID integer PRIMARY KEY," + "chestType text," + "chestX integer,"
 					+ "chestY integer," + "chestZ integer," + "chestWorld text" + ");");
