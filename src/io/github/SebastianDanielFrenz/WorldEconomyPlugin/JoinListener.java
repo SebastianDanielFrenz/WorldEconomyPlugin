@@ -43,7 +43,7 @@ public class JoinListener implements Listener {
 			if (block.getType() == Material.OAK_WALL_SIGN) {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
-				if (lines[0].equalsIgnoreCase("[World Economy]")) {
+				if (lines[0].equalsIgnoreCase("[§4World Economy§0]")) {
 					SignData signData = WorldEconomyPlugin.getSign(block.getLocation());
 					if (signData == null) {
 						player.sendMessage("not a world economy sign!");
@@ -54,6 +54,10 @@ public class JoinListener implements Listener {
 							List<String> lore = itemStack.getItemMeta().getLore();
 							if (lore != null) {
 								if (lore.get(0).equalsIgnoreCase("Credit Card")) {
+									if (lore.size() == 1) {
+										event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX
+												+ "§4This credit card has no banking information!");
+									}
 									String bankAccountName = lore.get(1);
 									WorldEconomyProfile profile = WorldEconomyPlugin.getUserProfile(player);
 									BankAccount bankAccount = WorldEconomyPlugin.getBankAccount(profile.bankingID,
@@ -89,18 +93,19 @@ public class JoinListener implements Listener {
 
 	@EventHandler
 	public void onSignChangeEvent(SignChangeEvent event) throws SQLException {
-		
+
 		Sign sign = (Sign) event.getBlock().getState();
 		String[] lines = event.getLines();
 		System.out.println(lines[0]);
-		
+
 		if (lines[0].equalsIgnoreCase("[WE - Shop]")) {
 			long productID = Long.parseLong(lines[1]);
 			double price = Double.parseDouble(lines[2]);
 			long supplyChestID = Long.parseLong(lines[3]);
 
 			ResultSet r1 = WorldEconomyPlugin.runSQLquery(
-					"SELECT (productManifacturerID, productName) FROM products WHERE productID = " + productID);
+					"SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
+
 			if (r1.next()) {
 				long companyID = r1.getLong("productManifacturerID");
 				String productName = r1.getString("productName");
@@ -121,10 +126,14 @@ public class JoinListener implements Listener {
 								+ WorldEconomyPlugin.getNextEnumerator("signID") + ", " + supplyChestID + ", "
 								+ companyID + ", " + productID + ", " + price + ")");
 
-				sign.setLine(0, "[§eWorld Economy§f]");
-				sign.setLine(1, companyName);
-				sign.setLine(2, productName);
-				sign.setLine(3, String.valueOf(price));
+				WorldEconomyPlugin.moveEnumerator("signID");
+
+				event.setLine(0, "[§4World Economy§0]");
+				event.setLine(1, companyName);
+				event.setLine(2, productName);
+				event.setLine(3, String.valueOf(price));
+
+				event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "Successfully created shop sign!");
 
 			} else {
 				event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "§4The product does not exist!");

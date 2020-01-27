@@ -1,6 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
-public class Company {
+public abstract class Company {
 
 	public String companyName;
 	public long companyEmployerID;
@@ -15,5 +15,7 @@ public class Company {
 		companyEmployerID = employerID;
 		this.bankingID = bankingID;
 	}
+	
+	public abstract long getOwnerEmployeeID();
 
 }

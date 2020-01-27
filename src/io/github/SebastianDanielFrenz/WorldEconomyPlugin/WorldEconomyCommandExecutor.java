@@ -42,6 +42,11 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						}
 					} else if (args[1].equalsIgnoreCase("bank_account")) {
+						if (!(sender instanceof Player)) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX
+									+ "§4You have to be a player in order to create a bank account!");
+							return true;
+						}
 						try {
 							WorldEconomyPlugin.registerUserBankAccount((Player) sender,
 									new BankAccount((Player) sender, Long.parseLong(args[2]), 0, args[3]));
@@ -53,11 +58,30 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						}
 					} else if (args[1].equalsIgnoreCase("company")) {
+						if (!(sender instanceof Player)) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX
+									+ "§4You have to be a player in order to create and own a company!");
+							return true;
+						}
 						if (args.length > 3) {
 							try {
-								sender.sendMessage(
-										WorldEconomyPlugin.PREFIX + "Successfully created the company with ID "
-												+ WorldEconomyPlugin.registerCompany(args[2], args[3]) + "!");
+								String name = args[2];
+
+								switch (args[3]) {
+								case "corporation":
+									sender.sendMessage(WorldEconomyPlugin.PREFIX
+											+ "Successfully created the corporation with ID "
+											+ WorldEconomyPlugin.registerCorporation(name, (Player) sender) + "!");
+									break;
+								case "private":
+									sender.sendMessage(WorldEconomyPlugin.PREFIX
+											+ "Successfully created the private company with ID "
+											+ WorldEconomyPlugin.registerPrivateCompany(name, (Player) sender));
+									break;
+								default:
+									sender.sendMessage(WorldEconomyPlugin.PREFIX
+											+ "§4Invalid company type! §eType \"/we company types\" to see the available types.");
+								}
 								return true;
 							} catch (SQLException e) {
 								e.printStackTrace();
@@ -73,6 +97,13 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							if (block.getType() == Material.CHEST) {
 								try {
 									Company company = WorldEconomyPlugin.getCompany(args[2]);
+
+									if (company == null) {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The company \"" + args[2]
+												+ "\" does not exist!");
+										return true;
+									}
+
 									sender.sendMessage(WorldEconomyPlugin.PREFIX
 											+ "Successfully registered supply chest with ID "
 											+ WorldEconomyPlugin.registerSupplyChest(block.getLocation(), company.ID)
@@ -109,10 +140,17 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						}
 						try {
 							Player player = (Player) sender;
+
 							PlayerInventory inv = player.getInventory();
 							ItemStack itemStack = inv.getItemInMainHand();
 
 							Company manifacturer = WorldEconomyPlugin.getCompany(args[2]);
+
+							if (manifacturer == null) {
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The company \"" + args[2]
+										+ "\" does not exist!");
+								return true;
+							}
 
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Registered product with ID "
 									+ WorldEconomyPlugin.registerProduct(manifacturer.ID, args[3],
@@ -145,7 +183,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							}
 							return true;
 						} else if (args[1].equalsIgnoreCase("companies")) {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - name - type - employerID- bankingID");
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - name - type - employerID - bankingID");
 
 							ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies");
 							while (r.next()) {
@@ -173,6 +211,17 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								sender.sendMessage(r.getLong("chestID") + " - " + r.getString("chestOwnerCompanyID"));
 							}
 							return true;
+						} else if (args[1].equalsIgnoreCase("bank_accounts")) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX
+									+ "ID - name - bankID - balance - customer - customerType");
+
+							ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts");
+							while (r.next()) {
+								sender.sendMessage(r.getLong("bankAccountID") + " - " + r.getString("bankAccountName")
+										+ " - " + r.getLong("bankID") + " - " + r.getLong("bankAccountBalance") + " - "
+										+ r.getLong("customerBankingID") +" - "+ r.getString("customerType"));
+							}
+							return true;
 						} else {
 							return false;
 						}
@@ -182,14 +231,31 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						return true;
 					}
 				}
-			} else if (args[0].equalsIgnoreCase("run")) {
-				try {
-					WorldEconomyPlugin.runSQL(args[1].replace('@', ' '));
-				} catch (SQLException e) {
-					sender.sendMessage(e.getMessage());
+			} else if (args[0].equalsIgnoreCase("SQL")) {
+				if (args.length == 1) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					return true;
 				}
-
-				return true;
+				if (args[1].equalsIgnoreCase("run")) {
+					try {
+						WorldEconomyPlugin.runSQL(args[2].replace('@', ' '));
+						return true;
+					} catch (SQLException e) {
+						sender.sendMessage(e.getMessage());
+						return true;
+					}
+				} else if (args[1].equalsIgnoreCase("clear")) {
+					try {
+						WorldEconomyPlugin.runSQL("DELETE FROM " + args[2]);
+						return true;
+					} catch (SQLException e) {
+						sender.sendMessage(e.getMessage());
+						return true;
+					}
+				} else {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+					return true;
+				}
 			} else {
 				return false;
 			}

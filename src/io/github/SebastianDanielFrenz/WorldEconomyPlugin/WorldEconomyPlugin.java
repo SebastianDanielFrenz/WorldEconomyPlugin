@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,12 +31,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static Economy economy;
 	public static Connection sql_connection;
 
+	public static WorldEconomyPlugin plugin;
+
 	public static List<WorldEconomyProfile> global_user_profiles = new ArrayList<WorldEconomyProfile>();
 
 	@Override
 	public void onEnable() {
-
-		System.out.println("§4lol3");
+		plugin = this;
 
 		if (!setupEconomy()) {
 			getLogger().info("ERROR: Could not hook into Vault!");
@@ -76,11 +78,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static long tick_counter;
 
 	public static WorldEconomyProfile getUserProfile(OfflinePlayer player) throws SQLException {
-		ResultSet r = runSQLquery("SELECT employeeID, employerID, username, bankingID FROM user_profiles WHERE ID = \""
-				+ player.getUniqueId() + "\"");
+		ResultSet r = runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
+
 		if (r.next()) {
-			return new WorldEconomyProfile(player.getUniqueId(), r.getInt("employeeID"), r.getInt("employerID"),
-					r.getString("username"), r.getInt("bankingID"));
+			return new WorldEconomyProfile(player.getUniqueId(), r.getInt("employeeID"), r.getInt("playerAsEmployerID"),
+					r.getString("username"), r.getInt("playerBankingID"));
 		} else {
 			return null;
 		}
@@ -118,16 +120,17 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static void registerUserBankAccount(OfflinePlayer player, BankAccount account) throws SQLException {
-		runSQL("INSERT INTO bank_accounts (bankAccountBalance, bankID, bankAccountName, customerBankingID) VALUES ("
+		runSQL("INSERT INTO bank_accounts (bankAccountBalance, bankID, bankAccountName, customerBankingID, customerType) VALUES ("
 				+ account.getBalance() + ", " + account.getBankID() + ", \"" + account.getName() + "\", "
-				+ account.getAccountHolderID() + ")");
+				+ account.getAccountHolderID() + ", \"" + account.getType() + "\")");
 	}
 
 	public static BankAccount getBankAccount(long bankingID, String name) throws SQLException {
-		ResultSet r = runSQLquery("SELECT * FROM bank_accounts WHERE bankAccountHolderID = " + bankingID);
+		ResultSet r = runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + bankingID
+				+ " AND bankAccountName = \"" + name + "\"");
 		if (r.next()) {
 			return new BankAccount(r.getLong("bankID"), r.getDouble("bankAccountBalance"), name,
-					r.getLong("bankAccountHolderID"));
+					r.getLong("customerBankingID"), r.getString("customerType"));
 		} else {
 			return null;
 		}
@@ -187,9 +190,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 				+ location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \""
 				+ location.getWorld().getName() + "\", " + "\"shop\")");
 
+		moveEnumerator("signID");
+
 		return signID;
 	}
 
+	@Deprecated
 	public static long registerCompany(String name, String type) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
@@ -204,13 +210,72 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		return companyID;
 	}
 
+	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
+		long companyID = getNextEnumerator("companyID");
+
+		runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
+				+ companyID + ", \"" + name + "\", \"corporation\", " + getNextEnumerator("employerID") + ", "
+				+ getNextEnumerator("bankingID") + ")");
+
+		runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID + ", "
+				+ CEO_employeeID + ")");
+
+		moveEnumerator("companyID");
+		moveEnumerator("employerID");
+		moveEnumerator("bankingID");
+
+		return companyID;
+	}
+
+	public static long registerCorporation(String name, OfflinePlayer CEO) throws SQLException {
+		return registerCorporation(name, getUserProfile(CEO).employeeID);
+	}
+
+	public static long registerPrivateCompany(String name, OfflinePlayer owner) throws SQLException {
+		long companyID = getNextEnumerator("companyID");
+
+		runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
+				+ companyID + ", \"" + name + "\", \"private\", " + getNextEnumerator("employerID") + ", "
+				+ getNextEnumerator("bankingID") + ")");
+
+		runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID + ", "
+				+ getUserProfile(owner).employeeID + ")");
+
+		moveEnumerator("companyID");
+		moveEnumerator("employerID");
+		moveEnumerator("bankingID");
+
+		return companyID;
+	}
+
 	public static Company getCompany(String name) throws SQLException {
 		ResultSet res = runSQLquery(
 				"SELECT companyID, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyName = \""
 						+ name + "\"");
 		if (res.next()) {
-			return new Company(res.getLong("companyID"), name, res.getString("companyType"),
-					res.getLong("companyEmployerID"), res.getLong("companyBankingID"));
+			long ID = res.getLong("companyID");
+			String type = res.getString("companyType");
+			long employerID = res.getLong("companyEmployerID");
+			long bankingID = res.getLong("companyBankingID");
+			ResultSet r;
+
+			switch (type) {
+			case "corporation":
+				r = runSQLquery("SELECT * FROM companies_corporations WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException("Corporation \"" + name + "\" not in the corporations table!");
+				}
+				return new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"));
+			case "private":
+				r = runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException(
+							"Private company \"" + name + "\" is not in the private companies table!");
+				}
+				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"));
+			default:
+				throw new RuntimeException("Invalid company type \"" + type + "\"!");
+			}
 		} else {
 			return null;
 		}
@@ -221,8 +286,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		long productID = getNextEnumerator("productID");
 
 		runSQL("INSERT INTO products (productID, productName, productPrice, productManifacturerID, productItemID, productItemAmount) VALUES ("
-				+ productID + ", \"" + name + "\", " + price + ", " + productManifacturerID + ", "
-				+ product.getType().toString() + ", " + product.getAmount() + ")");
+				+ productID + ", \"" + name + "\", " + price + ", " + productManifacturerID + ", \""
+				+ product.getType().toString() + "\", " + product.getAmount() + ")");
 
 		moveEnumerator("productID");
 
@@ -241,9 +306,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		if (res.getString("signType").equals("shop")) {
 			ResultSet res2 = runSQLquery("SELECT * FROM shop_signs WHERE signID = " + res.getLong("signID"));
 
-			return new ShopSignData(res.getLong("signID"), res.getInt("x"), res.getInt("y"), res.getInt("z"),
-					Bukkit.getWorld(res.getString("signWorld")), res.getString("signType"),
-					res2.getLong("supplyChestID"), res2.getLong("signProductID"), res2.getDouble("signPrice"));
+			return new ShopSignData(res.getLong("signID"), res.getInt("signX"), res.getInt("signY"),
+					res.getInt("signZ"), Bukkit.getWorld(res.getString("signWorld")), res.getString("signType"),
+					res2.getLong("supplyChestID"), res2.getLong("productID"), res2.getDouble("signPrice"));
 		}
 
 		throw new RuntimeException("sign type not supported!");
@@ -317,6 +382,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE supply_chests (" + "chestID integer PRIMARY KEY," + "chestOwnerCompanyID integer"
 					+ ");");
 
+			runSQL("CREATE TABLE companies_corporations (companyID integer PRIMARY KEY," + "CEO_employeeID integer"
+					+ ");");
+
+			runSQL("CREATE TABLE companies_private (companyID integer PRIMARY KEY," + "ownerEmployeeID integer" + ");");
+
 			setupEnumerator();
 		}
 
@@ -324,14 +394,17 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static ResultSet runSQLquery(String query) throws SQLException {
+		plugin.getLogger().info("SQL: " + query);
 		return sql_connection.createStatement().executeQuery(query);
 	}
 
 	public static void runSQL(String query) throws SQLException {
+		plugin.getLogger().info("SQL: " + query);
 		sql_connection.createStatement().execute(query);
 	}
 
 	public static ResultSet runSQLsafeQuery(String query) {
+		plugin.getLogger().info("SQL: " + query);
 		try {
 			return sql_connection.createStatement().executeQuery(query);
 		} catch (SQLException e) {
@@ -341,6 +414,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static void runSQLsafe(String query) {
+		plugin.getLogger().info("SQL: " + query);
 		try {
 			sql_connection.createStatement().execute(query);
 		} catch (SQLException e) {
