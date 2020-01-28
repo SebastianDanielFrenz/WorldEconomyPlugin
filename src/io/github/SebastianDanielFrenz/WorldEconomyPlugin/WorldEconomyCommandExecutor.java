@@ -255,7 +255,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					return true;
 				} else {
 					if (args[1].equalsIgnoreCase("bank_account")) {
-						if (args.length >= 4) {
+						if (args.length < 4) {
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 							return true;
 						} else {
@@ -274,6 +274,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											WorldEconomyPlugin.runSQL("UPDATE bank_accounts SET bankAccountBalance = "
 													+ args[5] + " WHERE bankAccountName = \"" + account.getName()
 													+ "\" AND customerBankingID = " + account.getAccountHolderID());
+											sender.sendMessage(
+													WorldEconomyPlugin.PREFIX + "The balance of your account \""
+															+ account.getName() + "\" was set to " + args[5] + "!");
 											return true;
 										} else {
 											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");

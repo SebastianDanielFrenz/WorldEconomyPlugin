@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.PlayerInventory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 
 public class JoinListener implements Listener {
 
@@ -68,9 +70,22 @@ public class JoinListener implements Listener {
 										player.sendMessage(WorldEconomyPlugin.PREFIX
 												+ "§4The bank account connected to the credit card does not exist!");
 									} else {
-										if (bankAccount.getBalance() >= Double.parseDouble(lines[3])) {
+										double price = Double.parseDouble(lines[3]);
+
+										if (bankAccount.getBalance() >= price) {
 											player.sendMessage(WorldEconomyPlugin.PREFIX
 													+ "Your bank account has enough money to buy the item.");
+											SupplyChestData chestData = WorldEconomyPlugin
+													.getSupplyChest(signData.supplyChestID);
+											if (chestData == null) {
+												player.sendMessage(WorldEconomyPlugin.PREFIX
+														+ "§4The supply chest does not exist!");
+											}
+											else {
+												Block block2 = chestData.location.getBlock();
+												Sign 
+											}
+
 										} else {
 											player.sendMessage(WorldEconomyPlugin.PREFIX
 													+ "§4The bank account does not have enough money");

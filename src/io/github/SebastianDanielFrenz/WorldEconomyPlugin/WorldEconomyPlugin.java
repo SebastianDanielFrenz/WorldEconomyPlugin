@@ -24,6 +24,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -173,10 +174,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		}
 	}
 
-	public static SupplyChest getSupplyChest(long ID) throws SQLException {
+	public static SupplyChestData getSupplyChest(long ID) throws SQLException {
 		ResultSet res = runSQLquery("SELECT * FROM supply_chests WHERE chestID = " + ID);
 		if (res.next()) {
-			return new SupplyChest(ID, new Location(Bukkit.getWorld(res.getString("chestWorld")), res.getInt("chestX"),
+			return new SupplyChestData(ID, new Location(Bukkit.getWorld(res.getString("chestWorld")), res.getInt("chestX"),
 					res.getInt("chestY"), res.getInt("chestZ")), res.getLong("chestOwnerCompanyID"));
 		} else {
 			return null;
