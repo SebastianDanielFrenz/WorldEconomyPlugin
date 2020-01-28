@@ -56,7 +56,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								return true;
 							}
 							WorldEconomyPlugin.registerUserBankAccount((Player) sender,
-									new BankAccount((Player) sender, bank.ID, 0, args[3]));
+									new BankAccount(0, (Player) sender, bank.ID, 0, args[3]));
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Successfully created the bank account!");
 							return true;
 						} catch (SQLException e) {

@@ -22,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
@@ -130,11 +131,31 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		ResultSet r = runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + bankingID
 				+ " AND bankAccountName = \"" + name + "\"");
 		if (r.next()) {
-			return new BankAccount(r.getLong("bankID"), r.getDouble("bankAccountBalance"), name,
-					r.getLong("customerBankingID"), r.getString("customerType"));
+			return new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+					name, r.getLong("customerBankingID"), r.getString("customerType"));
 		} else {
 			return null;
 		}
+	}
+
+	public static void setBankAccontBalance(BankAccount account, double balance) throws SQLException {
+		setBankAccountBalance(account.getID(), balance);
+	}
+
+	public static void setBankAccountBalance(long accountID, double balance) throws SQLException {
+		runSQL("UPDATE bank_accounts SET bankAccountBalance = " + balance + " WHERE bankAccountID = " + accountID);
+	}
+
+	public static void bankAccountTransaction(long accountID1, long accountID2, double amount) throws SQLException {
+		runSQL("UPDATE bank_accounts SET bankAccountBalance = bankAccountBalance - " + amount
+				+ " WHERE bankAccountID = " + accountID1);
+		runSQL("UPDATE bank_accounts SET bankAccountBalance = bankAccountBalance + " + amount
+				+ " WHERE bankAccountID = " + accountID2);
+	}
+
+	public static void bankAccountTransaction(BankAccount account1, BankAccount account2, double amount)
+			throws SQLException {
+		bankAccountTransaction(account1.getID(), account2.getID(), amount);
 	}
 
 	public static void registerBank(String name) throws SQLException {
@@ -163,12 +184,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		return chestID;
 	}
 
-	public static SupplyChest getSupplyChest(Location location) throws SQLException {
+	public static SupplyChestData getSupplyChest(Location location) throws SQLException {
 		ResultSet res = runSQLquery("SELECT * FROM supply_chests WHERE signX = " + location.getBlockX()
 				+ " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ() + " AND signWorld = "
 				+ location.getWorld().getName());
 		if (res.next()) {
-			return new SupplyChest(res.getLong("chestID"), location, res.getLong("chestOwnerCompanyID"));
+			return new SupplyChestData(res.getLong("chestID"), location, res.getLong("chestOwnerCompanyID"));
 		} else {
 			return null;
 		}
@@ -176,9 +197,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static SupplyChestData getSupplyChest(long ID) throws SQLException {
 		ResultSet res = runSQLquery("SELECT * FROM supply_chests WHERE chestID = " + ID);
+		ResultSet res2 = runSQLquery("SELECT * FROM chests WHERE chestID = " + ID);
+
 		if (res.next()) {
-			return new SupplyChestData(ID, new Location(Bukkit.getWorld(res.getString("chestWorld")), res.getInt("chestX"),
-					res.getInt("chestY"), res.getInt("chestZ")), res.getLong("chestOwnerCompanyID"));
+			return new SupplyChestData(ID, new Location(Bukkit.getWorld(res2.getString("chestWorld")),
+					res2.getInt("chestX"), res2.getInt("chestY"), res2.getInt("chestZ")),
+					res.getLong("chestOwnerCompanyID"));
 		} else {
 			return null;
 		}
@@ -272,6 +296,39 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		}
 	}
 
+	public static Company getCompany(long ID) throws SQLException {
+		ResultSet res = runSQLquery(
+				"SELECT companyID, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyID = "
+						+ ID + "");
+		if (res.next()) {
+			String type = res.getString("companyType");
+			long employerID = res.getLong("companyEmployerID");
+			long bankingID = res.getLong("companyBankingID");
+			String name = res.getString("companyName");
+			ResultSet r;
+
+			switch (type) {
+			case "corporation":
+				r = runSQLquery("SELECT * FROM companies_corporations WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException("Corporation \"" + name + "\" not in the corporations table!");
+				}
+				return new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"));
+			case "private":
+				r = runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException(
+							"Private company \"" + name + "\" is not in the private companies table!");
+				}
+				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"));
+			default:
+				throw new RuntimeException("Invalid company type \"" + type + "\"!");
+			}
+		} else {
+			return null;
+		}
+	}
+
 	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
 			throws SQLException {
 		long productID = getNextEnumerator("productID");
@@ -283,6 +340,16 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		moveEnumerator("productID");
 
 		return productID;
+	}
+
+	public static Product getProduct(long ID) throws SQLException {
+		ResultSet r = runSQLquery("SELECT * FROM products WHERE productID = " + ID);
+		if (!r.next()) {
+			return null;
+		} else {
+			return new Product(ID, r.getString("productName"), r.getLong("productManifacturerID"),
+					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice"));
+		}
 	}
 
 	public static SignData getSign(Location location) throws SQLException {

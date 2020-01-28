@@ -13,21 +13,24 @@ public class BankAccount {
 	private String name;
 	private long accountHolderID;
 	private String type;
+	private long ID;
 
-	public BankAccount(long bankID, double balance, String name, long accountHolderID, String type) {
+	public BankAccount(long ID, long bankID, double balance, String name, long accountHolderID, String type) {
 		this.bankID = bankID;
 		this.balance = balance;
 		this.name = name;
 		this.accountHolderID = accountHolderID;
 		this.setType(type);
+		this.ID = ID;
 	}
 
-	public BankAccount(OfflinePlayer player, long bankID, double balance, String name) throws SQLException {
+	public BankAccount(long ID, OfflinePlayer player, long bankID, double balance, String name) throws SQLException {
 		this.balance = balance;
 		this.bankID = bankID;
 		this.name = name;
 		accountHolderID = WorldEconomyPlugin.getUserProfile(player).bankingID;
 		type = "player";
+		this.ID = ID;
 	}
 
 	public double getBalance() {
@@ -60,6 +63,14 @@ public class BankAccount {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public long getID() {
+		return ID;
+	}
+
+	public void setID(long iD) {
+		ID = iD;
 	}
 
 }
