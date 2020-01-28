@@ -13,10 +13,10 @@ public class Permissions {
 	public static final String[] SIGN_SHOP_CREATE = new String[] { "sign.*", "sign.shop.*", "sign.shop.create" };
 	public static final String[] SIGN_SHOP_USE = new String[] { "sign.*", "sign.shop.*", "sign.shop.use" };
 
-	public static final String[] MODIFY_BANK_ACCOUNT_BALANCE = new String[] { "modify.*", "modify.bank_account.*",
+	public static final String[] MANAGE_BANK_ACCOUNT_BALANCE = new String[] { "modify.*", "modify.bank_account.*",
 			"modify.bank_account.balance" };
-	public static final String[] MODIFY_BANK_ACCOUNT_NAME = new String[] { "modify.*", "modify.bank_account.*",
+	public static final String[] MANAGE_BANK_ACCOUNT_NAME = new String[] { "modify.*", "modify.bank_account.*",
 			"modify.bank_account.name", "user" };
-	public static final String[] MODIFY_COMPANY_BANK_ACCOUNTS_REGISTER = new String[] { "modify.*", "modify.company.*",
+	public static final String[] MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER = new String[] { "modify.*", "modify.company.*",
 			"modify.company.bank_account.*", "modify.company.bank_account.register" };
 }

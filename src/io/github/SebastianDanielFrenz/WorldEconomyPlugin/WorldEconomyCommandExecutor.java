@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
@@ -85,6 +88,18 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								}
 								WorldEconomyPlugin
 										.registerBankAccount(new BankAccount(0, (Player) sender, bank.ID, 0, args[3]));
+
+								ItemStack creditCard = new ItemStack(Material.PAPER);
+								ItemMeta itemMeta = creditCard.getItemMeta();
+
+								List<String> lore = new ArrayList<String>();
+								lore.add("Credit Card");
+								lore.add(args[3]);
+								itemMeta.setLore(lore);
+								creditCard.setItemMeta(itemMeta);
+
+								((Player) sender).getInventory().addItem(creditCard);
+
 								sender.sendMessage(
 										WorldEconomyPlugin.PREFIX + "Successfully created the bank account!");
 								return true;
@@ -278,6 +293,17 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											+ " - " + r.getInt("productItemAmount"));
 								}
 								return true;
+							} else if (args[1].equalsIgnoreCase("chests")) {
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - type - x - y - z - world");
+								ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM chests");
+								while (r.next()) {
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + r.getLong("chestID") + " - "
+											+ r.getString("chestType") + " - " + r.getInt("chestX") + " - "
+											+ r.getInt("chestY") + " - " + r.getInt("chestZ") + " - "
+											+ r.getString("chestWorld"));
+									sender.sendMessage(r.getString("chestType"));
+								}
+								return true;
 							} else {
 								return false;
 							}
@@ -311,7 +337,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								if (args[3].equalsIgnoreCase("set")) {
 									if (args.length >= 6) {
 										if (args[4].equalsIgnoreCase("balance")) {
-											if (hasPermission(sender, Permissions.MODIFY_BANK_ACCOUNT_BALANCE)) {
+											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_BALANCE)) {
 												WorldEconomyPlugin.setBankAccountBalance(account,
 														Double.parseDouble(args[5]));
 												sender.sendMessage(
@@ -320,7 +346,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											}
 											return true;
 										} else if (args[4].equalsIgnoreCase("name")) {
-											if (hasPermission(sender, Permissions.MODIFY_BANK_ACCOUNT_NAME)) {
+											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME)) {
 												WorldEconomyPlugin.setBankAccountName(account, args[5]);
 												sender.sendMessage(WorldEconomyPlugin.PREFIX
 														+ "Your bank account's name was changed from " + args[2]
@@ -357,18 +383,19 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									return true;
 								}
 
-								if (args[3].equalsIgnoreCase("register")) {
+								if (args[3].equalsIgnoreCase("bank_account")) {
 									if (args.length == 4) {
 										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 										return true;
 									}
-									if (args[4].equalsIgnoreCase("bank_account")) {
+
+									if (args[4].equalsIgnoreCase("register")) {
 										if (args.length < 7) {
 											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 											return true;
 										}
 
-										if (hasPermission(sender, Permissions.MODIFY_COMPANY_BANK_ACCOUNTS_REGISTER)) {
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER)) {
 											Bank bank = WorldEconomyPlugin.getBank(args[5]);
 											if (bank == null) {
 												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2]
