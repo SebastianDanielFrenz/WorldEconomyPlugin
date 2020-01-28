@@ -121,7 +121,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		moveEnumerator("bankingID");
 	}
 
-	public static void registerUserBankAccount(OfflinePlayer player, BankAccount account) throws SQLException {
+	public static void registerBankAccount(BankAccount account) throws SQLException {
 		runSQL("INSERT INTO bank_accounts (bankAccountBalance, bankID, bankAccountName, customerBankingID, customerType) VALUES ("
 				+ account.getBalance() + ", " + account.getBankID() + ", \"" + account.getName() + "\", "
 				+ account.getAccountHolderID() + ", \"" + account.getType() + "\")");
@@ -138,7 +138,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		}
 	}
 
-	public static void setBankAccontBalance(BankAccount account, double balance) throws SQLException {
+	public static void setBankAccountBalance(BankAccount account, double balance) throws SQLException {
 		setBankAccountBalance(account.getID(), balance);
 	}
 
@@ -156,6 +156,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static void bankAccountTransaction(BankAccount account1, BankAccount account2, double amount)
 			throws SQLException {
 		bankAccountTransaction(account1.getID(), account2.getID(), amount);
+	}
+
+	public static void setBankAccountName(BankAccount account, String name) throws SQLException {
+		runSQL("UPDATE bank_accounts SET bankAccountName = \"" + name + "\" WHERE bankAccountID = " + account.getID());
 	}
 
 	public static void registerBank(String name) throws SQLException {
@@ -298,8 +302,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static Company getCompany(long ID) throws SQLException {
 		ResultSet res = runSQLquery(
-				"SELECT companyID, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyID = "
+				"SELECT companyName, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyID = "
 						+ ID + "");
+
 		if (res.next()) {
 			String type = res.getString("companyType");
 			long employerID = res.getLong("companyEmployerID");

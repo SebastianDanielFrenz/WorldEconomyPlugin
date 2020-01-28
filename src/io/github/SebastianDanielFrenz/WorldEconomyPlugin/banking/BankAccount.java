@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.bukkit.OfflinePlayer;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 
 public class BankAccount {
@@ -30,6 +31,15 @@ public class BankAccount {
 		this.name = name;
 		accountHolderID = WorldEconomyPlugin.getUserProfile(player).bankingID;
 		type = "player";
+		this.ID = ID;
+	}
+
+	public BankAccount(long ID, Company company, long bankID, double balance, String name) throws SQLException {
+		this.balance = balance;
+		this.bankID = bankID;
+		this.name = name;
+		accountHolderID = company.bankingID;
+		type = "company";
 		this.ID = ID;
 	}
 
