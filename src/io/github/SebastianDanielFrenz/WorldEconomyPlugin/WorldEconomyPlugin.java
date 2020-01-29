@@ -8,8 +8,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -22,6 +23,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmploymentContract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
@@ -112,11 +115,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static void registerUserProfile(OfflinePlayer player) throws SQLException {
 		runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username)"
-				+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + getNextEnumerator("employeeID") + ", "
+				+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + registerEmployee(player) + ", "
 				+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", \"" + player.getName()
 				+ "\")");
 
-		moveEnumerator("employeeID");
 		moveEnumerator("employerID");
 		moveEnumerator("bankingID");
 	}
@@ -334,6 +336,69 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		}
 	}
 
+	public static long registerEmployee(OfflinePlayer player) throws SQLException {
+		long employeeID = getNextEnumerator("employeeID");
+
+		runSQL("INSERT INTO employees (employeeID, employeeType) VALUES (" + employeeID + ", \"player\")");
+
+		moveEnumerator("employeeID");
+
+		return employeeID;
+	}
+
+	public static void registerEmploymentWithContract(long employerID, long employeeID, Contract contract)
+			throws SQLException {
+		runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES (" + employerID + ", "
+				+ employeeID + ", " + contract.ID + ")");
+		runSQL("INSERT INTO contracts (contractID, contractType, contractData) VALUES (" + contract.ID + ", \""
+				+ contract.type + "\", \"" + contract.saveData() + "\")");
+	}
+
+	public static void registerEmployment(long employerID, long employeeID, long contractID) throws SQLException {
+		runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES (" + employerID + ", "
+				+ employeeID + ", " + contractID + ")");
+	}
+
+	public static long registerContract(Contract contract) throws SQLException {
+		long contractID = getNextEnumerator("contractID");
+
+		runSQL("INSERT INTO contracts (contractID, contractType, contractData) VALUES (" + contractID + ", \""
+				+ contract.type + "\", \"" + contract.saveData() + "\")");
+
+		moveEnumerator("contractID");
+
+		return contractID;
+	}
+
+	public static Map<Long, Long> getEmploymentInformation(long employeeID) throws SQLException {
+		ResultSet r = runSQLquery(
+				"SELECT (employerID, contractID) FROM employee_matching WHERE employeeID = " + employeeID);
+		Map<Long, Long> map = new HashMap<Long, Long>();
+		while (r.next()) {
+			map.put(r.getLong("employerID"), r.getLong("contractID"));
+		}
+		return map;
+	}
+
+	public static Contract getContract(long contractID) throws SQLException {
+		ResultSet r = runSQLquery("SELECT * FROM contracts WHERE contractID = " + contractID);
+		if (!r.next()) {
+			return null;
+		} else {
+			String type = r.getString("contractType");
+			String data = r.getString("contractData");
+
+			if (type.startsWith("employment.")) {
+				if (type.equals("employment.default")) {
+					return new EmploymentContract(contractID, data);
+				}
+			}
+
+			throw new RuntimeException(
+					"The contract with ID " + contractID + " has an invalid type (\"" + type + "\")!");
+		}
+	}
+
 	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
 			throws SQLException {
 		long productID = getNextEnumerator("productID");
@@ -384,7 +449,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static void setupEnumerator() {
 		runSQLsafe(
 				"INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1), (\"chestID\", 1),"
-						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1)");
+						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1)");
 	}
 
 	private boolean setupEconomy() {
@@ -416,7 +481,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE credits (" + "creditID integer PRIMARY KEY," + "creditAmount real,"
 					+ "creditInterest real," + "creditorBankingID integer" + ");");
 
-			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contracType text,"
+			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text,"
 					+ "contractData text" + ");");
 
 			runSQL("CREATE TABLE companies (" + "companyID integer PRIMARY KEY," + "companyName text,"
@@ -448,6 +513,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ ");");
 
 			runSQL("CREATE TABLE companies_private (companyID integer PRIMARY KEY," + "ownerEmployeeID integer" + ");");
+
+			runSQL("CREATE TABLE employees (employeeID integer PRIMARY KEY," + "employeeType text" + ");");
 
 			setupEnumerator();
 		}

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -43,6 +44,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 		return hasPermission(sender, permissions, true);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {
@@ -301,7 +303,15 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											+ r.getString("chestType") + " - " + r.getInt("chestX") + " - "
 											+ r.getInt("chestY") + " - " + r.getInt("chestZ") + " - "
 											+ r.getString("chestWorld"));
-									sender.sendMessage(r.getString("chestType"));
+								}
+								return true;
+							} else if (args[1].equalsIgnoreCase("employee_matching")) {
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - employee - employer - contractID");
+								ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM employee_matching");
+								while (r.next()) {
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + r.getLong("employee_matchingID")
+											+ " - " + r.getLong("employeeID") + " - " + r.getLong("employerID") + " - "
+											+ r.getLong("contractID"));
 								}
 								return true;
 							} else {
@@ -383,13 +393,13 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									return true;
 								}
 
-								if (args[3].equalsIgnoreCase("bank_account")) {
+								if (args[3].equalsIgnoreCase("register")) {
 									if (args.length == 4) {
 										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 										return true;
 									}
 
-									if (args[4].equalsIgnoreCase("register")) {
+									if (args[4].equalsIgnoreCase("bank_account")) {
 										if (args.length < 7) {
 											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 											return true;
@@ -412,6 +422,36 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
 										return true;
 									}
+								} else if (args[3].equalsIgnoreCase("employ")) {
+									if (args.length < 7) {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										return true;
+									}
+									if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY)) {
+										String employeeType = args[4];
+										String employeeName = args[5];
+										long contractID = Long.parseLong(args[6]);
+
+										if (employeeType.equals("player")) {
+											WorldEconomyProfile profile = WorldEconomyPlugin
+													.getUserProfile(Bukkit.getOfflinePlayer(employeeName));
+											if (profile == null) {
+												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The player \""
+														+ employeeName + "\" is not registered!");
+												return true;
+											}
+											WorldEconomyPlugin.registerEmployment(company.companyEmployerID,
+													profile.employeeID, contractID);
+											return true;
+										} else {
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid employee type \""
+													+ employeeType + "\"!");
+											return true;
+										}
+									} else {
+										return true;
+									}
+
 								} else {
 									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
 									return true;
@@ -452,6 +492,46 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
 					return true;
 				}
+			} else if (args[0].equalsIgnoreCase("help")) {
+				sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");
+				if (hasPermission(sender, Permissions.REGISTER_BANK, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register bank <name>");
+				}
+				if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT, false)) {
+					sender.sendMessage(
+							WorldEconomyPlugin.PREFIX + "/we register bank_account <bank name> <bank account name>");
+				}
+				if (hasPermission(sender, Permissions.REGISTER_COMPANY, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register company <name> <company type>");
+				}
+				if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register supply_chest <owner company name>");
+				}
+				if (hasPermission(sender, Permissions.REGISTER_PRODUCT, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we register product <manifacturing company name> <product name> <MSRP>");
+				}
+				if (hasPermission(sender, Permissions.LIST, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we list <banks/companies/user_profiles/supply_chests/bank_accounts/products/chests>");
+				}
+				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_BALANCE, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we manage bank_account <bank account name> set balance <balance>");
+				}
+				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we manage bank_account <bank account name> set name <new bank account name>");
+				}
+				if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we manage company <company name> register bank_account <bank name> <bank account name>");
+				}
+				if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we manage company <company name> employ <employee type> <employee name>");
+				}
+				return true;
 			} else {
 				return false;
 			}

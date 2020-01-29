@@ -13,10 +13,12 @@ public class Permissions {
 	public static final String[] SIGN_SHOP_CREATE = new String[] { "sign.*", "sign.shop.*", "sign.shop.create" };
 	public static final String[] SIGN_SHOP_USE = new String[] { "sign.*", "sign.shop.*", "sign.shop.use" };
 
-	public static final String[] MANAGE_BANK_ACCOUNT_BALANCE = new String[] { "modify.*", "modify.bank_account.*",
-			"modify.bank_account.balance" };
-	public static final String[] MANAGE_BANK_ACCOUNT_NAME = new String[] { "modify.*", "modify.bank_account.*",
-			"modify.bank_account.name", "user" };
-	public static final String[] MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER = new String[] { "modify.*", "modify.company.*",
-			"modify.company.bank_account.*", "modify.company.bank_account.register" };
+	public static final String[] MANAGE_BANK_ACCOUNT_BALANCE = new String[] { "manage.*", "manage.bank_account.*",
+			"manage.bank_account.balance" };
+	public static final String[] MANAGE_BANK_ACCOUNT_NAME = new String[] { "manage.*", "manage.bank_account.*",
+			"manage.bank_account.name", "user" };
+	public static final String[] MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER = new String[] { "manage.*", "manage.company.*",
+			"manage.company.bank_account.*", "manage.company.bank_account.register" };
+	public static final String[] MANAGE_COMPANY_EMPLOY = new String[] { "manage.*", "manage.company.*",
+			"manage.company.employ" };
 }
