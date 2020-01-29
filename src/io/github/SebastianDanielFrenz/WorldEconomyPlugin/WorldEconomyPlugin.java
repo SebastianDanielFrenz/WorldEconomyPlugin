@@ -24,7 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmploymentContract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
@@ -350,8 +349,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			throws SQLException {
 		runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES (" + employerID + ", "
 				+ employeeID + ", " + contract.ID + ")");
-		runSQL("INSERT INTO contracts (contractID, contractType, contractData) VALUES (" + contract.ID + ", \""
-				+ contract.type + "\", \"" + contract.saveData() + "\")");
+		registerContract(contract);
 	}
 
 	public static void registerEmployment(long employerID, long employeeID, long contractID) throws SQLException {
@@ -360,14 +358,28 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static long registerContract(Contract contract) throws SQLException {
+		if (contract instanceof ContractEmploymentDefault) {
+			return registerContract((ContractEmploymentDefault) contract);
+		} else {
+			throw new RuntimeException("Invalid contract type \"" + contract.getClass().getCanonicalName() + "\"");
+		}
+	}
+
+	public static long registerContract(ContractEmploymentDefault contract) throws SQLException {
 		long contractID = getNextEnumerator("contractID");
 
-		runSQL("INSERT INTO contracts (contractID, contractType, contractData) VALUES (" + contractID + ", \""
-				+ contract.type + "\", \"" + contract.saveData() + "\")");
+		registerBaseContract(contractID, contract.getType());
+
+		runSQL("INSERT INTO contracts_employment_default (contractID, contractSalary) VALUES (" + contractID + ", "
+				+ contract.salary + ")");
 
 		moveEnumerator("contractID");
 
 		return contractID;
+	}
+
+	private static void registerBaseContract(long ID, String type) throws SQLException {
+		runSQL("INSERT INTO contracts (contractID, contractType) VALUES (" + ID + ", \"" + type + "\")");
 	}
 
 	public static Map<Long, Long> getEmploymentInformation(long employeeID) throws SQLException {
@@ -386,11 +398,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			return null;
 		} else {
 			String type = r.getString("contractType");
-			String data = r.getString("contractData");
+			ResultSet r2;
 
 			if (type.startsWith("employment.")) {
 				if (type.equals("employment.default")) {
-					return new EmploymentContract(contractID, data);
+					r2 = runSQLquery("SELECT (contractSalary) FROM contracts_employment_default WHERE contractID = "
+							+ contractID);
+					return new ContractEmploymentDefault(contractID, r2.getDouble("contractSalary"));
 				}
 			}
 
@@ -481,8 +495,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE credits (" + "creditID integer PRIMARY KEY," + "creditAmount real,"
 					+ "creditInterest real," + "creditorBankingID integer" + ");");
 
-			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text,"
-					+ "contractData text" + ");");
+			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text," + ");");
 
 			runSQL("CREATE TABLE companies (" + "companyID integer PRIMARY KEY," + "companyName text,"
 					+ "companyType text," + "companyEmployerID integer," + "companyBankingID integer" + ");");
@@ -515,6 +528,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE companies_private (companyID integer PRIMARY KEY," + "ownerEmployeeID integer" + ");");
 
 			runSQL("CREATE TABLE employees (employeeID integer PRIMARY KEY," + "employeeType text" + ");");
+
+			runSQL("CREATE TABLE contracts_employment_default (contractID integer PRIMARY KEY," + "contractSalary real"
+					+ ");");
 
 			setupEnumerator();
 		}
