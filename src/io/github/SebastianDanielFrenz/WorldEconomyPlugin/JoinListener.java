@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -52,157 +51,167 @@ public class JoinListener implements Listener {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
 				if (lines[0].equalsIgnoreCase("[§4Shop§0]")) {
-					ShopSignData signData = WorldEconomyPlugin.getShopSign(block.getLocation());
+					if (WorldEconomyCommandExecutor.hasPermission(player, Permissions.SIGN_SHOP_USE)) {
+						ShopSignData signData = WorldEconomyPlugin.getShopSign(block.getLocation());
 
-					if (signData == null) {
-						player.sendMessage("not a world economy sign!");
-					} else {
-						PlayerInventory playerInv = player.getInventory();
-						ItemStack itemStack = playerInv.getItemInMainHand();
-						if (itemStack.getType() == Material.PAPER) {
-							List<String> lore = itemStack.getItemMeta().getLore();
-							if (lore != null) {
-								if (lore.get(0).equalsIgnoreCase("Credit Card")) {
-									if (lore.size() == 1) {
-										event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX
-												+ "§4This credit card has no banking information!");
-									}
-									String bankAccountName = lore.get(1);
-									WorldEconomyProfile profile = WorldEconomyPlugin.getUserProfile(player);
-									BankAccount bankAccount = WorldEconomyPlugin.getBankAccount(profile.bankingID,
-											bankAccountName);
-									if (bankAccount == null) {
-										player.sendMessage(WorldEconomyPlugin.PREFIX
-												+ "§4The bank account connected to the credit card does not exist!");
-									} else {
-										double price = Double.parseDouble(lines[3]);
-
-										if (bankAccount.getBalance() >= price) {
+						if (signData == null) {
+							player.sendMessage("not a world economy sign!");
+						} else {
+							PlayerInventory playerInv = player.getInventory();
+							ItemStack itemStack = playerInv.getItemInMainHand();
+							if (itemStack.getType() == Material.PAPER) {
+								List<String> lore = itemStack.getItemMeta().getLore();
+								if (lore != null) {
+									if (lore.get(0).equalsIgnoreCase("Credit Card")) {
+										if (lore.size() == 1) {
+											event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX
+													+ "§4This credit card has no banking information!");
+										}
+										String bankAccountName = lore.get(1);
+										WorldEconomyProfile profile = WorldEconomyPlugin.getUserProfile(player);
+										BankAccount bankAccount = WorldEconomyPlugin.getBankAccount(profile.bankingID,
+												bankAccountName);
+										if (bankAccount == null) {
 											player.sendMessage(WorldEconomyPlugin.PREFIX
-													+ "Your bank account has enough money to buy the item.");
-											SupplyChestData chestData = WorldEconomyPlugin
-													.getSupplyChest(signData.supplyChestID);
-											if (chestData == null) {
+													+ "§4The bank account connected to the credit card does not exist!");
+										} else {
+											double price = Double.parseDouble(lines[3]);
+
+											if (bankAccount.getBalance() >= price) {
 												player.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "§4The supply chest does not exist!");
-											} else {
-												Block block2 = chestData.location.getBlock();
-												if (block2.getType() == Material.CHEST) {
-													Chest chest = (Chest) block2.getState();
-													Inventory chestInv = chest.getBlockInventory();
+														+ "Your bank account has enough money to buy the item.");
+												SupplyChestData chestData = WorldEconomyPlugin
+														.getSupplyChest(signData.supplyChestID);
+												if (chestData == null) {
+													player.sendMessage(WorldEconomyPlugin.PREFIX
+															+ "§4The supply chest does not exist!");
+												} else {
+													Block block2 = chestData.location.getBlock();
+													if (block2.getType() == Material.CHEST) {
+														Chest chest = (Chest) block2.getState();
+														Inventory chestInv = chest.getBlockInventory();
 
-													Product product = WorldEconomyPlugin.getProduct(signData.productID);
-													if (product == null) {
-														player.sendMessage(
-																WorldEconomyPlugin.PREFIX + "§4The product with ID "
-																		+ signData.productID + " does not exist!");
-													}
-													Material productMaterial = Material.getMaterial(product.itemID);
+														Product product = WorldEconomyPlugin
+																.getProduct(signData.productID);
+														if (product == null) {
+															player.sendMessage(
+																	WorldEconomyPlugin.PREFIX + "§4The product with ID "
+																			+ signData.productID + " does not exist!");
+														}
+														Material productMaterial = Material.getMaterial(product.itemID);
 
-													// test for working banking
-													// details
+														// test for working
+														// banking
+														// details
 
-													Company company = WorldEconomyPlugin
-															.getCompany(product.manifacturerID);
-													if (company == null) {
-														player.sendMessage(
-																WorldEconomyPlugin.PREFIX + "§4The company with ID "
-																		+ product.manifacturerID + " does not exist!");
-													} else {
-														BankAccount companyBankAccount = WorldEconomyPlugin
-																.getBankAccount(company.bankingID, "shop_income");
-														if (companyBankAccount == null) {
+														Company company = WorldEconomyPlugin
+																.getCompany(product.manifacturerID);
+														if (company == null) {
 															player.sendMessage(WorldEconomyPlugin.PREFIX
-																	+ "§4The company does not have a bank account called \"shop_income\"!");
+																	+ "§4The company with ID " + product.manifacturerID
+																	+ " does not exist!");
 														} else {
+															BankAccount companyBankAccount = WorldEconomyPlugin
+																	.getBankAccount(company.bankingID, "shop_income");
+															if (companyBankAccount == null) {
+																player.sendMessage(WorldEconomyPlugin.PREFIX
+																		+ "§4The company does not have a bank account called \"shop_income\"!");
+															} else {
 
-															int itemCount = 0;
-															ItemStack chestItemStack;
-															for (int i = 0; i < chestInv.getSize(); i++) {
-																chestItemStack = chestInv.getItem(i);
-																if (chestItemStack == null) {
-																	continue;
-																}
-																if (chestItemStack.getType() == productMaterial) {
-																	itemCount += chestItemStack.getAmount();
-																	if (itemCount >= product.itemAmount) {
-																		break;
-																	}
-																}
-															}
-															if (itemCount >= product.itemAmount) {
-																// remove items
-																itemCount = 0;
-
+																int itemCount = 0;
+																ItemStack chestItemStack;
 																for (int i = 0; i < chestInv.getSize(); i++) {
 																	chestItemStack = chestInv.getItem(i);
 																	if (chestItemStack == null) {
 																		continue;
 																	}
 																	if (chestItemStack.getType() == productMaterial) {
-																		if (product.itemAmount < chestItemStack
-																				.getAmount() + itemCount) {
-																			chestItemStack.setAmount(
-																					chestItemStack.getAmount()
-																							- product.itemAmount);
-																			break;
-																		} else {
-																			itemCount += chestItemStack.getAmount();
-																			chestInv.setItem(i, null);
-
-																		}
-																		if (itemCount == product.itemAmount) {
+																		itemCount += chestItemStack.getAmount();
+																		if (itemCount >= product.itemAmount) {
 																			break;
 																		}
 																	}
 																}
+																if (itemCount >= product.itemAmount) {
+																	// remove
+																	// items
+																	itemCount = 0;
 
-																// reduce bank
-																// account
-																// balance
+																	for (int i = 0; i < chestInv.getSize(); i++) {
+																		chestItemStack = chestInv.getItem(i);
+																		if (chestItemStack == null) {
+																			continue;
+																		}
+																		if (chestItemStack
+																				.getType() == productMaterial) {
+																			if (product.itemAmount < chestItemStack
+																					.getAmount() + itemCount) {
+																				chestItemStack.setAmount(
+																						chestItemStack.getAmount()
+																								- product.itemAmount);
+																				break;
+																			} else {
+																				itemCount += chestItemStack.getAmount();
+																				chestInv.setItem(i, null);
 
-																WorldEconomyPlugin.bankAccountTransaction(bankAccount,
-																		companyBankAccount, price);
+																			}
+																			if (itemCount == product.itemAmount) {
+																				break;
+																			}
+																		}
+																	}
 
-																// give items
+																	// reduce
+																	// bank
+																	// account
+																	// balance
 
-																ItemStack playerItemStack = new ItemStack(
-																		productMaterial, product.itemAmount);
-																player.getInventory().addItem(playerItemStack);
+																	WorldEconomyPlugin.bankAccountTransaction(
+																			bankAccount, companyBankAccount, price);
 
-																player.sendMessage(WorldEconomyPlugin.PREFIX + "Bought "
-																		+ product.name + " for " + product.price + "!");
-															} else {
-																// not enough
-																// items
-																// in
-																// chest
-																player.sendMessage(WorldEconomyPlugin.PREFIX
-																		+ "§4The supply chest is empty!");
+																	// give
+																	// items
+
+																	ItemStack playerItemStack = new ItemStack(
+																			productMaterial, product.itemAmount);
+																	player.getInventory().addItem(playerItemStack);
+
+																	player.sendMessage(WorldEconomyPlugin.PREFIX
+																			+ "Bought " + product.name + " for "
+																			+ product.price + "!");
+																} else {
+																	// not
+																	// enough
+																	// items
+																	// in
+																	// chest
+																	player.sendMessage(WorldEconomyPlugin.PREFIX
+																			+ "§4The supply chest is empty!");
+																}
 															}
 														}
+													} else {
+														player.sendMessage(WorldEconomyPlugin.PREFIX
+																+ "§4The block at the registered supply chest's location is not a chest!");
 													}
-												} else {
-													player.sendMessage(WorldEconomyPlugin.PREFIX
-															+ "§4The block at the registered supply chest's location is not a chest!");
 												}
+
+											} else {
+												player.sendMessage(WorldEconomyPlugin.PREFIX
+														+ "§4The bank account does not have enough money");
 											}
-
-										} else {
-											player.sendMessage(WorldEconomyPlugin.PREFIX
-													+ "§4The bank account does not have enough money");
 										}
+									} else {
+										// not a credit card
 									}
+
 								} else {
-									// not a credit card
+									// no lore
+
 								}
-
 							} else {
-								// no lore
-
+								// not paper
 							}
-						} else {
-							// not paper
 						}
 					}
 				}
@@ -218,44 +227,46 @@ public class JoinListener implements Listener {
 		System.out.println(lines[0]);
 
 		if (lines[0].equalsIgnoreCase("[WE - Shop]")) {
-			long productID = Long.parseLong(lines[1]);
-			double price = Double.parseDouble(lines[2]);
-			long supplyChestID = Long.parseLong(lines[3]);
+			if (WorldEconomyCommandExecutor.hasPermission(event.getPlayer(), Permissions.SIGN_SHOP_CREATE)) {
+				long productID = Long.parseLong(lines[1]);
+				double price = Double.parseDouble(lines[2]);
+				long supplyChestID = Long.parseLong(lines[3]);
 
-			ResultSet r1 = WorldEconomyPlugin.runSQLquery(
-					"SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
+				ResultSet r1 = WorldEconomyPlugin.runSQLquery(
+						"SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
 
-			if (r1.next()) {
-				long companyID = r1.getLong("productManifacturerID");
-				String productName = r1.getString("productName");
+				if (r1.next()) {
+					long companyID = r1.getLong("productManifacturerID");
+					String productName = r1.getString("productName");
 
-				ResultSet r2 = WorldEconomyPlugin
-						.runSQLquery("SELECT companyName FROM companies WHERE companyID = " + companyID);
-				r2.next();
-				String companyName = r2.getString("companyName");
+					ResultSet r2 = WorldEconomyPlugin
+							.runSQLquery("SELECT companyName FROM companies WHERE companyID = " + companyID);
+					r2.next();
+					String companyName = r2.getString("companyName");
 
-				WorldEconomyPlugin
-						.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES ("
-								+ WorldEconomyPlugin.getNextEnumerator("signID") + ", \"shop\", "
-								+ sign.getLocation().getBlockX() + ", " + sign.getLocation().getBlockY() + ", "
-								+ sign.getLocation().getBlockZ() + ", \"" + sign.getLocation().getWorld().getName()
-								+ "\")");
-				WorldEconomyPlugin
-						.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
-								+ WorldEconomyPlugin.getNextEnumerator("signID") + ", " + supplyChestID + ", "
-								+ companyID + ", " + productID + ", " + price + ")");
+					WorldEconomyPlugin
+							.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES ("
+									+ WorldEconomyPlugin.getNextEnumerator("signID") + ", \"shop\", "
+									+ sign.getLocation().getBlockX() + ", " + sign.getLocation().getBlockY() + ", "
+									+ sign.getLocation().getBlockZ() + ", \"" + sign.getLocation().getWorld().getName()
+									+ "\")");
+					WorldEconomyPlugin
+							.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
+									+ WorldEconomyPlugin.getNextEnumerator("signID") + ", " + supplyChestID + ", "
+									+ companyID + ", " + productID + ", " + price + ")");
 
-				WorldEconomyPlugin.moveEnumerator("signID");
+					WorldEconomyPlugin.moveEnumerator("signID");
 
-				event.setLine(0, "[§4Shop§0]");
-				event.setLine(1, companyName);
-				event.setLine(2, productName);
-				event.setLine(3, String.valueOf(price));
+					event.setLine(0, "[§4Shop§0]");
+					event.setLine(1, companyName);
+					event.setLine(2, productName);
+					event.setLine(3, String.valueOf(price));
 
-				event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "Successfully created shop sign!");
+					event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "Successfully created shop sign!");
 
-			} else {
-				event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "§4The product does not exist!");
+				} else {
+					event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX + "§4The product does not exist!");
+				}
 			}
 		}
 	}
