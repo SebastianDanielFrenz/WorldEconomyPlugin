@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.bukkit.OfflinePlayer;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 
 public class BankAccount {
 
@@ -29,7 +29,7 @@ public class BankAccount {
 		this.balance = balance;
 		this.bankID = bankID;
 		this.name = name;
-		accountHolderID = WorldEconomyPlugin.getUserProfile(player).bankingID;
+		accountHolderID = WEDB.getUserProfile(player).bankingID;
 		type = "player";
 		this.ID = ID;
 	}

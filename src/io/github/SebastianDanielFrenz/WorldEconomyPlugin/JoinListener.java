@@ -34,7 +34,7 @@ public class JoinListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (!event.getPlayer().hasPlayedBefore()) {
 			try {
-				WorldEconomyPlugin.registerUserProfile(event.getPlayer());
+				WEDB.registerUserProfile(event.getPlayer());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -52,7 +52,7 @@ public class JoinListener implements Listener {
 				String[] lines = sign.getLines();
 				if (lines[0].equalsIgnoreCase("[§4Shop§0]")) {
 					if (WorldEconomyCommandExecutor.hasPermission(player, Permissions.SIGN_SHOP_USE)) {
-						ShopSignData signData = WorldEconomyPlugin.getShopSign(block.getLocation());
+						ShopSignData signData = WEDB.getShopSign(block.getLocation());
 
 						if (signData == null) {
 							player.sendMessage("not a world economy sign!");
@@ -68,8 +68,8 @@ public class JoinListener implements Listener {
 													+ "§4This credit card has no banking information!");
 										}
 										String bankAccountName = lore.get(1);
-										WorldEconomyProfile profile = WorldEconomyPlugin.getUserProfile(player);
-										BankAccount bankAccount = WorldEconomyPlugin.getBankAccount(profile.bankingID,
+										WorldEconomyProfile profile = WEDB.getUserProfile(player);
+										BankAccount bankAccount = WEDB.getBankAccount(profile.bankingID,
 												bankAccountName);
 										if (bankAccount == null) {
 											player.sendMessage(WorldEconomyPlugin.PREFIX
@@ -80,8 +80,7 @@ public class JoinListener implements Listener {
 											if (bankAccount.getBalance() >= price) {
 												player.sendMessage(WorldEconomyPlugin.PREFIX
 														+ "Your bank account has enough money to buy the item.");
-												SupplyChestData chestData = WorldEconomyPlugin
-														.getSupplyChest(signData.supplyChestID);
+												SupplyChestData chestData = WEDB.getSupplyChest(signData.supplyChestID);
 												if (chestData == null) {
 													player.sendMessage(WorldEconomyPlugin.PREFIX
 															+ "§4The supply chest does not exist!");
@@ -91,8 +90,7 @@ public class JoinListener implements Listener {
 														Chest chest = (Chest) block2.getState();
 														Inventory chestInv = chest.getBlockInventory();
 
-														Product product = WorldEconomyPlugin
-																.getProduct(signData.productID);
+														Product product = WEDB.getProduct(signData.productID);
 														if (product == null) {
 															player.sendMessage(
 																	WorldEconomyPlugin.PREFIX + "§4The product with ID "
@@ -104,14 +102,13 @@ public class JoinListener implements Listener {
 														// banking
 														// details
 
-														Company company = WorldEconomyPlugin
-																.getCompany(product.manifacturerID);
+														Company company = WEDB.getCompany(product.manifacturerID);
 														if (company == null) {
 															player.sendMessage(WorldEconomyPlugin.PREFIX
 																	+ "§4The company with ID " + product.manifacturerID
 																	+ " does not exist!");
 														} else {
-															BankAccount companyBankAccount = WorldEconomyPlugin
+															BankAccount companyBankAccount = WEDB
 																	.getBankAccount(company.bankingID, "shop_income");
 															if (companyBankAccount == null) {
 																player.sendMessage(WorldEconomyPlugin.PREFIX
@@ -166,8 +163,8 @@ public class JoinListener implements Listener {
 																	// account
 																	// balance
 
-																	WorldEconomyPlugin.bankAccountTransaction(
-																			bankAccount, companyBankAccount, price);
+																	WEDB.bankAccountTransaction(bankAccount,
+																			companyBankAccount, price);
 
 																	// give
 																	// items
@@ -246,16 +243,15 @@ public class JoinListener implements Listener {
 
 					WorldEconomyPlugin
 							.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES ("
-									+ WorldEconomyPlugin.getNextEnumerator("signID") + ", \"shop\", "
-									+ sign.getLocation().getBlockX() + ", " + sign.getLocation().getBlockY() + ", "
-									+ sign.getLocation().getBlockZ() + ", \"" + sign.getLocation().getWorld().getName()
-									+ "\")");
+									+ WEDB.getNextEnumerator("signID") + ", \"shop\", " + sign.getLocation().getBlockX()
+									+ ", " + sign.getLocation().getBlockY() + ", " + sign.getLocation().getBlockZ()
+									+ ", \"" + sign.getLocation().getWorld().getName() + "\")");
 					WorldEconomyPlugin
 							.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
-									+ WorldEconomyPlugin.getNextEnumerator("signID") + ", " + supplyChestID + ", "
-									+ companyID + ", " + productID + ", " + price + ")");
+									+ WEDB.getNextEnumerator("signID") + ", " + supplyChestID + ", " + companyID + ", "
+									+ productID + ", " + price + ")");
 
-					WorldEconomyPlugin.moveEnumerator("signID");
+					WEDB.moveEnumerator("signID");
 
 					event.setLine(0, "[§4Shop§0]");
 					event.setLine(1, companyName);
@@ -294,9 +290,9 @@ public class JoinListener implements Listener {
 	public static void signBreakHandler(Block block) throws SQLException {
 		if (block.getType() == Material.OAK_WALL_SIGN) {
 			if (((Sign) block.getState()).getLine(0).equals("[§4Shop§0]")) {
-				ShopSignData sign = WorldEconomyPlugin.getShopSign(block.getLocation());
+				ShopSignData sign = WEDB.getShopSign(block.getLocation());
 				if (sign != null) {
-					WorldEconomyPlugin.removeShopSign(block);
+					WEDB.removeShopSign(block);
 				}
 			}
 		}
