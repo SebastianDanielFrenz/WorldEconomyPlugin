@@ -3,6 +3,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+
 public class SalaryHandlerThread implements Runnable {
 
 	@Override
@@ -20,10 +22,17 @@ public class SalaryHandlerThread implements Runnable {
 					double salary = r.getDouble("contractSalary");
 					String employeeType = r.getString("employeeType");
 					long bankingID;
-					
+
 					if (employeeType.equals("player")) {
-						r2 = WorldEconomyPlugin.runSQLquery("");
+						r2 = WorldEconomyPlugin
+								.runSQLquery("SELECT bankingID FROM user_profiles WHERE employeeID = " + employeeID);
+						bankingID = r2.getLong("bankingID");
+					} else {
+						WorldEconomyPlugin.plugin.getLogger().info("Invalid employee type \"" + employeeType + "\"!");
+						continue;
 					}
+					
+					BankAccount employeeAcount = WEDB.getBankAccount(bankingID, "income");
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

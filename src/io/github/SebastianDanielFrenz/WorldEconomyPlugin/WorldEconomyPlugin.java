@@ -153,6 +153,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE contracts_employment_default (contractID integer PRIMARY KEY," + "contractSalary real,"
 					+ "contractLastSalary int" + ");");
 
+			runSQL("CREATE TABLE employers (" + "employerID integer PRIMARY KEY," + "employerType text" + ");");
+
 			setupEnumerator();
 		}
 

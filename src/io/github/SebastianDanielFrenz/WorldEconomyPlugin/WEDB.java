@@ -322,6 +322,35 @@ public class WEDB {
 				+ employerID + ", " + employeeID + ", " + contractID + ")");
 	}
 
+	public static Employer getEmployer(long employerID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT employerType FROM employers WHERE employerID = " + employerID);
+
+		if (!r.next()) {
+			return null;
+		}
+		String type = r.getString("employerType");
+		ResultSet r2;
+
+		if (type.equals("company")) {
+			r2 = WorldEconomyPlugin
+					.runSQLquery("SELECT companyBankingID FROM companies WHERE companyEmployerID = " + employerID);
+			return new EmployerCompany(employerID, r2.getLong("companyBankingID"));
+		} else {
+			throw new RuntimeException("Invalid employer type \"" + type + "\"!");
+		}
+	}
+
+	public static long reigsterEmployer(String employerType) throws SQLException {
+		long ID = getNextEnumerator("employerID");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO employers (employerID, employerType) VALUES (" + ID + "," + employerType + ")");
+
+		moveEnumerator("employerID");
+
+		return ID;
+	}
+
 	public static long registerContract(Contract contract) throws SQLException {
 		if (contract instanceof ContractEmploymentDefault) {
 			return registerContract((ContractEmploymentDefault) contract);
