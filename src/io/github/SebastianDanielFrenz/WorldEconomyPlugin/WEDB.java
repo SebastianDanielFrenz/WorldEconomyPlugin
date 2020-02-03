@@ -341,8 +341,9 @@ public class WEDB {
 
 	public static long registerEmployer(String employerType) throws SQLException {
 		long ID = getNextEnumerator("employerID");
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO employers (employerID, employerType) VALUES (" + ID + "," + employerType + ")");
+		
+		WorldEconomyPlugin.runSQL(
+				"INSERT INTO employers (employerID, employerType) VALUES (" + ID + ",\"" + employerType + "\")");
 
 		moveEnumerator("employerID");
 
@@ -482,9 +483,15 @@ public class WEDB {
 
 		return aiID;
 	}
-	
-	public static AIProfile getAI() {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("");
+
+	public static AIProfile getAI(long aiID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM AIs WHERE aiID = " + aiID);
+
+		if (!r.next()) {
+			return null;
+		}
+		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"));
 	}
 
 }

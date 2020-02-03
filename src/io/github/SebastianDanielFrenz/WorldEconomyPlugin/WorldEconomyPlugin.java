@@ -67,6 +67,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);
 
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
+
+		new Thread(new SalaryHandlerThread()).start();
 	}
 
 	@Override

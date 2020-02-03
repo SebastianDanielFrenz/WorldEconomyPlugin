@@ -63,6 +63,12 @@ public class SalaryHandlerThread implements Runnable {
 					WorldEconomyPlugin.plugin.getLogger().info(
 							"Salary: Employee " + employerID + " was payed " + salary + " by employer " + employerID);
 				}
+				try {
+					Thread.sleep(5 * 1000);
+				} catch (InterruptedException e) {
+					WorldEconomyPlugin.plugin.getLogger().info("Detected shutdown! Stopping salary handler thread!");
+					return;
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
