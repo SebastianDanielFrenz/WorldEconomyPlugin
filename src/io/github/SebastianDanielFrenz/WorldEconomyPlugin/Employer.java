@@ -3,11 +3,11 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 public class Employer {
 
 	public long ID;
-	public String type;
+	public long bankingID;
 
-	public Employer(long ID, String type) {
+	public Employer(long ID, long bankingID) {
 		this.ID = ID;
-		this.type = type;
+		this.bankingID = bankingID;
 	}
 
 }

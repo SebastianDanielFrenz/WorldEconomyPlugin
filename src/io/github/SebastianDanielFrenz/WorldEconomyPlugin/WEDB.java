@@ -186,14 +186,13 @@ public class WEDB {
 
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
-						+ companyID + ", \"" + name + "\", \"corporation\", " + getNextEnumerator("employerID") + ", "
+						+ companyID + ", \"" + name + "\", \"corporation\", " + registerEmployer("company") + ", "
 						+ getNextEnumerator("bankingID") + ")");
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
 				+ ", " + CEO_employeeID + ")");
 
 		moveEnumerator("companyID");
-		moveEnumerator("employerID");
 		moveEnumerator("bankingID");
 
 		return companyID;
@@ -208,14 +207,13 @@ public class WEDB {
 
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
-						+ companyID + ", \"" + name + "\", \"private\", " + getNextEnumerator("employerID") + ", "
+						+ companyID + ", \"" + name + "\", \"private\", " + registerEmployer("company") + ", "
 						+ getNextEnumerator("bankingID") + ")");
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
 				+ ", " + getUserProfile(owner).employeeID + ")");
 
 		moveEnumerator("companyID");
-		moveEnumerator("employerID");
 		moveEnumerator("bankingID");
 
 		return companyID;
@@ -335,13 +333,13 @@ public class WEDB {
 		if (type.equals("company")) {
 			r2 = WorldEconomyPlugin
 					.runSQLquery("SELECT companyBankingID FROM companies WHERE companyEmployerID = " + employerID);
-			return new EmployerCompany(employerID, r2.getLong("companyBankingID"));
+			return new Employer(employerID, r2.getLong("companyBankingID"));
 		} else {
 			throw new RuntimeException("Invalid employer type \"" + type + "\"!");
 		}
 	}
 
-	public static long reigsterEmployer(String employerType) throws SQLException {
+	public static long registerEmployer(String employerType) throws SQLException {
 		long ID = getNextEnumerator("employerID");
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO employers (employerID, employerType) VALUES (" + ID + "," + employerType + ")");
@@ -467,6 +465,26 @@ public class WEDB {
 		long signID = r.getLong("signID");
 		WorldEconomyPlugin.runSQL("DELETE FROM signs WHERE signID = " + signID);
 		WorldEconomyPlugin.runSQL("DELETE FROM shop_signs WHERE signID = " + signID);
+	}
+
+	public static long registerAI() throws SQLException {
+		long aiID = getNextEnumerator("aiID");
+
+		WorldEconomyPlugin.runSQL("INSERT INTO AIs (aiID, employeeID, aiAsEmployerID, username, aiBankingID) VALUES ("
+				+ aiID + ", " + getNextEnumerator("employeeID") + ", " + getNextEnumerator("employerID") + ", \"AI "
+				+ aiID + "\", " + getNextEnumerator("bankingID") + ")");
+
+		moveEnumerator("employeeID");
+		moveEnumerator("employerID");
+		moveEnumerator("bankingID");
+
+		moveEnumerator("aiID");
+
+		return aiID;
+	}
+	
+	public static AIProfile getAI() {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("");
 	}
 
 }
