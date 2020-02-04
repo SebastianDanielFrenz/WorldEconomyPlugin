@@ -66,8 +66,6 @@ public class WEDB {
 						+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", \""
 						+ player.getName() + "\")");
 
-		registerBankAccount(new BankAccount(0, bankID, balance, name, accountHolderID, type));
-
 		moveEnumerator("employerID");
 		moveEnumerator("bankingID");
 	}
@@ -185,7 +183,7 @@ public class WEDB {
 		return signID;
 	}
 
-	public static long registerCorporation(String name, long CEO_employeeID, long default_bank_ID) throws SQLException {
+	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
 		WorldEconomyPlugin
@@ -196,21 +194,17 @@ public class WEDB {
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
 				+ ", " + CEO_employeeID + ")");
 
-		registerBankAccount(
-				new BankAccount(0, default_bank_ID, 0, "salaries", getNextEnumerator("bankingID"), "company"));
-
 		moveEnumerator("companyID");
 		moveEnumerator("bankingID");
 
 		return companyID;
 	}
 
-	public static long registerCorporation(String name, OfflinePlayer CEO, long default_bank_ID) throws SQLException {
-		return registerCorporation(name, getUserProfile(CEO).employeeID, default_bank_ID);
+	public static long registerCorporation(String name, OfflinePlayer CEO) throws SQLException {
+		return registerCorporation(name, getUserProfile(CEO).employeeID);
 	}
 
-	public static long registerPrivateCompany(String name, OfflinePlayer owner, long default_bank_ID)
-			throws SQLException {
+	public static long registerPrivateCompany(String name, OfflinePlayer owner) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
 		WorldEconomyPlugin
@@ -220,9 +214,6 @@ public class WEDB {
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
 				+ ", " + getUserProfile(owner).employeeID + ")");
-
-		registerBankAccount(
-				new BankAccount(0, default_bank_ID, 0, "salaries", getNextEnumerator("bankingID"), "company"));
 
 		moveEnumerator("companyID");
 		moveEnumerator("bankingID");
@@ -482,9 +473,10 @@ public class WEDB {
 	public static long registerAI() throws SQLException {
 		long aiID = getNextEnumerator("aiID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO AIs (aiID, employeeID, aiAsEmployerID, username, aiBankingID) VALUES ("
-				+ aiID + ", " + getNextEnumerator("employeeID") + ", " + getNextEnumerator("employerID") + ", \"AI "
-				+ aiID + "\", " + getNextEnumerator("bankingID") + ")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO ai_profiles (aiID, employeeID, aiAsEmployerID, username, aiBankingID) VALUES ("
+						+ aiID + ", " + getNextEnumerator("employeeID") + ", " + getNextEnumerator("employerID")
+						+ ", \"AI " + aiID + "\", " + getNextEnumerator("bankingID") + ")");
 
 		moveEnumerator("employeeID");
 		moveEnumerator("employerID");
@@ -496,13 +488,37 @@ public class WEDB {
 	}
 
 	public static AIProfile getAI(long aiID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM AIs WHERE aiID = " + aiID);
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM ai_profiles WHERE aiID = " + aiID);
 
 		if (!r.next()) {
 			return null;
 		}
 		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
 				r.getLong("employeeID"), r.getLong("aiAsEmployerID"));
+	}
+
+	public static long registerMailbox(Company company) throws SQLException {
+		return registerBaseMailbox("company");
+	}
+
+	public static long registerMailbox(WorldEconomyProfile userProfile) throws SQLException {
+		return registerBaseMailbox("player");
+	}
+
+	public static long registerMailbox(AIProfile aiProfile) throws SQLException {
+		return registerBaseMailbox("ai");
+	}
+
+	public static long registerBaseMailbox(String ownerType) throws SQLException {
+		long ID = getNextEnumerator("mailboxID");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO mailboxes (mailboxID, ownerType) VALUES (" + ID + ", \"" + ownerType + "\")");
+		return ID;
+	}
+
+	public static void sendMail(long senderMailboxID, long recieverMailboxID) {
+
 	}
 
 }

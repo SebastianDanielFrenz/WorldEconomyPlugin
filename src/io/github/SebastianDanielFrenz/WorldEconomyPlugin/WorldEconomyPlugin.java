@@ -86,7 +86,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static void setupEnumerator() {
 		runSQLsafe(
 				"INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1), (\"chestID\", 1),"
-						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1), (\"aiID\", 1)");
+						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1), (\"aiID\", 1), (\"mailboxID\", 1)");
 	}
 
 	private boolean setupEconomy() {
@@ -159,6 +159,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 			runSQL("CREATE TABLE ai_profiles (" + "aiID integer PRIMARY KEY," + "employeeID integer,"
 					+ "aiAsEmployerID integer," + "username text," + "aiBankingID integer" + ");");
+
+			runSQL("CREATE TABLE mailboxes (" + "mailboxID integer PRIMARY KEY," + "ownerType text" + ");");
+
+			runSQL("CREATE TABLE mails (" + "mailID integer PRIMARY KEY," + "mailboxID integer," + "message text"
+					+ ");");
 
 			setupEnumerator();
 		}
