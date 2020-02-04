@@ -19,8 +19,8 @@ public class SalaryHandlerThread implements Runnable {
 				ResultSet r = WorldEconomyPlugin.runSQLquery(
 						"SELECT employees.employeeID, employees.employeeType, contracts_employment_default.contractSalary, contracts_employment_default.contractLastSalary,"
 								+ " contracts_employment_default.contractID"
-								+ " ((employee_matching INNER JOIN contracts_employment_default ON employee_matching.contractID = contracts_employment_default.contractID) "
-								+ "INNER JOIN employees ON employees.employeeID = employee_matching.employeeID) INNER JOIN employers ON employers.employerID = employee_matchin.employerID");
+								+ " FROM ((employee_matching INNER JOIN contracts_employment_default ON employee_matching.contractID = contracts_employment_default.contractID) "
+								+ "INNER JOIN employees ON employees.employeeID = employee_matching.employeeID) INNER JOIN employers ON employers.employerID = employee_matching.employerID");
 				ResultSet r2;
 				while (r.next()) {
 					int last_salary = r.getInt("contractLastSalary");
@@ -64,13 +64,15 @@ public class SalaryHandlerThread implements Runnable {
 							"Salary: Employee " + employerID + " was payed " + salary + " by employer " + employerID);
 				}
 				try {
-					Thread.sleep(5 * 1000);
+					Thread.sleep(30 * 1000);
 				} catch (InterruptedException e) {
 					WorldEconomyPlugin.plugin.getLogger().info("Detected shutdown! Stopping salary handler thread!");
 					return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+				WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
+				return;
 			}
 		}
 	}

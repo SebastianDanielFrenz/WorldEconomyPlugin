@@ -58,11 +58,15 @@ public class WEDB {
 	}
 
 	public static void registerUserProfile(OfflinePlayer player) throws SQLException {
+		long ID = registerEmployee(player);
+
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username)"
-						+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + registerEmployee(player) + ", "
+						+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + ID + ", "
 						+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", \""
 						+ player.getName() + "\")");
+
+		registerBankAccount(new BankAccount(0, bankID, balance, name, accountHolderID, type));
 
 		moveEnumerator("employerID");
 		moveEnumerator("bankingID");
@@ -181,7 +185,7 @@ public class WEDB {
 		return signID;
 	}
 
-	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
+	public static long registerCorporation(String name, long CEO_employeeID, long default_bank_ID) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
 		WorldEconomyPlugin
@@ -192,17 +196,21 @@ public class WEDB {
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
 				+ ", " + CEO_employeeID + ")");
 
+		registerBankAccount(
+				new BankAccount(0, default_bank_ID, 0, "salaries", getNextEnumerator("bankingID"), "company"));
+
 		moveEnumerator("companyID");
 		moveEnumerator("bankingID");
 
 		return companyID;
 	}
 
-	public static long registerCorporation(String name, OfflinePlayer CEO) throws SQLException {
-		return registerCorporation(name, getUserProfile(CEO).employeeID);
+	public static long registerCorporation(String name, OfflinePlayer CEO, long default_bank_ID) throws SQLException {
+		return registerCorporation(name, getUserProfile(CEO).employeeID, default_bank_ID);
 	}
 
-	public static long registerPrivateCompany(String name, OfflinePlayer owner) throws SQLException {
+	public static long registerPrivateCompany(String name, OfflinePlayer owner, long default_bank_ID)
+			throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
 		WorldEconomyPlugin
@@ -212,6 +220,9 @@ public class WEDB {
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
 				+ ", " + getUserProfile(owner).employeeID + ")");
+
+		registerBankAccount(
+				new BankAccount(0, default_bank_ID, 0, "salaries", getNextEnumerator("bankingID"), "company"));
 
 		moveEnumerator("companyID");
 		moveEnumerator("bankingID");
@@ -341,7 +352,7 @@ public class WEDB {
 
 	public static long registerEmployer(String employerType) throws SQLException {
 		long ID = getNextEnumerator("employerID");
-		
+
 		WorldEconomyPlugin.runSQL(
 				"INSERT INTO employers (employerID, employerType) VALUES (" + ID + ",\"" + employerType + "\")");
 
