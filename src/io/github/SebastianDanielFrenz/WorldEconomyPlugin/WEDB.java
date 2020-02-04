@@ -517,8 +517,8 @@ public class WEDB {
 		return ID;
 	}
 
-	public static void sendMail(long senderMailboxID, long recieverMailboxID) {
-
+	public static void sendMail(long senderMailboxID, long recieverMailboxID, String message) {
+		long ID = getNextEnumerator("mailID");
 	}
 
 }

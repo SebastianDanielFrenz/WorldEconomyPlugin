@@ -86,7 +86,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static void setupEnumerator() {
 		runSQLsafe(
 				"INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1), (\"chestID\", 1),"
-						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1), (\"aiID\", 1), (\"mailboxID\", 1)");
+						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1),"
+						+ "(\"aiID\", 1), (\"mailboxID\", 1), (\"mailID\", 1)");
 	}
 
 	private boolean setupEconomy() {
