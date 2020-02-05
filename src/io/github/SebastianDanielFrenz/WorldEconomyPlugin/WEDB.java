@@ -2,7 +2,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,13 +26,22 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 
 public class WEDB {
 
+	/**
+	 * Devs: Please update getMailboxOwner(long mailboxID) along with this
+	 * method.
+	 * 
+	 * @param player
+	 * @return
+	 * @throws SQLException
+	 */
 	public static WorldEconomyProfile getUserProfile(OfflinePlayer player) throws SQLException {
 		ResultSet r = WorldEconomyPlugin
 				.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(player.getUniqueId(), r.getInt("employeeID"), r.getInt("playerAsEmployerID"),
-					r.getString("username"), r.getInt("playerBankingID"));
+			return new WorldEconomyProfile(player.getUniqueId(), r.getLong("employeeID"),
+					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
+					r.getLong("mailboxID"));
 		} else {
 			return null;
 		}
@@ -61,10 +72,10 @@ public class WEDB {
 		long ID = registerEmployee(player);
 
 		WorldEconomyPlugin
-				.runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username)"
+				.runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username, mailboxID)"
 						+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + ID + ", "
 						+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", \""
-						+ player.getName() + "\")");
+						+ player.getName() + "\", " + registerBaseMailbox("player") + ")");
 
 		moveEnumerator("employerID");
 		moveEnumerator("bankingID");
@@ -230,6 +241,8 @@ public class WEDB {
 			String type = res.getString("companyType");
 			long employerID = res.getLong("companyEmployerID");
 			long bankingID = res.getLong("companyBankingID");
+			long mailboxID = res.getLong("mailboxID");
+
 			ResultSet r;
 
 			switch (type) {
@@ -238,14 +251,14 @@ public class WEDB {
 				if (!r.next()) {
 					throw new RuntimeException("Corporation \"" + name + "\" not in the corporations table!");
 				}
-				return new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"));
+				return new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"), mailboxID);
 			case "private":
 				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
 				if (!r.next()) {
 					throw new RuntimeException(
 							"Private company \"" + name + "\" is not in the private companies table!");
 				}
-				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"));
+				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID);
 			default:
 				throw new RuntimeException("Invalid company type \"" + type + "\"!");
 			}
@@ -254,6 +267,14 @@ public class WEDB {
 		}
 	}
 
+	/**
+	 * Devs: Please update getMailboxOwner(long mailboxID) along with this
+	 * method.
+	 * 
+	 * @param ID
+	 * @return
+	 * @throws SQLException
+	 */
 	public static Company getCompany(long ID) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
 				"SELECT companyName, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyID = "
@@ -264,6 +285,8 @@ public class WEDB {
 			long employerID = res.getLong("companyEmployerID");
 			long bankingID = res.getLong("companyBankingID");
 			String name = res.getString("companyName");
+			long mailboxID = res.getLong("mailboxID");
+
 			ResultSet r;
 
 			switch (type) {
@@ -272,14 +295,14 @@ public class WEDB {
 				if (!r.next()) {
 					throw new RuntimeException("Corporation \"" + name + "\" not in the corporations table!");
 				}
-				return new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"));
+				return new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"), mailboxID);
 			case "private":
 				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
 				if (!r.next()) {
 					throw new RuntimeException(
 							"Private company \"" + name + "\" is not in the private companies table!");
 				}
-				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"));
+				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID);
 			default:
 				throw new RuntimeException("Invalid company type \"" + type + "\"!");
 			}
@@ -487,6 +510,14 @@ public class WEDB {
 		return aiID;
 	}
 
+	/**
+	 * Devs: Please update getMailboxOwner(long mailboxID) along with this
+	 * method.
+	 * 
+	 * @param aiID
+	 * @return
+	 * @throws SQLException
+	 */
 	public static AIProfile getAI(long aiID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM ai_profiles WHERE aiID = " + aiID);
 
@@ -494,7 +525,7 @@ public class WEDB {
 			return null;
 		}
 		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
-				r.getLong("employeeID"), r.getLong("aiAsEmployerID"));
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
 	}
 
 	public static long registerMailbox(Company company) throws SQLException {
@@ -517,8 +548,124 @@ public class WEDB {
 		return ID;
 	}
 
-	public static void sendMail(long senderMailboxID, long recieverMailboxID, String message) {
-		long ID = getNextEnumerator("mailID");
+	public static void sendMail(long senderMailboxID, long recieverMailboxID, String message) throws SQLException {
+		WorldEconomyPlugin.runSQL("INSERT INTO mails (mailboxID, senderMailboxID, message) VALUES (" + recieverMailboxID
+				+ ", " + senderMailboxID + ", \"" + message + "\")");
+	}
+
+	public static List<Mail> getMails(long mailboxID, int max) throws SQLException {
+		ArrayList<Mail> out = new ArrayList<Mail>(max);
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM mails WHERE mailboxID = " + mailboxID);
+
+		for (int i = 0; i < max || !r.next(); i++) {
+			out.add(new Mail(r.getLong("mailID"), r.getString("message"), r.getLong("senderMailboxID"), mailboxID));
+		}
+		return out;
+	}
+
+	public static List<Mail> getMails(OfflinePlayer player, int max) throws SQLException {
+		return getMails(getUserProfile(player).mailboxID, max);
+	}
+
+	public static List<Mail> getMails(Company company, int max) throws SQLException {
+		return getMails(getMailboxID(company), max);
+	}
+
+	public static String getMailboxOwnerType(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT ownerType FROM mailboxes WHERE mailboxID = " + mailboxID);
+
+		if (!r.next()) {
+			return null;
+		}
+		return r.getString("ownerType");
+	}
+
+	public static void removeMail(long mailID) throws SQLException {
+		WorldEconomyPlugin.runSQL("DELETE FROM mails WHERE mailID = " + mailID);
+	}
+
+	public static long getMailboxID(Company company) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT mailboxID FROM companies WHERE companyID = " + company.ID);
+		if (!r.next()) {
+			return 0;
+		}
+		return r.getLong("mailboxID");
+	}
+
+	public static long getMailboxID(OfflinePlayer player) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT mailboxID FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId().toString() + "\"");
+		if (!r.next()) {
+			return 0;
+		}
+		return r.getLong("mailboxID");
+	}
+
+	public static long getMailboxID(AIProfile ai) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT mailboxID FROM ai_profiles WHERE aiID = " + ai.aiID);
+		if (!r.next()) {
+			return 0;
+		}
+		return r.getLong("mailboxID");
+	}
+
+	public static long getMessageCount(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT COUNT(mailboxID) AS total FROM mails WHERE mailboxID = " + mailboxID);
+		r.next();
+		return r.getLong("total");
+	}
+
+	public static WorldEconomyProfile getMailboxOwnerAsUserProfile(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE mailboxID = " + mailboxID);
+
+		if (r.next()) {
+			return new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getInt("employeeID"),
+					r.getInt("playerAsEmployerID"), r.getString("username"), r.getInt("playerBankingID"), mailboxID);
+		} else {
+			return null;
+		}
+	}
+
+	public static AIProfile getMailboxOwnerAsAI(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM ai_profiles WHERE mailboxID = " + mailboxID);
+
+		if (!r.next()) {
+			return null;
+		}
+		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
+	}
+
+	public static long getMailboxOwnerAsCompanyID(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT companyID FROM companies WHERE mailboxID = " + mailboxID);
+		if (!r.next()) {
+			return 0;
+		}
+		return r.getLong("companyID");
+	}
+
+	public static Company getMailboxOwnerAsCompany(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT companyID FROM companies WHERE mailboxID = " + mailboxID);
+		if (!r.next()) {
+			return null;
+		}
+		return getCompany(r.getLong("companyID"));
+	}
+
+	public static MailboxOwner getMailboxOwner(long mailboxID) throws SQLException {
+		String type = getMailboxOwnerType(mailboxID);
+
+		switch (type) {
+		case "player":
+			return getMailboxOwnerAsUserProfile(mailboxID);
+		case "ai":
+			return getMailboxOwnerAsAI(mailboxID);
+		case "company":
+			return getMailboxOwnerAsCompany(mailboxID);
+		default:
+			throw new RuntimeException("The mailbox owner's type is invalid (\"" + type + "\"!");
+		}
 	}
 
 }

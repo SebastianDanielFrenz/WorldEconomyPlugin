@@ -87,7 +87,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		runSQLsafe(
 				"INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1), (\"chestID\", 1),"
 						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1),"
-						+ "(\"aiID\", 1), (\"mailboxID\", 1), (\"mailID\", 1)");
+						+ "(\"aiID\", 1), (\"mailboxID\", 1)");
 	}
 
 	private boolean setupEconomy() {
@@ -109,7 +109,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		if (is_new) {
 			runSQL("CREATE TABLE user_profiles (" + "playerUUID text PRIMARY KEY," + "employeeID integer,"
-					+ "playerAsEmployerID integer," + "username text," + "playerBankingID integer" + ");");
+					+ "playerAsEmployerID integer," + "username text," + "playerBankingID integer,"
+					+ "mailboxID integer" + ");");
 
 			runSQL("CREATE TABLE sys_enumerator (" + "key text PRIMARY KEY," + "value integer" + ");");
 
@@ -122,7 +123,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text" + ");");
 
 			runSQL("CREATE TABLE companies (" + "companyID integer PRIMARY KEY," + "companyName text,"
-					+ "companyType text," + "companyEmployerID integer," + "companyBankingID integer" + ");");
+					+ "companyType text," + "companyEmployerID integer," + "companyBankingID integer,"
+					+ "mailboxID integer" + ");");
 
 			runSQL("CREATE TABLE banks (" + "bankID integer PRIMARY KEY," + "bankName text" + ");");
 
@@ -159,12 +161,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE employers (" + "employerID integer PRIMARY KEY," + "employerType text" + ");");
 
 			runSQL("CREATE TABLE ai_profiles (" + "aiID integer PRIMARY KEY," + "employeeID integer,"
-					+ "aiAsEmployerID integer," + "username text," + "aiBankingID integer" + ");");
+					+ "aiAsEmployerID integer," + "username text," + "aiBankingID integer," + "mailboxID integer"
+					+ ");");
 
 			runSQL("CREATE TABLE mailboxes (" + "mailboxID integer PRIMARY KEY," + "ownerType text" + ");");
 
-			runSQL("CREATE TABLE mails (" + "mailID integer PRIMARY KEY," + "mailboxID integer," + "message text"
-					+ ");");
+			runSQL("CREATE TABLE mails (" + "mailID integer PRIMARY KEY," + "mailboxID integer," + "message text,"
+					+ "senderMailboxID integer" + ");");
 
 			setupEnumerator();
 		}

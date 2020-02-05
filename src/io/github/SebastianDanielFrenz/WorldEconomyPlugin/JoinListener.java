@@ -31,7 +31,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 public class JoinListener implements Listener {
 
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
+	public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
 		if (!event.getPlayer().hasPlayedBefore()) {
 			try {
 				WEDB.registerUserProfile(event.getPlayer());
@@ -39,6 +39,8 @@ public class JoinListener implements Listener {
 				e.printStackTrace();
 			}
 		}
+
+		MailSubsystem.playerJoin(event.getPlayer());
 	}
 
 	@EventHandler

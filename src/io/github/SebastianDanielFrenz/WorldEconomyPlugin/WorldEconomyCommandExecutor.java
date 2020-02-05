@@ -552,6 +552,55 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
 					return true;
 				}
+			} else if (args[0].equalsIgnoreCase("mail")) {
+				if (args.length == 1) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					return true;
+				}
+				if (args[1].equalsIgnoreCase("read")) {
+					if (hasPermission(sender, Permissions.MAIL_READ)) {
+						try {
+							List<Mail> mails = WEDB.getMails((Player) sender, 10);
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
+							for (int i = 0; i < mails.size(); i++) {
+								sender.sendMessage(
+										"[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
+								sender.sendMessage(mails.get(i).message);
+							}
+							return true;
+						} catch (SQLException e) {
+							e.printStackTrace();
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							return true;
+						}
+					} else {
+						return true;
+					}
+				} else if (args[1].equalsIgnoreCase("remove")) {
+					if (args.length == 2) {
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						return true;
+					}
+					if (hasPermission(sender, Permissions.MAIL_REMOVE)) {
+						try {
+							WEDB.removeMail(Long.parseLong(args[2]));
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Removed mail with ID " + args[2] + "!");
+							return true;
+						} catch (NumberFormatException e) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Invalid ID!");
+							return true;
+						} catch (SQLException e) {
+							e.printStackTrace();
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "An internal error occured!");
+							return true;
+						}
+					} else {
+						return true;
+					}
+				} else {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+					return true;
+				}
 			} else if (args[0].equalsIgnoreCase("help")) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");
 				if (hasPermission(sender, Permissions.REGISTER_BANK, false)) {
@@ -590,6 +639,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we manage company <company name> employ <employee type> <employee name> <salary>");
+				}
+				if (hasPermission(sender, Permissions.MAIL_READ, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we mail read");
 				}
 				return true;
 			} else {

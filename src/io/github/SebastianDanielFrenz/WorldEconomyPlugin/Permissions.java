@@ -21,4 +21,7 @@ public class Permissions {
 			"manage.company.bank_account.*", "manage.company.bank_account.register" };
 	public static final String[] MANAGE_COMPANY_EMPLOY = new String[] { "manage.*", "manage.company.*",
 			"manage.company.employ" };
+
+	public static final String[] MAIL_READ = new String[] { "mail.*", "mail.read", "user" };
+	public static final String[] MAIL_REMOVE = new String[] { "mail.*", "mail.remove", "user" };
 }

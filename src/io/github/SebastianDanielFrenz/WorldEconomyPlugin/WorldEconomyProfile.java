@@ -2,20 +2,30 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.util.UUID;
 
-public class WorldEconomyProfile {
+public class WorldEconomyProfile implements MailboxOwner {
 
 	public UUID uuid;
-	public int employeeID;
-	public int employerID;
+	public long employeeID;
+	public long employerID;
 	public String username;
-	public int bankingID;
+	public long bankingID;
 
-	public WorldEconomyProfile(UUID uuid, int employeeID, int employerID, String username, int bankingID) {
+	public long mailboxID;
+
+	public WorldEconomyProfile(UUID uuid, long employeeID, long employerID, String username, long bankingID,
+			long mailboxID) {
 		this.uuid = uuid;
 		this.employeeID = employeeID;
 		this.employerID = employerID;
 		this.username = username;
 		this.bankingID = bankingID;
+
+		this.mailboxID = mailboxID;
+	}
+
+	@Override
+	public long getMailboxID() {
+		return mailboxID;
 	}
 
 }
