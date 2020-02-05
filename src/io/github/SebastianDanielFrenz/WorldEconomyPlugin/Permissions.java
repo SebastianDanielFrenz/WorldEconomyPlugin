@@ -22,6 +22,11 @@ public class Permissions {
 	public static final String[] MANAGE_COMPANY_EMPLOY = new String[] { "manage.*", "manage.company.*",
 			"manage.company.employ" };
 
+	public static final String[] MANAGE_COMPANY_MAIL_READ = new String[] { "manage.*", "manage.company.*",
+			"manage.company.mail.*", "manage.company.mail.read" };
+	public static final String[] MANAGE_COMPANY_MAIL_REMOVE = new String[] { "manage.*", "manage.company.*",
+			"manage.company.mail.*", "manage.company.mail.remove" };
+
 	public static final String[] MAIL_READ = new String[] { "mail.*", "mail.read", "user" };
 	public static final String[] MAIL_REMOVE = new String[] { "mail.*", "mail.remove", "user" };
 }

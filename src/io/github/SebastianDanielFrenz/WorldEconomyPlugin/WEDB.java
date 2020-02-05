@@ -580,8 +580,9 @@ public class WEDB {
 		return r.getString("ownerType");
 	}
 
-	public static void removeMail(long mailID) throws SQLException {
-		WorldEconomyPlugin.runSQL("DELETE FROM mails WHERE mailID = " + mailID);
+	public static void removeMail(long mailID, long mailboxID) throws SQLException {
+		// the second condition is just for security purposes
+		WorldEconomyPlugin.runSQL("DELETE FROM mails WHERE mailID = " + mailID + " AND mailboxID = " + mailboxID);
 	}
 
 	public static long getMailboxID(Company company) throws SQLException {

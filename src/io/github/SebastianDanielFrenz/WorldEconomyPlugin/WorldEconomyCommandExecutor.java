@@ -512,6 +512,40 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										return true;
 									}
 
+								} else if (args[3].equalsIgnoreCase("mail")) {
+									if (args.length == 4) {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										return true;
+									}
+									if (args[4].equalsIgnoreCase("read")) {
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_READ)) {
+											List<Mail> mails = WEDB.getMails(company, 10);
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "Listing at most 10 of "
+													+ company.companyName + "'s mails:");
+											for (int i = 0; i < 10 || i < mails.size(); i++) {
+												sender.sendMessage("[" + mails.get(i).ID + "]: Mail from "
+														+ mails.get(i).senderMailboxID + ":");
+												sender.sendMessage(mails.get(i).message);
+											}
+											return true;
+										} else {
+											return true;
+										}
+									} else if (args[4].equalsIgnoreCase("remove")) {
+										if (args.length == 5) {
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+											return true;
+										}
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_REMOVE)) {
+											WEDB.removeMail(Long.parseLong(args[5]), company.mailboxID);
+											return true;
+										} else {
+											return true;
+										}
+									} else {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+										return true;
+									}
 								} else {
 									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
 									return true;
@@ -562,7 +596,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						try {
 							List<Mail> mails = WEDB.getMails((Player) sender, 10);
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
-							for (int i = 0; i < mails.size(); i++) {
+							for (int i = 0; i < mails.size() || i < 10; i++) {
 								sender.sendMessage(
 										"[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
 								sender.sendMessage(mails.get(i).message);
@@ -583,7 +617,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					}
 					if (hasPermission(sender, Permissions.MAIL_REMOVE)) {
 						try {
-							WEDB.removeMail(Long.parseLong(args[2]));
+							WEDB.removeMail(Long.parseLong(args[2]), WEDB.getMailboxID((Player) sender));
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Removed mail with ID " + args[2] + "!");
 							return true;
 						} catch (NumberFormatException e) {
@@ -642,6 +676,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 				if (hasPermission(sender, Permissions.MAIL_READ, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we mail read");
+				}
+				if (hasPermission(sender, Permissions.MAIL_REMOVE, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we mail remove <ID>");
 				}
 				return true;
 			} else {
