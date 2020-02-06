@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class WEGUI implements InventoryHolder, Listener {
 	// Create a new inventory, with "this" owner for comparison with other
@@ -16,10 +17,39 @@ public class WEGUI implements InventoryHolder, Listener {
 	public final Inventory inv;
 	public GUIItem[] items;
 
+	private WEGUI parent;
+
 	public WEGUI(GUIItem[] items) {
 		inv = Bukkit.createInventory(this, 54, "Example");
 		initializeItems(items);
-		this.items = items;
+	}
+
+	public WEGUI(WEGUI parent, GUIItem[] items, String title) {
+		inv = Bukkit.createInventory(this, 54, title);
+
+		GUIItem[] items2 = new GUIItem[items.length + 1];
+		for (int i = 0; i < items.length; i++) {
+			items2[i] = items[i];
+		}
+
+		// other constructor equivalent
+		this.parent = parent;
+		this.items = items2;
+		initializeItems(items2);
+
+		ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
+		ItemMeta meta = backButtonItem.getItemMeta();
+		meta.setDisplayName("§4Back");
+		backButtonItem.setItemMeta(meta);
+
+		items2[8] = new GUIItem(0, 8, backButtonItem) {
+			@Override
+			public void event(InventoryClickEvent event) {
+				parent.openInventory((Player) event.getWhoClicked());
+			}
+		};
+
+		this.parent = parent;
 	}
 
 	@Override
@@ -29,6 +59,8 @@ public class WEGUI implements InventoryHolder, Listener {
 
 	// You can call this whenever you want to put the items in
 	public void initializeItems(GUIItem[] items) {
+		this.items = items;
+
 		for (int i = 0; i < items.length; i++) {
 			inv.setItem(items[i].slot, items[i].itemStack);
 		}

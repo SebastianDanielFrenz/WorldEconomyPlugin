@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.util.UUID;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
+
 public class WorldEconomyProfile implements MailboxOwner {
 
 	public UUID uuid;

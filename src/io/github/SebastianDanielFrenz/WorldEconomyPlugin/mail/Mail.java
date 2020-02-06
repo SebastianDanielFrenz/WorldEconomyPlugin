@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail;
 
 public class Mail {
 

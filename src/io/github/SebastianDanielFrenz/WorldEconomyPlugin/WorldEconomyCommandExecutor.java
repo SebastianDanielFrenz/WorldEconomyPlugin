@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 
 public class WorldEconomyCommandExecutor implements CommandExecutor {
 

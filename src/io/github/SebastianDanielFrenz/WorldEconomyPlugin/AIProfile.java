@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
+
 public class AIProfile implements MailboxOwner {
 
 	public String username;

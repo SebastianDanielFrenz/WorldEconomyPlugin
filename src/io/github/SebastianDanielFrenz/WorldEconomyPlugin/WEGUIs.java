@@ -62,4 +62,6 @@ public class WEGUIs {
 			event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "my bank GUI!");
 		}
 	} });
+
+	public static WEGUI[] all = new WEGUI[] { main };
 }

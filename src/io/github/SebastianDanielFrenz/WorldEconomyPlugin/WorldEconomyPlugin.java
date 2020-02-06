@@ -8,26 +8,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -69,6 +56,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
 
 		new Thread(new SalaryHandlerThread()).start();
+
+		/*
+		 * This area is designated to setting up the GUIs (inventories)
+		 */
+		for (WEGUI gui : WEGUIs.all) {
+			getServer().getPluginManager().registerEvents(gui, this);
+		}
 	}
 
 	@Override

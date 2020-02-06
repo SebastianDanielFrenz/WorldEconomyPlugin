@@ -1,10 +1,14 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail;
 
 import java.sql.SQLException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
 
 public class MailSubsystem {
 
