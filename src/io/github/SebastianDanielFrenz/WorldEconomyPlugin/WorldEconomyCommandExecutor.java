@@ -50,7 +50,13 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {
-			sender.sendMessage("This is the main command for the World Economy Plugin!");
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4This is a GUI! Try again as a player.");
+				return true;
+			}
+
+			WEGUIs.main.openInventory((Player) sender);
+
 			return true;
 		} else {
 			if (args[0].equalsIgnoreCase("register")) {

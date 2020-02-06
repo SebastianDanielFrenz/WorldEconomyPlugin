@@ -551,6 +551,8 @@ public class WEDB {
 	public static void sendMail(long senderMailboxID, long recieverMailboxID, String message) throws SQLException {
 		WorldEconomyPlugin.runSQL("INSERT INTO mails (mailboxID, senderMailboxID, message) VALUES (" + recieverMailboxID
 				+ ", " + senderMailboxID + ", \"" + message + "\")");
+
+		MailSubsystem.deliveryNotification(senderMailboxID, recieverMailboxID, message);
 	}
 
 	public static List<Mail> getMails(long mailboxID, int max) throws SQLException {
