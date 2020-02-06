@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -33,6 +34,20 @@ public class MailSubsystem {
 				Player nplayer = (Player) player;
 				nplayer.sendMessage(WorldEconomyPlugin.PREFIX + "You recieved a mail!");
 			}
+		}
+	}
+
+	public static void showPlayerInbox(Player player) {
+		try {
+			List<Mail> mails = WEDB.getMails((Player) player, 10);
+			player.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
+			for (int i = 0; i < mails.size() || i < 10; i++) {
+				player.sendMessage("[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
+				player.sendMessage(mails.get(i).message);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			player.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
 		}
 	}
 

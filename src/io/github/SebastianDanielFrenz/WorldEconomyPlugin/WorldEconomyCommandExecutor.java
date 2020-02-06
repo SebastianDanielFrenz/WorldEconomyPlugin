@@ -20,7 +20,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIs;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 
 public class WorldEconomyCommandExecutor implements CommandExecutor {
 
@@ -56,7 +58,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				return true;
 			}
 
-			WEGUIs.main.openInventory((Player) sender);
+			WEGUIs.getMainGUI().openInventory((Player) sender);
 
 			return true;
 		} else {
@@ -600,20 +602,8 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 				if (args[1].equalsIgnoreCase("read")) {
 					if (hasPermission(sender, Permissions.MAIL_READ)) {
-						try {
-							List<Mail> mails = WEDB.getMails((Player) sender, 10);
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
-							for (int i = 0; i < mails.size() || i < 10; i++) {
-								sender.sendMessage(
-										"[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
-								sender.sendMessage(mails.get(i).message);
-							}
-							return true;
-						} catch (SQLException e) {
-							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
-							return true;
-						}
+						MailSubsystem.showPlayerInbox((Player) sender);
+						return true;
 					} else {
 						return true;
 					}

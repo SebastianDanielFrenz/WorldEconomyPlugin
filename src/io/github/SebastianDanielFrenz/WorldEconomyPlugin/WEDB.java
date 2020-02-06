@@ -143,6 +143,16 @@ public class WEDB {
 		}
 	}
 
+	public static List<Bank> getAllBanks() throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks");
+		List<Bank> out = new ArrayList<Bank>();
+
+		while (r.next()) {
+			out.add(new Bank(r.getLong("bankID"), r.getString("bankName")));
+		}
+		return out;
+	}
+
 	public static long registerSupplyChest(Location location, long companyID) throws SQLException {
 		long chestID = getNextEnumerator("chestID");
 

@@ -3,25 +3,27 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class WEGUI implements InventoryHolder, Listener {
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+
+public class WEGUI implements InventoryHolder {
 	// Create a new inventory, with "this" owner for comparison with other
 	// inventories, a size of nine, called example
 	public final Inventory inv;
 	public GUIItem[] items;
 
-	private WEGUI parent;
+	public WEGUI parent;
 
 	public WEGUI(GUIItem[] items) {
-		inv = Bukkit.createInventory(this, 54, "Example");
+		inv = Bukkit.createInventory(this, 54);
 		initializeItems(items);
+
+		WorldEconomyPlugin.guiRegister.GUIs.add(this);
 	}
 
 	public WEGUI(WEGUI parent, GUIItem[] items, String title) {
@@ -35,21 +37,30 @@ public class WEGUI implements InventoryHolder, Listener {
 		// other constructor equivalent
 		this.parent = parent;
 		this.items = items2;
-		initializeItems(items2);
 
 		ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
 		ItemMeta meta = backButtonItem.getItemMeta();
 		meta.setDisplayName("§4Back");
 		backButtonItem.setItemMeta(meta);
 
-		items2[8] = new GUIItem(0, 8, backButtonItem) {
+		items2[items.length] = new GUIItem(0, 8, backButtonItem) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				parent.openInventory((Player) event.getWhoClicked());
+				WorldEconomyPlugin.guiRegister.GUIs.add(parent);
 			}
 		};
 
-		this.parent = parent;
+		initializeItems(items2);
+
+		WorldEconomyPlugin.guiRegister.GUIs.add(this);
+	}
+
+	public WEGUI(GUIItem[] items, String title) {
+		inv = Bukkit.createInventory(this, 54, title);
+		initializeItems(items);
+
+		WorldEconomyPlugin.guiRegister.GUIs.add(this);
 	}
 
 	@Override
@@ -73,15 +84,7 @@ public class WEGUI implements InventoryHolder, Listener {
 	}
 
 	// Check for clicks on items
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getInventory().getHolder() != this) {
-			return;
-		}
-		/*
-		 * if (e.getClick().equals(ClickType.NUMBER_KEY)) {
-		 * e.setCancelled(true); }
-		 */
+	public void eventHandler(InventoryClickEvent e) {
 
 		e.setCancelled(true);
 

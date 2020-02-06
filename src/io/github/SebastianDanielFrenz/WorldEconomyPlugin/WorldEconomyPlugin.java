@@ -7,14 +7,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegister;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -24,7 +22,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static WorldEconomyPlugin plugin;
 
-	public static List<WorldEconomyProfile> global_user_profiles = new ArrayList<WorldEconomyProfile>();
+	public static WEGUIRegister guiRegister = new WEGUIRegister();
 
 	@Override
 	public void onEnable() {
@@ -57,12 +55,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		new Thread(new SalaryHandlerThread()).start();
 
-		/*
-		 * This area is designated to setting up the GUIs (inventories)
-		 */
-		for (WEGUI gui : WEGUIs.all) {
-			getServer().getPluginManager().registerEvents(gui, this);
-		}
+		getServer().getPluginManager().registerEvents(guiRegister, this);
 	}
 
 	@Override
