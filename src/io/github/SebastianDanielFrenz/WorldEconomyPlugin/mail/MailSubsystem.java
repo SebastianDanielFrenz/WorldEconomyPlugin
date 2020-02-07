@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
@@ -39,7 +40,21 @@ public class MailSubsystem {
 
 	public static void showPlayerInbox(Player player) {
 		try {
-			List<Mail> mails = WEDB.getMails((Player) player, 10);
+			List<Mail> mails = WEDB.getMails(player, 10);
+			player.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
+			for (int i = 0; i < mails.size() || i < 10; i++) {
+				player.sendMessage("[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
+				player.sendMessage(mails.get(i).message);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			player.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+		}
+	}
+
+	public static void showCompanyInbox(Player player, Company company) {
+		try {
+			List<Mail> mails = WEDB.getMails(company, 10);
 			player.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
 			for (int i = 0; i < mails.size() || i < 10; i++) {
 				player.sendMessage("[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");

@@ -324,6 +324,70 @@ public class WEDB {
 		}
 	}
 
+	public static List<Company> getAllCompanies() throws SQLException {
+		List<Company> out = new ArrayList<Company>();
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies");
+
+		while (res.next()) {
+			String type = res.getString("companyType");
+			long employerID = res.getLong("companyEmployerID");
+			long bankingID = res.getLong("companyBankingID");
+			String name = res.getString("companyName");
+			long mailboxID = res.getLong("mailboxID");
+			long ID = res.getLong("companyID");
+
+			ResultSet r;
+
+			switch (type) {
+			case "corporation":
+				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_corporations WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException("Corporation \"" + name + "\" not in the corporations table!");
+				}
+				out.add(new Corporation(ID, name, employerID, bankingID, r.getLong("CEO_employeeID"), mailboxID));
+				break;
+			case "private":
+				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException(
+							"Private company \"" + name + "\" is not in the private companies table!");
+				}
+				out.add(new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID));
+				break;
+			default:
+				throw new RuntimeException("Invalid company type \"" + type + "\"!");
+			}
+		}
+
+		return out;
+	}
+
+	public static List<BankAccount> getCompanyBankAccountsByBankingID(long companyBankingID) throws SQLException {
+		List<BankAccount> out = new ArrayList<BankAccount>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + companyBankingID);
+
+		while (r.next()) {
+			out.add(new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+					r.getString("bankAccountName"), r.getLong("customerBankingID"), r.getString("customerType")));
+		}
+
+		return out;
+	}
+
+	public static List<BankAccount> getCompanyBankAccountsByCompanyID(long companyID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT companyBankingID FROM companies WHERE companyID = " + companyID);
+		if (!r.next()) {
+			throw new RuntimeException("The company with ID " + companyID + " does not exist!");
+		}
+		return getCompanyBankAccountsByBankingID(r.getLong("companyBankingID"));
+	}
+
+	public static List<BankAccount> getCompanyBankAccounts(Company company) throws SQLException {
+		return getCompanyBankAccountsByBankingID(company.bankingID);
+	}
+
 	public static long registerEmployee(OfflinePlayer player) throws SQLException {
 		long employeeID = getNextEnumerator("employeeID");
 

@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
@@ -196,6 +197,78 @@ public class WEGUIs {
 		for (int i = 0; i < list.size(); i++) {
 			out[i] = list.get(i);
 		}
+		return out;
+	}
+
+	public static WEGUI getCompaniesGUI(WEGUI parent) {
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Companies");
+		;
+
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Companies")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+			}
+		});
+
+		try {
+			List<Company> companies = WEDB.getAllCompanies();
+
+			for (Company company : companies) {
+
+				items.add(new GUIItem(slot,
+						mkItem(Material.YELLOW_WOOL, company.companyName, new String[] { company.companyType })) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						getCompanyGUI(out, company);
+					}
+				});
+
+				slot++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return getErrorGUI(parent, "Companies");
+		}
+
+		out.items = convert(items);
+
+		return out;
+	}
+
+	public static WEGUI getCompanyGUI(WEGUI parent, Company company) {
+		List<GUIItem> items = new ArrayList<GUIItem>();
+
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, company.companyName);
+
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, company.companyName)) {
+			@Override
+			public void event(InventoryClickEvent event) {
+			}
+		});
+		items.add(new GUIItem(1, 0, mkItem(Material.RED_WOOL, "Mailbox")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+				MailSubsystem.showCompanyInbox((Player) event.getWhoClicked(), company);
+			}
+		});
+		items.add(new GUIItem(1, 1, mkItem(Material.GREEN_WOOL, "Bank Accounts")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+				try {
+					WEDB.getCompanyBankAccounts(company);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					getErrorGUI(out, company.companyName + "'s Bank Accounts")
+							.openInventory(((Player) event.getWhoClicked()));
+				}
+			}
+		});
+
+		out.items = convert(items);
+
 		return out;
 	}
 }
