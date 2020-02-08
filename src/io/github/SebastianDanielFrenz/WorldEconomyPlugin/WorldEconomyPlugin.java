@@ -12,7 +12,8 @@ import java.util.logging.Level;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegister;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -22,7 +23,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static WorldEconomyPlugin plugin;
 
-	public static WEGUIRegister guiRegister = new WEGUIRegister();
+	public static WEGUIRegistry guiRegister = new WEGUIRegistry();
 
 	@Override
 	public void onEnable() {
@@ -55,7 +56,24 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		new Thread(new SalaryHandlerThread()).start();
 
+		/**
+		 * ==================================================
+		 * 
+		 * This part is responsible for registering GUI related things.
+		 * 
+		 * ==================================================
+		 */
 		getServer().getPluginManager().registerEvents(guiRegister, this);
+
+		/**
+		 * ==================================================
+		 * 
+		 * This part is responsible for registering chat dialog (ChatDialog)
+		 * related things.
+		 * 
+		 * ==================================================
+		 */
+		getServer().getPluginManager().registerEvents(new ChatDialogRegistry(), this);
 	}
 
 	@Override

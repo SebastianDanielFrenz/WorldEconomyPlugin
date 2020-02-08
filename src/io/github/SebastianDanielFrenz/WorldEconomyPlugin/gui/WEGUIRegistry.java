@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 
-public class WEGUIRegister implements Listener {
+public class WEGUIRegistry implements Listener {
 
 	public List<WEGUI> GUIs = new ArrayList<WEGUI>();
 
@@ -30,6 +30,7 @@ public class WEGUIRegister implements Listener {
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
 		GUIs.remove(event.getInventory().getHolder());
+		event.getPlayer().sendMessage("closing inv");
 	}
 
 }

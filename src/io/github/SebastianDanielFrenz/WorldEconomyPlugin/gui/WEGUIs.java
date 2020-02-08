@@ -248,22 +248,19 @@ public class WEGUIs {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.RED_WOOL, "Mailbox")) {
+		items.add(new GUIItem(1, 0, mkItem(Material.RED_WOOL, "Products")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				MailSubsystem.showCompanyInbox((Player) event.getWhoClicked(), company);
 			}
 		});
-		items.add(new GUIItem(1, 1, mkItem(Material.GREEN_WOOL, "Bank Accounts")) {
+		items.add(new GUIItem(1, 1, mkItem(Material.RED_WOOL, "Sales")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				try {
-					WEDB.getCompanyBankAccounts(company);
-				} catch (SQLException e) {
-					e.printStackTrace();
-					getErrorGUI(out, company.companyName + "'s Bank Accounts")
-							.openInventory(((Player) event.getWhoClicked()));
-				}
+			}
+		});
+		items.add(new GUIItem(1, 2, mkItem(Material.RED_WOOL, "Employees")) {
+			@Override
+			public void event(InventoryClickEvent event) {
 			}
 		});
 

@@ -24,27 +24,30 @@ public class WEGUI implements InventoryHolder {
 	public void setItems(GUIItem[] items) {
 		inv.clear();
 
-		GUIItem[] items2 = new GUIItem[items.length + 1];
-		for (int i = 0; i < items.length; i++) {
-			items2[i] = items[i];
-		}
-
-		// other constructor equivalent
-		this.items = items2;
-
-		ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
-		ItemMeta meta = backButtonItem.getItemMeta();
-		meta.setDisplayName("§4Back");
-		backButtonItem.setItemMeta(meta);
-
-		items2[items.length] = new GUIItem(0, 8, backButtonItem) {
-			@Override
-			public void event(InventoryClickEvent event) {
-				parent.openInventory((Player) event.getWhoClicked());
-				WorldEconomyPlugin.guiRegister.GUIs.add(parent);
-				((Player) event.getWhoClicked()).sendMessage("back");
+		if (parent != null) {
+			GUIItem[] items2 = new GUIItem[items.length + 1];
+			for (int i = 0; i < items.length; i++) {
+				items2[i] = items[i];
 			}
-		};
+
+			// other constructor equivalent
+			this.items = items2;
+
+			ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
+			ItemMeta meta = backButtonItem.getItemMeta();
+			meta.setDisplayName("§4Back");
+			backButtonItem.setItemMeta(meta);
+
+			items2[items.length] = new GUIItem(0, 8, backButtonItem) {
+				@Override
+				public void event(InventoryClickEvent event) {
+					parent.openInventory((Player) event.getWhoClicked());
+					WorldEconomyPlugin.guiRegister.GUIs.add(parent);
+				}
+			};
+		} else {
+			this.items = items;
+		}
 	}
 
 	public WEGUI parent;

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.WriteMailChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 
 public class MainMenu extends WEGUI {
@@ -27,6 +28,7 @@ public class MainMenu extends WEGUI {
 			@Override
 			public void event(InventoryClickEvent event) {
 				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "mail writing chat dialog!");
+				new WriteMailChatDialog((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 1, WEGUIs.mkItem(Material.GRAY_WOOL, "Banks")) {
 			@Override

@@ -323,9 +323,19 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											+ r.getLong("contractID"));
 								}
 								return true;
+							} else if (args[1].equalsIgnoreCase("mails")) {
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - sender - reciever - message");
+								ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM mails");
+								while (r.next()) {
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + r.getLong("mailID") + " - "
+											+ r.getLong("senderMailboxID") + " - " + r.getLong("mailboxID") + " - "
+											+ r.getLong("message"));
+								}
+								return true;
 							} else {
 								return false;
 							}
+
 						} catch (SQLException e) {
 							e.printStackTrace();
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
