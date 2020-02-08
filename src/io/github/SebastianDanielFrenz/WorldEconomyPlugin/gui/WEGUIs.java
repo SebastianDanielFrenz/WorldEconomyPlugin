@@ -14,6 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 
 public class WEGUIs {
@@ -248,21 +249,57 @@ public class WEGUIs {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.RED_WOOL, "Products")) {
+		items.add(new GUIItem(1, 0, mkItem(Material.ORANGE_WOOL, "Products")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 1, mkItem(Material.RED_WOOL, "Sales")) {
+		items.add(new GUIItem(1, 1, mkItem(Material.YELLOW_WOOL, "Sales")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 2, mkItem(Material.RED_WOOL, "Employees")) {
+		items.add(new GUIItem(1, 2, mkItem(Material.LIME_WOOL, "Employees")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
 		});
+
+		out.setItems(convert(items));
+
+		return out;
+	}
+
+	public static WEGUI getBankAccountsGUI(WEGUI parent, Player player) {
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Bank Accounts");
+
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Bank Accounts")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+			}
+		});
+
+		try {
+			List<BankAccount> bank_accounts = WEDB.getAllBankAccounts(player);
+			for (BankAccount bank_account : bank_accounts) {
+				items.add(new GUIItem(slot,
+						mkItem(Material.LIME_WOOL, bank_account.getName(),
+								new String[] { "§f" + WEDB.getBank(bank_account.getBankID()).name,
+										String.valueOf(bank_account.getBalance()) })) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						event.getWhoClicked().sendMessage("bank account GUI!");
+					}
+				});
+				slot++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return getErrorGUI(parent, "Bank Accounts");
+		}
 
 		out.setItems(convert(items));
 

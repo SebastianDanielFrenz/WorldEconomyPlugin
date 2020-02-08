@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
@@ -102,6 +103,16 @@ public class WEDB {
 		}
 	}
 
+	public static List<BankAccount> getAllBankAccounts(Player player) throws SQLException {
+		List<BankAccount> out = new ArrayList<BankAccount>();
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts");
+		while (r.next()) {
+			out.add(new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+					r.getString("bankAccountName"), r.getLong("customerBankingID"), r.getString("customerType")));
+		}
+		return out;
+	}
+
 	public static void setBankAccountBalance(BankAccount account, double balance) throws SQLException {
 		setBankAccountBalance(account.getID(), balance);
 	}
@@ -141,6 +152,14 @@ public class WEDB {
 		} else {
 			return new Bank(r.getLong("bankID"), r.getString("bankName"));
 		}
+	}
+
+	public static Bank getBank(long bankID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks WHERE bankID = " + bankID);
+		if (!r.next()) {
+			return null;
+		}
+		return new Bank(bankID, r.getString("bankName"));
 	}
 
 	public static List<Bank> getAllBanks() throws SQLException {

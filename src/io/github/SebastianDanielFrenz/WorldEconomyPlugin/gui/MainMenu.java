@@ -43,7 +43,8 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(2, 1, WEGUIs.mkItem(Material.BLACK_WOOL, "My Bank Accounts")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "my bank accounts GUI!");
+				WEGUIs.getBankAccountsGUI(_this, (Player) event.getWhoClicked())
+						.openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(3, 1, WEGUIs.mkItem(Material.BROWN_WOOL, "Register Bank Account")) {
 			@Override

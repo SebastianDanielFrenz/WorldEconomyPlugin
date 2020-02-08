@@ -26,9 +26,9 @@ public class WriteMailChatDialog extends ChatDialog {
 		case 0:
 			try {
 				dst = Long.parseLong(msg);
-				player.sendMessage(WorldEconomyPlugin.PREFIX + "Please enter the message.");
+				reply(WorldEconomyPlugin.PREFIX + "Please enter the message.");
 			} catch (NumberFormatException e) {
-				player.sendMessage(WorldEconomyPlugin.PREFIX + "§4That is not a number!");
+				reply(WorldEconomyPlugin.PREFIX + "§4That is not a number!");
 				close();
 			}
 			new_step = 1;
@@ -39,7 +39,7 @@ public class WriteMailChatDialog extends ChatDialog {
 				close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				player.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+				reply(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
 				close();
 			}
 			new_step = 2;
