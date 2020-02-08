@@ -638,7 +638,10 @@ public class WEDB {
 		ArrayList<Mail> out = new ArrayList<Mail>(max);
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM mails WHERE mailboxID = " + mailboxID);
 
-		for (int i = 0; i < max || !r.next(); i++) {
+		for (int i = 0; i < max; i++) {
+			if (!r.next()) {
+				break;
+			}
 			out.add(new Mail(r.getLong("mailID"), r.getString("message"), r.getLong("senderMailboxID"), mailboxID));
 		}
 		return out;
