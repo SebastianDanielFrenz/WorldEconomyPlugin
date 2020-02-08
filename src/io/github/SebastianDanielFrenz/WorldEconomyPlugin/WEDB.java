@@ -622,6 +622,8 @@ public class WEDB {
 
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO mailboxes (mailboxID, ownerType) VALUES (" + ID + ", \"" + ownerType + "\")");
+
+		moveEnumerator("mailboxID");
 		return ID;
 	}
 

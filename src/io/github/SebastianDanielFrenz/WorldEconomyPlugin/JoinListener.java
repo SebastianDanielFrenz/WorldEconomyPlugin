@@ -33,12 +33,13 @@ public class JoinListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
-		if (!event.getPlayer().hasPlayedBefore()) {
-			try {
+		try {
+			WorldEconomyProfile profile = WEDB.getUserProfile(event.getPlayer());
+			if (profile == null) {
 				WEDB.registerUserProfile(event.getPlayer());
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		MailSubsystem.playerJoin(event.getPlayer());

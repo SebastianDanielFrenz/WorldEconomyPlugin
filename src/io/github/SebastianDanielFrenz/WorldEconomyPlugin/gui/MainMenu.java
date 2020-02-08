@@ -13,7 +13,7 @@ public class MainMenu extends WEGUI {
 		super(new GUIItem[] {}, "World Economy");
 		MainMenu _this = this;
 
-		items = new GUIItem[] { new GUIItem(0, 4, WEGUIs.mkItem(Material.OAK_SIGN, "Main Menu")) {
+		setItems(new GUIItem[] { new GUIItem(0, 4, WEGUIs.mkItem(Material.OAK_SIGN, "Main Menu")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "There is nothing to do here!");
@@ -56,8 +56,8 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(1, 2, WEGUIs.mkItem(Material.LIGHT_GRAY_WOOL, "Companies")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "companies GUI!");
+				WEGUIs.getCompaniesGUI(_this).openInventory((Player) event.getWhoClicked());
 			}
-		} };
+		} });
 	}
 }

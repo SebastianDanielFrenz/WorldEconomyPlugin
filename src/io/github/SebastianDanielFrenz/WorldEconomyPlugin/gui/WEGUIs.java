@@ -222,7 +222,7 @@ public class WEGUIs {
 						mkItem(Material.YELLOW_WOOL, company.companyName, new String[] { company.companyType })) {
 					@Override
 					public void event(InventoryClickEvent event) {
-						getCompanyGUI(out, company);
+						getCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
 					}
 				});
 
@@ -233,7 +233,7 @@ public class WEGUIs {
 			return getErrorGUI(parent, "Companies");
 		}
 
-		out.items = convert(items);
+		out.setItems(convert(items));
 
 		return out;
 	}
@@ -267,7 +267,7 @@ public class WEGUIs {
 			}
 		});
 
-		out.items = convert(items);
+		out.setItems(convert(items));
 
 		return out;
 	}
