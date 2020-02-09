@@ -277,7 +277,7 @@ public class WEDB {
 
 	public static Company getCompany(String name) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
-				"SELECT companyID, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyName = \""
+				"SELECT companyID, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyName = \""
 						+ name + "\"");
 		if (res.next()) {
 			long ID = res.getLong("companyID");
@@ -320,7 +320,7 @@ public class WEDB {
 	 */
 	public static Company getCompany(long ID) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
-				"SELECT companyName, companyType, companyEmployerID, companyBankingID FROM companies WHERE companyID = "
+				"SELECT companyName, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyID = "
 						+ ID + "");
 
 		if (res.next()) {
