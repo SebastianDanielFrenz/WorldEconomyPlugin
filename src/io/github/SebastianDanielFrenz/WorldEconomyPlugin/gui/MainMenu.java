@@ -27,7 +27,6 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(2, 0, WEGUIs.mkItem(Material.PURPLE_WOOL, "Write Mail")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "mail writing chat dialog!");
 				new WriteMailChatDialog((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 1, WEGUIs.mkItem(Material.GRAY_WOOL, "Banks")) {
@@ -49,12 +48,14 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(3, 1, WEGUIs.mkItem(Material.BROWN_WOOL, "Register Bank Account")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "register bank account GUI!");
+				WEGUIs.getCreateBankAccountGUI(_this, (Player) event.getWhoClicked())
+						.openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(4, 1, WEGUIs.mkItem(Material.BLACK_WOOL, "Transfer Money")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "transfer money GUI!");
+				WEGUIs.getTransferMoneyGUI(_this, (Player) event.getWhoClicked())
+						.openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 2, WEGUIs.mkItem(Material.LIGHT_GRAY_WOOL, "Companies")) {
 			@Override

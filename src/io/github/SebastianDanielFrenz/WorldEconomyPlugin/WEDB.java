@@ -51,6 +51,17 @@ public class WEDB {
 		}
 	}
 
+	public static List<WorldEconomyProfile> getAllUserProfiles() throws SQLException {
+		List<WorldEconomyProfile> out = new ArrayList<WorldEconomyProfile>();
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles");
+		while (r.next()) {
+			out.add(new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
+					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
+					r.getLong("mailboxID")));
+		}
+		return out;
+	}
+
 	public static long getNextEnumerator(String type) {
 		try {
 			ResultSet res = WorldEconomyPlugin
@@ -615,6 +626,7 @@ public class WEDB {
 	 * @throws SQLException
 	 */
 	public static AIProfile getAI(long aiID) throws SQLException {
+
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM ai_profiles WHERE aiID = " + aiID);
 
 		if (!r.next()) {
@@ -622,6 +634,17 @@ public class WEDB {
 		}
 		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
 				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
+	}
+
+	public static List<AIProfile> getAllAIs() throws SQLException {
+		List<AIProfile> out = new ArrayList<AIProfile>();
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM ai_profiles");
+
+		while (r.next()) {
+			out.add(new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
+					r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID")));
+		}
+		return out;
 	}
 
 	public static long registerMailbox(Company company) throws SQLException {

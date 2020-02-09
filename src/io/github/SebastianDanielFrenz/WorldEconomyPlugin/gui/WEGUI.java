@@ -81,7 +81,6 @@ public class WEGUI implements InventoryHolder {
 			public void event(InventoryClickEvent event) {
 				parent.openInventory((Player) event.getWhoClicked());
 				WorldEconomyPlugin.guiRegister.GUIs.add(parent);
-				((Player) event.getWhoClicked()).sendMessage("back");
 			}
 		};
 

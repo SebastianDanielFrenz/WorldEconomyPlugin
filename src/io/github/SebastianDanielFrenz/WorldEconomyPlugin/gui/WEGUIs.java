@@ -10,11 +10,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.AIProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 
 public class WEGUIs {
@@ -299,6 +302,98 @@ public class WEGUIs {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return getErrorGUI(parent, "Bank Accounts");
+		}
+
+		out.setItems(convert(items));
+
+		return out;
+	}
+
+	public static WEGUI chooseBankGUI(WEGUI parent, Player player, BankChooserEvent chooserEvent) {
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Register Bank Account");
+
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Register Bank Account")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+			}
+		});
+
+		try {
+			List<Bank> banks = WEDB.getAllBanks();
+			for (Bank bank : banks) {
+				items.add(new GUIItem(slot, mkItem(Material.GREEN_WOOL, bank.name)) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						player.closeInventory();
+						chooserEvent.event(event, bank);
+					}
+				});
+				slot++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return getErrorGUI(parent, "Bank Accounts");
+		}
+
+		out.setItems(convert(items));
+
+		return out;
+	}
+
+	public static WEGUI getCreateBankAccountGUI(WEGUI parent, Player player) {
+		return chooseBankGUI(parent, player, new BankChooserEvent() {
+			@Override
+			public void event(InventoryClickEvent event, Bank bank) {
+				new CreateBankAccountChatDialog(player, bank);
+			}
+		});
+	}
+
+	public static WEGUI getTransferMoneyGUI(WEGUI parent, Player player) {
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Transfer Money");
+
+		try {
+			List<WorldEconomyProfile> users = WEDB.getAllUserProfiles();
+			for (WorldEconomyProfile user : users) {
+				items.add(new GUIItem(slot, mkItem(Material.BLUE_WOOL, user.username, new String[] { "player" })) {
+					@Override
+					public void event(InventoryClickEvent event) {
+
+					}
+				});
+				slot++;
+			}
+			List<AIProfile> AIs = WEDB.getAllAIs();
+			for (AIProfile AI : AIs) {
+				items.add(new GUIItem(slot, mkItem(Material.CYAN_WOOL, AI.username, new String[] { "AI" })) {
+					@Override
+					public void event(InventoryClickEvent event) {
+
+					}
+				});
+				slot++;
+			}
+			List<Company> companies = WEDB.getAllCompanies();
+			for (Company company : companies) {
+				items.add(new GUIItem(slot, mkItem(Material.YELLOW_WOOL, company.companyName,
+						new String[] { "company - " + company.companyType })) {
+					@Override
+					public void event(InventoryClickEvent event) {
+
+					}
+				});
+				slot++;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return getErrorGUI(parent, "Transfer Money");
 		}
 
 		out.setItems(convert(items));

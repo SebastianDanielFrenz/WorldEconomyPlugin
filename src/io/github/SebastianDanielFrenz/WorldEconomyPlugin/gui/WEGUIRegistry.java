@@ -30,7 +30,6 @@ public class WEGUIRegistry implements Listener {
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
 		GUIs.remove(event.getInventory().getHolder());
-		event.getPlayer().sendMessage("closing inv");
 	}
 
 }
