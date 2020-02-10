@@ -11,7 +11,7 @@ import org.bukkit.inventory.InventoryHolder;
 
 public class WEGUIRegistry implements Listener {
 
-	public List<WEGUI> GUIs = new ArrayList<WEGUI>();
+	public static List<WEGUI> GUIs = new ArrayList<WEGUI>();
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {

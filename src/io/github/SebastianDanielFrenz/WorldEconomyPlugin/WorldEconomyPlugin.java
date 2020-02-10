@@ -23,8 +23,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static WorldEconomyPlugin plugin;
 
-	public static WEGUIRegistry guiRegister = new WEGUIRegistry();
-
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -63,7 +61,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * 
 		 * ==================================================
 		 */
-		getServer().getPluginManager().registerEvents(guiRegister, this);
+		getServer().getPluginManager().registerEvents(new WEGUIRegistry(), this);
 
 		/**
 		 * ==================================================
@@ -79,7 +77,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		try {
-			sql_connection.commit();
 			sql_connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -13,12 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.AIProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 
 public class WEGUIs {
 
@@ -39,6 +38,30 @@ public class WEGUIs {
 
 	public static ItemStack mkItem(Material material, String name) {
 		ItemStack out = new ItemStack(material);
+		ItemMeta meta = out.getItemMeta();
+
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, int amount, String name, String[] lore) {
+		ItemStack out = new ItemStack(material, amount);
+		ItemMeta meta = out.getItemMeta();
+		ArrayList<String> _lore = new ArrayList<String>();
+
+		for (int i = 0; i < lore.length; i++) {
+			_lore.add(lore[i]);
+		}
+
+		meta.setLore(_lore);
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, int amount, String name) {
+		ItemStack out = new ItemStack(material, amount);
 		ItemMeta meta = out.getItemMeta();
 
 		meta.setDisplayName(name);
@@ -255,6 +278,7 @@ public class WEGUIs {
 		items.add(new GUIItem(1, 0, mkItem(Material.ORANGE_WOOL, "Products")) {
 			@Override
 			public void event(InventoryClickEvent event) {
+				getProductFromCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
 			}
 		});
 		items.add(new GUIItem(1, 1, mkItem(Material.YELLOW_WOOL, "Sales")) {
@@ -399,5 +423,33 @@ public class WEGUIs {
 		out.setItems(convert(items));
 
 		return out;
+	}
+
+	public static WEGUI getProductFromCompanyGUI(WEGUI parent, Company company) {
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, company.companyName + "'s Products")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+			}
+		});
+
+		try {
+			List<Product> products = WEDB.getProductsFromCompany(company);
+			for (Product product : products) {
+				items.add(new GUIItem(slot,
+						mkItem(Material.getMaterial(product.itemID), product.itemAmount, product.name)) {
+					@Override
+					public void event(InventoryClickEvent event) {
+					}
+				});
+				slot++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return getErrorGUI(parent, company.companyName + "'s Products");
+		}
+		return new WEGUI(parent, convert(items), company.companyName + "'s Products");
 	}
 }

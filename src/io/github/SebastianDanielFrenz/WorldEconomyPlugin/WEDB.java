@@ -566,6 +566,17 @@ public class WEDB {
 		}
 	}
 
+	public static List<Product> getProductsFromCompany(Company company) throws SQLException {
+		List<Product> out = new ArrayList<Product>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM products WHERE productManifacturerID = " + company.ID);
+		while (r.next()) {
+			out.add(new Product(r.getLong("productID"), r.getString("productName"), company.ID,
+					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice")));
+		}
+		return out;
+	}
+
 	public static SignData getSign(Location location) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM signs WHERE signX = " + location.getBlockX()
 				+ " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ()

@@ -9,8 +9,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-
 public class WEGUI implements InventoryHolder {
 	// Create a new inventory, with "this" owner for comparison with other
 	// inventories, a size of nine, called example
@@ -42,7 +40,7 @@ public class WEGUI implements InventoryHolder {
 				@Override
 				public void event(InventoryClickEvent event) {
 					parent.openInventory((Player) event.getWhoClicked());
-					WorldEconomyPlugin.guiRegister.GUIs.add(parent);
+					WEGUIRegistry.GUIs.add(parent);
 				}
 			};
 		} else {
@@ -56,7 +54,7 @@ public class WEGUI implements InventoryHolder {
 		inv = Bukkit.createInventory(this, 54);
 		initializeItems(items);
 
-		WorldEconomyPlugin.guiRegister.GUIs.add(this);
+		WEGUIRegistry.GUIs.add(this);
 	}
 
 	public WEGUI(WEGUI parent, GUIItem[] items, String title) {
@@ -80,20 +78,20 @@ public class WEGUI implements InventoryHolder {
 			@Override
 			public void event(InventoryClickEvent event) {
 				parent.openInventory((Player) event.getWhoClicked());
-				WorldEconomyPlugin.guiRegister.GUIs.add(parent);
+				WEGUIRegistry.GUIs.add(parent);
 			}
 		};
 
 		initializeItems(items2);
 
-		WorldEconomyPlugin.guiRegister.GUIs.add(this);
+		WEGUIRegistry.GUIs.add(this);
 	}
 
 	public WEGUI(GUIItem[] items, String title) {
 		inv = Bukkit.createInventory(this, 54, title);
 		initializeItems(items);
 
-		WorldEconomyPlugin.guiRegister.GUIs.add(this);
+		WEGUIRegistry.GUIs.add(this);
 	}
 
 	@Override
