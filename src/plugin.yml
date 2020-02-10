@@ -1,5 +1,5 @@
 name: WorldEconomy
-version: alpha 0.0.3_04
+version: alpha 0.0.3_07
 main: io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin
 commands:
   we:

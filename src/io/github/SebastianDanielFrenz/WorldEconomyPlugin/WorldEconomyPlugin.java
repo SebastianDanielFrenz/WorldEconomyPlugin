@@ -102,10 +102,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		return economy != null;
 	}
 
-	private boolean setupSQL() throws SQLException {
-		boolean is_new = !Files.exists(Paths.get(getDataFolder().toString() + "\\data.db"));
+	public static boolean setupSQL() throws SQLException {
+		boolean is_new = !Files.exists(Paths.get(plugin.getDataFolder().toString() + "\\data.db"));
 
-		sql_connection = DriverManager.getConnection("jdbc:sqlite:" + getDataFolder().toString() + "\\data.db");
+		sql_connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toString() + "\\data.db");
 
 		// prepare DB
 
@@ -171,10 +171,22 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE mails (" + "mailID integer PRIMARY KEY," + "mailboxID integer," + "message text,"
 					+ "senderMailboxID integer" + ");");
 
+			runSQL("CREATE TABLE bank_customers (" + "bankingID integer PRIMARY KEY," + "bankCustomerType text" + ");");
+
 			setupEnumerator();
 		}
 
 		return is_new;
+	}
+
+	public static void resetDB() throws SQLException, IOException {
+		sql_connection.close();
+
+		String filepath = plugin.getDataFolder().toString() + "\\data.db";
+
+		Files.delete(Paths.get(filepath));
+
+		setupSQL();
 	}
 
 	public static ResultSet runSQLquery(String query) throws SQLException {
@@ -205,11 +217,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
-
-	public static final String T_GLOBAL_USER_PROFILES = "global_user_profiles";
-	public static final String T_BANK_PROFILES = "bank_profiles";
-	public static final String T_BANK_ACCOUNT_MATCHING = "bank_account_matching";
-	public static final String T_BANK_ACCOUNTS = "bank_accounts";
 
 	public static String PREFIX = "§f[§eWorld Economy§f]: §e";
 }

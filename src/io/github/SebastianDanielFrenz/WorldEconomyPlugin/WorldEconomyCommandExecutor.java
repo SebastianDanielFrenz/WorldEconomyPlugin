@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -640,6 +642,34 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					}
 				} else {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+					return true;
+				}
+			} else if (args[0].equalsIgnoreCase("reset")) {
+				if (sender instanceof ConsoleCommandSender) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "Resetting...");
+					Bukkit.broadcastMessage(
+							WorldEconomyPlugin.PREFIX + "§4§kxxx §4§lWARNING! RESETTING THE ENTIRE ECONOMY! §kxxx");
+					try {
+						WorldEconomyPlugin.resetDB();
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "Done!");
+						Bukkit.broadcastMessage(WorldEconomyPlugin.PREFIX
+								+ "§4§lPlease rejoin the server in order to be registered for the economy! Automatic kick in 15 seconds!");
+						for (Player player : WorldEconomyPlugin.plugin.getServer().getOnlinePlayers()) {
+							Bukkit.getScheduler().runTaskLater(WorldEconomyPlugin.plugin, new Runnable() {
+								@Override
+								public void run() {
+									player.kickPlayer(WorldEconomyPlugin.PREFIX
+											+ "Please relog in order for the economy to register you!");
+								}
+							}, 20 * 15);
+						}
+					} catch (SQLException | IOException e) {
+						e.printStackTrace();
+					}
+					return true;
+				} else {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "§4For security reasons, you need to use the server console to run this command!");
 					return true;
 				}
 			} else if (args[0].equalsIgnoreCase("help")) {

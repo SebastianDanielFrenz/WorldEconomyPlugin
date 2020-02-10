@@ -19,6 +19,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Employee;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeeAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePlayer;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
@@ -89,11 +90,10 @@ public class WEDB {
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username, mailboxID)"
 						+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + ID + ", "
-						+ getNextEnumerator("employerID") + ", " + getNextEnumerator("bankingID") + ", \""
+						+ getNextEnumerator("employerID") + ", " + registerBankingEntity("player") + ", \""
 						+ player.getName() + "\", " + registerBaseMailbox("player") + ")");
 
 		moveEnumerator("employerID");
-		moveEnumerator("bankingID");
 	}
 
 	public static void registerBankAccount(BankAccount account) throws SQLException {
@@ -112,6 +112,20 @@ public class WEDB {
 		} else {
 			return null;
 		}
+	}
+
+	public static List<BankAccount> getBankAccounts(long bankingID) throws SQLException {
+		List<BankAccount> out = new ArrayList<BankAccount>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + bankingID);
+
+		String type = getBankingEntityType(bankingID);
+
+		while (r.next()) {
+			out.add(new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+					r.getString("bankAccountName"), bankingID, type));
+		}
+		return out;
 	}
 
 	public static List<BankAccount> getAllBankAccounts(Player player) throws SQLException {
@@ -148,6 +162,27 @@ public class WEDB {
 	public static void setBankAccountName(BankAccount account, String name) throws SQLException {
 		WorldEconomyPlugin.runSQL(
 				"UPDATE bank_accounts SET bankAccountName = \"" + name + "\" WHERE bankAccountID = " + account.getID());
+	}
+
+	public static long registerBankingEntity(String type) throws SQLException {
+		long bankingID = getNextEnumerator("bankingID");
+
+		WorldEconomyPlugin.runSQL("INSERT INTO bank_customers (bankingID, bankCustomerType) VALUES (" + bankingID
+				+ ", \"" + type + "\")");
+
+		moveEnumerator("bankingID");
+
+		return bankingID;
+	}
+
+	public static String getBankingEntityType(long bankingID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT bankCustomerType FROM bank_customers WHERE bankingID = " + bankingID);
+
+		if (!r.next()) {
+			return null;
+		}
+		return r.getString("bankCustomerType");
 	}
 
 	public static void registerBank(String name) throws SQLException {
@@ -243,13 +278,12 @@ public class WEDB {
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
 						+ companyID + ", \"" + name + "\", \"corporation\", " + registerEmployer("company") + ", "
-						+ getNextEnumerator("bankingID") + ")");
+						+ registerBankingEntity("company") + ")");
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
 				+ ", " + CEO_employeeID + ")");
 
 		moveEnumerator("companyID");
-		moveEnumerator("bankingID");
 
 		return companyID;
 	}
@@ -264,13 +298,12 @@ public class WEDB {
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
 						+ companyID + ", \"" + name + "\", \"private\", " + registerEmployer("company") + ", "
-						+ getNextEnumerator("bankingID") + ")");
+						+ registerBankingEntity("company") + ")");
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
 				+ ", " + getUserProfile(owner).employeeID + ")");
 
 		moveEnumerator("companyID");
-		moveEnumerator("bankingID");
 
 		return companyID;
 	}
@@ -429,12 +462,26 @@ public class WEDB {
 		return employeeID;
 	}
 
+	public static long registerEmployee(AIProfile ai) throws SQLException {
+		long employeeID = getNextEnumerator("employeeID");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO employees (employeeID, employeeType) VALUES (" + employeeID + ", \"AI\")");
+
+		moveEnumerator("employeeID");
+
+		return employeeID;
+	}
+
 	public static Employee getEmployee(long ID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM employees WHERE employeeID = " + ID);
 		if (r.getString("employeeType").equals("player")) {
 			ResultSet r2 = WorldEconomyPlugin
 					.runSQLquery("SELECT playerUUID FROM user_profiles WHERE employeeID = " + ID);
 			return new EmployeePlayer(ID, UUID.fromString(r2.getString("playerUUID")));
+		} else if (r.getString("employeeType").equals("AI")) {
+			ResultSet r2 = WorldEconomyPlugin.runSQLquery("SELECT aiID FROM ai_profiles WHERE employeeID = " + ID);
+			return new EmployeeAI(ID, r2.getLong("aiID"));
 		} else {
 			throw new RuntimeException("Invalid employee type \"" + r.getString("employeeType") + "\"!");
 		}
@@ -450,6 +497,16 @@ public class WEDB {
 	public static void registerEmployment(long employerID, long employeeID, long contractID) throws SQLException {
 		WorldEconomyPlugin.runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES ("
 				+ employerID + ", " + employeeID + ", " + contractID + ")");
+	}
+
+	public static List<Employee> getEmployeesFromCompany(Company company) throws SQLException {
+		List<Employee> out = new ArrayList<Employee>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM employee_matching WHERE employerID = " + company.companyEmployerID);
+		while (r.next()) {
+			out.add(getEmployee(r.getLong("employeeID")));
+		}
+		return out;
 	}
 
 	public static Employer getEmployer(long employerID) throws SQLException {
