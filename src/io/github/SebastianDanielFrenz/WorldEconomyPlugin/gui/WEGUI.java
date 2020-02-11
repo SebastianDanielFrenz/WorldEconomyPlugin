@@ -141,8 +141,20 @@ public class WEGUI implements InventoryHolder {
 			}
 
 			for (GUIItem item : items) {
-				if (item.slot > page * 9 * 4 && item.slot < (page + 1) * 9 * 4) {
-					inv.setItem(item.slot - page * 9 * 4 + getOffset(), item.itemStack);
+				if (page == 0) {
+					if (item.slot >= 9 && item.slot < 45) {
+						inv.setItem(item.slot, item.itemStack);
+					}
+				} else {
+					if (item.slot >= page * 9 * 4 && item.slot < (page + 1) * 9 * 4) {
+						inv.setItem(item.slot - page * 9 * 4 + getOffset(), item.itemStack);
+					}
+				}
+			}
+
+			for (GUIItem item : items) {
+				if (item.slot < 9 && item.slot >= 0) {
+					inv.setItem(item.slot, item.itemStack);
 				}
 			}
 
@@ -161,23 +173,25 @@ public class WEGUI implements InventoryHolder {
 			// bottom menu items
 			ext = 0;
 			if (page != 0) {
-				inv.setItem(5 * 9 + 4, WEGUIs.mkItem(Material.GOLD_NUGGET, "Page " + (page)));
-				items2[items.length + ext] = new GUIItem(-5, null) {
+				inv.setItem(5 * 9 + 3, WEGUIs.mkItem(Material.GOLD_NUGGET, "Page " + (page)));
+				items2[items.length + ext] = new GUIItem(-6, null) {
 					@Override
 					public void event(InventoryClickEvent event) {
 						page--;
+						System.out.println("page back");
 						initializeItems(items);
 					}
 				};
 				ext++;
 			}
+
 			if (page != highest) {
-				inv.setItem(5 * 9 + 6, WEGUIs.mkItem(Material.GOLD_NUGGET, "Page " + (page + 2)));
-				items2[items.length + ext] = new GUIItem(-3, null) {
+				inv.setItem(5 * 9 + 5, WEGUIs.mkItem(Material.GOLD_NUGGET, "Page " + (page + 2)));
+				items2[items.length + ext] = new GUIItem(-4, null) {
 					@Override
 					public void event(InventoryClickEvent event) {
-						event.getWhoClicked().sendMessage("hi!");
 						page++;
+						System.out.println("page foward");
 						initializeItems(items);
 					}
 				};
@@ -217,19 +231,30 @@ public class WEGUI implements InventoryHolder {
 				}
 			}
 		} else {
+
+			if (e.getRawSlot() < 9) {
+				System.out.println("top slot " + e.getRawSlot());
+			} else if (e.getRawSlot() >= 5 * 9) {
+				System.out.println("bottom slot " + (e.getRawSlot() - (9 * 6)));
+			} else {
+				System.out.println("middle slot " + (e.getRawSlot() + (page * 9 * 4)));
+			}
+
 			for (int i = 0; i < items.length; i++) {
 				if (e.getRawSlot() < 9) {
 					if (items[i].slot == e.getRawSlot()) {
 						items[i].event(e);
+						break;
 					}
 				} else if (e.getRawSlot() >= 5 * 9) {
 					if (items[i].slot == e.getRawSlot() - 6 * 9) {
 						items[i].event(e);
-						System.out.println("click!");
+						break;
 					}
 				} else {
 					if (items[i].slot == e.getRawSlot() + page * 9 * 4) {
 						items[i].event(e);
+						break;
 					}
 
 				}

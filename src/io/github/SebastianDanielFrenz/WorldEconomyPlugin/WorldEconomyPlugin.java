@@ -128,12 +128,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "companyType text," + "companyEmployerID integer," + "companyBankingID integer,"
 					+ "mailboxID integer" + ");");
 
-			runSQL("CREATE TABLE banks (" + "bankID integer PRIMARY KEY," + "bankName text" + ");");
+			runSQL("CREATE TABLE banks (" + "bankID integer PRIMARY KEY," + "bankName text," + "bankCapital real"
+					+ ");");
 
 			runSQL("CREATE TABLE bank_accounts (" + "bankAccountID integer PRIMARY KEY," + "bankAccountBalance real,"
 					+ "bankID integer," + "customerBankingID integer," + "customerType text," + "bankAccountName text"
 					+ ");");
-
 			runSQL("CREATE TABLE products (" + "productID integer PRIMARY KEY," + "productManifacturerID integer,"
 					+ "productPrice real," + "productName text," + "productItemID text," + "productItemAmount integer"
 					+ ");");
@@ -173,7 +173,16 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 			runSQL("CREATE TABLE bank_customers (" + "bankingID integer PRIMARY KEY," + "bankCustomerType text" + ");");
 
+			runSQL("CREATE TABLE credits (" + "creditID integer PRIMARY KEY," + "creditBankID integer,"
+					+ "creditRecieverBankingID integer," + "creditAmount real," + "creditInterest real");
+			
+			// enumerator
+
 			setupEnumerator();
+			
+			// credit system
+			
+			WEDB.registerBank("central_bank");
 		}
 
 		return is_new;

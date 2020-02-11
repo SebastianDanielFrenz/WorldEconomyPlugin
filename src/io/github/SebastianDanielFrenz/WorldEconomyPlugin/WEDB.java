@@ -32,6 +32,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 public class WEDB {
 
 	/**
+	 * ==================================================
+	 * 
+	 * This section is dedicated to the user.
+	 * 
+	 * ==================================================
+	 */
+
+	/**
 	 * Devs: Please update getMailboxOwner(long mailboxID) along with this
 	 * method.
 	 * 
@@ -95,6 +103,14 @@ public class WEDB {
 
 		moveEnumerator("employerID");
 	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to the banking system.
+	 * 
+	 * ==================================================
+	 */
 
 	public static void registerBankAccount(BankAccount account) throws SQLException {
 		WorldEconomyPlugin
@@ -218,6 +234,14 @@ public class WEDB {
 		return out;
 	}
 
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to the chest shop system.
+	 * 
+	 * ==================================================
+	 */
+
 	public static long registerSupplyChest(Location location, long companyID) throws SQLException {
 		long chestID = getNextEnumerator("chestID");
 
@@ -271,6 +295,47 @@ public class WEDB {
 
 		return signID;
 	}
+
+	public static SignData getSign(Location location) throws SQLException {
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM signs WHERE signX = " + location.getBlockX()
+				+ " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ()
+				+ " AND signWorld = \"" + location.getWorld().getName() + "\"");
+
+		if (!res.next()) {
+			return null;
+		}
+
+		if (res.getString("signType").equals("shop")) {
+			ResultSet res2 = WorldEconomyPlugin
+					.runSQLquery("SELECT * FROM shop_signs WHERE signID = " + res.getLong("signID"));
+
+			return new ShopSignData(res.getLong("signID"), res.getInt("signX"), res.getInt("signY"),
+					res.getInt("signZ"), Bukkit.getWorld(res.getString("signWorld")), res.getString("signType"),
+					res2.getLong("supplyChestID"), res2.getLong("productID"), res2.getDouble("signPrice"));
+		}
+
+		throw new RuntimeException("sign type not supported!");
+	}
+
+	public static ShopSignData getShopSign(Location location) throws SQLException {
+		return (ShopSignData) getSign(location);
+	}
+
+	public static void removeShopSign(Block block) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT signID FROM signs WHERE signX = " + block.getX() + " AND signY = " + block.getY()
+						+ " AND signZ = " + block.getZ() + " AND signWorld = \"" + block.getWorld().getName() + "\"");
+		long signID = r.getLong("signID");
+		WorldEconomyPlugin.runSQL("DELETE FROM signs WHERE signID = " + signID);
+		WorldEconomyPlugin.runSQL("DELETE FROM shop_signs WHERE signID = " + signID);
+	}
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to companies.
+	 * 
+	 * ==================================================
+	 */
 
 	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
@@ -462,6 +527,14 @@ public class WEDB {
 		return employeeID;
 	}
 
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to the employment system.
+	 * 
+	 * ==================================================
+	 */
+
 	public static long registerEmployee(AIProfile ai) throws SQLException {
 		long employeeID = getNextEnumerator("employeeID");
 
@@ -599,6 +672,14 @@ public class WEDB {
 		}
 	}
 
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to products.
+	 * 
+	 * ==================================================
+	 */
+
 	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
 			throws SQLException {
 		long productID = getNextEnumerator("productID");
@@ -632,40 +713,6 @@ public class WEDB {
 					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice")));
 		}
 		return out;
-	}
-
-	public static SignData getSign(Location location) throws SQLException {
-		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM signs WHERE signX = " + location.getBlockX()
-				+ " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ()
-				+ " AND signWorld = \"" + location.getWorld().getName() + "\"");
-
-		if (!res.next()) {
-			return null;
-		}
-
-		if (res.getString("signType").equals("shop")) {
-			ResultSet res2 = WorldEconomyPlugin
-					.runSQLquery("SELECT * FROM shop_signs WHERE signID = " + res.getLong("signID"));
-
-			return new ShopSignData(res.getLong("signID"), res.getInt("signX"), res.getInt("signY"),
-					res.getInt("signZ"), Bukkit.getWorld(res.getString("signWorld")), res.getString("signType"),
-					res2.getLong("supplyChestID"), res2.getLong("productID"), res2.getDouble("signPrice"));
-		}
-
-		throw new RuntimeException("sign type not supported!");
-	}
-
-	public static ShopSignData getShopSign(Location location) throws SQLException {
-		return (ShopSignData) getSign(location);
-	}
-
-	public static void removeShopSign(Block block) throws SQLException {
-		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT signID FROM signs WHERE signX = " + block.getX() + " AND signY = " + block.getY()
-						+ " AND signZ = " + block.getZ() + " AND signWorld = \"" + block.getWorld().getName() + "\"");
-		long signID = r.getLong("signID");
-		WorldEconomyPlugin.runSQL("DELETE FROM signs WHERE signID = " + signID);
-		WorldEconomyPlugin.runSQL("DELETE FROM shop_signs WHERE signID = " + signID);
 	}
 
 	public static long registerAI() throws SQLException {
