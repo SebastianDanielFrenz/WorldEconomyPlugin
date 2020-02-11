@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Employee;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeeAI;
@@ -908,6 +909,19 @@ public class WEDB {
 		default:
 			throw new RuntimeException("The mailbox owner's type is invalid (\"" + type + "\"!");
 		}
+	}
+
+	public static long registerCredit(Credit credit) throws SQLException {
+		long creditID = getNextEnumerator("creditID");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO (creditID, creditBankID, creditRecieverBankingID, creditAmount, creditInterest, creditDuration, creditStart)"
+						+ "VALUES (" + creditID + ", " + credit.bankID + ", " + credit.recieverBankingID + ", "
+						+ credit.amount + ", " + credit.interest + ", " + credit.duration + ", " + credit.start);
+
+		moveEnumerator("creditID");
+
+		return creditID;
 	}
 
 }
