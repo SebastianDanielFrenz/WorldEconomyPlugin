@@ -9,9 +9,10 @@ public class Credit {
 	public double interest;
 	public long duration;
 	public long start;
+	public long recieverBankAccountID;
 
 	public Credit(long ID, long recieverBankingID, long bankID, double amount, double interest, long duration,
-			long start) {
+			long start, long recieverBankAccountID) {
 		this.ID = ID;
 		this.recieverBankingID = recieverBankingID;
 		this.bankID = bankID;
@@ -19,6 +20,7 @@ public class Credit {
 		this.interest = interest;
 		this.duration = duration;
 		this.start = start;
+		this.recieverBankAccountID = recieverBankAccountID;
 	}
 
 }

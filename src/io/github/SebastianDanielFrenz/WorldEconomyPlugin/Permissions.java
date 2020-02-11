@@ -17,6 +17,8 @@ public class Permissions {
 			"manage.bank_account.balance" };
 	public static final String[] MANAGE_BANK_ACCOUNT_NAME = new String[] { "manage.*", "manage.bank_account.*",
 			"manage.bank_account.name", "user" };
+	public static final String[] MANAGE_BANK_ACCOUNT_CREDIT_TAKE = new String[] { "manage.*", "manage.bank_account.*",
+			"manage.bank_account.credit.*", "manage.bank_account.credit.take", "user" };
 	public static final String[] MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER = new String[] { "manage.*", "manage.company.*",
 			"manage.company.bank_account.*", "manage.company.bank_account.register" };
 	public static final String[] MANAGE_COMPANY_EMPLOY = new String[] { "manage.*", "manage.company.*",

@@ -18,6 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.TransferMoneyChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Employee;
@@ -345,7 +346,7 @@ public class WEGUIs {
 										String.valueOf(bank_account.getBalance()) })) {
 					@Override
 					public void event(InventoryClickEvent event) {
-						event.getWhoClicked().sendMessage("bank account GUI!");
+						getBankAccountGUI(out, bank_account).openInventory((Player) event.getWhoClicked());
 					}
 				});
 				slot++;
@@ -353,6 +354,50 @@ public class WEGUIs {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return getErrorGUI(parent, "Bank Accounts");
+		}
+
+		out.setItems(convert(items));
+
+		return out;
+	}
+
+	public static WEGUI getBankAccountGUI(WEGUI parent, BankAccount account) {
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Bank Account - " + account.getName());
+		out.setItems(
+				new GUIItem[] { new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Bank Account - " + account.getName())) {
+					@Override
+					public void event(InventoryClickEvent event) {
+
+					}
+				}, new GUIItem(1, 0, mkItem(Material.PAPER, "Credits")) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						getBankAccountCreditsGUI(out, account).openInventory((Player) event.getWhoClicked());
+					}
+				} });
+		return out;
+	}
+
+	public static WEGUI getBankAccountCreditsGUI(WEGUI parent, BankAccount account) {
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Credit");
+
+		try {
+			List<Credit> credits = WEDB.getBankAccountCredits(account.getID());
+			for (Credit credit : credits) {
+				items.add(new GUIItem(slot, mkItem(Material.PAPER, String.valueOf(credit.amount),
+						new String[] { WEDB.getBank(credit.bankID).name })) {
+					@Override
+					public void event(InventoryClickEvent event) {
+					}
+				});
+				slot++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return getErrorGUI(parent, "Credit");
 		}
 
 		out.setItems(convert(items));

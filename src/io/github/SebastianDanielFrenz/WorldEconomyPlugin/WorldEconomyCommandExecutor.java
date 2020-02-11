@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIs;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
@@ -245,11 +246,12 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					if (hasPermission(sender, Permissions.LIST)) {
 						try {
 							if (args[1].equalsIgnoreCase("banks")) {
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - name");
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "ID - name - capital");
 
 								ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks");
 								while (r.next()) {
-									sender.sendMessage(r.getLong("bankID") + " - " + r.getString("bankName"));
+									sender.sendMessage(r.getLong("bankID") + " - " + r.getString("bankName") + " - "
+											+ r.getDouble("bankCapital"));
 								}
 								return true;
 							} else if (args[1].equalsIgnoreCase("companies")) {
@@ -389,6 +391,48 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										}
 									} else {
 										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguements!");
+										return true;
+									}
+								} else if (args[3].equalsIgnoreCase("credit")) {
+									if (args.length == 4) {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										return true;
+									}
+
+									if (args[4].equalsIgnoreCase("take")) {
+										if (args.length >= 7) {
+											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE)) {
+												if (sender instanceof Player) {
+													Bank bank = WEDB.getBank(args[5]);
+													try {
+														double amount = Double.parseDouble(args[6]);
+														Player player = (Player) sender;
+														WorldEconomyProfile profile = WEDB.getUserProfile(player);
+
+														WEDB.takeCredit(new Credit(0, profile.bankingID, bank.ID,
+																amount, 1.0, 20 * 60,
+																player.getStatistic(Statistic.PLAY_ONE_MINUTE),
+																account.getID()), account);
+														return true;
+													} catch (NumberFormatException e) {
+														sender.sendMessage(
+																WorldEconomyPlugin.PREFIX + "§4Invalid number!");
+														return true;
+													}
+												} else {
+													sender.sendMessage(WorldEconomyPlugin.PREFIX
+															+ "The only banking entities that can run commands and take credits are players!");
+													return true;
+												}
+											} else {
+												return true;
+											}
+										} else {
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+											return true;
+										}
+									} else {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 										return true;
 									}
 								} else {
@@ -702,6 +746,10 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we manage bank_account <bank account name> set name <new bank account name>");
+				}
+				if (hasPermission(sender, Permissions.LIST, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX
+							+ "/we manage bank_account <bank account name> credit take <bank> <amount>");
 				}
 				if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX

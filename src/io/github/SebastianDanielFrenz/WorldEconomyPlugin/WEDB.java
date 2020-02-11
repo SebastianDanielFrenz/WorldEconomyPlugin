@@ -176,6 +176,13 @@ public class WEDB {
 		bankAccountTransaction(account1.getID(), account2.getID(), amount);
 	}
 
+	public static void bankTransaction(Bank bank1, Bank bank2, double amount) throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("UPDATE banks SET bankCapital = bankCapital-" + amount + " WHERE bankID = " + bank1.ID);
+		WorldEconomyPlugin
+				.runSQL("UPDATE banks SET bankCapital = bankCapital+" + amount + " WHERE bankID = " + bank2.ID);
+	}
+
 	public static void setBankAccountName(BankAccount account, String name) throws SQLException {
 		WorldEconomyPlugin.runSQL(
 				"UPDATE bank_accounts SET bankAccountName = \"" + name + "\" WHERE bankAccountID = " + account.getID());
@@ -213,7 +220,7 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		} else {
-			return new Bank(r.getLong("bankID"), r.getString("bankName"));
+			return new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"));
 		}
 	}
 
@@ -222,7 +229,7 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		}
-		return new Bank(bankID, r.getString("bankName"));
+		return new Bank(bankID, r.getString("bankName"), r.getDouble("bankCapital"));
 	}
 
 	public static List<Bank> getAllBanks() throws SQLException {
@@ -230,7 +237,61 @@ public class WEDB {
 		List<Bank> out = new ArrayList<Bank>();
 
 		while (r.next()) {
-			out.add(new Bank(r.getLong("bankID"), r.getString("bankName")));
+			out.add(new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital")));
+		}
+		return out;
+	}
+
+	public static Bank getCentralBank() throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks WHERE bankID = 1");
+		if (!r.next()) {
+			return null;
+		}
+		return new Bank(1, r.getString("bankName"), r.getDouble("bankCapital"));
+	}
+
+	// Credit system
+
+	private static long registerCredit(Credit credit) throws SQLException {
+		long creditID = getNextEnumerator("creditID");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO bank_credits (creditID, creditBankID, creditRecieverBankingID, creditAmount, creditInterest, creditDuration, creditStart, creditRecieverBankAccountID)"
+						+ "VALUES (" + creditID + ", " + credit.bankID + ", " + credit.recieverBankingID + ", "
+						+ credit.amount + ", " + credit.interest + ", " + credit.duration + ", " + credit.start + ", "
+						+ credit.recieverBankAccountID + ")");
+
+		moveEnumerator("creditID");
+
+		return creditID;
+	}
+
+	public static long takeCredit(Credit credit, BankAccount destination) throws SQLException {
+		long ID = registerCredit(credit);
+		Bank bank = getBank(credit.bankID);
+		bankTransaction(bank, getCentralBank(), credit.amount * 0.04);
+		setBankAccountBalance(destination, credit.amount + destination.getBalance());
+		return ID;
+	}
+
+	public static Credit getCredit(long creditID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_credits WHERE creditID = " + creditID);
+		if (!r.next()) {
+			return null;
+		}
+		return new Credit(creditID, r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"),
+				r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
+				r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID"));
+	}
+
+	public static List<Credit> getBankAccountCredits(long bankAccountID) throws SQLException {
+		List<Credit> out = new ArrayList<Credit>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_credits WHERE creditRecieverBankAccountID = " + bankAccountID);
+		while (r.next()) {
+			out.add(new Credit(r.getLong("creditID"), r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"),
+					r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
+					r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
 		}
 		return out;
 	}
@@ -909,19 +970,6 @@ public class WEDB {
 		default:
 			throw new RuntimeException("The mailbox owner's type is invalid (\"" + type + "\"!");
 		}
-	}
-
-	public static long registerCredit(Credit credit) throws SQLException {
-		long creditID = getNextEnumerator("creditID");
-
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO (creditID, creditBankID, creditRecieverBankingID, creditAmount, creditInterest, creditDuration, creditStart)"
-						+ "VALUES (" + creditID + ", " + credit.bankID + ", " + credit.recieverBankingID + ", "
-						+ credit.amount + ", " + credit.interest + ", " + credit.duration + ", " + credit.start);
-
-		moveEnumerator("creditID");
-
-		return creditID;
 	}
 
 }
