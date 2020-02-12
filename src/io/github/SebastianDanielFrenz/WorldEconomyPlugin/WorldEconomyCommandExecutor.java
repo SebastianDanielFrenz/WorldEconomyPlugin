@@ -410,7 +410,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 														WorldEconomyProfile profile = WEDB.getUserProfile(player);
 
 														WEDB.takeCredit(new Credit(0, profile.bankingID, bank.ID,
-																amount, 1.0, 20 * 60,
+																amount, 1.0, 10 * 60,
 																player.getStatistic(Statistic.PLAY_ONE_MINUTE),
 																account.getID()), account);
 														return true;

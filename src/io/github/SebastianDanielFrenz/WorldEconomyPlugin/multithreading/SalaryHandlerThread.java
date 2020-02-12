@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Employer;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 
 public class SalaryHandlerThread implements Runnable {

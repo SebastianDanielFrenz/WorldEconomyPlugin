@@ -14,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -53,6 +55,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
 
 		new Thread(new SalaryHandlerThread()).start();
+		new Thread(new CreditPaymentHandlerThread()).start();
 
 		/**
 		 * ==================================================
@@ -112,48 +115,73 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		if (is_new) {
 			runSQL("CREATE TABLE user_profiles (" + "playerUUID text PRIMARY KEY," + "employeeID integer,"
 					+ "playerAsEmployerID integer," + "username text," + "playerBankingID integer,"
-					+ "mailboxID integer" + ");");
+					+ "mailboxID integer,"
+					// references
+					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
+					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
+					+ "FOREIGN KEY(playerBankingID) REFERENCES bank_customers(bankingID),"
+					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 
 			runSQL("CREATE TABLE sys_enumerator (" + "key text PRIMARY KEY," + "value integer" + ");");
 
 			runSQL("CREATE TABLE employee_matching (" + "employee_matchingID integer PRIMARY KEY,"
-					+ "employerID integer," + "employeeID integer," + "contractID integer" + ");");
+					+ "employerID integer," + "employeeID integer," + "contractID integer,"
+					// references
+					+ "FOREIGN KEY(employerID) REFERENCES employers(employerID),"
+					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID)" + ");");
 
 			runSQL("CREATE TABLE credits (" + "creditID integer PRIMARY KEY," + "creditAmount real,"
-					+ "creditInterest real," + "creditorBankingID integer" + ");");
+					+ "creditInterest real," + "creditorBankingID integer,"
+					// references
+					+ "FOREIGN KEY(creditorBankingID) REFERENCES bank_customers(bankingID)" + ");");
 
 			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text" + ");");
 
 			runSQL("CREATE TABLE companies (" + "companyID integer PRIMARY KEY," + "companyName text,"
 					+ "companyType text," + "companyEmployerID integer," + "companyBankingID integer,"
-					+ "mailboxID integer" + ");");
+					+ "mailboxID integer,"
+					// references
+					+ "FOREIGN KEY(companyEmployerID) REFERENCES employers(employerID),"
+					+ "FOREIGN KEY(companyBankingID) REFERENCES bank_customers(bankingID),"
+					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 
 			runSQL("CREATE TABLE banks (" + "bankID integer PRIMARY KEY," + "bankName text,"
 					+ "bankCapital real DEFAULT 0" + ");");
 
 			runSQL("CREATE TABLE bank_accounts (" + "bankAccountID integer PRIMARY KEY," + "bankAccountBalance real,"
-					+ "bankID integer," + "customerBankingID integer," + "customerType text," + "bankAccountName text"
-					+ ");");
+					+ "bankID integer," + "customerBankingID integer," + "customerType text," + "bankAccountName text,"
+					// references
+					+ "FOREIGN KEY(bankID) REFERENCES banks(bankID),"
+					+ "FOREIGN KEY(customerBankingID) REFERENCES bank_customers(bankingID)" + ");");
 			runSQL("CREATE TABLE products (" + "productID integer PRIMARY KEY," + "productManifacturerID integer,"
-					+ "productPrice real," + "productName text," + "productItemID text," + "productItemAmount integer"
-					+ ");");
+					+ "productPrice real," + "productName text," + "productItemID text," + "productItemAmount integer,"
+					// references
+					+ "FOREIGN KEY(productManifacturerID) REFERENCES companies(companyID)" + ");");
 
 			runSQL("CREATE TABLE chests (" + "chestID integer PRIMARY KEY," + "chestType text," + "chestX integer,"
 					+ "chestY integer," + "chestZ integer," + "chestWorld text" + ");");
 
 			runSQL("CREATE TABLE shop_signs (" + "signID integer PRIMARY KEY," + "supplyChestID integer,"
-					+ "signOwnerCompanyID integer," + "productID integer," + "signPrice real" + ");");
+					+ "signOwnerCompanyID integer," + "productID integer," + "signPrice real,"
+					// references
+					+ "FOREIGN KEY(supplyChestID) REFERENCES supply_chests(chestID),"
+					+ "FOREIGN KEY(signOwnerCompanyID) REFERENCES companies(companyID)" + ");");
 
+			// might have to make sub-tables with primary key as foreign key
 			runSQL("CREATE TABLE signs (" + "signID integer PRIMARY KEY," + "signX integer," + "signY integer,"
 					+ "signZ integer," + "signWorld text," + "signType text" + ");");
 
-			runSQL("CREATE TABLE supply_chests (" + "chestID integer PRIMARY KEY," + "chestOwnerCompanyID integer"
-					+ ");");
+			runSQL("CREATE TABLE supply_chests (" + "chestID integer PRIMARY KEY," + "chestOwnerCompanyID integer,"
+			// references
+					+ "FOREIGN KEY(chestOwnerCompanyID) REFERENCES companies(companyID)" + ");");
 
-			runSQL("CREATE TABLE companies_corporations (companyID integer PRIMARY KEY," + "CEO_employeeID integer"
-					+ ");");
+			runSQL("CREATE TABLE companies_corporations (companyID integer PRIMARY KEY," + "CEO_employeeID integer,"
+			// references
+					+ "FOREIGN KEY(CEO_employeeID) REFERENCES employees(employeeID)" + ");");
 
-			runSQL("CREATE TABLE companies_private (companyID integer PRIMARY KEY," + "ownerEmployeeID integer" + ");");
+			runSQL("CREATE TABLE companies_private (companyID integer PRIMARY KEY," + "ownerEmployeeID integer,"
+			// references
+					+ "FOREIGN KEY(ownerEmployeeID) REFERENCES employees(employeeID)" + ");");
 
 			runSQL("CREATE TABLE employees (employeeID integer PRIMARY KEY," + "employeeType text" + ");");
 
@@ -163,20 +191,30 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE employers (" + "employerID integer PRIMARY KEY," + "employerType text" + ");");
 
 			runSQL("CREATE TABLE ai_profiles (" + "aiID integer PRIMARY KEY," + "employeeID integer,"
-					+ "aiAsEmployerID integer," + "username text," + "aiBankingID integer," + "mailboxID integer"
-					+ ");");
+					+ "aiAsEmployerID integer," + "username text," + "aiBankingID integer," + "mailboxID integer,"
+					// references
+					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
+					+ "FOREIGN KEY(aiAsEmployerID) REFERENCES employers(employerID),"
+					+ "FOREIGN KEY(aiBankingID) REFERENCES bank_customers(bankingID),"
+					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 
 			runSQL("CREATE TABLE mailboxes (" + "mailboxID integer PRIMARY KEY," + "ownerType text" + ");");
 
 			runSQL("CREATE TABLE mails (" + "mailID integer PRIMARY KEY," + "mailboxID integer," + "message text,"
-					+ "senderMailboxID integer" + ");");
+					+ "senderMailboxID integer,"
+					// references
+					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID),"
+					+ "FOREIGN KEY(senderMailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 
 			runSQL("CREATE TABLE bank_customers (" + "bankingID integer PRIMARY KEY," + "bankCustomerType text" + ");");
 
 			runSQL("CREATE TABLE bank_credits (" + "creditID integer PRIMARY KEY," + "creditBankID integer,"
 					+ "creditRecieverBankingID integer," + "creditAmount real," + "creditInterest real,"
-					+ "creditDuration integer," + "creditStart integer," + "creditRecieverBankAccountID integer"
-					+ ");");
+					+ "creditDuration integer," + "creditStart integer," + "creditRecieverBankAccountID integer,"
+					// references
+					+ "FOREIGN KEY(creditBankID) REFERENCES banks(bankID),"
+					+ "FOREIGN KEY(creditRecieverBankingID) REFERENCES bank_customers(bankingID),"
+					+ "FOREIGN KEY(creditRecieverBankAccountID) REFERENCES bank_accounts(bankAccountID)" + ");");
 
 			// enumerator
 

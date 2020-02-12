@@ -131,6 +131,16 @@ public class WEDB {
 		}
 	}
 
+	public static BankAccount getBankAccount(long bankAccountID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_accounts WHERE bankAccountID = " + bankAccountID);
+		if (!r.next()) {
+			return null;
+		}
+		return new BankAccount(bankAccountID, r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+				r.getString("bankAccountName"), r.getLong("customerBankingID"), r.getString("customerType"));
+	}
+
 	public static List<BankAccount> getBankAccounts(long bankingID) throws SQLException {
 		List<BankAccount> out = new ArrayList<BankAccount>();
 		ResultSet r = WorldEconomyPlugin
@@ -293,6 +303,18 @@ public class WEDB {
 					r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
 					r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
 		}
+		return out;
+	}
+
+	public static List<Credit> getAllCredits() throws SQLException {
+		List<Credit> out = new ArrayList<Credit>();
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_credits");
+		while (r.next()) {
+			out.add(new Credit(r.getLong("creditID"), r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"),
+					r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
+					r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
+		}
+
 		return out;
 	}
 
