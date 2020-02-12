@@ -318,6 +318,14 @@ public class WEDB {
 		return out;
 	}
 
+	public static void removeCredit(long creditID) throws SQLException {
+		WorldEconomyPlugin.runSQL("DELETE FROM bank_credits WHERE creditID = " + creditID);
+	}
+
+	public static void removeCredit(Credit credit) throws SQLException {
+		removeCredit(credit.ID);
+	}
+
 	/*
 	 * ==================================================
 	 * 
