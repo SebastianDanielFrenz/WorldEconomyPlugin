@@ -591,6 +591,13 @@ public class WEDB {
 				}
 				out.add(new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID));
 				break;
+			case "bank":
+				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException("Bank \"" + name + "\" is not in the banks table!");
+				}
+				out.add(new BankCompany(ID, name, employerID, bankingID, mailboxID, r.getLong("bankID")));
+				break;
 			default:
 				throw new RuntimeException("Invalid company type \"" + type + "\"!");
 			}
