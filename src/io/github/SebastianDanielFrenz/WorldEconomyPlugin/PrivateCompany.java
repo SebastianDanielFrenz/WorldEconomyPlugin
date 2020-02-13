@@ -14,4 +14,9 @@ public class PrivateCompany extends Company {
 		return ownerEmployeeID;
 	}
 
+	@Override
+	public String getDisplayName() {
+		return companyName;
+	}
+
 }

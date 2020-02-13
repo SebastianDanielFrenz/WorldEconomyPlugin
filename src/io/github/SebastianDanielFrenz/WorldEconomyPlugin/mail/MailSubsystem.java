@@ -43,7 +43,8 @@ public class MailSubsystem {
 			List<Mail> mails = WEDB.getMails(player, 10);
 			player.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
 			for (int i = 0; i < mails.size() && i < 10; i++) {
-				player.sendMessage("[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
+				player.sendMessage("[" + mails.get(i).ID + "]: Mail from "
+						+ WEDB.getMailboxOwner(mails.get(i).senderMailboxID).getDisplayName() + ":");
 				player.sendMessage(mails.get(i).message);
 			}
 		} catch (SQLException e) {

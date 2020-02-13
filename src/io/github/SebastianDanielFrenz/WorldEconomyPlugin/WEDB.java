@@ -220,8 +220,8 @@ public class WEDB {
 	}
 
 	public static void registerBank(String name) throws SQLException {
-		WorldEconomyPlugin.runSQL(
-				"INSERT INTO banks (bankID, bankName) VALUES (" + getNextEnumerator("bankID") + ", \"" + name + "\")");
+		WorldEconomyPlugin.runSQL("INSERT INTO banks (bankID, bankName, companyID) VALUES ("
+				+ getNextEnumerator("bankID") + ", \"" + name + "\"," + registerBaseCompany(name, "bank") + ")");
 		moveEnumerator("bankID");
 	}
 
@@ -230,7 +230,8 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		} else {
-			return new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"));
+			return new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"),
+					r.getLong("companyID"));
 		}
 	}
 
@@ -239,7 +240,7 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		}
-		return new Bank(bankID, r.getString("bankName"), r.getDouble("bankCapital"));
+		return new Bank(bankID, r.getString("bankName"), r.getDouble("bankCapital"), r.getLong("companyID"));
 	}
 
 	public static List<Bank> getAllBanks() throws SQLException {
@@ -247,9 +248,18 @@ public class WEDB {
 		List<Bank> out = new ArrayList<Bank>();
 
 		while (r.next()) {
-			out.add(new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital")));
+			out.add(new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"),
+					r.getLong("companyID")));
 		}
 		return out;
+	}
+
+	public static long getBankMailboxIDFromCompanyID(long bankCompanyID) throws SQLException {
+		return WEDB.getMailboxIDOfCompany(bankCompanyID);
+	}
+
+	public static long getBankMailboxIDFromBankID(long bankID) throws SQLException {
+		return getBankMailboxIDFromCompanyID(WEDB.getBank(bankID).companyID);
 	}
 
 	public static Bank getCentralBank() throws SQLException {
@@ -257,7 +267,7 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		}
-		return new Bank(1, r.getString("bankName"), r.getDouble("bankCapital"));
+		return new Bank(1, r.getString("bankName"), r.getDouble("bankCapital"), r.getLong("companyID"));
 	}
 
 	// Credit system
@@ -318,12 +328,14 @@ public class WEDB {
 		return out;
 	}
 
-	public static void removeCredit(long creditID) throws SQLException {
-		WorldEconomyPlugin.runSQL("DELETE FROM bank_credits WHERE creditID = " + creditID);
-	}
-
-	public static void removeCredit(Credit credit) throws SQLException {
-		removeCredit(credit.ID);
+	public static void payOffCredit(Credit credit) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital=bankCapital-" + (credit.amount * 0.04)
+				+ " WHERE bankName = \"central_bank\"");
+		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital=bankCapital+" + (credit.amount * 0.04)
+				+ " WHERE bankID = " + credit.recieverBankingID);
+		WEDB.setBankAccountBalance(credit.recieverBankAccountID,
+				WEDB.getBankAccount(credit.recieverBankAccountID).getBalance() - credit.amount);
+		WorldEconomyPlugin.runSQL("DELETE FROM bank_credits WHERE creditID = " + credit.ID);
 	}
 
 	/*
@@ -430,17 +442,10 @@ public class WEDB {
 	 */
 
 	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
-		long companyID = getNextEnumerator("companyID");
-
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
-						+ companyID + ", \"" + name + "\", \"corporation\", " + registerEmployer("company") + ", "
-						+ registerBankingEntity("company") + ")");
+		long companyID = registerBaseCompany(name, "corporation");
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
 				+ ", " + CEO_employeeID + ")");
-
-		moveEnumerator("companyID");
 
 		return companyID;
 	}
@@ -450,15 +455,21 @@ public class WEDB {
 	}
 
 	public static long registerPrivateCompany(String name, OfflinePlayer owner) throws SQLException {
-		long companyID = getNextEnumerator("companyID");
-
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID) VALUES ("
-						+ companyID + ", \"" + name + "\", \"private\", " + registerEmployer("company") + ", "
-						+ registerBankingEntity("company") + ")");
+		long companyID = registerBaseCompany(name, "private");
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
 				+ ", " + getUserProfile(owner).employeeID + ")");
+
+		return companyID;
+	}
+
+	public static long registerBaseCompany(String name, String type) throws SQLException {
+		long companyID = getNextEnumerator("companyID");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID, mailboxID) VALUES ("
+						+ companyID + ", \"" + name + "\", \"" + type + "\", " + registerEmployer("company") + ", "
+						+ registerBankingEntity("company") + "," + registerMailbox((Bank) null) + ")");
 
 		moveEnumerator("companyID");
 
@@ -536,6 +547,12 @@ public class WEDB {
 							"Private company \"" + name + "\" is not in the private companies table!");
 				}
 				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID);
+			case "bank":
+				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks WHERE companyID = " + ID);
+				if (!r.next()) {
+					throw new RuntimeException("Bank \"" + name + "\" is not in the banks table!");
+				}
+				return new BankCompany(ID, name, employerID, bankingID, mailboxID, r.getLong("bankID"));
 			default:
 				throw new RuntimeException("Invalid company type \"" + type + "\"!");
 			}
@@ -854,6 +871,18 @@ public class WEDB {
 		return out;
 	}
 
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to the mail system.
+	 * 
+	 * ==================================================
+	 */
+
+	public static long registerMailbox(Bank bank) throws SQLException {
+		return registerBaseMailbox("bank");
+	}
+
 	public static long registerMailbox(Company company) throws SQLException {
 		return registerBaseMailbox("company");
 	}
@@ -919,7 +948,11 @@ public class WEDB {
 	}
 
 	public static long getMailboxID(Company company) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT mailboxID FROM companies WHERE companyID = " + company.ID);
+		return getMailboxIDOfCompany(company.ID);
+	}
+
+	public static long getMailboxIDOfCompany(long companyID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT mailboxID FROM companies WHERE companyID = " + companyID);
 		if (!r.next()) {
 			return 0;
 		}
@@ -979,6 +1012,7 @@ public class WEDB {
 		return r.getLong("companyID");
 	}
 
+	// TODO optimize performance
 	public static Company getMailboxOwnerAsCompany(long mailboxID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT companyID FROM companies WHERE mailboxID = " + mailboxID);
 		if (!r.next()) {

@@ -50,12 +50,15 @@ public class CreditPaymentHandlerThread implements Runnable {
 							if (current_time >= credit.start + credit.duration) {
 								WorldEconomyProfile profile = WEDB.getUserProfile(player);
 
+								long bankMailboxID = WEDB.getBankMailboxIDFromBankID(credit.bankID);
+
 								if (bankAccount.getBalance() >= credit.amount) {
-									WEDB.setBankAccountBalance(bankAccount, bankAccount.getBalance() - credit.amount);
-									WEDB.sendMail(1, profile.mailboxID, "You automatically paid off your credit!");
-									WEDB.removeCredit(credit);
+									WEDB.payOffCredit(credit);
+									WEDB.sendMail(bankMailboxID, profile.mailboxID,
+											"You automatically paid off your credit!");
 								} else {
-									WEDB.sendMail(1, profile.mailboxID, "Your credit is due!");
+									WEDB.sendMail(bankMailboxID, profile.mailboxID,
+											"Your credit is due! Please put enough money o");
 									// TODO please fix mail sender ID; 1 is the
 									// first
 									// player

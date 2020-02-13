@@ -30,4 +30,9 @@ public class WorldEconomyProfile implements MailboxOwner {
 		return mailboxID;
 	}
 
+	@Override
+	public String getDisplayName() {
+		return username;
+	}
+
 }

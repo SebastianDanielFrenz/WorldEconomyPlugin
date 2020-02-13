@@ -26,4 +26,9 @@ public class AIProfile implements MailboxOwner {
 	public long getMailboxID() {
 		return mailboxID;
 	}
+
+	@Override
+	public String getDisplayName() {
+		return username;
+	}
 }
