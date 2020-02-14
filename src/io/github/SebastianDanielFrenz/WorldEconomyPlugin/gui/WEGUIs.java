@@ -316,7 +316,7 @@ public class WEGUIs {
 		items.add(new GUIItem(1, 2, mkItem(Material.LIME_WOOL, "Employees")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				getEmployeesFromCompanyGUI(parent, company).openInventory((Player) event.getWhoClicked());
+				getEmployeesFromCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
 			}
 		});
 
