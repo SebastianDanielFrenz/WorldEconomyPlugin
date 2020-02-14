@@ -1028,6 +1028,17 @@ public class WEDB {
 		return getCompany(r.getLong("companyID"));
 	}
 
+	public static BankCompany getMailboxOwnerAsBankCompany(long mailboxID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM companies INNER JOIN banks ON banks.companyID = companies.companyID WHERE mailboxID = "
+						+ mailboxID);
+		if (!r.next()) {
+			return null;
+		}
+		return new BankCompany(r.getLong("companyID"), r.getString("companyName"), r.getLong("companyEmployerID"),
+				r.getLong("companyBankingID"), r.getLong("mailboxID"), r.getLong("bankID"));
+	}
+
 	public static MailboxOwner getMailboxOwner(long mailboxID) throws SQLException {
 		String type = getMailboxOwnerType(mailboxID);
 
@@ -1038,6 +1049,8 @@ public class WEDB {
 			return getMailboxOwnerAsAI(mailboxID);
 		case "company":
 			return getMailboxOwnerAsCompany(mailboxID);
+		case "bank":
+			return getMailboxOwnerAsBankCompany(mailboxID);
 		default:
 			throw new RuntimeException("The mailbox owner's type is invalid (\"" + type + "\"!");
 		}

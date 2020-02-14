@@ -28,9 +28,11 @@ public class CreateBankAccountChatDialog extends ChatDialog {
 			WEDB.registerBankAccount(new BankAccount(0, player, bank.ID, 0, msg));
 			player.sendMessage(WorldEconomyPlugin.PREFIX + "Successfully registered your account \"" + msg + "\" at "
 					+ bank.name + "!");
+			close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			player.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+			close();
 		}
 	}
 
