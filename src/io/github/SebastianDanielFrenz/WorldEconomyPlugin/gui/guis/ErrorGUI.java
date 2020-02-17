@@ -29,14 +29,13 @@ public class ErrorGUI extends WEGUI {
 				item.setItemMeta(meta);
 
 				items.add(new GUIItem(y, x, item) {
-
 					@Override
 					public void event(InventoryClickEvent event) {
 					}
 				});
 			}
 		}
-		setItems(WEGUIs.convert(items));
+		setItems(convert(items));
 	}
 
 	public ErrorGUI(String title) {
@@ -55,14 +54,13 @@ public class ErrorGUI extends WEGUI {
 				item.setItemMeta(meta);
 
 				items.add(new GUIItem(y, x, item) {
-
 					@Override
 					public void event(InventoryClickEvent event) {
 					}
 				});
 			}
 		}
-		setItems(WEGUIs.convert(items));
+		setItems(convert(items));
 	}
 
 	public ErrorGUI() {
@@ -81,14 +79,13 @@ public class ErrorGUI extends WEGUI {
 				item.setItemMeta(meta);
 
 				items.add(new GUIItem(y, x, item) {
-
 					@Override
 					public void event(InventoryClickEvent event) {
 					}
 				});
 			}
 		}
-		setItems(WEGUIs.convert(items));
+		setItems(convert(items));
 	}
 
 }

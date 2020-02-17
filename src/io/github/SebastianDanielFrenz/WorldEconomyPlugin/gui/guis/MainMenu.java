@@ -16,22 +16,22 @@ public class MainMenu extends WEGUI {
 		super(new GUIItem[] {}, "World Economy");
 		MainMenu _this = this;
 
-		setItems(new GUIItem[] { new GUIItem(0, 4, WEGUIs.mkItem(Material.OAK_SIGN, "Main Menu")) {
+		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Main Menu")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "There is nothing to do here!");
 			}
-		}, new GUIItem(1, 0, WEGUIs.mkItem(Material.RED_WOOL, "§4Mailbox")) {
+		}, new GUIItem(1, 0, mkItem(Material.RED_WOOL, "§4Mailbox")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				MailSubsystem.showPlayerInbox((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(2, 0, WEGUIs.mkItem(Material.PURPLE_WOOL, "Write Mail")) {
+		}, new GUIItem(2, 0, mkItem(Material.PURPLE_WOOL, "Write Mail")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new WriteMailChatDialog((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 1, WEGUIs.mkItem(Material.GRAY_WOOL, "Banks")) {
+		}, new GUIItem(1, 1, mkItem(Material.GRAY_WOOL, "Banks")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				Player player = (Player) event.getWhoClicked();
@@ -41,28 +41,28 @@ public class MainMenu extends WEGUI {
 											// inventory close event or not
 				new BanksGUI(_this).openInventory(player);
 			}
-		}, new GUIItem(2, 1, WEGUIs.mkItem(Material.BLACK_WOOL, "My Bank Accounts")) {
+		}, new GUIItem(2, 1, mkItem(Material.BLACK_WOOL, "My Bank Accounts")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				WEGUIs.getBankAccountsGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(3, 1, WEGUIs.mkItem(Material.BROWN_WOOL, "Register Bank Account")) {
+		}, new GUIItem(3, 1, mkItem(Material.BROWN_WOOL, "Register Bank Account")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				WEGUIs.getCreateBankAccountGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(4, 1, WEGUIs.mkItem(Material.BLACK_WOOL, "Transfer Money")) {
+		}, new GUIItem(4, 1, mkItem(Material.BLACK_WOOL, "Transfer Money")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				WEGUIs.getTransferMoneyGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 2, WEGUIs.mkItem(Material.LIGHT_GRAY_WOOL, "Companies")) {
+		}, new GUIItem(1, 2, mkItem(Material.LIGHT_GRAY_WOOL, "Companies")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				WEGUIs.getCompaniesGUI(_this).openInventory((Player) event.getWhoClicked());
+				new CompaniesGUI(_this).openInventory((Player) event.getWhoClicked());
 			}
 		} });
 	}

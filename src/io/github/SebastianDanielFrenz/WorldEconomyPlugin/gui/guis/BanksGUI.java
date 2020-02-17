@@ -23,7 +23,7 @@ public class BanksGUI extends WEGUI {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, WEGUIs.mkItem(Material.OAK_SIGN, "Banks")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Banks")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -46,7 +46,7 @@ public class BanksGUI extends WEGUI {
 
 				slot++;
 
-				setItems(WEGUIs.convert(items));
+				setItems(convert(items));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,7 +60,7 @@ public class BanksGUI extends WEGUI {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, WEGUIs.mkItem(Material.OAK_SIGN, "Banks")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Banks")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -85,7 +85,7 @@ public class BanksGUI extends WEGUI {
 				slot++;
 			}
 
-			setItems(WEGUIs.convert(items));
+			setItems(convert(items));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			setErrorGUI();

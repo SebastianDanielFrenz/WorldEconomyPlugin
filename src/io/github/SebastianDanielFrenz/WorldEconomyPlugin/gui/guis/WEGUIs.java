@@ -33,313 +33,62 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 
 public class WEGUIs {
 
-	public static ItemStack mkItem(Material material, String name, String[] lore) {
-		ItemStack out = new ItemStack(material);
-		ItemMeta meta = out.getItemMeta();
-		ArrayList<String> _lore = new ArrayList<String>();
-
-		for (int i = 0; i < lore.length; i++) {
-			_lore.add(lore[i]);
-		}
-
-		meta.setLore(_lore);
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, String name) {
-		ItemStack out = new ItemStack(material);
-		ItemMeta meta = out.getItemMeta();
-
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, int amount, String name, String[] lore) {
-		ItemStack out = new ItemStack(material, amount);
-		ItemMeta meta = out.getItemMeta();
-		ArrayList<String> _lore = new ArrayList<String>();
-
-		for (int i = 0; i < lore.length; i++) {
-			_lore.add(lore[i]);
-		}
-
-		meta.setLore(_lore);
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, int amount, String name) {
-		ItemStack out = new ItemStack(material, amount);
-		ItemMeta meta = out.getItemMeta();
-
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
 	public static WEGUI getMainGUI() {
 		return new MainMenu();
 	}
 
-	/*public static WEGUI getErrorGUI(WEGUI parent, String title) {
-		List<GUIItem> items = new ArrayList<GUIItem>();
+	/*
+	 * public static WEGUI getErrorGUI(WEGUI parent, String title) {
+	 * List<GUIItem> items = new ArrayList<GUIItem>();
+	 * 
+	 * ItemStack item; ItemMeta meta;
+	 * 
+	 * for (int x = 0; x < 9; x++) { for (int y = 1; y < 5; y++) { item = new
+	 * ItemStack(Material.BARRIER); meta = item.getItemMeta();
+	 * meta.setDisplayName("§4§lERROR"); item.setItemMeta(meta);
+	 * 
+	 * items.add(new GUIItem(y, x, item) {
+	 * 
+	 * @Override public void event(InventoryClickEvent event) { } }); } } return
+	 * new WEGUI(parent, convert(items), title); }
+	 * 
+	 * public static WEGUI getErrorGUI(String title) { List<GUIItem> items = new
+	 * ArrayList<GUIItem>();
+	 * 
+	 * ItemStack item; ItemMeta meta;
+	 * 
+	 * for (int x = 0; x < 9; x++) { for (int y = 1; y < 5; y++) { item = new
+	 * ItemStack(Material.BARRIER); meta = item.getItemMeta();
+	 * meta.setDisplayName("§4§lERROR"); item.setItemMeta(meta);
+	 * 
+	 * items.add(new GUIItem(y, x, item) {
+	 * 
+	 * @Override public void event(InventoryClickEvent event) { } }); } } return
+	 * new WEGUI(convert(items), title); }
+	 * 
+	 * public static WEGUI getErrorGUI() { List<GUIItem> items = new
+	 * ArrayList<GUIItem>();
+	 * 
+	 * ItemStack item; ItemMeta meta;
+	 * 
+	 * for (int x = 0; x < 9; x++) { for (int y = 1; y < 5; y++) { item = new
+	 * ItemStack(Material.BARRIER); meta = item.getItemMeta();
+	 * meta.setDisplayName("§4§lERROR"); item.setItemMeta(meta);
+	 * 
+	 * items.add(new GUIItem(y, x, item) {
+	 * 
+	 * @Override public void event(InventoryClickEvent event) { } }); } } return
+	 * new WEGUI(convert(items)); }
+	 */
 
-		ItemStack item;
-		ItemMeta meta;
-
-		for (int x = 0; x < 9; x++) {
-			for (int y = 1; y < 5; y++) {
-				item = new ItemStack(Material.BARRIER);
-				meta = item.getItemMeta();
-				meta.setDisplayName("§4§lERROR");
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(y, x, item) {
-
-					@Override
-					public void event(InventoryClickEvent event) {
-					}
-				});
-			}
-		}
-		return new WEGUI(parent, convert(items), title);
-	}
-
-	public static WEGUI getErrorGUI(String title) {
-		List<GUIItem> items = new ArrayList<GUIItem>();
-
-		ItemStack item;
-		ItemMeta meta;
-
-		for (int x = 0; x < 9; x++) {
-			for (int y = 1; y < 5; y++) {
-				item = new ItemStack(Material.BARRIER);
-				meta = item.getItemMeta();
-				meta.setDisplayName("§4§lERROR");
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(y, x, item) {
-
-					@Override
-					public void event(InventoryClickEvent event) {
-					}
-				});
-			}
-		}
-		return new WEGUI(convert(items), title);
-	}
-
-	public static WEGUI getErrorGUI() {
-		List<GUIItem> items = new ArrayList<GUIItem>();
-
-		ItemStack item;
-		ItemMeta meta;
-
-		for (int x = 0; x < 9; x++) {
-			for (int y = 1; y < 5; y++) {
-				item = new ItemStack(Material.BARRIER);
-				meta = item.getItemMeta();
-				meta.setDisplayName("§4§lERROR");
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(y, x, item) {
-
-					@Override
-					public void event(InventoryClickEvent event) {
-					}
-				});
-			}
-		}
-		return new WEGUI(convert(items));
-	}*/
-	
 	// debug start
-	
+
 	public static WEGUI getErrorGUI(String title) {
 		return new ErrorGUI(title);
 	}
-	
+
 	public static WEGUI getErrorGUI(WEGUI parent, String title) {
 		return new ErrorGUI(parent, title);
-	}
-	
-	// debug stop
-
-	/*public static WEGUI getBanksGUI() {
-		List<GUIItem> items = new ArrayList<GUIItem>();
-		int slot = 9;
-
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Banks")) {
-			@Override
-			public void event(InventoryClickEvent event) {
-			}
-		});
-
-		try {
-			List<Bank> banks = WEDB.getAllBanks();
-			ItemStack item;
-			ItemMeta meta;
-			for (Bank bank : banks) {
-				item = new ItemStack(BlockLib.BANK);
-				meta = item.getItemMeta();
-				meta.setDisplayName(bank.name);
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(slot, item) {
-					@Override
-					public void event(InventoryClickEvent event) {
-					}
-				});
-
-				slot++;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return getErrorGUI("Banks");
-		}
-
-		return new WEGUI(convert(items), "Banks");
-	}
-
-	public static WEGUI getBanksGUI(WEGUI parent) {
-		List<GUIItem> items = new ArrayList<GUIItem>();
-		int slot = 9;
-
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Banks")) {
-			@Override
-			public void event(InventoryClickEvent event) {
-			}
-		});
-
-		try {
-			List<Bank> banks = WEDB.getAllBanks();
-			ItemStack item;
-			ItemMeta meta;
-			for (Bank bank : banks) {
-				item = new ItemStack(BlockLib.BANK);
-				meta = item.getItemMeta();
-				meta.setDisplayName(bank.name);
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(slot, item) {
-					@Override
-					public void event(InventoryClickEvent event) {
-					}
-				});
-
-				slot++;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return getErrorGUI(parent, "Banks");
-		}
-
-		return new WEGUI(parent, convert(items), "Banks");
-	}*/
-
-	public static GUIItem[] convert(List<GUIItem> list) {
-		GUIItem[] out = new GUIItem[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			out[i] = list.get(i);
-		}
-		return out;
-	}
-
-	public static WEGUI getCompaniesGUI(WEGUI parent) {
-		WEGUI out = new WEGUI(parent, new GUIItem[] {}, "Companies");
-		;
-
-		List<GUIItem> items = new ArrayList<GUIItem>();
-		int slot = 9;
-
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Companies")) {
-			@Override
-			public void event(InventoryClickEvent event) {
-			}
-		});
-
-		try {
-			List<Company> companies = WEDB.getAllCompanies();
-
-			for (Company company : companies) {
-
-				if (company.companyType.equals("corporation")) {
-					items.add(new GUIItem(slot, mkItem(BlockLib.COMPANY_CORPORATION, company.companyName,
-							new String[] { company.companyType })) {
-						@Override
-						public void event(InventoryClickEvent event) {
-							getCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
-						}
-					});
-				} else if (company.companyType.equalsIgnoreCase("private")) {
-					items.add(new GUIItem(slot, mkItem(BlockLib.COMPANY_PRIVATE, company.companyName,
-							new String[] { company.companyType })) {
-						@Override
-						public void event(InventoryClickEvent event) {
-							getCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
-						}
-					});
-				} else {
-					items.add(new GUIItem(slot, mkItem(Material.BARRIER, company.companyName,
-							new String[] { "§4INVALID COMPANY TYPE \"" + company.companyType + "\"!" })) {
-						@Override
-						public void event(InventoryClickEvent event) {
-							getCompanyGUI(parent, company).openInventory((Player) event.getWhoClicked());
-						}
-					});
-				}
-
-				slot++;
-			}
-		} catch (
-
-		SQLException e) {
-			e.printStackTrace();
-			return getErrorGUI(parent, "Companies");
-		}
-
-		out.setItems(
-
-				convert(items));
-
-		return out;
-	}
-
-	public static WEGUI getCompanyGUI(WEGUI parent, Company company) {
-		List<GUIItem> items = new ArrayList<GUIItem>();
-
-		WEGUI out = new WEGUI(parent, new GUIItem[] {}, company.companyName);
-
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, company.companyName)) {
-			@Override
-			public void event(InventoryClickEvent event) {
-			}
-		});
-		items.add(new GUIItem(1, 0, mkItem(Material.ORANGE_WOOL, "Products")) {
-			@Override
-			public void event(InventoryClickEvent event) {
-				getProductFromCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
-			}
-		});
-		items.add(new GUIItem(1, 1, mkItem(Material.YELLOW_WOOL, "Sales")) {
-			@Override
-			public void event(InventoryClickEvent event) {
-			}
-		});
-		items.add(new GUIItem(1, 2, mkItem(Material.LIME_WOOL, "Employees")) {
-			@Override
-			public void event(InventoryClickEvent event) {
-				getEmployeesFromCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
-			}
-		});
-
-		out.setItems(convert(items));
-
-		return out;
 	}
 
 	public static WEGUI getBankAccountsGUI(WEGUI parent, Player player) {

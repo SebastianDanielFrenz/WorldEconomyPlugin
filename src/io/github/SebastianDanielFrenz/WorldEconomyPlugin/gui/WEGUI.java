@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -276,6 +277,14 @@ public class WEGUI implements InventoryHolder {
 			};
 		}
 		setItems(items);
+	}
+
+	public static GUIItem[] convert(List<GUIItem> list) {
+		GUIItem[] out = new GUIItem[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			out[i] = list.get(i);
+		}
+		return out;
 	}
 
 	public static ItemStack mkItem(Material material, String name, String[] lore) {
