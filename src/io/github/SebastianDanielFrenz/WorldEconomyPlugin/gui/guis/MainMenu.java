@@ -39,7 +39,7 @@ public class MainMenu extends WEGUI {
 
 				player.closeInventory(); // not sure weather this handles the
 											// inventory close event or not
-				WEGUIs.getBanksGUI(_this).openInventory(player);
+				new BanksGUI(_this).openInventory(player);
 			}
 		}, new GUIItem(2, 1, WEGUIs.mkItem(Material.BLACK_WOOL, "My Bank Accounts")) {
 			@Override

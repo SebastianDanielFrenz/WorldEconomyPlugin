@@ -169,7 +169,7 @@ public class WEGUIs {
 	
 	// debug stop
 
-	public static WEGUI getBanksGUI() {
+	/*public static WEGUI getBanksGUI() {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
@@ -239,7 +239,7 @@ public class WEGUIs {
 		}
 
 		return new WEGUI(parent, convert(items), "Banks");
-	}
+	}*/
 
 	public static GUIItem[] convert(List<GUIItem> list) {
 		GUIItem[] out = new GUIItem[list.size()];

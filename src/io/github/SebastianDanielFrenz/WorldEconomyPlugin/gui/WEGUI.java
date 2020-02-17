@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -262,5 +264,65 @@ public class WEGUI implements InventoryHolder {
 				}
 			}
 		}
+	}
+
+	public void setErrorGUI() {
+		GUIItem[] items = new GUIItem[9 * 4];
+		for (int i = 0; i < items.length; i++) {
+			items[i] = new GUIItem(i + 9, mkItem(Material.BARRIER, "§4§lERROR")) {
+				@Override
+				public void event(InventoryClickEvent event) {
+				}
+			};
+		}
+		setItems(items);
+	}
+
+	public static ItemStack mkItem(Material material, String name, String[] lore) {
+		ItemStack out = new ItemStack(material);
+		ItemMeta meta = out.getItemMeta();
+		ArrayList<String> _lore = new ArrayList<String>();
+
+		for (int i = 0; i < lore.length; i++) {
+			_lore.add(lore[i]);
+		}
+
+		meta.setLore(_lore);
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, String name) {
+		ItemStack out = new ItemStack(material);
+		ItemMeta meta = out.getItemMeta();
+
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, int amount, String name, String[] lore) {
+		ItemStack out = new ItemStack(material, amount);
+		ItemMeta meta = out.getItemMeta();
+		ArrayList<String> _lore = new ArrayList<String>();
+
+		for (int i = 0; i < lore.length; i++) {
+			_lore.add(lore[i]);
+		}
+
+		meta.setLore(_lore);
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, int amount, String name) {
+		ItemStack out = new ItemStack(material, amount);
+		ItemMeta meta = out.getItemMeta();
+
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
 	}
 }
