@@ -22,6 +22,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Employee;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeeAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePlayer;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
@@ -29,6 +31,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 
 public class WEDB {
 
@@ -56,6 +59,17 @@ public class WEDB {
 			return new WorldEconomyProfile(player.getUniqueId(), r.getLong("employeeID"),
 					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
 					r.getLong("mailboxID"));
+		} else {
+			return null;
+		}
+	}
+
+	public static WorldEconomyProfile getUserProfile(UUID uuid) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + uuid + "\"");
+
+		if (r.next()) {
+			return new WorldEconomyProfile(uuid, r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
+					r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"));
 		} else {
 			return null;
 		}
@@ -447,6 +461,21 @@ public class WEDB {
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
 				+ ", " + CEO_employeeID + ")");
 
+		Employee CEO = getEmployee(CEO_employeeID);
+		if (CEO instanceof EmployeePlayer) {
+			sendMail(0, getUserProfile(((EmployeePlayer) CEO).playerUUID).mailboxID,
+					"Please remember to register a bank account called \"shop_income\" for your company in order to be able to use shops!");
+		} else if (CEO instanceof EmployeeAI) {
+			throw new NotImplementedException(
+					"There will be no automatic informing of AIs on their ToDos because they cannot actually read mails!"
+							+ "This should only be implemented when AI can recieve custom encoded messages or if there is"
+							+ " an ID attachement telling the AI the parameters and the purpose of the mail.");
+		} else {
+			throw new NotSupportedException(
+					"Registering a corporation as an employee that is not a player or an AI is not supported! (Recieved employee object from class "
+							+ CEO.getClass().getCanonicalName() + ")");
+		}
+
 		return companyID;
 	}
 
@@ -459,6 +488,9 @@ public class WEDB {
 
 		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
 				+ ", " + getUserProfile(owner).employeeID + ")");
+
+		sendMail(0, getUserProfile(owner).mailboxID,
+				"Please remember to register a bank account called \"shop_income\" for your company in order to be able to use shops!");
 
 		return companyID;
 	}
@@ -1054,6 +1086,56 @@ public class WEDB {
 		default:
 			throw new RuntimeException("The mailbox owner's type is invalid (\"" + type + "\"!");
 		}
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to the stock market.
+	 * 
+	 * ==================================================
+	 */
+
+	public static long registerBaseStockMarketProduct(String name, String type) throws SQLException {
+		long ID = getNextEnumerator("stockMarketProductID");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO stock_market_products (stockMarketProductID, stockMarketProductName, stockMarketProductType) VALUES ("
+						+ ID + ", \"" + name + "\",\"" + type + "\")");
+
+		moveEnumerator("stockMarketProductID");
+
+		return ID;
+	}
+
+	public static long registerShare(long companyID, String name, String shareType, double partage, long amount,
+			double dividend) throws SQLException {
+		long ID = registerBaseStockMarketProduct(name, "share");
+
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO shares (stockMarketProductID, shareTotalAmount, shareTotalPartage, shareCompanyID, shareDividend) VALUES"
+						+ "(" + ID + ", " + amount + ", " + partage + ", " + companyID + ", " + dividend + ")");
+
+		return ID;
+	}
+
+	public static long registerShare(Company company, String name, String shareType, double partage, long amount,
+			double dividend) throws SQLException {
+		return registerShare(company.ID, name, shareType, partage, amount, dividend);
+
+	}
+
+	public static Share getShare(long stockMarketProductID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM shares INNER JOIN stock_market_products ON stock_market_products.stockMarketProductID = "
+						+ stockMarketProductID + " WHERE stockMarketProductID = " + stockMarketProductID);
+
+		if (!r.next()) {
+			return null;
+		}
+		return new Share(stockMarketProductID, r.getString("stockMarketProductName"), r.getString("shareType"),
+				r.getDouble("stockMarketProductPrice"), r.getLong("shareTotalAmount"), r.getLong("shareCompanyID"),
+				r.getLong("shareTotalPartage"), r.getDouble("shareDividend"));
 	}
 
 }

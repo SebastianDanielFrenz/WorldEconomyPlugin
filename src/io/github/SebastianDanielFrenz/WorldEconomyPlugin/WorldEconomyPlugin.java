@@ -92,7 +92,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		runSQLsafe(
 				"INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1), (\"chestID\", 1),"
 						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1),"
-						+ "(\"aiID\", 1), (\"mailboxID\", 1), (\"creditID\", 1)");
+						+ "(\"aiID\", 1), (\"mailboxID\", 1), (\"creditID\", 1), (\"stockMarketProductID\", 1)");
 	}
 
 	private boolean setupEconomy() {
@@ -232,6 +232,23 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "FOREIGN KEY(creditBankID) REFERENCES banks(bankID),"
 					+ "FOREIGN KEY(creditRecieverBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(creditRecieverBankAccountID) REFERENCES bank_accounts(bankAccountID)" + ");");
+
+			runSQL("CREATE TABLE stock_marekt_products (" + "stockMarketProductID integer PRIMARY KEY,"
+					+ "stockMarketPrice real," + "stockMarketProductName text NOT NULL,"
+					+ "stockMarketProductType text NOT NULL" + ");");
+
+			runSQL("CREATE TABLE shares (" + "stockMarketProductID integer PRIMARY KEY,"
+					+ "shareTotalAmount integer NOT NULL," + "shareTotalPartage real NOT NULL,"
+					+ "shareCompanyID integer NOT NULL," + "shareDividend real NOT NULL," + "shareType text NOT NULL,"
+					// references
+					+ "FOREIGN KEY(shareCompanyID) REFERENCES corporations(companyID)" + ");");
+
+			runSQL("CREATE TABLE stock_market_possesions (" + "stockMarketPossesionID integer PRIMARY KEY,"
+					+ "stockMarketProductID integer NOT NULL," + "ownerBankingID integer NOT NULL,"
+					+ "purchaseTime integer NOT NULL," + "purchasePrice real NOT NULL,"
+					+ "purchaseAmount integer NOT NULL,"
+					// references
+					+ "FOREIGN KEY(ownerBankingID) REFERENCES bank_profiles(bankingID)" + ");");
 
 			// enumerator
 

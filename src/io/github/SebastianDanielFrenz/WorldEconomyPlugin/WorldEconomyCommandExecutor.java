@@ -23,7 +23,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIs;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.WEGUIs;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 

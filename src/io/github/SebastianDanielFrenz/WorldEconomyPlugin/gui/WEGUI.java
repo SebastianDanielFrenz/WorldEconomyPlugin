@@ -9,6 +9,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.WEGUIs;
+
 public class WEGUI implements InventoryHolder {
 	// Create a new inventory, with "this" owner for comparison with other
 	// inventories, a size of nine, called example
