@@ -19,6 +19,8 @@ public class CompaniesGUI extends WEGUI {
 	public CompaniesGUI(WEGUI parent) {
 		super(parent, new GUIItem[] {}, "Companies");
 
+		CompaniesGUI _this = this;
+
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
@@ -38,7 +40,7 @@ public class CompaniesGUI extends WEGUI {
 							new String[] { company.companyType })) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							getCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				} else if (company.companyType.equalsIgnoreCase("private")) {
@@ -46,7 +48,7 @@ public class CompaniesGUI extends WEGUI {
 							new String[] { company.companyType })) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							getCompanyGUI(out, company).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				} else {
@@ -54,7 +56,7 @@ public class CompaniesGUI extends WEGUI {
 							new String[] { "§4INVALID COMPANY TYPE \"" + company.companyType + "\"!" })) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							getCompanyGUI(parent, company).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				}

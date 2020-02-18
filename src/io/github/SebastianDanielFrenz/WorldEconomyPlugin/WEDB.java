@@ -32,6 +32,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketProductStack;
 
 public class WEDB {
 
@@ -1136,6 +1137,11 @@ public class WEDB {
 		return new Share(stockMarketProductID, r.getString("stockMarketProductName"), r.getString("shareType"),
 				r.getDouble("stockMarketProductPrice"), r.getLong("shareTotalAmount"), r.getLong("shareCompanyID"),
 				r.getLong("shareTotalPartage"), r.getDouble("shareDividend"));
+	}
+
+	public static StockMarketProductStack getStockMarketProductStack(long stackID) {
+		StockMarketProductStack out = new StockMarketProductStack();
+		return out;
 	}
 
 }

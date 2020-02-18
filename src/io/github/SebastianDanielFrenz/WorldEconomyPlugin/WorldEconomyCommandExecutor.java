@@ -23,7 +23,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.WEGUIs;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.MainMenu;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 
@@ -61,7 +61,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				return true;
 			}
 
-			WEGUIs.getMainGUI().openInventory((Player) sender);
+			new MainMenu().openInventory((Player) sender);
 
 			return true;
 		} else {

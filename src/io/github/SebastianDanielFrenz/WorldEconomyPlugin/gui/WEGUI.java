@@ -12,8 +12,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.WEGUIs;
-
 public class WEGUI implements InventoryHolder {
 	// Create a new inventory, with "this" owner for comparison with other
 	// inventories, a size of nine, called example
@@ -178,7 +176,7 @@ public class WEGUI implements InventoryHolder {
 			// bottom menu items
 			ext = 0;
 			if (page != 0) {
-				inv.setItem(5 * 9 + 3, WEGUIs.mkItem(Material.GOLD_NUGGET, "Page " + (page)));
+				inv.setItem(5 * 9 + 3, mkItem(Material.GOLD_NUGGET, "Page " + (page)));
 				items2[items.length + ext] = new GUIItem(-6, null) {
 					@Override
 					public void event(InventoryClickEvent event) {
@@ -191,7 +189,7 @@ public class WEGUI implements InventoryHolder {
 			}
 
 			if (page != highest) {
-				inv.setItem(5 * 9 + 5, WEGUIs.mkItem(Material.GOLD_NUGGET, "Page " + (page + 2)));
+				inv.setItem(5 * 9 + 5, mkItem(Material.GOLD_NUGGET, "Page " + (page + 2)));
 				items2[items.length + ext] = new GUIItem(-4, null) {
 					@Override
 					public void event(InventoryClickEvent event) {

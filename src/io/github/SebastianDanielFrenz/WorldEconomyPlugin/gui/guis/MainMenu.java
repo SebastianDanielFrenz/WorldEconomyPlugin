@@ -44,19 +44,19 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(2, 1, mkItem(Material.BLACK_WOOL, "My Bank Accounts")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				WEGUIs.getBankAccountsGUI(_this, (Player) event.getWhoClicked())
+				new BankAccountsGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(3, 1, mkItem(Material.BROWN_WOOL, "Register Bank Account")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				WEGUIs.getCreateBankAccountGUI(_this, (Player) event.getWhoClicked())
+				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(4, 1, mkItem(Material.BLACK_WOOL, "Transfer Money")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				WEGUIs.getTransferMoneyGUI(_this, (Player) event.getWhoClicked())
+				new TransferMoneyGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 2, mkItem(Material.LIGHT_GRAY_WOOL, "Companies")) {
