@@ -1139,9 +1139,14 @@ public class WEDB {
 				r.getLong("shareTotalPartage"), r.getDouble("shareDividend"));
 	}
 
-	public static StockMarketProductStack getStockMarketProductStack(long stackID) {
-		StockMarketProductStack out = new StockMarketProductStack();
-		return out;
+	public static StockMarketProductStack getStockMarketProductStack(long stackID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM stock_market_possesions WHERE stockMarketPossesionID = " + stackID);
+		if (!r.next()) {
+			return null;
+		}
+		return new StockMarketProductStack(stackID, r.getLong("stockMarketProductID"), r.getLong("ownerBankAccountID"),
+				r.getLong("purchaseTime"), r.getDouble("purchasePrice"), r.getLong("purchaseAmount"));
 	}
 
 }

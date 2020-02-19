@@ -244,7 +244,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "FOREIGN KEY(shareCompanyID) REFERENCES corporations(companyID)" + ");");
 
 			runSQL("CREATE TABLE stock_market_possesions (" + "stockMarketPossesionID integer PRIMARY KEY,"
-					+ "stockMarketProductID integer NOT NULL," + "ownerBankingID integer NOT NULL,"
+					+ "stockMarketProductID integer NOT NULL," + "ownerBankAccountID integer NOT NULL,"
 					+ "purchaseTime integer NOT NULL," + "purchasePrice real NOT NULL,"
 					+ "purchaseAmount integer NOT NULL,"
 					// references
