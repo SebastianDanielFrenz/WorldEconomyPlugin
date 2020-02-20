@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
+@DataBaseRepresentation
 public abstract class Company implements MailboxOwner {
 
 	public String companyName;

@@ -135,6 +135,7 @@ public class WEDB {
 						+ account.getAccountHolderID() + ", \"" + account.getType() + "\")");
 	}
 
+	@SQLInjection
 	public static BankAccount getBankAccount(long bankingID, String name) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = "
 				+ bankingID + " AND bankAccountName = \"" + name + "\"");
@@ -208,11 +209,13 @@ public class WEDB {
 				.runSQL("UPDATE banks SET bankCapital = bankCapital+" + amount + " WHERE bankID = " + bank2.ID);
 	}
 
+	@SQLInjection
 	public static void setBankAccountName(BankAccount account, String name) throws SQLException {
 		WorldEconomyPlugin.runSQL(
 				"UPDATE bank_accounts SET bankAccountName = \"" + name + "\" WHERE bankAccountID = " + account.getID());
 	}
 
+	@SQLInjection
 	public static long registerBankingEntity(String type) throws SQLException {
 		long bankingID = getNextEnumerator("bankingID");
 
@@ -234,12 +237,14 @@ public class WEDB {
 		return r.getString("bankCustomerType");
 	}
 
+	@SQLInjection
 	public static void registerBank(String name) throws SQLException {
 		WorldEconomyPlugin.runSQL("INSERT INTO banks (bankID, bankName, companyID) VALUES ("
 				+ getNextEnumerator("bankID") + ", \"" + name + "\"," + registerBaseCompany(name, "bank") + ")");
 		moveEnumerator("bankID");
 	}
 
+	@SQLInjection
 	public static Bank getBank(String name) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks WHERE bankName = \"" + name + "\"");
 		if (!r.next()) {
@@ -456,6 +461,8 @@ public class WEDB {
 	 * ==================================================
 	 */
 
+	@SQLInjection
+	@FeaturePlanned(feature = "AIs should be forced to create a bank account for incomes.")
 	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
 		long companyID = registerBaseCompany(name, "corporation");
 
@@ -480,10 +487,12 @@ public class WEDB {
 		return companyID;
 	}
 
+	@SQLInjection
 	public static long registerCorporation(String name, OfflinePlayer CEO) throws SQLException {
 		return registerCorporation(name, getUserProfile(CEO).employeeID);
 	}
 
+	@SQLInjection
 	public static long registerPrivateCompany(String name, OfflinePlayer owner) throws SQLException {
 		long companyID = registerBaseCompany(name, "private");
 
@@ -496,6 +505,7 @@ public class WEDB {
 		return companyID;
 	}
 
+	@SQLInjection
 	public static long registerBaseCompany(String name, String type) throws SQLException {
 		long companyID = getNextEnumerator("companyID");
 
@@ -509,6 +519,8 @@ public class WEDB {
 		return companyID;
 	}
 
+	@SQLInjection
+	@AccelerationPotential(lvl = AccelerationLevel.GARBAGE_COLLECTOR)
 	public static Company getCompany(String name) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
 				"SELECT companyID, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyName = \""
@@ -552,6 +564,7 @@ public class WEDB {
 	 * @return
 	 * @throws SQLException
 	 */
+	@AccelerationPotential(lvl = AccelerationLevel.GARBAGE_COLLECTOR)
 	public static Company getCompany(long ID) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
 				"SELECT companyName, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyID = "
@@ -594,6 +607,7 @@ public class WEDB {
 		}
 	}
 
+	@AccelerationPotential(lvl = AccelerationLevel.GARBAGE_COLLECTOR)
 	public static List<Company> getAllCompanies() throws SQLException {
 		List<Company> out = new ArrayList<Company>();
 		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies");
@@ -731,6 +745,7 @@ public class WEDB {
 		return out;
 	}
 
+	@FeaturePlanned(feature = "In the future, there should be more employer types than just companies!")
 	public static Employer getEmployer(long employerID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin
 				.runSQLquery("SELECT employerType FROM employers WHERE employerID = " + employerID);
@@ -761,6 +776,7 @@ public class WEDB {
 		return ID;
 	}
 
+	@FeaturePlanned(feature = "There should be more than just employment contracts!")
 	public static long registerContract(Contract contract) throws SQLException {
 		if (contract instanceof ContractEmploymentDefault) {
 			return registerContract((ContractEmploymentDefault) contract);
@@ -798,6 +814,7 @@ public class WEDB {
 		return map;
 	}
 
+	@FeaturePlanned(feature = "There should be more than just employment contracts!")
 	public static Contract getContract(long contractID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM contracts WHERE contractID = " + contractID);
 		if (!r.next()) {
@@ -829,6 +846,7 @@ public class WEDB {
 	 * ==================================================
 	 */
 
+	@SQLInjection
 	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
 			throws SQLException {
 		long productID = getNextEnumerator("productID");
@@ -945,6 +963,7 @@ public class WEDB {
 		return ID;
 	}
 
+	@SQLInjection
 	public static void sendMail(long senderMailboxID, long recieverMailboxID, String message) throws SQLException {
 		WorldEconomyPlugin.runSQL("INSERT INTO mails (mailboxID, senderMailboxID, message) VALUES (" + recieverMailboxID
 				+ ", " + senderMailboxID + ", \"" + message + "\")");
@@ -1097,6 +1116,7 @@ public class WEDB {
 	 * ==================================================
 	 */
 
+	@SQLInjection
 	public static long registerBaseStockMarketProduct(String name, String type) throws SQLException {
 		long ID = getNextEnumerator("stockMarketProductID");
 
@@ -1109,6 +1129,7 @@ public class WEDB {
 		return ID;
 	}
 
+	@SQLInjection
 	public static long registerShare(long companyID, String name, String shareType, double partage, long amount,
 			double dividend) throws SQLException {
 		long ID = registerBaseStockMarketProduct(name, "share");
@@ -1120,6 +1141,7 @@ public class WEDB {
 		return ID;
 	}
 
+	@SQLInjection
 	public static long registerShare(Company company, String name, String shareType, double partage, long amount,
 			double dividend) throws SQLException {
 		return registerShare(company.ID, name, shareType, partage, amount, dividend);
@@ -1147,6 +1169,90 @@ public class WEDB {
 		}
 		return new StockMarketProductStack(stackID, r.getLong("stockMarketProductID"), r.getLong("ownerBankAccountID"),
 				r.getLong("purchaseTime"), r.getDouble("purchasePrice"), r.getLong("purchaseAmount"));
+	}
+
+	/**
+	 * This method returns the first product stack in the database that belongs
+	 * to the given BankAccount.
+	 * 
+	 * @param owner
+	 * @param stockMarketProductID
+	 * @return
+	 * @throws SQLException
+	 */
+	public static StockMarketProductStack getAStockMarketProductStack(BankAccount owner, long stockMarketProductID)
+			throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM stock_market_possesions WHERE ownerBankAccountID = " + owner.getID());
+		if (!r.next()) {
+			return null;
+		}
+		return new StockMarketProductStack(r.getLong("stockMarketPossesionID"), stockMarketProductID, owner.getID(),
+				r.getLong("purchaseTime"), r.getLong("purchasePrice"), r.getLong("purchaseAmount"));
+	}
+
+	public static void registerStackMarketProductStack(StockMarketProductStack stack) throws SQLException {
+		// TODO: Warning: No primary key inserted!
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO stock_market_possesions (stockMarketProductID, ownerBankAccountID, purchaseTime, purchasePrice, purchaseAmount) VALUES ("
+						+ stack.productID + ", " + stack.ownerBankAccountID + ", " + stack.purchaseTime + ", "
+						+ stack.purchasePrice + ", " + stack.purchaseAmount + ")");
+	}
+
+	public static void setStockMarketProductStackAmount(long ID, long amount) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE stock_market_possesions SET purchaseAmount = " + amount
+				+ " WHERE stockMarketPossesionID = " + ID);
+	}
+
+	public static void setStockMarketProductStackAmount(StockMarketProductStack stack, long amount)
+			throws SQLException {
+		setStockMarketProductStackAmount(stack.stackID, amount);
+	}
+
+	public static void removeStockMarketProductStack(long ID) throws SQLException {
+		WorldEconomyPlugin.runSQL("DELETE FROM stock_market_possesions WHERE stockMarketPossesionID = " + ID);
+	}
+
+	/**
+	 * This method is used to transfer stocks from one bank account to
+	 * another.<br>
+	 * <b style="color:red">This does not transfer money!</b>
+	 * 
+	 * @param seller
+	 * @param buyer
+	 * @param stockMarketProductID
+	 * @param amount
+	 * @param price
+	 * @throws SQLException
+	 */
+	public static void transferStock(BankAccount seller, BankAccount buyer, long stockMarketProductID, long amount,
+			double price) throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO stock_market_possesions (stockMarketProductID, ownerBankAccountID, purchaseTime, purchasePrice, purchaseAmount) VALUES ("
+						+ stockMarketProductID + ", " + buyer + ", " + System.currentTimeMillis() + ", " + price + ", "
+						+ amount + ")");
+		long transfered_amount = 0;
+		StockMarketProductStack stack;
+
+		while (transfered_amount < amount) {
+			stack = getAStockMarketProductStack(seller, stockMarketProductID);
+			if (stack == null) {
+				throw new RuntimeException(
+						"WEDB.transferStock is not safe and does not check weather the seller has enough stock to go through with the trade! This is exactly what happend!");
+			}
+			if (stack.purchaseAmount > amount) {
+				setStockMarketProductStackAmount(stack, stack.purchaseAmount - (amount - transfered_amount));
+				// technically, one would have to set the variable
+				// transfered_money = amount. I saved myself, the compiler and
+				// the server the time because it is not needed after the loop
+				// right now. If that changes, it has to be implemented.
+				break;
+			} else {
+				removeStockMarketProductStack(stack.stackID);
+				transfered_amount += stack.purchaseAmount;
+			}
+		}
+		// TODO send notification mail!
 	}
 
 }

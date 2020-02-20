@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public class Share extends StockMarketProduct {
 
 	public Share(long ID, String name, String type, double price, long totalAmount, long companyID, double totalPartage,

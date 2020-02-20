@@ -2,6 +2,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.market;
 
 import org.bukkit.World;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public abstract class SignData {
 
 	public final long ID;

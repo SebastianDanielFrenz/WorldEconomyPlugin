@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+@DataBaseRepresentation
 public class Employer {
 
 	public long ID;

@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public abstract class StockMarketProduct {
 
 	public long stockMarketProductID;

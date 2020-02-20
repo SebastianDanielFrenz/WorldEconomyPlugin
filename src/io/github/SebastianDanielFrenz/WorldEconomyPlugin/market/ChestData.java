@@ -2,6 +2,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.market;
 
 import org.bukkit.Location;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public abstract class ChestData {
 
 	public long ID;

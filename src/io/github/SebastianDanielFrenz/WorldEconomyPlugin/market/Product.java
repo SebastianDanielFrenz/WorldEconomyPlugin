@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.market;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public class Product {
 
 	public long ID;

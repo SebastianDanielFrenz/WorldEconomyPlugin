@@ -2,6 +2,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.market;
 
 import org.bukkit.World;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public class ShopSignData extends SignData {
 
 	public ShopSignData(long ID, int x, int y, int z, World world, String type, long supplyChestID, long productID,

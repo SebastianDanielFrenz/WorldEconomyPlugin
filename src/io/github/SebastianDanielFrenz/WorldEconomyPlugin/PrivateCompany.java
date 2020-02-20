@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+@DataBaseRepresentation
 public class PrivateCompany extends Company {
 
 	public PrivateCompany(long ID, String name, long employerID, long bankingID, long ownerEmployeeID, long mailboxID) {

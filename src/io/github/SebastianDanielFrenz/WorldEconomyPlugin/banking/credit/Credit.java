@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public class Credit {
 
 	public long ID;

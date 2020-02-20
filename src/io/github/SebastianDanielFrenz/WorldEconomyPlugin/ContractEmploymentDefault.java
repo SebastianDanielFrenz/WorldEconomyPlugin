@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 
+@DataBaseRepresentation
 public class ContractEmploymentDefault extends Contract {
 
 	public ContractEmploymentDefault(long ID, double salary, int last_salary) {

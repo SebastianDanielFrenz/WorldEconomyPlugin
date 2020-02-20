@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
+@DataBaseRepresentation
 public class WorldEconomyProfile implements MailboxOwner {
 
 	public UUID uuid;

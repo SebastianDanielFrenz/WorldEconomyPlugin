@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public class EmployeeAI extends Employee {
 
 	public long aiID;

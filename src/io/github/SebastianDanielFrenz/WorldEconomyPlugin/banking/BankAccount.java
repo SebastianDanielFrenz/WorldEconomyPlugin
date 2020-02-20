@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import org.bukkit.OfflinePlayer;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 
+@DataBaseRepresentation
 public class BankAccount {
 
 	private double balance;

@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+
+@DataBaseRepresentation
 public class StockMarketProductStack {
 
 	public StockMarketProductStack(long stackID, long productID, long ownerBankAccountID, long purchaseTime,
@@ -8,7 +11,7 @@ public class StockMarketProductStack {
 		this.productID = productID;
 		this.ownerBankAccountID = ownerBankAccountID;
 		this.purchaseTime = purchaseTime;
-		this.purchaseAmoount = purchaseAmount;
+		this.purchaseAmount = purchaseAmount;
 		this.purchasePrice = purchasePrice;
 	}
 
@@ -17,6 +20,6 @@ public class StockMarketProductStack {
 	public long ownerBankAccountID;
 	public long purchaseTime;
 	public double purchasePrice;
-	public long purchaseAmoount;
+	public long purchaseAmount;
 
 }
