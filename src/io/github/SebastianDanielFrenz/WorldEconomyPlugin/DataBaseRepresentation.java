@@ -6,7 +6,7 @@ import java.lang.annotation.Target;
 /**
  * 
  * Applying this annotation to a class means that its (possibly public) values
- * can be changes, but will not affect the state of the SQL database.
+ * can be changed, but will not affect the state of the SQL database.
  *
  */
 @Target(value = { ElementType.TYPE })
