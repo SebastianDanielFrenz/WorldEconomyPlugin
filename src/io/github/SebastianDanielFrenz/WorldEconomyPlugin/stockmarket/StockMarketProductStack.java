@@ -22,4 +22,10 @@ public class StockMarketProductStack {
 	public double purchasePrice;
 	public long purchaseAmount;
 
+	public static StockMarketProductStack create(long productID, long ownerBankAccountID, long purchaseTime,
+			double purchasePrice, long purchaseAmount) {
+		return new StockMarketProductStack(0, productID, ownerBankAccountID, purchaseTime, purchasePrice,
+				purchaseAmount);
+	}
+
 }
