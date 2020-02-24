@@ -8,7 +8,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -17,6 +19,7 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
@@ -299,6 +302,14 @@ public class JoinListener implements Listener {
 					WEDB.removeShopSign(block);
 				}
 			}
+		}
+	}
+
+	public void onVillagerInteractEvent(PlayerInteractEntityEvent event) {
+		Entity entity = event.getRightClicked();
+		if (entity instanceof Villager) {
+			Villager villager = (Villager) entity;
+			if (villager.getScoreboardTags().
 		}
 	}
 

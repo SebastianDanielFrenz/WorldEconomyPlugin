@@ -248,7 +248,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "purchaseTime integer NOT NULL," + "purchasePrice real NOT NULL,"
 					+ "purchaseAmount integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(ownerBankingID) REFERENCES bank_profiles(bankingID)" + ");");
+					+ "FOREIGN KEY(ownerBankAccountID) REFERENCES bank_account(bankAccountID)" + ");");
 
 			// enumerator
 

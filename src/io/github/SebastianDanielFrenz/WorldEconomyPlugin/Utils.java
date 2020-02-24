@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Utils {
@@ -13,6 +14,15 @@ public class Utils {
 			map.put(pair[0], pair[1]);
 		}
 		return map;
+	}
+
+	public static boolean contains(List<String> list, String str) {
+		for (String str2 : list) {
+			if (str2.equals(str)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
