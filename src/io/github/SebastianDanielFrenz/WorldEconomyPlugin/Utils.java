@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +34,32 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+
+	public static Map<String, String> getTagsAfter(Set<String> tags, String searched, String[] args) {
+		Map<String, String> out = new HashMap<String, String>();
+		int i = 0;
+		boolean found = false;
+		String[] split;
+		for (String tag : tags) {
+			if (tag.equals(searched)) {
+				found = true;
+			}
+		}
+		if (!found) {
+			return null;
+		}
+
+		for (String tag : tags) {
+			split = tag.split("[:]");
+			for (String arg : args) {
+				if (split[0].equals(searched + "_" + arg)) {
+					out.put(arg, split[1]);
+				}
+			}
+		}
+
+		return out;
 	}
 
 }
