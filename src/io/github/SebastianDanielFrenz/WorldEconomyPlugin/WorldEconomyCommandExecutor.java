@@ -69,7 +69,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				if (args.length > 1) {
 					if (args[1].equalsIgnoreCase("bank")) {
 						if (args.length > 2) {
-							if (hasPermission(sender, Permissions.REGISTER_BANK)) {
+							if (hasPermission(sender, Permissions.REGISTER_BANK_CMD)) {
 								try {
 									WEDB.registerBank(args[2]);
 									sender.sendMessage(WorldEconomyPlugin.PREFIX + "Successfully registered the bank \""
@@ -95,7 +95,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						}
 						try {
-							if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT)) {
+							if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT_CMD)) {
 								Bank bank = WEDB.getBank(args[2]);
 								if (bank == null) {
 									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2]
@@ -134,7 +134,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						}
 						if (args.length > 3) {
 							try {
-								if (hasPermission(sender, Permissions.REGISTER_COMPANY)) {
+								if (hasPermission(sender, Permissions.REGISTER_COMPANY_CMD)) {
 									String name = args[2];
 
 									switch (args[3]) {
@@ -166,7 +166,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						}
 					} else if (args[1].equalsIgnoreCase("supply_chest")) {
 						if (args.length > 2) {
-							if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST)) {
+							if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST_CMD)) {
 								Block block = ((Player) sender).rayTraceBlocks(5).getHitBlock();
 								if (block.getType() == Material.CHEST) {
 									try {
@@ -205,7 +205,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						}
 						try {
-							if (hasPermission(sender, Permissions.REGISTER_PRODUCT)) {
+							if (hasPermission(sender, Permissions.REGISTER_PRODUCT_CMD)) {
 								Player player = (Player) sender;
 
 								PlayerInventory inv = player.getInventory();
@@ -378,7 +378,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											}
 											return true;
 										} else if (args[4].equalsIgnoreCase("name")) {
-											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME)) {
+											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME_CMD)) {
 												WEDB.setBankAccountName(account, args[5]);
 												sender.sendMessage(WorldEconomyPlugin.PREFIX
 														+ "Your bank account's name was changed from " + args[2]
@@ -401,7 +401,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 									if (args[4].equalsIgnoreCase("take")) {
 										if (args.length >= 7) {
-											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE)) {
+											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD)) {
 												if (sender instanceof Player) {
 													Bank bank = WEDB.getBank(args[5]);
 													try {
@@ -469,7 +469,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											return true;
 										}
 
-										if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER)) {
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD)) {
 											Bank bank = WEDB.getBank(args[5]);
 											if (bank == null) {
 												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2]
@@ -718,20 +718,20 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("help")) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");
-				if (hasPermission(sender, Permissions.REGISTER_BANK, false)) {
+				if (hasPermission(sender, Permissions.REGISTER_BANK_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register bank <name>");
 				}
-				if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT, false)) {
+				if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT_CMD, false)) {
 					sender.sendMessage(
 							WorldEconomyPlugin.PREFIX + "/we register bank_account <bank name> <bank account name>");
 				}
-				if (hasPermission(sender, Permissions.REGISTER_COMPANY, false)) {
+				if (hasPermission(sender, Permissions.REGISTER_COMPANY_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register company <name> <company type>");
 				}
-				if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST, false)) {
+				if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register supply_chest <owner company name>");
 				}
-				if (hasPermission(sender, Permissions.REGISTER_PRODUCT, false)) {
+				if (hasPermission(sender, Permissions.REGISTER_PRODUCT_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we register product <manifacturing company name> <product name> <MSRP>");
 				}
@@ -743,7 +743,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we manage bank_account <bank account name> set balance <balance>");
 				}
-				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME, false)) {
+				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we manage bank_account <bank account name> set name <new bank account name>");
 				}
@@ -751,7 +751,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we manage bank_account <bank account name> credit take <bank> <amount>");
 				}
-				if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER, false)) {
+				if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "/we manage company <company name> register bank_account <bank name> <bank account name>");
 				}

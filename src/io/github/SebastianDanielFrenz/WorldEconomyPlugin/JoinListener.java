@@ -309,7 +309,9 @@ public class JoinListener implements Listener {
 		Entity entity = event.getRightClicked();
 		if (entity instanceof Villager) {
 			Villager villager = (Villager) entity;
-			if (villager.getScoreboardTags().
+			if (Utils.contains(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount")) {
+				
+			}
 		}
 	}
 

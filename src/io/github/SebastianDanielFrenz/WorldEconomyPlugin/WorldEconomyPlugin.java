@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import net.milkbowl.vault.economy.Economy;
 
@@ -56,6 +57,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		new Thread(new SalaryHandlerThread()).start();
 		new Thread(new CreditPaymentHandlerThread()).start();
+		new Thread(new EmptyProductStackCleanerThread()).start();
 
 		/**
 		 * ==================================================
@@ -129,11 +131,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					// references
 					+ "FOREIGN KEY(employerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID)" + ");");
-
-			runSQL("CREATE TABLE credits (" + "creditID integer PRIMARY KEY," + "creditAmount real NOT NULL,"
-					+ "creditInterest real NOT NULL," + "creditorBankingID integer NOT NULL,"
-					// references
-					+ "FOREIGN KEY(creditorBankingID) REFERENCES bank_customers(bankingID)" + ");");
 
 			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text NOT NULL"
 					+ ");");
