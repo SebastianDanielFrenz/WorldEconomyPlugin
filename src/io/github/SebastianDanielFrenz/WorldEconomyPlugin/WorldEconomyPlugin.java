@@ -51,7 +51,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			throw new RuntimeException("Could not create DBs!", e);
 		}
 
-		getServer().getPluginManager().registerEvents(new JoinListener(), this);
+		getServer().getPluginManager().registerEvents(new EventListener(), this);
 
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
 
@@ -155,6 +155,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					// references
 					+ "FOREIGN KEY(bankID) REFERENCES banks(bankID),"
 					+ "FOREIGN KEY(customerBankingID) REFERENCES bank_customers(bankingID)" + ");");
+
 			runSQL("CREATE TABLE products (" + "productID integer PRIMARY KEY,"
 					+ "productManifacturerID integer NOT NULL," + "productPrice real NOT NULL,"
 					+ "productName text NOT NULL," + "productItemID text NOT NULL,"

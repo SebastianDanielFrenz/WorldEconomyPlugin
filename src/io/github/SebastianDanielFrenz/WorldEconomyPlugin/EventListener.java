@@ -3,6 +3,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -27,12 +28,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.CreateBankAccountGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 
-public class JoinListener implements Listener {
+public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
@@ -305,12 +308,21 @@ public class JoinListener implements Listener {
 		}
 	}
 
-	public void onVillagerInteractEvent(PlayerInteractEntityEvent event) {
+	@EventHandler
+	public void onVillagerInteractEvent(PlayerInteractEntityEvent event) throws SQLException {
+		System.out.println("Villager Interact Event!");
+
 		Entity entity = event.getRightClicked();
 		if (entity instanceof Villager) {
 			Villager villager = (Villager) entity;
-			if (Utils.contains(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount")) {
-				
+			Map<String, String> args;
+			args = Utils.getTagsAfter(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount",
+					new String[] { "BankName" });
+			if (args != null) {
+				if (VolatileCooldowns.useVillagerInteractCooldown(event.getPlayer())) {
+					new CreateBankAccountChatDialog(event.getPlayer(), WEDB.getBank(args.get("BankName")));
+				}
+			} else {
 			}
 		}
 	}

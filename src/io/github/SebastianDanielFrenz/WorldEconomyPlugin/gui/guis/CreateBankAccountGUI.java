@@ -19,4 +19,13 @@ public class CreateBankAccountGUI extends ChooseBankGUI {
 		}, "Create Bank Account");
 	}
 
+	public CreateBankAccountGUI(Player player) {
+		super(player, new BankChooserEvent() {
+			@Override
+			public void event(InventoryClickEvent event, Bank bank) {
+				new CreateBankAccountChatDialog(player, bank);
+			}
+		}, "Create Bank Account");
+	}
+
 }

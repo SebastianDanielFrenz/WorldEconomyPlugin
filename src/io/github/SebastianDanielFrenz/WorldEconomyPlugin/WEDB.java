@@ -173,7 +173,8 @@ public class WEDB {
 
 	public static List<BankAccount> getAllBankAccounts(Player player) throws SQLException {
 		List<BankAccount> out = new ArrayList<BankAccount>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts");
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM bank_accounts WHERE customerBankingID = " + getUserProfile(player).bankingID);
 		while (r.next()) {
 			out.add(new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
 					r.getString("bankAccountName"), r.getLong("customerBankingID"), r.getString("customerType")));

@@ -49,4 +49,36 @@ public class ChooseBankGUI extends WEGUI {
 		}
 	}
 
+	public ChooseBankGUI(Player player, BankChooserEvent chooserEvent, String title) {
+		super(new GUIItem[] {}, title);
+
+		List<GUIItem> items = new ArrayList<GUIItem>();
+		int slot = 9;
+
+		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, title)) {
+			@Override
+			public void event(InventoryClickEvent event) {
+			}
+		});
+
+		try {
+			List<Bank> banks = WEDB.getAllBanks();
+			for (Bank bank : banks) {
+				items.add(new GUIItem(slot, mkItem(BlockLib.BANK, bank.name)) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						player.closeInventory();
+						chooserEvent.event(event, bank);
+					}
+				});
+				slot++;
+			}
+
+			setItems(convert(items));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			setErrorGUI();
+		}
+	}
+
 }
