@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -1254,6 +1255,43 @@ public class WEDB {
 			}
 		}
 		// TODO send notification mail!
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to resources.
+	 * 
+	 * ==================================================
+	 */
+
+	public static void registerResource(Material material, long startAmount, double stepSize, double maxPrice)
+			throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO resources (resourceItemID, resourceStoredAmount, resourcePriceStep, resourceMaxPrice)"
+						+ " VALUES (\"" + material.toString() + "\", " + startAmount + ", " + stepSize + ", " + maxPrice
+						+ ")");
+	}
+
+	public static double getResourcePrice(Material material) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+		if (!r.next()) {
+			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+		}
+		return r.getDouble("resourceMaxPrice") * Math.pow(0.5,
+				1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count)));
+	}
+
+	public static List<Material> getAllResources() throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM resources");
+		List<Material> out = new ArrayList<Material>();
+
+		while (r.next()) {
+			out.add(Material.getMaterial(r.getString("resourceItemID")));
+		}
+
+		return out;
 	}
 
 }

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.bukkit.Material;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +26,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static Connection sql_connection;
 
 	public static WorldEconomyPlugin plugin;
+
+	public static long user_count;
+	public static long AI_count;
+
+	private static Thread salaryHandlerThread;
+	private static Thread creditPaymentHandlerThread;
+	private static Thread emptyProductStackCleanerThread;
 
 	@Override
 	public void onEnable() {
@@ -55,9 +63,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
 
-		new Thread(new SalaryHandlerThread()).start();
-		new Thread(new CreditPaymentHandlerThread()).start();
-		new Thread(new EmptyProductStackCleanerThread()).start();
+		startThreads();
 
 		/**
 		 * ==================================================
@@ -77,10 +83,27 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * ==================================================
 		 */
 		getServer().getPluginManager().registerEvents(new ChatDialogRegistry(), this);
+
+		// this sets the global counter for AI count and user count
+
+		try {
+			ResultSet r = runSQLquery("SELECT COUNT(*) AS total FROM user_profiles");
+			r.next();
+			user_count = r.getLong("total");
+
+			r = runSQLquery("SELECT COUNT(*) AS total FROM ai_profiles");
+			r.next();
+			AI_count = r.getLong("total");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void onDisable() {
+		stopThreads();
+
 		try {
 			sql_connection.close();
 		} catch (SQLException e) {
@@ -248,6 +271,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					// references
 					+ "FOREIGN KEY(ownerBankAccountID) REFERENCES bank_account(bankAccountID)" + ");");
 
+			runSQL("CREATE TABLE resources (" + "resourceID integer PRIMARY KEY," + "resourceItemID text,"
+					+ "resourceStoredAmount real," + "resourcePriceStep real," + "resourceMaxPrice real" + ");");
+
 			// enumerator
 
 			setupEnumerator();
@@ -255,12 +281,38 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			// credit system
 
 			WEDB.registerBank("central_bank");
+
+			WEDB.registerResource(Material.IRON_INGOT, 640, 64, Math.pow(2, 10) * 1);
+			WEDB.registerResource(Material.DIAMOND, 640, 64, Math.pow(2, 10) * 20);
+			WEDB.registerResource(Material.GOLD_INGOT, 640, 64, Math.pow(2, 10) * 8);
+			WEDB.registerResource(Material.LAPIS_LAZULI, 640, 64, Math.pow(2, 10) * 2);
+			WEDB.registerResource(Material.SAND, 640, 64, Math.pow(2, 10) * 0.1);
+
 		}
 
 		return is_new;
 	}
 
+	public static void startThreads() {
+		salaryHandlerThread = new Thread(new SalaryHandlerThread());
+		salaryHandlerThread.start();
+		creditPaymentHandlerThread = new Thread(new CreditPaymentHandlerThread());
+		creditPaymentHandlerThread.start();
+		emptyProductStackCleanerThread = new Thread(new EmptyProductStackCleanerThread());
+		emptyProductStackCleanerThread.start();
+	}
+
+	public static void stopThreads() {
+		salaryHandlerThread.interrupt();
+		creditPaymentHandlerThread.interrupt();
+		emptyProductStackCleanerThread.interrupt();
+	}
+
 	public static void resetDB() throws SQLException, IOException {
+		plugin.getLogger().info("Shutting down background threads...");
+
+		stopThreads();
+
 		sql_connection.close();
 
 		String filepath = plugin.getDataFolder().toString() + "\\data.db";
@@ -268,6 +320,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		Files.delete(Paths.get(filepath));
 
 		setupSQL();
+
+		startThreads();
 	}
 
 	public static ResultSet runSQLquery(String query) throws SQLException {
