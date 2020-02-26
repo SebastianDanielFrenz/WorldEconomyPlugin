@@ -14,7 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 public class ChatDialogRegistry implements Listener {
 	public static List<ChatDialog> dialogs = new ArrayList<ChatDialog>();
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChatEntry(PlayerChatEvent event) {
 		WorldEconomyPlugin.plugin.getLogger()
 				.info("PlayerChatEvent: " + event.getPlayer().getName() + " wrote " + event.getMessage());

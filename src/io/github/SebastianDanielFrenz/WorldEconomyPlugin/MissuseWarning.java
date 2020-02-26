@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.CLASS)
 public @interface MissuseWarning {
 
-	String text() default "";
+	String text();
 
 }

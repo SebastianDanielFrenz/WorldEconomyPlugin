@@ -10,5 +10,7 @@ public class BlockLib {
 	public static final Material COMPANY_CORPORATION = Material.EMERALD_BLOCK;
 	public static final Material BANK = Material.GREEN_WOOL;
 	public static final Material BANK_ACCOUNT = Material.LIME_WOOL;
+	public static final Material BUY = Material.YELLOW_WOOL;
+	public static final Material SELL = Material.RED_WOOL;
 
 }

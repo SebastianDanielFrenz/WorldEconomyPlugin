@@ -54,6 +54,7 @@ public class Utils {
 			for (String arg : args) {
 				if (split[0].equals(searched + "_" + arg)) {
 					out.put(arg, split[1]);
+					// System.out.println("found " + arg + " = " + split[1]);
 				}
 			}
 		}

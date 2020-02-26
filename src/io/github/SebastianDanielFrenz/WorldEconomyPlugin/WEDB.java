@@ -1280,7 +1280,55 @@ public class WEDB {
 			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
 		}
 		return r.getDouble("resourceMaxPrice") * Math.pow(0.5,
-				1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count)));
+				1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
+						* r.getDouble("resourceStoredAmount"));
+	}
+
+	public static double getResourcePriceSell(Material material, long amount) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+		if (!r.next()) {
+			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+		}
+
+		double out = 0;
+		for (long i = 0; i < amount; i++) {
+			out += r.getDouble("resourceMaxPrice") * Math.pow(0.5, 1
+					/ (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
+					* (r.getDouble("resourceStoredAmount") + amount));
+		}
+		return out;
+	}
+
+	public static double getResourcePriceBuy(Material material, long amount) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+		if (!r.next()) {
+			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+		}
+
+		double out = 0;
+		for (long i = 0; i < amount; i++) {
+			out += r.getDouble("resourceMaxPrice") * Math.pow(0.5, 1
+					/ (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
+					* (r.getDouble("resourceStoredAmount") - amount));
+		}
+		return out;
+	}
+
+	public static double getResourcePriceWithFallback(Material material) {
+		try {
+			ResultSet r = WorldEconomyPlugin
+					.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+			if (!r.next()) {
+				throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+			}
+			return r.getDouble("resourceMaxPrice") * Math.pow(0.5, 1 / (r.getDouble("resourcePriceStep")
+					* (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count)));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Double.NaN;
+		}
 	}
 
 	public static List<Material> getAllResources() throws SQLException {
