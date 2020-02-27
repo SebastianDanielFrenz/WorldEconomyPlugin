@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +19,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.CustomChunkGenerator;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -40,7 +42,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		if (!setupEconomy()) {
 			getLogger().info("ERROR: Could not hook into Vault!");
-			getServer().getPluginManager().disablePlugin(this);
+			getLogger().info("The money on hand will now be handled by World Economy!");
 		}
 
 		try {
@@ -354,4 +356,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static String PREFIX = "§f[§eWorld Economy§f]: §e";
+
+	@Override
+	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+		return new CustomChunkGenerator();
+	}
 }

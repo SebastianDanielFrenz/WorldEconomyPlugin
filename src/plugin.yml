@@ -5,3 +5,4 @@ commands:
   we:
     help: type "/we help" for help.
 api-version: 1.13
+load: startup
