@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
@@ -19,7 +20,8 @@ public class ResourceGUI extends WEGUI {
 		}, new GUIItem(1, 0, mkItem(BlockLib.BUY, "Buy")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				// TODO
+				new BuyResourceGUI((WEGUI) event.getClickedInventory().getHolder(), (Player) event.getWhoClicked(),
+						resource).openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 1, mkItem(BlockLib.SELL, "Sell")) {
 			@Override

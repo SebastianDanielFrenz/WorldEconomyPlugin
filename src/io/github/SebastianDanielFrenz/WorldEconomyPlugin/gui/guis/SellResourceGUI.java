@@ -17,15 +17,15 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
-public class BuyResourceGUI extends WEGUI {
+public class SellResourceGUI extends WEGUI {
 
-	public BuyResourceGUI(WEGUI parent, Player player, Material resource) {
-		super(new GUIItem[] {}, "Buy Resource - " + resource.name());
+	public SellResourceGUI(WEGUI parent, Player player, Material resource) {
+		super(new GUIItem[] {}, "Sell Resource - " + resource.name());
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 
 		items.add(new GUIItem(0, 4, mkItem(resource,
-				"Buy Resource - " + resource.name() + " - " + WEDB.getResourcePriceWithFallback(resource))) {
+				"Sell Resource - " + resource.name() + " - " + WEDB.getResourcePriceWithFallback(resource))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -38,7 +38,7 @@ public class BuyResourceGUI extends WEGUI {
 		});
 		for (long i = 1; i < 100000; i *= 8) {
 			long x = i;
-			items.add(new GUIItem(1, 1, mkItem(BlockLib.BUY, String.valueOf(i))) {
+			items.add(new GUIItem(1, 1, mkItem(BlockLib.SELL, String.valueOf(i))) {
 				@Override
 				public void event(InventoryClickEvent event) {
 					try {

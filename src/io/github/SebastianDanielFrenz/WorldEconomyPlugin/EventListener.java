@@ -29,7 +29,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.ChooseResourceGUI;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
@@ -327,7 +327,7 @@ public class EventListener implements Listener {
 			args = Utils.getTagsAfter(villager.getScoreboardTags(), "WorldEconomy_Bank_Resources", new String[] {});
 			if (args != null) {
 				if (VolatileCooldowns.useVillagerInteractCooldown(event.getPlayer())) {
-					new ChooseResourceGUI().openInventory(event.getPlayer());
+					new TradeResourcesGUI().openInventory(event.getPlayer());
 					return;
 				}
 			}

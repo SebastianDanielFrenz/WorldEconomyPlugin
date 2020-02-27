@@ -1,7 +1,5 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources;
 
-import javax.management.RuntimeErrorException;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -42,8 +40,22 @@ public class ItemTransactionManager {
 			}
 		}
 		if (done != amount) {
-			throw new RuntimeException();
+			throw new RuntimeException("Not enough space in inventory!");
 		}
+	}
+
+	public static int getPresent(Inventory inv, Material material) {
+		int out = 0;
+		for (ItemStack slot : inv.getContents()) {
+			if (slot.getType() == material) {
+				out += slot.getAmount();
+			}
+		}
+		return out;
+	}
+
+	public static boolean canConsume(Inventory inv, Material material, int amount) {
+		return getPresent(inv, material) >= amount;
 	}
 
 }
