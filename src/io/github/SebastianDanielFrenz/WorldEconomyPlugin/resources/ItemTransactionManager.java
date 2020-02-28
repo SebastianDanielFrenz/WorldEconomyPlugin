@@ -3,6 +3,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.MissuseWarning;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
@@ -51,18 +52,38 @@ public class ItemTransactionManager {
 		ItemStack[] items = inv.getContents();
 		int amount = stack.getCount();
 
-		for (int i = 0; i < items.length && amount < done; i++) {
-			if (items[i].getType() == stack.getItem().base_material && (items[i].hasItemMeta()
-					? items[i].getItemMeta().getDisplayName().equals(stack.getItem().item_name)
-					: stack.getItem().item_name == null)) {
+		for (int i = 0; i < items.length && amount > done; i++) {
+			System.out.println(i);
+
+			if (stack.getItem().matches(items[i])) {
+
+				System.out.println("using slot " + i);
+
 				int space = items[i].getMaxStackSize() - items[i].getAmount();
+
 				if (space > amount - done) {
-					items[i].setAmount(items[i].getAmount() + amount - done);
-					done += amount - done;
+					inv.getItem(i).setAmount(items[i].getAmount() + amount - done);
+					done = amount;
 					break;
 				} else {
 					items[i].setAmount(items[i].getMaxStackSize());
 					done += space;
+				}
+			} else if (items[i] == null) {
+				System.out.println("using empty slot " + i);
+
+				inv.setItem(i, new ItemStack(stack.getItem().base_material));
+				ItemMeta meta = inv.getItem(i).getItemMeta();
+				meta.setDisplayName(stack.getItem().item_name);
+				inv.getItem(i).setItemMeta(meta);
+
+				if (inv.getItem(i).getMaxStackSize() > amount - done) {
+					inv.getItem(i).setAmount(amount - done);
+					done = amount;
+					break;
+				} else {
+					inv.getItem(i).setAmount(items[i].getMaxStackSize());
+					done += inv.getItem(i).getMaxStackSize();
 				}
 			}
 		}

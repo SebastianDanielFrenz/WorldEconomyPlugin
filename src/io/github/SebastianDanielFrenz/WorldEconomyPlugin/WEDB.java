@@ -25,6 +25,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeeAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePlayer;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
@@ -1340,6 +1343,38 @@ public class WEDB {
 		}
 
 		return out;
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to machines.
+	 * 
+	 * ==================================================
+	 */
+
+	public static void registerMachine(Location location, MachineGroup group) throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO machines (machineGroup, machineX, machineY, machineZ, machineWorld) VALUES (\""
+						+ group.getName() + "\", " + location.getBlockX() + ", " + location.getBlockY() + ", "
+						+ location.getBlockZ() + ", \"" + location.getWorld().getName() + "\")");
+	}
+
+	public static void removeMachine(Location location) throws SQLException {
+		WorldEconomyPlugin.runSQL("DELETE FROM machines WHERE machineX = " + location.getBlockX() + " AND machineY = "
+				+ location.getBlockY() + " AND machineZ = " + location.getBlockZ() + " AND machineWorld = \""
+				+ location.getWorld().getName() + "\"");
+	}
+
+	public static void loadMachines() throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM machines");
+		while (r.next()) {
+			Bukkit.getWorld(r.getString("machineWorld"))
+					.getBlockAt(new Location(Bukkit.getWorld(r.getString("machineWorld")), r.getInt("machineX"),
+							r.getInt("machineY"), r.getInt("machineZ")))
+					.setMetadata("machineGroup",
+							new WorldEconomyMachineMeta(Machine.getMachineGroup(r.getString("machineGroup"))));
+		}
 	}
 
 }

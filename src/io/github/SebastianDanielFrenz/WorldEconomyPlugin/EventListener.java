@@ -230,6 +230,8 @@ public class EventListener implements Listener {
 				if (Machine.canBeMachine(block.getType())) {
 					Machine machine = Machine.getMachine(block);
 					machine.playerUseEvent(player);
+					System.out.println("machine event");
+					event.setCancelled(true);
 				}
 			}
 		}

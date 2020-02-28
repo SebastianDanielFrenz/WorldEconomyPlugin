@@ -282,6 +282,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE resources (" + "resourceID integer PRIMARY KEY," + "resourceItemID text,"
 					+ "resourceStoredAmount real," + "resourcePriceStep real," + "resourceMaxPrice real" + ");");
 
+			runSQL("CREATE TABLE machines (" + "machineID integer PRIMARY KEY," + "machineGroup text,"
+					+ "machineX integer," + "machineY integer," + "machineZ integer," + "machineWorld text" + ");");
+
 			// enumerator
 
 			setupEnumerator();
@@ -328,6 +331,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		Files.delete(Paths.get(filepath));
 
 		setupSQL();
+
+		WEDB.loadMachines();
 
 		startThreads();
 	}

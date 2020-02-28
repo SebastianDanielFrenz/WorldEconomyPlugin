@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceTier1;
 
@@ -59,9 +60,8 @@ public abstract class Machine {
 	}
 
 	public static MachineGroup getMachineGroup(Block block) {
-		List<MetadataValue> name_data = block.getMetadata("name");
-		String name = name_data.get(0).asString();
-		return getMachineGroup(name);
+		List<MetadataValue> meta = block.getMetadata("machineGroup");
+		return (MachineGroup) meta.get(0).value();
 	}
 
 	public static MachineGroup getMachineGroup(String name) {
@@ -72,15 +72,23 @@ public abstract class Machine {
 		}
 	}
 
+	public static void setMachine(Block block, MachineKategory kategory, MachineGroup group, int lvl) {
+		block.setType(kategory.display);
+		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
+	}
+
 	public static Machine getMachine(Block block) {
 		MachineGroup group = getMachineGroup(block);
+		if (group == null) {
+			return null;
+		}
 		int lvl = getMachineLevel(block);
 
 		if (group == MachineGroup.BASIC_FURNACE) {
 			if (lvl == 1) {
 				return new BasicFurnaceTier1();
 			} else {
-				throw new RuntimeException("There is no basic furnace tier " + lvl + "!");
+				throw new MachineNotSupportedException("There is no basic furnace tier " + lvl + "!");
 			}
 		} else {
 			throw new RuntimeException("There is no such machine group as \"" + group.name());
