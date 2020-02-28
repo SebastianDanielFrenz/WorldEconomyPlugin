@@ -55,6 +55,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		sender.sendMessage(
+				WorldEconomyPlugin.plugin.getDefaultWorldGenerator("world", "1").getClass().getCanonicalName());
+
 		if (args.length == 0) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4This is a GUI! Try again as a player.");
@@ -401,7 +404,8 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 									if (args[4].equalsIgnoreCase("take")) {
 										if (args.length >= 7) {
-											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD)) {
+											if (hasPermission(sender,
+													Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD)) {
 												if (sender instanceof Player) {
 													Bank bank = WEDB.getBank(args[5]);
 													try {
@@ -469,7 +473,8 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											return true;
 										}
 
-										if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD)) {
+										if (hasPermission(sender,
+												Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD)) {
 											Bank bank = WEDB.getBank(args[5]);
 											if (bank == null) {
 												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2]

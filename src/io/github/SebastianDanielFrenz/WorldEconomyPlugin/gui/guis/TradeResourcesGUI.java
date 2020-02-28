@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.ResourceChooserEvent;
@@ -12,7 +13,8 @@ public class TradeResourcesGUI extends ChooseResourceGUI {
 		super(new ResourceChooserEvent() {
 			@Override
 			public void event(InventoryClickEvent event, Material material) {
-				new ResourceGUI((WEGUI) event.getClickedInventory().getHolder(), material);
+				new ResourceGUI((WEGUI) event.getClickedInventory().getHolder(), material)
+						.openInventory((Player) event.getWhoClicked());
 			}
 		});
 	}

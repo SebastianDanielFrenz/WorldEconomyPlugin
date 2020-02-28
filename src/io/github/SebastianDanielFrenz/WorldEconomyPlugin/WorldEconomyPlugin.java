@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.WorldCreator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +22,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPa
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.CustomChunkGenerator;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.WorldEconomyBlockPopulator;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -99,6 +102,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		// Bukkit.getWorld("world").getPopulators().add(new
+		// WorldEconomyBlockPopulator());
 
 	}
 

@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.MissuseWarning;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
 
 public class ItemTransactionManager {
 
@@ -44,6 +45,32 @@ public class ItemTransactionManager {
 		}
 	}
 
+	@MissuseWarning(text = "Please check for usable inventory space before using this function.")
+	public static void give(Inventory inv, CustomItemStack stack) {
+		int done = 0;
+		ItemStack[] items = inv.getContents();
+		int amount = stack.getCount();
+
+		for (int i = 0; i < items.length && amount < done; i++) {
+			if (items[i].getType() == stack.getItem().base_material && (items[i].hasItemMeta()
+					? items[i].getItemMeta().getDisplayName().equals(stack.getItem().item_name)
+					: stack.getItem().item_name == null)) {
+				int space = items[i].getMaxStackSize() - items[i].getAmount();
+				if (space > amount - done) {
+					items[i].setAmount(items[i].getAmount() + amount - done);
+					done += amount - done;
+					break;
+				} else {
+					items[i].setAmount(items[i].getMaxStackSize());
+					done += space;
+				}
+			}
+		}
+		if (done != amount) {
+			throw new RuntimeException("Not enough space in inventory!");
+		}
+	}
+
 	public static int getPresent(Inventory inv, Material material) {
 		int out = 0;
 		for (ItemStack slot : inv.getContents()) {
@@ -56,6 +83,13 @@ public class ItemTransactionManager {
 
 	public static boolean canConsume(Inventory inv, Material material, int amount) {
 		return getPresent(inv, material) >= amount;
+	}
+
+	public static void consume(Inventory inv, CustomItemStack[] stack) {
+		int done = 0;
+		for (int i = 0; i < inv.getSize(); i++) {
+			// TODO
+		}
 	}
 
 }
