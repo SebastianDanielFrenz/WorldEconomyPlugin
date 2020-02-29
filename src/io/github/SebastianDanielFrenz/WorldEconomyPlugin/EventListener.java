@@ -244,8 +244,10 @@ public class EventListener implements Listener {
 		ItemStack item = event.getItemInHand();
 		if (Machine.canBeMachine(item.getType())) {
 			MachineGroup group = Machine.getMachineGroup(item.getItemMeta().getDisplayName());
-			System.out.println(item.getItemMeta().getLore().get(0));
-			int lvl = Integer.parseInt(item.getItemMeta().getLore().get(0));
+			System.out.println(group);
+			System.out.println(item.toString());
+			System.out.println(item.getItemMeta().getLore().get(1));
+			int lvl = Integer.parseInt(item.getItemMeta().getLore().get(1));
 			System.out.println(lvl);
 			Machine.setMachine(event.getBlock(), group, lvl);
 		}
