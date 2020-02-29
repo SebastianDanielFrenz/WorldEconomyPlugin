@@ -24,5 +24,5 @@ public abstract class MachineFurnace extends Machine {
 				}
 			}
 		}
-	}
+	} 
 }
