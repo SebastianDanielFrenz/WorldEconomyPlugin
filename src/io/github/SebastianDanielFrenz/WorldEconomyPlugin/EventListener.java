@@ -249,9 +249,8 @@ public class EventListener implements Listener {
 			System.out.println(item.getItemMeta().getLore().get(1));
 			int lvl = Integer.parseInt(item.getItemMeta().getLore().get(1));
 			System.out.println(lvl);
-			Machine.setMachine(event.getBlock(), group, lvl);
+			Machine.turnIntoMachine(event.getBlock(), group, lvl);
 		}
-		event.setCancelled(true);
 	}
 
 	@EventHandler

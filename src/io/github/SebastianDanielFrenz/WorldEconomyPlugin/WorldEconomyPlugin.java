@@ -112,6 +112,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * ==================================================
 		 */
 
+		try {
+			WEDB.loadMachines();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			getLogger().severe("Could not load the machines from the last server run!");
+		}
+
 		// Bukkit.getWorld("world").getPopulators().add(new
 		// WorldEconomyBlockPopulator());
 

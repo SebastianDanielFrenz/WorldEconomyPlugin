@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
 public enum MachineGroup {
 
-	BASIC_FURNACE("§eBasic Furnace", MachineKategory.SMELTING);
+	BASIC_FURNACE("§eBasic Furnace", MachineKategory.SMELTING); 
 
 	private MachineGroup(String name, MachineKategory kategory) {
 		this.name = name;

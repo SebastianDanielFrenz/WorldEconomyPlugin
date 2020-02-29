@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -7,6 +8,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceTier1;
 
 public abstract class Machine {
@@ -91,6 +94,21 @@ public abstract class Machine {
 		block.setType(kategory.display);
 		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
 		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
+		try {
+			WEDB.registerMachine(block.getLocation(), group);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void turnIntoMachine(Block block, MachineGroup group, int lvl) {
+		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
+		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
+		try {
+			WEDB.registerMachine(block.getLocation(), group);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void setMachine(Block block, MachineGroup group, int lvl) {
