@@ -7,8 +7,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
-
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceTier1;
 
 public abstract class Machine {
@@ -59,6 +57,23 @@ public abstract class Machine {
 		}
 	}
 
+	public static Material getBlockForLevel(int lvl) {
+		switch (lvl) {
+		case 1:
+			return Material.WHITE_WOOL;
+		case 2:
+			return Material.ORANGE_WOOL;
+		case 3:
+			return Material.MAGENTA_WOOL;
+		case 4:
+			return Material.LIGHT_BLUE_WOOL;
+		case 5:
+			return Material.YELLOW_WOOL;
+		default:
+			return null;
+		}
+	}
+
 	public static MachineGroup getMachineGroup(Block block) {
 		List<MetadataValue> meta = block.getMetadata("machineGroup");
 		return (MachineGroup) meta.get(0).value();
@@ -75,6 +90,11 @@ public abstract class Machine {
 	public static void setMachine(Block block, MachineKategory kategory, MachineGroup group, int lvl) {
 		block.setType(kategory.display);
 		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
+		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
+	}
+
+	public static void setMachine(Block block, MachineGroup group, int lvl) {
+		setMachine(block, group.getKategory(), group, lvl);
 	}
 
 	public static Machine getMachine(Block block) {

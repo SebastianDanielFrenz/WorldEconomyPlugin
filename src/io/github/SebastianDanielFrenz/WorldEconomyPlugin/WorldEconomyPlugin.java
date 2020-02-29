@@ -103,6 +103,15 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			e.printStackTrace();
 		}
 
+		/**
+		 * ==================================================
+		 * 
+		 * This part is responsible for transferring metadata to machine blocks
+		 * in the world.
+		 * 
+		 * ==================================================
+		 */
+
 		// Bukkit.getWorld("world").getPopulators().add(new
 		// WorldEconomyBlockPopulator());
 

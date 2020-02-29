@@ -19,6 +19,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,6 +32,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
@@ -235,6 +237,19 @@ public class EventListener implements Listener {
 				}
 			}
 		}
+	}
+
+	@EventHandler
+	public void onMachinePlaceEvent(BlockPlaceEvent event) {
+		ItemStack item = event.getItemInHand();
+		if (Machine.canBeMachine(item.getType())) {
+			MachineGroup group = Machine.getMachineGroup(item.getItemMeta().getDisplayName());
+			System.out.println(item.getItemMeta().getLore().get(0));
+			int lvl = Integer.parseInt(item.getItemMeta().getLore().get(0));
+			System.out.println(lvl);
+			Machine.setMachine(event.getBlock(), group, lvl);
+		}
+		event.setCancelled(true);
 	}
 
 	@EventHandler
