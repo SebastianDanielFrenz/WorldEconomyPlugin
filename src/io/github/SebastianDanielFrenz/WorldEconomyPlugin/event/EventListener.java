@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.event;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,22 +24,36 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.metadata.MetadataValue;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Permissions;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.VolatileCooldowns;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyCommandExecutor;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.WorldEconomyBlockPopulator;
 
 public class EventListener implements Listener {
+
+	private static boolean world_init = false;
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
@@ -254,6 +268,15 @@ public class EventListener implements Listener {
 	}
 
 	@EventHandler
+	public void onMachineDestoryEvent(BlockBreakEvent event) throws SQLException {
+		Block block = event.getBlock();
+		List<MetadataValue> metas = block.getMetadata("machineGroup");
+		if (metas.size() != 0) {
+			WEDB.removeMachine(block.getLocation());
+		}
+	}
+
+	@EventHandler
 	public void onSignChangeEvent(SignChangeEvent event) throws SQLException {
 
 		Sign sign = (Sign) event.getBlock().getState();
@@ -359,6 +382,19 @@ public class EventListener implements Listener {
 				}
 			}
 		}
+	}
+
+	@EventHandler
+	public void onWorldInitEvent(WorldInitEvent event) throws SQLException {
+		if (event.getWorld().getName().equals("world")) {
+			event.getWorld().getPopulators().add(new WorldEconomyBlockPopulator());
+		}
+
+		if (!world_init) {
+			WEDB.loadMachines();
+		}
+
+		world_init = true;
 	}
 
 }

@@ -17,6 +17,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
@@ -112,12 +113,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * ==================================================
 		 */
 
-		try {
-			WEDB.loadMachines();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			getLogger().severe("Could not load the machines from the last server run!");
-		}
+		// try {
+		// WEDB.loadMachines();
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// getLogger().severe("Could not load the machines from the last server
+		// run!");
+		// }
 
 		// Bukkit.getWorld("world").getPopulators().add(new
 		// WorldEconomyBlockPopulator());
