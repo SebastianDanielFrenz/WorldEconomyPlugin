@@ -11,56 +11,48 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventory;
 
 public class CraftingGUI extends WEGUI {
 
-	public void setItems(GUIItem[] items) {
-		inv.clear();
+	protected int[] inv_representing_slots;
+	protected MachineInventory storage_inv;
 
-		if (parent != null) {
-			GUIItem[] items2 = new GUIItem[items.length + 1];
-			for (int i = 0; i < items.length; i++) {
-				items2[i] = items[i];
-			}
-
-			// other constructor equivalent
-			this.items = items2;
-
-			ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
-			ItemMeta meta = backButtonItem.getItemMeta();
-			meta.setDisplayName("§4Back");
-			backButtonItem.setItemMeta(meta);
-
-			items2[items.length] = new GUIItem(0, 8, backButtonItem) {
-				@Override
-				public void event(InventoryClickEvent event) {
-					parent.openInventory((Player) event.getWhoClicked());
-					WEGUIRegistry.GUIs.add(parent);
-				}
-			};
-		} else {
-			this.items = items;
-		}
-	}
-
-	public CraftingGUI parent;
-
-	public CraftingGUI(GUIItem[] items, MachineInventory inv) {
+	public CraftingGUI(GUIItem[] items, MachineInventory inv, int[] inv_representing_slots) {
 		super(items);
+		this.inv_representing_slots = inv_representing_slots;
+		storage_inv = inv;
 	}
 
-	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, MachineInventory inv) {
+	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, MachineInventory inv,
+			int[] inv_representing_slots) {
 		super(parent, items, title);
+		this.inv_representing_slots = inv_representing_slots;
+		storage_inv = inv;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv) {
+	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv, int[] inv_representing_slots) {
 		super(items, title);
+		this.inv_representing_slots = inv_representing_slots;
+		storage_inv = inv;
 	}
 
 	@Override
 	public void initializeItems(GUIItem[] items) {
-		
+		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length];
+		for (int i = 0; i < items.length; i++) {
+			new_items[i] = items[i];
+		}
+		for (int i = 0; i < inv_representing_slots.length; i++) {
+			new_items[items.length + i] = new GUIItem(inv_representing_slots[i], storage_inv.inv.getContents()[i]) {
+				@Override
+				public void event(InventoryClickEvent event) {
+				}
+			};
+		}
+
+		super.initializeItems(new_items);
 	}
 
 	// You can open the inventory with this
@@ -104,16 +96,32 @@ public class CraftingGUI extends WEGUI {
 				if (e.getRawSlot() < 9) {
 					if (items[i].slot == e.getRawSlot()) {
 						items[i].event(e);
+						if (Utils.in(inv_representing_slots, e.getRawSlot())) {
+							e.setCancelled(false);
+							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot()),
+									e.getCurrentItem());
+						}
 						break;
 					}
 				} else if (e.getRawSlot() >= 5 * 9) {
 					if (items[i].slot == e.getRawSlot() - 6 * 9) {
 						items[i].event(e);
+						if (Utils.in(inv_representing_slots, e.getRawSlot() - 6 * 9)) {
+							e.setCancelled(false);
+							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot() - 6 * 9),
+									e.getCurrentItem());
+						}
 						break;
 					}
 				} else {
 					if (items[i].slot == e.getRawSlot() + page * 9 * 4) {
 						items[i].event(e);
+						if (Utils.in(inv_representing_slots, e.getRawSlot() + page * 9 * 4)) {
+							e.setCancelled(false);
+							storage_inv.inv.setItem(
+									Utils.indexOf(inv_representing_slots, e.getRawSlot() + page * 9 * 4),
+									e.getCurrentItem());
+						}
 						break;
 					}
 
@@ -132,61 +140,5 @@ public class CraftingGUI extends WEGUI {
 			};
 		}
 		setItems(items);
-	}
-
-	public static GUIItem[] convert(List<GUIItem> list) {
-		GUIItem[] out = new GUIItem[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			out[i] = list.get(i);
-		}
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, String name, String[] lore) {
-		ItemStack out = new ItemStack(material);
-		ItemMeta meta = out.getItemMeta();
-		ArrayList<String> _lore = new ArrayList<String>();
-
-		for (int i = 0; i < lore.length; i++) {
-			_lore.add(lore[i]);
-		}
-
-		meta.setLore(_lore);
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, String name) {
-		ItemStack out = new ItemStack(material);
-		ItemMeta meta = out.getItemMeta();
-
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, int amount, String name, String[] lore) {
-		ItemStack out = new ItemStack(material, amount);
-		ItemMeta meta = out.getItemMeta();
-		ArrayList<String> _lore = new ArrayList<String>();
-
-		for (int i = 0; i < lore.length; i++) {
-			_lore.add(lore[i]);
-		}
-
-		meta.setLore(_lore);
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
-	}
-
-	public static ItemStack mkItem(Material material, int amount, String name) {
-		ItemStack out = new ItemStack(material, amount);
-		ItemMeta meta = out.getItemMeta();
-
-		meta.setDisplayName(name);
-		out.setItemMeta(meta);
-		return out;
 	}
 }

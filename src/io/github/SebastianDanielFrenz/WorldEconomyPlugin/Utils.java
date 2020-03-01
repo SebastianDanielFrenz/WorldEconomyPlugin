@@ -62,4 +62,21 @@ public class Utils {
 		return out;
 	}
 
+	public static boolean in(int[] array, int value) {
+		for (int obj : array) {
+			if (obj == value) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static int indexOf(int[] array, int value) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == value) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }
