@@ -1,7 +1,12 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.CraftingGUI;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
@@ -14,16 +19,12 @@ public abstract class MachineFurnace extends Machine {
 
 	@Override
 	public void playerUseEvent(Player player) {
-		// TODO this only works for one item type at a time!
-		for (MachineRecipe recipe : getRecipes()) {
-			if (recipe.getInput().length != 1) {
-				throw new RuntimeException("Furnaces can currently only deal with one item recipes!");
+		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, "Testing item")) {
+			@Override
+			public void event(InventoryClickEvent event) {
+				// TODO Auto-generated method stub
 			}
-			if (recipe.getInput()[0].getItem().matches(player.getInventory().getItemInMainHand())) {
-				for (CustomItemStack stack : recipe.getOutput()) {
-					ItemTransactionManager.give(player.getInventory(), stack);
-				}
-			}
-		}
+		} }, "Furnace", this, new int[] { 9 + 6, 9 + 7, 9 + 8, 18 + 6, 18 + 7, 18 + 8, 27 + 6, 27 + 7, 27 + 8 })
+				.openInventory(player);
 	}
 }

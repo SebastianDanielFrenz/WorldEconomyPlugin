@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CustomItem {
 
@@ -22,6 +23,18 @@ public class CustomItem {
 		return itemStack == null ? false
 				: (itemStack.getType() == base_material && (itemStack.hasItemMeta()
 						? itemStack.getItemMeta().getDisplayName().equals(item_name) : item_name == null));
+	}
+
+	public ItemStack toItemStack() {
+		if (item_name == null) {
+			return new ItemStack(base_material);
+		} else {
+			ItemStack out = new ItemStack(base_material);
+			ItemMeta meta = out.getItemMeta();
+			meta.setDisplayName(item_name);
+			out.setItemMeta(meta);
+			return out;
+		}
 	}
 
 }

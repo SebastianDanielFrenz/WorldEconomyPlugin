@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.ComparableLocation;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventoryRegistry;
 
 public class MachineInventoryAutoSaveThread implements Runnable {
@@ -18,13 +19,13 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 		while (true) {
 			int size = MachineInventoryRegistry.inventories.size();
 
-			Iterator<Location> locations = MachineInventoryRegistry.inventories.keySet().iterator();
+			Iterator<ComparableLocation> locations = MachineInventoryRegistry.inventories.keySet().iterator();
 			Iterator<Inventory> inventories = MachineInventoryRegistry.inventories.values().iterator();
 			Inventory inv;
 			Location loc;
 			for (int i = 0; i < size; i++) {
 				inv = inventories.next();
-				loc = locations.next();
+				loc = locations.next().toLocation();
 				try {
 					InventoryIO.writeInventoryToFile(inv,
 							"machine_" + loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ() + ".mcinv");
@@ -37,6 +38,12 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 					WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
 					return;
 				}
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
+				return;
 			}
 		}
 	}

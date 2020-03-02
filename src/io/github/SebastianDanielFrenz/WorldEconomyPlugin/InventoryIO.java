@@ -40,6 +40,10 @@ public class InventoryIO {
 
 	@SuppressWarnings("deprecation")
 	public static String serialize(ItemStack item) {
+		if (item == null) {
+			return "null";
+		}
+
 		Material material = item.getType();
 		int amount = item.getAmount();
 		ItemMeta itemMeta = item.getItemMeta();
@@ -106,6 +110,10 @@ public class InventoryIO {
 
 	@SuppressWarnings("deprecation")
 	public static ItemStack loadItemStack(String text) {
+		if (text.equals("null")) {
+			return null;
+		}
+
 		String[] item_data = split(text, sep(SEP_ITEM));
 
 		Material material = Material.getMaterial(item_data[0]);

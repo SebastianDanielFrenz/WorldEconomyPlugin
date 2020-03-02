@@ -16,7 +16,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 
 public class MachineInventoryRegistry {
 
-	public static Map<Location, Inventory> inventories = new TreeMap<Location, Inventory>();
+	public static Map<ComparableLocation, Inventory> inventories = new TreeMap<ComparableLocation, Inventory>();
 
 	public static void setupMachines() {
 		for (File file : new File("plugins/WorldEconomyPlugin/saved_inventories").listFiles()) {
@@ -40,11 +40,17 @@ public class MachineInventoryRegistry {
 	}
 
 	public static void addMachine(Location location, Inventory inventory) {
-		inventories.put(location, inventory);
+		inventories.put(convertLocation(location), inventory);
+		try {
+			InventoryIO.writeInventoryToFile(inventory, "machine_" + location.getBlockX() + "_" + location.getBlockY()
+					+ "_" + location.getBlockZ() + ".mcinv");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void removeMachine(Location location) {
-		inventories.remove(location);
+		inventories.remove(convertLocation(location));
 		try {
 			Files.delete(Paths.get("machine_" + location.getWorld().getName() + "_" + location.getBlockX() + "_"
 					+ location.getBlockY() + "_" + location.getBlockZ() + ".mcinv"));
@@ -54,7 +60,12 @@ public class MachineInventoryRegistry {
 	}
 
 	public static Inventory getInventory(Location location) {
-		return inventories.get(location);
+		return inventories.get(convertLocation(location));
+	}
+
+	private static ComparableLocation convertLocation(Location location) {
+		return new ComparableLocation(location.getWorld(), location.getBlockX(), location.getBlockY(),
+				location.getBlockZ());
 	}
 
 }

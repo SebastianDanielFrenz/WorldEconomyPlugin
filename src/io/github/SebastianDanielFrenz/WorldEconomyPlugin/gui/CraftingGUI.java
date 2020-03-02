@@ -34,12 +34,14 @@ public class CraftingGUI extends WEGUI {
 
 	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots) {
 		super(items, title);
-		this.inv_representing_slots = inv_representing_slots;
+		// this.inv_representing_slots = inv_representing_slots;
+		this.inv_representing_slots = new int[] { 9 + 4 };
 		storage_inv = new MachineInventory(machine.getInventory(), inv_representing_slots.length);
 	}
 
 	@Override
 	public void initializeItems(GUIItem[] items) {
+		System.out.println(inv_representing_slots);
 		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length];
 		for (int i = 0; i < items.length; i++) {
 			new_items[i] = items[i];

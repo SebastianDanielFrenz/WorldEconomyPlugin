@@ -1,7 +1,5 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
-import org.bukkit.inventory.Inventory;
-
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 
 public class BasicFurnaceTier2 extends BasicFurnaceTier1 {
