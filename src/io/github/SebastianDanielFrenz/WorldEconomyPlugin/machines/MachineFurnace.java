@@ -6,6 +6,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomIt
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
 public abstract class MachineFurnace extends Machine {
+
 	@Override
 	public MachineKategory getKategory() {
 		return MachineKategory.SMELTING;
@@ -24,5 +25,5 @@ public abstract class MachineFurnace extends Machine {
 				}
 			}
 		}
-	} 
+	}
 }

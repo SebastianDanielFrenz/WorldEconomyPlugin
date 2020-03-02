@@ -13,6 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +23,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.MachineInventoryAutoSaveThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.CustomChunkGenerator;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.WorldEconomyBlockPopulator;
@@ -39,6 +42,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static Thread salaryHandlerThread;
 	private static Thread creditPaymentHandlerThread;
 	private static Thread emptyProductStackCleanerThread;
+	private static Thread machineInventoryAutoSaveThread;
 
 	@Override
 	public void onEnable() {
@@ -51,7 +55,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		try {
 			Files.createDirectories(Paths.get("plugins/WorldEconomy"));
-
+			Files.createDirectories(Paths.get("plugins/WorldEconomy/saved_inventories"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -329,12 +333,15 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		creditPaymentHandlerThread.start();
 		emptyProductStackCleanerThread = new Thread(new EmptyProductStackCleanerThread());
 		emptyProductStackCleanerThread.start();
+		machineInventoryAutoSaveThread = new Thread(new MachineInventoryAutoSaveThread());
+		machineInventoryAutoSaveThread.start();
 	}
 
 	public static void stopThreads() {
 		salaryHandlerThread.interrupt();
 		creditPaymentHandlerThread.interrupt();
 		emptyProductStackCleanerThread.interrupt();
+		machineInventoryAutoSaveThread.interrupt();
 	}
 
 	public static void resetDB() throws SQLException, IOException {
@@ -382,6 +389,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void runSQLasync(String query) {
+		plugin.getLogger().info("async SQL: " + query);
+
 	}
 
 	public static String PREFIX = "§f[§eWorld Economy§f]: §e";

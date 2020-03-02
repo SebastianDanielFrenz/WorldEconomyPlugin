@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -43,6 +44,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankA
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventoryRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
@@ -264,6 +266,10 @@ public class EventListener implements Listener {
 			int lvl = Integer.parseInt(item.getItemMeta().getLore().get(1));
 			System.out.println(lvl);
 			Machine.turnIntoMachine(event.getBlock(), group, lvl);
+
+			Machine machine = Machine.getMachine(event.getBlock());
+
+			MachineInventoryRegistry.addMachine(event.getBlock().getLocation(), Bukkit.createInventory(machine, 54));
 		}
 	}
 
@@ -273,6 +279,7 @@ public class EventListener implements Listener {
 		List<MetadataValue> metas = block.getMetadata("machineGroup");
 		if (metas.size() != 0) {
 			WEDB.removeMachine(block.getLocation());
+			MachineInventoryRegistry.removeMachine(block.getLocation());
 		}
 	}
 

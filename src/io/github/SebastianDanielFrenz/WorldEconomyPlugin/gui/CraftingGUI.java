@@ -1,17 +1,11 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventory;
 
 public class CraftingGUI extends WEGUI {
@@ -36,6 +30,12 @@ public class CraftingGUI extends WEGUI {
 		super(items, title);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
+	}
+
+	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots) {
+		super(items, title);
+		this.inv_representing_slots = inv_representing_slots;
+		storage_inv = new MachineInventory(machine.getInventory(), inv_representing_slots.length);
 	}
 
 	@Override
