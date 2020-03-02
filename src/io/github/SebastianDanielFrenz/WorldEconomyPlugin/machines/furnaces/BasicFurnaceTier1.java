@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineFurnace;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;

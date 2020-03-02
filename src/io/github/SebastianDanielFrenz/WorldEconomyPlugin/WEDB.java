@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -1369,9 +1370,9 @@ public class WEDB {
 	public static void loadMachines() throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM machines");
 		while (r.next()) {
-			Bukkit.getWorld(r.getString("machineWorld"))
-					.getBlockAt(new Location(Bukkit.getWorld(r.getString("machineWorld")), r.getInt("machineX"),
-							r.getInt("machineY"), r.getInt("machineZ")))
+			World world = Bukkit.getWorld(r.getString("machineWorld"));
+
+			world.getBlockAt(new Location(world, r.getInt("machineX"), r.getInt("machineY"), r.getInt("machineZ")))
 					.setMetadata("machineGroup",
 							new WorldEconomyMachineMeta(Machine.getMachineGroup(r.getString("machineGroup"))));
 		}

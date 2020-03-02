@@ -1,15 +1,28 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.metadata.MetadataValue;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceTier1;
 
-public abstract class Machine {
+public abstract class Machine implements InventoryHolder {
+
+	Location location;
+
+	@Override
+	public Inventory getInventory() {
+		return MachineInventoryRegistry.getInventory(location);
+	}
 
 	public static MachineRecipe[] mergeRecipes(MachineRecipe[] recipes1, MachineRecipe[] recipes2) {
 		MachineRecipe[] recipes = new MachineRecipe[recipes1.length + recipes2.length];
@@ -91,6 +104,21 @@ public abstract class Machine {
 		block.setType(kategory.display);
 		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
 		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
+		try {
+			WEDB.registerMachine(block.getLocation(), group);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void turnIntoMachine(Block block, MachineGroup group, int lvl) {
+		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
+		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
+		try {
+			WEDB.registerMachine(block.getLocation(), group);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void setMachine(Block block, MachineGroup group, int lvl) {

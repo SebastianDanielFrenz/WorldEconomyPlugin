@@ -16,10 +16,10 @@ public class WEGUI implements InventoryHolder {
 	// Create a new inventory, with "this" owner for comparison with other
 	// inventories, a size of nine, called example
 	public final Inventory inv;
-	private GUIItem[] items;
+	protected GUIItem[] items;
 
-	private int page;
-	private boolean fits_on_one_screen = true;
+	protected int page;
+	protected boolean fits_on_one_screen = true;
 
 	public int getOffset() {
 		return page == 0 ? 0 : 9;
