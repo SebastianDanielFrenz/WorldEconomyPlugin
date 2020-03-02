@@ -36,11 +36,11 @@ public class CustomItems {
 	public static CustomItem TINN_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Tinn Ingot");
 	public static CustomItem TINN_PLATE = new CustomItem(Material.PAPER, TIER1 + "Tinn Plate");
 	public static CustomItem TINN_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Tinn Rod");
-	
-	//osmium
-		public static CustomItem OSMIUM_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Osmium Ingot");
-		public static CustomItem OSMIUM_PLATE = new CustomItem(Material.PAPER, TIER1 + "Osmium Plate");
-		public static CustomItem OSMIUM_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Osmium Rod");
+
+	// osmium
+	public static CustomItem OSMIUM_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Osmium Ingot");
+	public static CustomItem OSMIUM_PLATE = new CustomItem(Material.PAPER, TIER1 + "Osmium Plate");
+	public static CustomItem OSMIUM_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Osmium Rod");
 
 	// Silikon
 
