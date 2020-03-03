@@ -32,6 +32,7 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
 				try {
 					Thread.sleep(duration / size);
 				} catch (InterruptedException e) {

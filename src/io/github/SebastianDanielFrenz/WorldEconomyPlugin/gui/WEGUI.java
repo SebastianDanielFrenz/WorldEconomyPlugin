@@ -108,7 +108,7 @@ public class WEGUI implements InventoryHolder {
 	}
 
 	// You can call this whenever you want to put the items in
-	public void initializeItems(GUIItem[] items) {
+	public GUIItem[] initializeItems(GUIItem[] items) {
 
 		// check whether all the items fit on one screen
 		fits_on_one_screen = true;
@@ -123,6 +123,7 @@ public class WEGUI implements InventoryHolder {
 			for (int i = 0; i < items.length; i++) {
 				inv.setItem(items[i].slot, items[i].itemStack);
 			}
+			return items;
 		} else {
 			// if previously the items did not fit on screen, the space needs to
 			// be cleared! (the GUI updates without reopening)
@@ -198,14 +199,13 @@ public class WEGUI implements InventoryHolder {
 				ext++;
 			}
 
-			this.items = items2;
-
+			return items2;
 		}
 	}
 
 	// You can open the inventory with this
 	public void openInventory(Player player) {
-		initializeItems(items);
+		items = initializeItems(items);
 		player.openInventory(inv);
 	}
 

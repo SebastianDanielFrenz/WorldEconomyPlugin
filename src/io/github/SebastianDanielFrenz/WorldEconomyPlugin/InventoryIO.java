@@ -61,8 +61,12 @@ public class InventoryIO {
 			out += ench_keys_it.next().getName() + sep(SEP_ITEM_METADATA_ENCHANTMENT) + ench_values_it.next();
 		}
 		out += sep(SEP_ITEM_METADATA);
-		for (String line : itemMeta.getLore()) {
-			out += line + sep(SEP_ITEM_METADATA_LORE);
+		if (itemMeta.getLore() == null) {
+			out += "null";
+		} else {
+			for (String line : itemMeta.getLore()) {
+				out += line + sep(SEP_ITEM_METADATA_LORE);
+			}
 		}
 		// TODO persistent data container
 
@@ -134,12 +138,15 @@ public class InventoryIO {
 			itemMeta.addEnchant(Enchantment.getByName(ench_data[0]), Integer.parseInt(ench_data[1]), true);
 		}
 
-		String[] lore_data = split(raw_item_meta_data[2], sep(SEP_ITEM_METADATA_LORE));
-		List<String> lore = new ArrayList<String>();
-		for (String line : lore_data) {
-			lore.add(line);
+		String raw_lore = raw_item_meta_data[2];
+		if (!raw_lore.equals("null")) {
+			String[] lore_data = split(raw_lore, sep(SEP_ITEM_METADATA_LORE));
+			List<String> lore = new ArrayList<String>();
+			for (String line : lore_data) {
+				lore.add(line);
+			}
+			itemMeta.setLore(lore);
 		}
-		itemMeta.setLore(lore);
 
 		out.setItemMeta(itemMeta);
 

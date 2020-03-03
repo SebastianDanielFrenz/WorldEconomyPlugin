@@ -19,7 +19,7 @@ public class MachineInventoryRegistry {
 	public static Map<ComparableLocation, Inventory> inventories = new TreeMap<ComparableLocation, Inventory>();
 
 	public static void setupMachines() {
-		for (File file : new File("plugins/WorldEconomyPlugin/saved_inventories").listFiles()) {
+		for (File file : new File("../plugins/WorldEconomyPlugin/saved_inventories").listFiles()) {
 			String part = file.getName().substring(8);
 			String part2 = part.split("[.]")[0];
 			String[] part3 = part2.split("[_]");

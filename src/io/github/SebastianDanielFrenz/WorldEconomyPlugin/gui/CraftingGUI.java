@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
@@ -40,25 +41,35 @@ public class CraftingGUI extends WEGUI {
 	}
 
 	@Override
-	public void initializeItems(GUIItem[] items) {
+	public GUIItem[] initializeItems(GUIItem[] items) {
 		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length];
 		for (int i = 0; i < items.length; i++) {
 			new_items[i] = items[i];
 		}
+
+		ItemStack slot;
 		for (int i = 0; i < inv_representing_slots.length; i++) {
-			new_items[items.length + i] = new GUIItem(inv_representing_slots[i], storage_inv.inv.getContents()[i]) {
+			int x = i;
+			slot = storage_inv.inv.getContents()[i];
+			if (slot == null) {
+				slot = new ItemStack(Material.AIR);
+			}
+			new_items[items.length + i] = new GUIItem(inv_representing_slots[i], slot) {
 				@Override
 				public void event(InventoryClickEvent event) {
+					event.setCancelled(false);
+					event.getWhoClicked().sendMessage("inv click!");
+					storage_inv.inv.setItem(x, event.getCursor());
 				}
 			};
 		}
 
-		super.initializeItems(new_items);
+		return super.initializeItems(new_items);
 	}
 
 	// You can open the inventory with this
 	public void openInventory(Player player) {
-		initializeItems(items);
+		items = initializeItems(items);
 		player.openInventory(inv);
 	}
 
@@ -69,18 +80,27 @@ public class CraftingGUI extends WEGUI {
 
 		ItemStack clickedItem = e.getCurrentItem();
 
-		// verify current item is not null
-		if (clickedItem == null || clickedItem.getType() == Material.AIR)
-			return;
-
-		// Using slots click is a best option for your inventory click's
 		System.out.println("Raw: " + e.getRawSlot());
 
+		// Using slots click is a best option for your inventory click's
+
 		if (fits_on_one_screen) {
+			// CraftingGUI specific code (also see in !fits_on_screen)
+			if (e.getRawSlot() >= 54) {
+				System.out.println("");
+				System.out.println(e.getAction().name());
+				if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
+					e.getWhoClicked().sendMessage("don't shift!");
+				} else {
+					e.setCancelled(false);
+				}
+				return;
+			}
+
 			for (int i = 0; i < items.length; i++) {
 				if (items[i].slot == e.getRawSlot()) {
 					items[i].event(e);
-					return;
+					break;
 				}
 			}
 		} else {
@@ -91,6 +111,17 @@ public class CraftingGUI extends WEGUI {
 				System.out.println("bottom slot " + (e.getRawSlot() - (9 * 6)));
 			} else {
 				System.out.println("middle slot " + (e.getRawSlot() + (page * 9 * 4)));
+			}
+
+			// CraftingGUI specific code (also see in fits_on_screen)
+			if (e.getRawSlot() >= 54) {
+				System.out.println("");
+				System.out.println(e.getAction().name());
+				if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
+					e.getWhoClicked().sendMessage("don't shift!");
+				} else {
+					e.setCancelled(false);
+				}
 			}
 
 			for (int i = 0; i < items.length; i++) {
