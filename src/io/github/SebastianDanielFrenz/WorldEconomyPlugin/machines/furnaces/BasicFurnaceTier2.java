@@ -1,8 +1,14 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
+import org.bukkit.Location;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 
 public class BasicFurnaceTier2 extends BasicFurnaceTier1 {
+
+	public BasicFurnaceTier2(Location location) {
+		super(location);
+	}
 
 	@Override
 	public double getMaintenanceCost() {

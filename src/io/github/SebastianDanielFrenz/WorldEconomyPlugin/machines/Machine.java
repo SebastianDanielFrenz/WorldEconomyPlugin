@@ -19,6 +19,10 @@ public abstract class Machine implements InventoryHolder {
 
 	Location location;
 
+	public Machine(Location location) {
+		this.location = location;
+	}
+
 	@Override
 	public Inventory getInventory() {
 		return MachineInventoryRegistry.getInventory(location);
@@ -134,7 +138,7 @@ public abstract class Machine implements InventoryHolder {
 
 		if (group == MachineGroup.BASIC_FURNACE) {
 			if (lvl == 1) {
-				return new BasicFurnaceTier1();
+				return new BasicFurnaceTier1(block.getLocation());
 			} else {
 				throw new MachineNotSupportedException("There is no basic furnace tier " + lvl + "!");
 			}

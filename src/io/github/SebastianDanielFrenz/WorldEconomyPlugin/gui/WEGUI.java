@@ -62,7 +62,6 @@ public class WEGUI implements InventoryHolder {
 
 	public WEGUI(GUIItem[] items) {
 		inv = Bukkit.createInventory(this, 54);
-		initializeItems(items);
 
 		WEGUIRegistry.GUIs.add(this);
 	}
@@ -92,14 +91,13 @@ public class WEGUI implements InventoryHolder {
 			}
 		};
 
-		initializeItems(items2);
-
 		WEGUIRegistry.GUIs.add(this);
 	}
 
 	public WEGUI(GUIItem[] items, String title) {
 		inv = Bukkit.createInventory(this, 54, title);
-		initializeItems(items);
+
+		this.items = items;
 
 		WEGUIRegistry.GUIs.add(this);
 	}
@@ -111,7 +109,6 @@ public class WEGUI implements InventoryHolder {
 
 	// You can call this whenever you want to put the items in
 	public void initializeItems(GUIItem[] items) {
-		this.items = items;
 
 		// check whether all the items fit on one screen
 		fits_on_one_screen = true;

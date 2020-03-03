@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -11,6 +12,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomIt
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
 public abstract class MachineFurnace extends Machine {
+
+	public MachineFurnace(Location location) {
+		super(location);
+	}
 
 	@Override
 	public MachineKategory getKategory() {

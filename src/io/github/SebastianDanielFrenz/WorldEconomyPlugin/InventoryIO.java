@@ -152,6 +152,11 @@ public class InventoryIO {
 	}
 
 	public static void writeInventoryToFile(Inventory inv, String path) throws IOException {
+		try {
+			Files.delete(Paths.get("plugins/WorldEconomy/saved_inventories/" + path));
+		} catch (IOException e) {
+		}
+
 		Files.write(Paths.get("plugins/WorldEconomy/saved_inventories/" + path), serialize(inv).getBytes(),
 				StandardOpenOption.CREATE_NEW);
 	}
