@@ -13,7 +13,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceTier1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 
 public abstract class Machine implements InventoryHolder {
 
@@ -134,7 +134,7 @@ public abstract class Machine implements InventoryHolder {
 
 		if (group == MachineGroup.BASIC_FURNACE) {
 			if (lvl == 1) {
-				return new BasicFurnaceTier1();
+				return new BasicFurnaceStage1();
 			} else {
 				throw new MachineNotSupportedException("There is no basic furnace tier " + lvl + "!");
 			}

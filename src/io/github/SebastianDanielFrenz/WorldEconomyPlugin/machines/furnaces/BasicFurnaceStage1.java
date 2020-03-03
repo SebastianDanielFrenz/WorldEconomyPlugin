@@ -8,7 +8,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
 
-public class BasicFurnaceTier1 extends MachineFurnace {
+public class BasicFurnaceStage1 extends MachineFurnace {
 
 	@Override
 	public double getMaintenanceCost() {

@@ -4,7 +4,7 @@ import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 
-public class BasicFurnaceTier2 extends BasicFurnaceTier1 {
+public class BasicFurnaceStage2 extends BasicFurnaceStage1 {
 
 	@Override
 	public double getMaintenanceCost() {
