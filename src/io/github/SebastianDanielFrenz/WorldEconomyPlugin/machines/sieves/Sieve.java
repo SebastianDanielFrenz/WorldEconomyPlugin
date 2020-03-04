@@ -25,14 +25,14 @@ public abstract class Sieve extends Machine {
 
 	@Override
 	public void playerUseEvent(Player player) {
-		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, "Testing item")) {
+		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, getStageName())) {
 			@Override
 			public void event(InventoryClickEvent event) {
 
 			}
-		}, new FurnaceDecorationGUIItem(2, 5), new FurnaceDecorationGUIItem(2, 6), new FurnaceDecorationGUIItem(2, 7),
-				new FurnaceDecorationGUIItem(2, 8), new FurnaceDecorationGUIItem(3, 5),
-				new FurnaceDecorationGUIItem(4, 5), new FurnaceDecorationGUIItem(5, 5) }, "Sieve", this,
+		}, new SieveDecorationGUIItem(2, 5), new SieveDecorationGUIItem(2, 6), new SieveDecorationGUIItem(2, 7),
+				new SieveDecorationGUIItem(2, 8), new SieveDecorationGUIItem(3, 5),
+				new SieveDecorationGUIItem(4, 5), new SieveDecorationGUIItem(5, 5) }, "Sieve", this,
 				new int[] { 9 * 3 + 6, 9 * 3 + 7, 9 * 3 + 8, 9 * 4 + 6, 9 * 4 + 7, 9 * 4 + 8, 9 * 5 + 6, 9 * 5 + 7,
 						9 * 5 + 8 }).openInventory(player);
 

@@ -55,4 +55,10 @@ public class RecipesRegistry {
 			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_ROD, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_CABLE, 10) }, 30);
 	
+	//dirt processing
+	public static MachineRecipe SIEVING____COARSE_DIRT____COBBLESTONE__DIRT = new MachineRecipe(
+			new CustomItemStack[] { new CustomItemStack(CustomItems.COARSE_DIRT, 16) }, new CustomItemStack[] {
+					new CustomItemStack(CustomItems.COBBLESTONE, 1), new CustomItemStack(CustomItems.DIRT, 16) },
+			12);
+	
 }

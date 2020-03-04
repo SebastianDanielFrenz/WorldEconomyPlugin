@@ -26,10 +26,10 @@ public abstract class MachineFurnace extends Machine {
 
 	@Override
 	public void playerUseEvent(Player player) {
-		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, "")) {
+		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, getStageName())) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				
+
 			}
 		}, new FurnaceDecorationGUIItem(2, 5), new FurnaceDecorationGUIItem(2, 6), new FurnaceDecorationGUIItem(2, 7),
 				new FurnaceDecorationGUIItem(2, 8), new FurnaceDecorationGUIItem(3, 5),

@@ -73,12 +73,15 @@ public class CustomItems {
 	
 	
 	// Vanilla Items
-//	public static CustomItem STONE = new CustomItem(Material.STONE, TIER1 + "STONE");
-//	public static CustomItem GRASS = new CustomItem(Material.GRASS, TIER1 + "GRASS");
-//	public static CustomItem DIRT = new CustomItem(Material.DIRT, TIER1 + "DIRT");
-	public static CustomItem COBBLESTONE = new CustomItem(Material.COBBLESTONE, TIER1 + "COBBLESTONE");
-//	public static CustomItem OAK_WOOD = new CustomItem(Material.OAK_PLANKS, TIER1 + "WOOD");
-//	public static CustomItem OAK_SAPLING = new CustomItem(Material.OAK_SAPLING, TIER1 + "SAPLING");
+	public static CustomItem STONE = new CustomItem(Material.STONE);
+	public static CustomItem GRASS_BLOCK = new CustomItem(Material.GRASS_BLOCK);
+	public static CustomItem DIRT = new CustomItem(Material.DIRT);
+	public static CustomItem COBBLESTONE = new CustomItem(Material.COBBLESTONE);
+	public static CustomItem OAK_PLANKS = new CustomItem(Material.OAK_PLANKS);
+	public static CustomItem OAK_LOG = new CustomItem(Material.OAK_LOG);
+	public static CustomItem COARSE_DIRT = new CustomItem(Material.COARSE_DIRT);
+
+//		public static CustomItem OAK_SAPLING = new CustomItem(Material.OAK_SAPLING, TIER1 + "SAPLING");
 //	public static CustomItem BEDROCK = new CustomItem(Material.BEDROCK, TIER1 + "BEDROCK");
 //	public static CustomItem WATER = new CustomItem(Material.WATER, TIER1 + "WATER");
 //	public static CustomItem LAVA = new CustomItem(Material.LAVA, TIER1 + "LAVA");
