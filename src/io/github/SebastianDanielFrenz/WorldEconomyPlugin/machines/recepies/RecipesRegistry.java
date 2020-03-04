@@ -27,9 +27,13 @@ public class RecipesRegistry {
 			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_INGOT, 2) },
 			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_ROD, 1) }, 30);
 	
-	public static MachineRecipe FORGING____IRON_PLATE__IRON_ROD____IRON_INGOT = new MachineRecipe(
+	public static MachineRecipe FORGING____IRON_PLATE__IRON_ROD____IRON_PICKAXE = new MachineRecipe(
 			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_ROD, 4), new CustomItemStack(CustomItems.IRON_PLATE, 1) },
-			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_PICKAXE, 1) }, 300);
+			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_PICKAXE, 1) }, 600);
+	
+	public static MachineRecipe FORGING____IRON_PLATE____IRON_HELMT = new MachineRecipe(
+			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_PLATE, 2) },
+			new CustomItemStack[] { new CustomItemStack(CustomItems.IRON_HELMET, 1) }, 600);
 	
 	
 	
@@ -40,7 +44,15 @@ public class RecipesRegistry {
 			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_NUGGET, 1) }, 60);
 	
 	public static MachineRecipe SMELTING___GOLD_NUGGET___GOLD_INGOT = new MachineRecipe(
-			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_NUGGET, 1) },
-			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_INGOT, 10) }, 30);
+			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_NUGGET, 10) },
+			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_INGOT, 1) }, 30);
+	
+	public static MachineRecipe FORGING___GOLD_INGOT___GOLD_ROD = new MachineRecipe(
+			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_INGOT, 2) },
+			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_ROD, 1) }, 30);
+	
+	public static MachineRecipe CRAFTING___GOLD_ROD___GOLD_CABLE = new MachineRecipe(
+			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_ROD, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItems.GOLD_CABLE, 10) }, 30);
 	
 }

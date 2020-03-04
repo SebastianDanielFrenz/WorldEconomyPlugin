@@ -18,14 +18,18 @@ public class CustomItems {
 	public static CustomItem IRON_ORE = new CustomItem(Material.IRON_ORE, TIER1 + "Iron Ore");
 	public static CustomItem IRON_INGOT = new CustomItem(Material.IRON_INGOT);
 	public static CustomItem IRON_PLATE = new CustomItem(Material.PAPER, TIER1 + "Iron Plate");
-	public static CustomItem IRON_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Iron Rod");
+	public static CustomItem IRON_ROD = new CustomItem(Material.STICK, TIER1 + "Iron Rod");
 	
 	public static CustomItem IRON_PICKAXE = new CustomItem(Material.IRON_PICKAXE, TIER1 + "Iron Pickaxe");
+	public static CustomItem IRON_HELMET = new CustomItem(Material.IRON_HELMET, TIER1 + "Iron Helmet");
+	public static CustomItem IRON_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, TIER1 + "Iron Chestplate");
+	public static CustomItem IRON_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, TIER1 + "Iron Leggings");
+	public static CustomItem IRON_BOOTS = new CustomItem(Material.IRON_BOOTS, TIER1 + "Iron Boots");
 
 	// Steel Items
 	public static CustomItem STEEL_INGOT = new CustomItem(Material.IRON_INGOT, TIER3 + "Steel Ingot"); // enchanted
 	public static CustomItem STEEL_PLATE = new CustomItem(Material.PAPER, TIER3 + "Steel Plate");// enchanted
-	public static CustomItem STEEL_ROD = new CustomItem(Material.IRON_NUGGET, TIER3 + "Steel Rod"); // enchanted
+	public static CustomItem STEEL_ROD = new CustomItem(Material.STICK, TIER3 + "Steel Rod"); // enchanted
 
 	// Copper Items
 	public static CustomItem COPPER_INGOT = new CustomItem(Material.GOLD_INGOT, TIER1 + "Copper Ingot");// enchanted
@@ -34,27 +38,32 @@ public class CustomItems {
 	// bronze items
 	public static CustomItem BRONZE_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Bronze Ingot");
 	public static CustomItem BRONZE_PLATE = new CustomItem(Material.PAPER, TIER1 + "Bronze Plate");
-	public static CustomItem BRONZE_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Bronze Rod");
+	public static CustomItem BRONZE_ROD = new CustomItem(Material.STICK, TIER1 + "Bronze Rod");
 
 	// aluminium
 	public static CustomItem ALUMINUM_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Aluminum Ingot");
 	public static CustomItem ALUMINUM_PLATE = new CustomItem(Material.PAPER, TIER1 + "Aluminum Plate");
-	public static CustomItem ALUMINUM_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Aluminum Rod");
+	public static CustomItem ALUMINUM_ROD = new CustomItem(Material.STICK, TIER1 + "Aluminum Rod");
 
-	// tinn
-	public static CustomItem TINN_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Tinn Ingot");
-	public static CustomItem TINN_PLATE = new CustomItem(Material.PAPER, TIER1 + "Tinn Plate");
-	public static CustomItem TINN_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Tinn Rod");
+	// TIN
+	public static CustomItem TIN_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Tin Ingot");
+	public static CustomItem TIN_PLATE = new CustomItem(Material.PAPER, TIER1 + "Tin Plate");
+	public static CustomItem TIN_ROD = new CustomItem(Material.STICK, TIER1 + "Tin Rod");
 
 	// osmium
 	public static CustomItem OSMIUM_INGOT = new CustomItem(Material.IRON_INGOT, TIER1 + "Osmium Ingot");
 	public static CustomItem OSMIUM_PLATE = new CustomItem(Material.PAPER, TIER1 + "Osmium Plate");
-	public static CustomItem OSMIUM_ROD = new CustomItem(Material.IRON_NUGGET, TIER1 + "Osmium Rod");
+	public static CustomItem OSMIUM_ROD = new CustomItem(Material.STICK, TIER1 + "Osmium Rod");
 	
 	//gold
 	public static CustomItem GOLD_ORE = new CustomItem(Material.GOLD_ORE, TIER2 + "Gold ore");
 	public static CustomItem GOLD_NUGGET = new CustomItem(Material.GOLD_NUGGET, TIER2 + "Gold nugget");
 	public static CustomItem GOLD_INGOT = new CustomItem(Material.GOLD_INGOT, TIER2 + "Gold Ingot");
+	public static CustomItem GOLD_ROD = new CustomItem(Material.STICK, TIER2 + "Gold Rod");
+	
+	
+	public static CustomItem GOLD_CABLE = new CustomItem(Material.GOLD_NUGGET, TIER2 + "Gold Cable");
+	
 
 	// Silikon
 	
