@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -15,6 +16,8 @@ import org.bukkit.World;
 import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.MachineDoesNotExistException;
 
 public class MachineInventoryRegistry {
 
@@ -41,6 +44,10 @@ public class MachineInventoryRegistry {
 										+ location.getBlockY() + "_" + location.getBlockZ() + ".mcinv"));
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (MachineDoesNotExistException e) {
+				WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "inventory file suggests there is a block at "
+						+ new ComparableLocation(location)
+						+ ", but the block does not appear to be a machine (block not loaded because of this)!");
 			}
 		}
 	}

@@ -52,22 +52,33 @@ public class InventoryIO {
 		String out = material.name() + sep(SEP_ITEM);
 		out += amount + sep(SEP_ITEM);
 		// item meta
-		out += itemMeta.getDisplayName() + sep(SEP_ITEM_METADATA);
-		// TODO attribute modifiers
-		Set<Enchantment> ench_keys = itemMeta.getEnchants().keySet();
-		Collection<Integer> ench_values = itemMeta.getEnchants().values();
-		Iterator<Enchantment> ench_keys_it = ench_keys.iterator();
-		Iterator<Integer> ench_values_it = ench_values.iterator();
-		for (int i = 0; i < itemMeta.getEnchants().size(); i++) {
-			out += ench_keys_it.next().getName() + sep(SEP_ITEM_METADATA_ENCHANTMENT) + ench_values_it.next();
-		}
-		out += sep(SEP_ITEM_METADATA);
-		if (itemMeta.getLore() == null) {
-			out += "null";
-		} else {
-			for (String line : itemMeta.getLore()) {
-				out += line + sep(SEP_ITEM_METADATA_LORE);
+		if (item.hasItemMeta()) {
+			out += itemMeta.getDisplayName() + sep(SEP_ITEM_METADATA);
+			// TODO attribute modifiers
+			if (itemMeta.getEnchants().size() > 0) {
+				// enchantments
+				Set<Enchantment> ench_keys = itemMeta.getEnchants().keySet();
+				Collection<Integer> ench_values = itemMeta.getEnchants().values();
+				Iterator<Enchantment> ench_keys_it = ench_keys.iterator();
+				Iterator<Integer> ench_values_it = ench_values.iterator();
+				for (int i = 0; i < itemMeta.getEnchants().size(); i++) {
+					out += ench_keys_it.next().getName() + sep(SEP_ITEM_METADATA_ENCHANTMENT) + ench_values_it.next()
+							+ sep(SEP_ITEM_METADATA_ENCHANTMENTS);
+				}
+			} else {
+				out += "null";
 			}
+
+			out += sep(SEP_ITEM_METADATA);
+			if (itemMeta.getLore() == null) {
+				out += "null";
+			} else {
+				for (String line : itemMeta.getLore()) {
+					out += line + sep(SEP_ITEM_METADATA_LORE);
+				}
+			}
+		} else {
+			out += "null";
 		}
 		// TODO persistent data container
 
@@ -126,30 +137,37 @@ public class InventoryIO {
 		String raw_item_meta = item_data[2];
 
 		ItemStack out = new ItemStack(material, amount);
-		ItemMeta itemMeta = out.getItemMeta();
 
-		String[] raw_item_meta_data = split(raw_item_meta, sep(SEP_ITEM_METADATA));
-		String display_name = raw_item_meta_data[0];
-		itemMeta.setDisplayName(display_name);
-		String[] enchantments = split(raw_item_meta_data[1], sep(SEP_ITEM_METADATA_ENCHANTMENTS));
+		if (!raw_item_meta.equals("null")) {
+			ItemMeta itemMeta = out.getItemMeta();
 
-		String[] ench_data;
-		for (String enchantment : enchantments) {
-			ench_data = split(enchantment, sep(SEP_ITEM_METADATA_ENCHANTMENT));
-			itemMeta.addEnchant(Enchantment.getByName(ench_data[0]), Integer.parseInt(ench_data[1]), true);
-		}
-
-		String raw_lore = raw_item_meta_data[2];
-		if (!raw_lore.equals("null")) {
-			String[] lore_data = split(raw_lore, sep(SEP_ITEM_METADATA_LORE));
-			List<String> lore = new ArrayList<String>();
-			for (String line : lore_data) {
-				lore.add(line);
+			String[] raw_item_meta_data = split(raw_item_meta, sep(SEP_ITEM_METADATA));
+			String display_name = raw_item_meta_data[0];
+			if (!display_name.equals("null")) {
+				itemMeta.setDisplayName(display_name);
 			}
-			itemMeta.setLore(lore);
-		}
+			if (!raw_item_meta_data[1].equals("null")) {
+				String[] enchantments = split(raw_item_meta_data[1], sep(SEP_ITEM_METADATA_ENCHANTMENTS));
 
-		out.setItemMeta(itemMeta);
+				String[] ench_data;
+				for (String enchantment : enchantments) {
+					ench_data = split(enchantment, sep(SEP_ITEM_METADATA_ENCHANTMENT));
+					itemMeta.addEnchant(Enchantment.getByName(ench_data[0]), Integer.parseInt(ench_data[1]), true);
+				}
+			}
+
+			String raw_lore = raw_item_meta_data[2];
+			if (!raw_lore.equals("null")) {
+				String[] lore_data = split(raw_lore, sep(SEP_ITEM_METADATA_LORE));
+				List<String> lore = new ArrayList<String>();
+				for (String line : lore_data) {
+					lore.add(line);
+				}
+				itemMeta.setLore(lore);
+			}
+
+			out.setItemMeta(itemMeta);
+		}
 
 		return out;
 	}

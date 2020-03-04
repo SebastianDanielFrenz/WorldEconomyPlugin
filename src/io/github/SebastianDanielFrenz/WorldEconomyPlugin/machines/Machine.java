@@ -14,6 +14,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.MachineDoesNotExistException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage3;
@@ -100,7 +101,12 @@ public abstract class Machine implements InventoryHolder {
 
 	public static MachineGroup getMachineGroup(Block block) {
 		List<MetadataValue> meta = block.getMetadata("machineGroup");
-		return (MachineGroup) meta.get(0).value();
+		try {
+			return (MachineGroup) meta.get(0).value();
+		} catch (IndexOutOfBoundsException e) {
+			throw new MachineDoesNotExistException(
+					"The block at " + new ComparableLocation(block.getLocation()) + " is not a machine!");
+		}
 	}
 
 	public static MachineGroup getMachineGroup(String name) {

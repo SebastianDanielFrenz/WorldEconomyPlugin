@@ -24,6 +24,8 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 		boolean last_run = false;
 
 		while (true) {
+			
+			WorldEconomyPlugin.plugin.getLogger().info("Saving machine inventories for shutdown...");
 
 			Map<ComparableLocation, Inventory> registry = MachineInventoryRegistry.copyRegistry();
 			int size = registry.size();
@@ -34,6 +36,8 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 			Map<ComparableLocation, Inventory> current_registry;
 			Iterator<ComparableLocation> current_locations;
 			Location loc;
+			boolean skip = false;
+
 			for (int i = 0; i < size; i++) {
 				inv = inventories.next();
 				loc = locations.next().toLocation();
@@ -44,11 +48,17 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 					e.printStackTrace();
 				}
 				try {
-					Thread.sleep(duration / size);
+					if (!last_run) {
+						Thread.sleep(duration / size);
+					}
 				} catch (InterruptedException e) {
 					WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
-					return;
+					skip = true;
+					break;
 				}
+			}
+			if (skip) {
+				continue;
 			}
 
 			current_registry = MachineInventoryRegistry.copyRegistry();
