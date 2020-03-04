@@ -402,6 +402,8 @@ public class EventListener implements Listener {
 
 		if (!world_init) {
 			WEDB.loadMachines();
+
+			MachineInventoryRegistry.setupMachines();
 		}
 
 		world_init = true;

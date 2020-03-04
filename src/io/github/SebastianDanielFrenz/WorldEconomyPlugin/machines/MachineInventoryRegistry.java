@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,12 +20,14 @@ public class MachineInventoryRegistry {
 	public static Map<ComparableLocation, Inventory> inventories = new TreeMap<ComparableLocation, Inventory>();
 
 	public static void setupMachines() {
-		for (File file : new File("../plugins/WorldEconomyPlugin/saved_inventories").listFiles()) {
+
+		for (File file : new File("plugins/WorldEconomy/saved_inventories").listFiles()) {
 			String part = file.getName().substring(8);
 			String part2 = part.split("[.]")[0];
-			String[] part3 = part2.split("[_]");
+			String[] part3 = part2.split(Pattern.quote("_"));
 
 			World world = Bukkit.getWorld(part3[0]);
+
 			int x = Integer.parseInt(part3[1]);
 			int y = Integer.parseInt(part3[2]);
 			int z = Integer.parseInt(part3[3]);
@@ -42,8 +45,8 @@ public class MachineInventoryRegistry {
 	public static void addMachine(Location location, Inventory inventory) {
 		inventories.put(convertLocation(location), inventory);
 		try {
-			InventoryIO.writeInventoryToFile(inventory, "machine_" + location.getBlockX() + "_" + location.getBlockY()
-					+ "_" + location.getBlockZ() + ".mcinv");
+			InventoryIO.writeInventoryToFile(inventory, "machine_" + location.getWorld().getName() + "_"
+					+ location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ() + ".mcinv");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

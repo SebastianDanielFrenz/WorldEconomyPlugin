@@ -23,6 +23,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyPro
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.MachineInventoryAutoSaveThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.CustomChunkGenerator;
+
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -123,8 +124,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		// Bukkit.getWorld("world").getPopulators().add(new
 		// WorldEconomyBlockPopulator());
-		
-		MachineInventoryRegistry.setupMachines();
 
 	}
 

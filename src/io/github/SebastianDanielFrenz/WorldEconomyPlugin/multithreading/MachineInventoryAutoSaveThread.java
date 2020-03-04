@@ -27,12 +27,11 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 				inv = inventories.next();
 				loc = locations.next().toLocation();
 				try {
-					InventoryIO.writeInventoryToFile(inv,
-							"machine_" + loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ() + ".mcinv");
+					InventoryIO.writeInventoryToFile(inv, "machine_" + loc.getWorld().getName() + "_" + loc.getBlockX()
+							+ "_" + loc.getBlockY() + "_" + loc.getBlockZ() + ".mcinv");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
 				try {
 					Thread.sleep(duration / size);
 				} catch (InterruptedException e) {
@@ -40,10 +39,26 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 					return;
 				}
 			}
+			WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
+				size = MachineInventoryRegistry.inventories.size();
+
+				locations = MachineInventoryRegistry.inventories.keySet().iterator();
+				inventories = MachineInventoryRegistry.inventories.values().iterator();
+				for (int i = 0; i < size; i++) {
+					inv = inventories.next();
+					loc = locations.next().toLocation();
+					try {
+						InventoryIO.writeInventoryToFile(inv, "machine_" + loc.getWorld().getName() + "_"
+								+ loc.getBlockX() + "_" + loc.getBlockY() + "_" + loc.getBlockZ() + ".mcinv");
+					} catch (IOException e2) {
+						e.printStackTrace();
+					}
+				}
+				WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
 				return;
 			}
 		}
