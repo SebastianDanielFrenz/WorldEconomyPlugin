@@ -9,7 +9,7 @@ public class RecipesRegistry {
 	//made by afk worker
 	
 	//Coal proccesing
-	public static MachineRecipe CRUSHING____COAL_ORE____COAL = new MachineRecipe(
+	public static MachineRecipe CRUSHING____COAL_ORE____COAL__COBBLESTONE = new MachineRecipe(
 			new CustomItemStack[] { new CustomItemStack(CustomItems.COAL_ORE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItems.COAL, 1), new CustomItemStack(CustomItems.COBBLESTONE, 1) }, 20);
 	
