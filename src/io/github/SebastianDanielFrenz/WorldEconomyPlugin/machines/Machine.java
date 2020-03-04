@@ -50,6 +50,8 @@ public abstract class Machine implements InventoryHolder {
 
 	public abstract MachineKategory getKategory();
 
+	public abstract String getStageName();
+
 	public abstract double getMaintenanceCost();
 
 	public abstract double getMaintenanceFrequency();
@@ -157,7 +159,7 @@ public abstract class Machine implements InventoryHolder {
 			} else if (lvl == 3) {
 				return new BasicFurnaceStage3(block.getLocation());
 			} else {
-				throw new MachineNotSupportedException("There is no basic furnace tier " + lvl + "!");
+				throw new MachineNotSupportedException("There is no basic furnace stage " + lvl + "!");
 			}
 		} else {
 			throw new RuntimeException("There is no such machine group as \"" + group.name());

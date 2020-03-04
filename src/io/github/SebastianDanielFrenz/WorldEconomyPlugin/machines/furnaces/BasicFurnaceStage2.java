@@ -13,12 +13,12 @@ public class BasicFurnaceStage2 extends BasicFurnaceStage1 {
 
 	@Override
 	public double getMaintenanceCost() {
-		return 1;
+		return super.getMaintenanceCost() * 1.1;
 	}
 
 	@Override
 	public double getMaintenanceFrequency() {
-		return 60 * 65;
+		return super.getMaintenanceFrequency() * 0.8;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class BasicFurnaceStage2 extends BasicFurnaceStage1 {
 
 	@Override
 	public double getProcessTimeMultiplier() {
-		return 1;
+		return super.getProcessTimeMultiplier() * 0.95;
 	}
 
 }

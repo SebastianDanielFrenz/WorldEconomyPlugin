@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
@@ -82,6 +83,10 @@ public class CraftingGUI extends WEGUI {
 
 		System.out.println("Raw: " + e.getRawSlot());
 
+		if (e.getAction() == InventoryAction.COLLECT_TO_CURSOR) {
+			return;
+		}
+
 		// Using slots click is a best option for your inventory click's
 
 		if (fits_on_one_screen) {
@@ -158,6 +163,16 @@ public class CraftingGUI extends WEGUI {
 					}
 
 				}
+			}
+		}
+	}
+
+	@Override
+	public void eventHandler(InventoryDragEvent event) {
+		for (int x : event.getRawSlots()) {
+			if (x < 54) {
+				event.setCancelled(true);
+				break;
 			}
 		}
 	}
