@@ -130,6 +130,16 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public void onDisable() {
 		stopThreads();
 
+		while (creditPaymentHandlerThread.isAlive() || emptyProductStackCleanerThread.isAlive()
+				|| machineInventoryAutoSaveThread.isAlive() || salaryHandlerThread.isAlive()) {
+			try {
+				Thread.sleep(1000);
+				getLogger().info("Waiting for background threads to finish...");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
 			sql_connection.close();
 		} catch (SQLException e) {

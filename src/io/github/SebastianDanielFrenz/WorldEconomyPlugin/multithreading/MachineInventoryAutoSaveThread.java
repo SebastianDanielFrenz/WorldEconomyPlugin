@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
@@ -22,11 +23,18 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 	public void run() {
 		long duration = 10000;
 		boolean last_run = false;
+		boolean twice = false;
 
 		while (true) {
 
 			if (last_run) {
-				WorldEconomyPlugin.plugin.getLogger().info("Saving machine inventories for shutdown...");
+				if (!twice) {
+					WorldEconomyPlugin.plugin.getLogger().log(Level.SEVERE,
+							"Saving machine inventories for shutdown...");
+				} else {
+					WorldEconomyPlugin.plugin.getLogger().log(Level.SEVERE,
+							"Saving machine inventories for shutdown...(2)");
+				}
 			}
 
 			Map<ComparableLocation, Inventory> registry = MachineInventoryRegistry.copyRegistry();
@@ -50,17 +58,20 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 					e.printStackTrace();
 				}
 				try {
-					if (!last_run) {
+					if (!(last_run || skip)) {
 						Thread.sleep(duration / size);
 					}
 				} catch (InterruptedException e) {
-					WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
+					WorldEconomyPlugin.plugin.getLogger().info("Shutting down machine inventory auto save thread!");
 					skip = true;
-					break;
 				}
 			}
-			if (skip) {
-				continue;
+
+			if (twice) {
+				return;
+			}
+			if (last_run) {
+				twice = true;
 			}
 
 			current_registry = MachineInventoryRegistry.copyRegistry();
@@ -91,14 +102,17 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 			}
 
 			WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
-			if (last_run) {
-				return;
+
+			if (skip) {
+				last_run = true;
 			}
 
 			try {
-				Thread.sleep(1000);
+				if (!last_run) {
+					Thread.sleep(1000);
+				}
 			} catch (InterruptedException e) {
-				WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
+				WorldEconomyPlugin.plugin.getLogger().info("Shutting down machine inventory auto save thread!");
 				last_run = true;
 			}
 		}
