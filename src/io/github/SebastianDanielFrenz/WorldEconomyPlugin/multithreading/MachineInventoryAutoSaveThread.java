@@ -24,8 +24,10 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 		boolean last_run = false;
 
 		while (true) {
-			
-			WorldEconomyPlugin.plugin.getLogger().info("Saving machine inventories for shutdown...");
+
+			if (last_run) {
+				WorldEconomyPlugin.plugin.getLogger().info("Saving machine inventories for shutdown...");
+			}
 
 			Map<ComparableLocation, Inventory> registry = MachineInventoryRegistry.copyRegistry();
 			int size = registry.size();
