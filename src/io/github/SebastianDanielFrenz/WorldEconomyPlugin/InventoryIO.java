@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,7 +36,7 @@ public class InventoryIO {
 	}
 
 	public static String[] split(String text, String searched) {
-		return text.split("[" + searched + "]");
+		return text.split(Pattern.quote(searched));
 	}
 
 	@SuppressWarnings("deprecation")

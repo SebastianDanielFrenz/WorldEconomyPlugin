@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventoryRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.MachineInventoryAutoSaveThread;

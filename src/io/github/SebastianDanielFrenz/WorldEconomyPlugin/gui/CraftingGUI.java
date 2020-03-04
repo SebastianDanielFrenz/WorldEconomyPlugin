@@ -50,7 +50,7 @@ public class CraftingGUI extends WEGUI {
 		ItemStack slot;
 		for (int i = 0; i < inv_representing_slots.length; i++) {
 			int x = i;
-			slot = storage_inv.inv.getContents()[i];
+			slot = storage_inv.inv.getStorageContents()[i];
 			if (slot == null) {
 				slot = new ItemStack(Material.AIR);
 			}

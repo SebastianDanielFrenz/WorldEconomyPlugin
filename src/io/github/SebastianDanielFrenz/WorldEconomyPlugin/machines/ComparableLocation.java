@@ -12,6 +12,13 @@ public class ComparableLocation implements Comparable<ComparableLocation> {
 		this.world = world;
 	}
 
+	public ComparableLocation(Location location) {
+		x = location.getBlockX();
+		y = location.getBlockY();
+		z = location.getBlockZ();
+		world = location.getWorld();
+	}
+
 	private World world;
 	private int x;
 	private int y;
@@ -19,10 +26,33 @@ public class ComparableLocation implements Comparable<ComparableLocation> {
 
 	@Override
 	public int compareTo(ComparableLocation o) {
-		return (world == o.world && o.x == x && o.y == y && o.z == z) ? 0 : 1;
+		return (world.getName() == o.world.getName() && o.x == x && o.y == y && o.z == z) ? 0 : 1;
 	}
 
 	public Location toLocation() {
 		return new Location(world, x, y, z);
+	}
+
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+
+	@Override
+	public String toString() {
+		return world.getName() + "," + x + "," + y + "," + z;
+	}
+
+	public boolean equals(ComparableLocation o) {
+		return world.getName() == o.world.getName() && o.x == x && o.y == y && o.z == z;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ComparableLocation) {
+			return equals((ComparableLocation) obj);
+		} else {
+			return super.equals(obj);
+		}
 	}
 }

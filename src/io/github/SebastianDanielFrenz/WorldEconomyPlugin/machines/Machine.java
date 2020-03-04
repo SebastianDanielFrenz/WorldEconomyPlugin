@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,7 +28,11 @@ public abstract class Machine implements InventoryHolder {
 
 	@Override
 	public Inventory getInventory() {
-		return MachineInventoryRegistry.getInventory(location);
+		Inventory inv = MachineInventoryRegistry.getInventory(location);
+		if (inv == null) {
+			throw new RuntimeException("Machine not registered!");
+		}
+		return inv;
 	}
 
 	public static MachineRecipe[] mergeRecipes(MachineRecipe[] recipes1, MachineRecipe[] recipes2) {

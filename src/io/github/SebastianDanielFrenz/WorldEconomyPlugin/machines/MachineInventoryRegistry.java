@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -17,7 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 
 public class MachineInventoryRegistry {
 
-	public static Map<ComparableLocation, Inventory> inventories = new TreeMap<ComparableLocation, Inventory>();
+	public static Map<ComparableLocation, Inventory> inventories = new HashMap<ComparableLocation, Inventory>();
 
 	public static void setupMachines() {
 
@@ -35,7 +36,9 @@ public class MachineInventoryRegistry {
 
 			try {
 				addMachine(location,
-						InventoryIO.loadInventoryFromFile(Machine.getMachine(world.getBlockAt(location)), ""));
+						InventoryIO.loadInventoryFromFile(Machine.getMachine(world.getBlockAt(location)),
+								"machine_" + location.getWorld().getName() + "_" + location.getBlockX() + "_"
+										+ location.getBlockY() + "_" + location.getBlockZ() + ".mcinv"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -58,7 +61,6 @@ public class MachineInventoryRegistry {
 			Files.delete(Paths.get("machine_" + location.getWorld().getName() + "_" + location.getBlockX() + "_"
 					+ location.getBlockY() + "_" + location.getBlockZ() + ".mcinv"));
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -69,6 +71,10 @@ public class MachineInventoryRegistry {
 	private static ComparableLocation convertLocation(Location location) {
 		return new ComparableLocation(location.getWorld(), location.getBlockX(), location.getBlockY(),
 				location.getBlockZ());
+	}
+
+	public static Map<ComparableLocation, Inventory> copyRegistry() {
+		return new HashMap<ComparableLocation, Inventory>(inventories);
 	}
 
 }
