@@ -2,9 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tiers;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.RecipesRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class BasicSieve extends Sieve {
 
@@ -14,7 +13,7 @@ public abstract class BasicSieve extends Sieve {
 
 	@Override
 	public MachineRecipe[] getRecipes() {
-		return new MachineRecipe[] { RecipesRegistry.SIEVING____COARSE_DIRT____COBBLESTONE__DIRT };
+		return new MachineRecipe[] { MachineRecipe.SIEVING____COARSE_DIRT____COBBLESTONE__DIRT };
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public class BasicFurnaceStage2 extends BasicFurnace {
 
