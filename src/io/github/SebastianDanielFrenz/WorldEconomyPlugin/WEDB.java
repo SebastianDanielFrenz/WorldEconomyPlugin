@@ -29,6 +29,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedExcep
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.research.ResearchItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.research.ResearchProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
@@ -1376,6 +1378,29 @@ public class WEDB {
 					.setMetadata("machineGroup",
 							new WorldEconomyMachineMeta(Machine.getMachineGroup(r.getString("machineGroup"))));
 		}
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to research.
+	 * 
+	 * ==================================================
+	 */
+
+	public static ResearchProfile getResearchProfile(long companyID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT researchItemID FROM research WHERE companyID = " + companyID);
+		ResearchProfile out = new ResearchProfile(new ArrayList<ResearchItem>(), companyID);
+		while (r.next()) {
+			out.researched.add(ResearchItem.getItem(r.getLong("researchItemID")));
+		}
+		return out;
+	}
+
+	public static void addResearchItem(long companyID, long itemID) throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO research (companyID, researchItemID) VALUES (" + companyID + ", " + itemID + ")");
 	}
 
 }

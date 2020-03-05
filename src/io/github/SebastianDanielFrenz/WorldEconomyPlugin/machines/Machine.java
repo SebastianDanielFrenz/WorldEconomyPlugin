@@ -50,7 +50,7 @@ public abstract class Machine implements InventoryHolder {
 
 	public abstract MachineKategory getKategory();
 
-	public abstract String getStageName();
+	public abstract String getTierName();
 
 	public abstract double getMaintenanceCost();
 
@@ -63,8 +63,16 @@ public abstract class Machine implements InventoryHolder {
 	public abstract double getProcessTimeMultiplier();
 
 	public static boolean canBeMachine(Material material) {
-		return material == MachineKategory.CRAFTING.display || material == MachineKategory.SMELTING.display
-				|| material == MachineKategory.FORGING.display;
+		for (MachineKategory kategory : MachineKategory.values()) {
+			if (kategory.display == material) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean hasMachineMeta(Block block) {
+		return block.getMetadata("machineGroup").size() > 0;
 	}
 
 	public static int getMachineLevel(Block block) {

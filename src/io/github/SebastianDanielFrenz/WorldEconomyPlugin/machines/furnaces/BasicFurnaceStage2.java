@@ -3,9 +3,10 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 
-public class BasicFurnaceStage2 extends BasicFurnaceStage1 {
+public class BasicFurnaceStage2 extends BasicFurnace {
 
 	public BasicFurnaceStage2(Location location) {
 		super(location);
@@ -13,12 +14,12 @@ public class BasicFurnaceStage2 extends BasicFurnaceStage1 {
 
 	@Override
 	public double getMaintenanceCost() {
-		return super.getMaintenanceCost() * 1.1;
+		return 1.25;
 	}
 
 	@Override
 	public double getMaintenanceFrequency() {
-		return super.getMaintenanceFrequency() * 0.8;
+		return Units.MINUTE*50;
 	}
 
 	@Override
@@ -28,7 +29,7 @@ public class BasicFurnaceStage2 extends BasicFurnaceStage1 {
 
 	@Override
 	public double getProcessTimeMultiplier() {
-		return super.getProcessTimeMultiplier() * 0.95;
+		return 0.95;
 	}
 
 }
