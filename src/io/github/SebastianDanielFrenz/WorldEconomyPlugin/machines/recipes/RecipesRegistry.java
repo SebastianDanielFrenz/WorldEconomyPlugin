@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recepies;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;

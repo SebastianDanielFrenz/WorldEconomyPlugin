@@ -313,6 +313,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE machines (" + "machineID integer PRIMARY KEY," + "machineGroup text,"
 					+ "machineX integer," + "machineY integer," + "machineZ integer," + "machineWorld text" + ");");
 
+			runSQL("CREATE TABLE research (" + "researchID integer PRIMARY KEY," + "companyID integer SECONDARY KEY"
+			// references
+					+ "FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
+
 			// enumerator
 
 			setupEnumerator();
