@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tiers;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tier;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class BasicSieve extends Sieve {
@@ -18,7 +18,7 @@ public abstract class BasicSieve extends Sieve {
 
 	@Override
 	public String getTierName() {
-		return Tiers.TIER1 + "Basic Sieve";
+		return Tier.TIER1 + "Basic Sieve";
 	}
 
 }

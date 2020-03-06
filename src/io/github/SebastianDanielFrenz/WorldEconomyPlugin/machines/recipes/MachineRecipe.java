@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
 
@@ -56,9 +57,11 @@ public enum MachineRecipe {
 	// blast furnaces
 	FORGING____COBBLESTONE__WATER_BUCKET____BASIC_BLAST_FURNACE_STAGE1(
 			new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 16), new CustomItemStack(CustomItem.WATER_BUCKET, 4) },
-			new CustomItemStack[] { new CustomItemStack(CustomItem.BASIC_BLAST_FURNACE_STAGE1, 1), new CustomItemStack(CustomItem.BUCKET, 4) }, 60),
-
-	;
+			new CustomItemStack[] { new CustomItemStack(CustomItem.BASIC_BLAST_FURNACE_STAGE1, 1), new CustomItemStack(CustomItem.BUCKET, 4) },
+			Units.MINUTE * 5),
+	FORGING____COBBLESTONE__WATER_CLAY_BUCKET____BASIC_BLAST_FURNACE_STAGE1(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 16), new CustomItemStack(CustomItem.WATER_CLAY_BUCKET, 4) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.BASIC_BLAST_FURNACE_STAGE1, 1) }, Units.MINUTE * 5);
 
 	private MachineRecipe(CustomItemStack[] input, CustomItemStack[] output, double processTime) {
 		this.input = input;

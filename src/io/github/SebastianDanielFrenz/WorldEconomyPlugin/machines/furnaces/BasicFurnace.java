@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tiers;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tier;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class BasicFurnace extends MachineFurnace {
@@ -17,6 +17,6 @@ public abstract class BasicFurnace extends MachineFurnace {
 
 	@Override
 	public String getTierName() {
-		return Tiers.TIER1 + "Basic Furnace";
+		return Tier.TIER1 + "Basic Furnace";
 	}
 }
