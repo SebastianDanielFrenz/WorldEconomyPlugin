@@ -1,8 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Location;
-import org.bukkit.inventory.Inventory;
-
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 

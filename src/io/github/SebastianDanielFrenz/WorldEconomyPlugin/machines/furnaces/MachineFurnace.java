@@ -10,8 +10,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
 public abstract class MachineFurnace extends Machine {
 

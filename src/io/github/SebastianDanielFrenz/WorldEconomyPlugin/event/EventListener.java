@@ -45,8 +45,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResources
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventoryRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;

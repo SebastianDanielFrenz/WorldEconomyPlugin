@@ -10,7 +10,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.FurnaceDecorationGUIItem;
 
 public abstract class Sieve extends Machine {
 

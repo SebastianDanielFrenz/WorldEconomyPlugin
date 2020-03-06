@@ -79,8 +79,6 @@ public class CraftingGUI extends WEGUI {
 
 		e.setCancelled(true);
 
-		ItemStack clickedItem = e.getCurrentItem();
-
 		System.out.println("Raw: " + e.getRawSlot());
 
 		if (e.getAction() == InventoryAction.COLLECT_TO_CURSOR) {

@@ -2,8 +2,6 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
