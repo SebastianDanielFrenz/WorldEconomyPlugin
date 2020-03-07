@@ -11,11 +11,6 @@ public abstract class BasicBlastFurnace extends BlastFurnace {
 	}
 
 	@Override
-	public String getTierName() {
-		return "Basic Blast Furnace";
-	}
-
-	@Override
 	public MachineRecipe[] getRecipes() {
 		return new MachineRecipe[] { MachineRecipe.BLAST_FURNACE____IRON_ORE____IRON_INGOT };
 	}

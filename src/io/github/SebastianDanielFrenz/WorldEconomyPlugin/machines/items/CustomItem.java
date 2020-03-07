@@ -88,7 +88,8 @@ public enum CustomItem {
 	// sieves
 	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1"),
 	// blast furnaces
-	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Blast Furnace Stage 1"),
+	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
+			"Basic Blast Furnace Stage 1"),
 
 	// Vanilla Items
 	STONE(Material.STONE, Tier.TIER1),
@@ -119,8 +120,8 @@ public enum CustomItem {
 
 	public boolean matches(ItemStack itemStack) {
 		return itemStack == null ? false
-				: (itemStack.getType() == base_material
-						&& (itemStack.hasItemMeta() ? itemStack.getItemMeta().getDisplayName().equals(item_name) : item_name == null));
+				: (itemStack.getType() == base_material && (itemStack.hasItemMeta()
+						? itemStack.getItemMeta().getDisplayName().equals(item_name) : item_name == null));
 	}
 
 	public ItemStack toItemStack() {
@@ -137,7 +138,7 @@ public enum CustomItem {
 
 	public static CustomItem getItem(Material material, String name) {
 		for (CustomItem item : CustomItem.values()) {
-			if (item.base_material == material && name.equals(item.item_name)) {
+			if (item.base_material == material && name.equals(item.tier.toString() + item.item_name)) {
 				return item;
 			}
 		}
@@ -145,7 +146,7 @@ public enum CustomItem {
 	}
 
 	public static CustomItem getItem(ItemStack stack) {
-		return getItem(stack.getType(), stack.getItemMeta().getDisplayName());
+		return getItem(stack.getType(), stack.getItemMeta().getDisplayName().substring(2));
 	}
 
 	public ItemStack createItemStack(int amount) {

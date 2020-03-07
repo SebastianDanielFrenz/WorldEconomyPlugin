@@ -9,41 +9,49 @@ import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public class CraftingGUI extends WEGUI {
 
 	protected int[] inv_representing_slots;
 	protected MachineInventory storage_inv;
+	protected MachineRecipe[] recipes;
 
-	public CraftingGUI(GUIItem[] items, MachineInventory inv, int[] inv_representing_slots) {
+	public CraftingGUI(GUIItem[] items, MachineInventory inv, int[] inv_representing_slots, MachineRecipe[] recipes) {
 		super(items);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
+		this.recipes = recipes;
 	}
 
 	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, MachineInventory inv,
-			int[] inv_representing_slots) {
+			int[] inv_representing_slots, MachineRecipe[] recipes) {
 		super(parent, items, title);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
+		this.recipes = recipes;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv, int[] inv_representing_slots) {
+	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv, int[] inv_representing_slots,
+			MachineRecipe[] recipes) {
 		super(items, title);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
+		this.recipes = recipes;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots) {
+	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots,
+			MachineRecipe[] recipes) {
 		super(items, title);
 		// this.inv_representing_slots = inv_representing_slots;
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = new MachineInventory(machine.getInventory(), inv_representing_slots.length);
+		this.recipes = recipes;
 	}
 
 	@Override
 	public GUIItem[] initializeItems(GUIItem[] items) {
-		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length];
+		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length + recipes.length];
 		for (int i = 0; i < items.length; i++) {
 			new_items[i] = items[i];
 		}

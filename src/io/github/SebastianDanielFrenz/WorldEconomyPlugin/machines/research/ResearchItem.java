@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.research;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.blast_furnaces.BasicBlastFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage3;
@@ -21,7 +22,7 @@ public enum ResearchItem {
 			Units.MINUTE * 30),
 	BASIC_FURNACE_STAGE3(3, new BasicFurnaceStage3(null), new ResearchItem[] { BASIC_FURNACE_STAGE2 },
 			Units.MINUTE * 30),
-	
+
 	/*
 	 * ==========
 	 * 
@@ -29,9 +30,10 @@ public enum ResearchItem {
 	 * 
 	 * ==========
 	 */
-	
-	BASIC_BLAST_FURNACE_STAGE1(4, new BasicBlastFurnaceStage1(null), new ResearchItem[]{BASIC_FURNACE_STAGE1}),
-	
+
+	BASIC_BLAST_FURNACE_STAGE1(4, new BasicBlastFurnaceStage1(null), new ResearchItem[] { BASIC_FURNACE_STAGE1 },
+			Units.HOUR * 2),
+
 	/*
 	 * ==========
 	 * 
