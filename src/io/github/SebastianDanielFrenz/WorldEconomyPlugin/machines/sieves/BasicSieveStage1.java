@@ -2,6 +2,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves;
 
 import org.bukkit.Location;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tier;
+
 public class BasicSieveStage1 extends BasicSieve {
 
 	public BasicSieveStage1(Location location) {
@@ -9,27 +12,23 @@ public class BasicSieveStage1 extends BasicSieve {
 	}
 
 	@Override
-	public String getTierName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getName() {
+		return Tier.TIER1 + "Basic Sieve Stage 1";
 	}
 
 	@Override
 	public double getMaintenanceCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double getMaintenanceFrequency() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Units.HOUR * 2;
 	}
 
 	@Override
 	public double getProcessTimeMultiplier() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 }

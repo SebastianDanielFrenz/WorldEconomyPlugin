@@ -49,8 +49,6 @@ public abstract class Machine implements InventoryHolder {
 
 	public abstract MachineKategory getKategory();
 
-	public abstract String getTierName();
-
 	public abstract double getMaintenanceCost();
 
 	public abstract double getMaintenanceFrequency();
@@ -60,6 +58,8 @@ public abstract class Machine implements InventoryHolder {
 	public abstract MachineRecipe[] getRecipes();
 
 	public abstract double getProcessTimeMultiplier();
+	
+	public abstract String getName();
 
 	public static boolean canBeMachine(Material material) {
 		for (MachineKategory kategory : MachineKategory.values()) {

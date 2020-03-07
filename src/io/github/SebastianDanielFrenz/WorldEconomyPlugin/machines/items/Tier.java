@@ -12,4 +12,8 @@ public enum Tier {
 
 	public final ChatColor color;
 
+	public String toString() {
+		return color.toString();
+	}
+
 }

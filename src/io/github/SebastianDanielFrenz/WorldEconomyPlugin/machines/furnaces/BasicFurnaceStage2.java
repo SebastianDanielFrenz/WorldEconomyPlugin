@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Location;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tier;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public class BasicFurnaceStage2 extends BasicFurnace {
@@ -17,7 +18,7 @@ public class BasicFurnaceStage2 extends BasicFurnace {
 
 	@Override
 	public double getMaintenanceFrequency() {
-		return Units.MINUTE*50;
+		return Units.HOUR * 1.2;
 	}
 
 	@Override
@@ -28,6 +29,11 @@ public class BasicFurnaceStage2 extends BasicFurnace {
 	@Override
 	public double getProcessTimeMultiplier() {
 		return 0.95;
+	}
+
+	@Override
+	public String getName() {
+		return Tier.TIER1 + "Basic Furnace Stage 2";
 	}
 
 }

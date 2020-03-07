@@ -16,10 +16,22 @@ public enum ResearchItem {
 	 * 
 	 * ==========
 	 */
-	BASIC_FURNACE_STAGE1(1, new BasicFurnaceStage1(null), new ResearchItem[] {}, Units.HOUR), BASIC_FURNACE_STAGE2(2,
-			new BasicFurnaceStage2(null), new ResearchItem[] { BASIC_FURNACE_STAGE1 },
-			Units.MINUTE * 30), BASIC_FURNACE_STAGE3(3, new BasicFurnaceStage3(null),
-					new ResearchItem[] { BASIC_FURNACE_STAGE2 }, Units.MINUTE * 30),
+	BASIC_FURNACE_STAGE1(1, new BasicFurnaceStage1(null), new ResearchItem[] {}, Units.HOUR),
+	BASIC_FURNACE_STAGE2(2, new BasicFurnaceStage2(null), new ResearchItem[] { BASIC_FURNACE_STAGE1 },
+			Units.MINUTE * 30),
+	BASIC_FURNACE_STAGE3(3, new BasicFurnaceStage3(null), new ResearchItem[] { BASIC_FURNACE_STAGE2 },
+			Units.MINUTE * 30),
+	
+	/*
+	 * ==========
+	 * 
+	 * Blast Furnaces
+	 * 
+	 * ==========
+	 */
+	
+	BASIC_BLAST_FURNACE_STAGE1(4, new BasicBlastFurnaceStage1(null), new ResearchItem[]{BASIC_FURNACE_STAGE1}),
+	
 	/*
 	 * ==========
 	 * 

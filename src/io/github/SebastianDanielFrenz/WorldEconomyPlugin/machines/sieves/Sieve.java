@@ -24,7 +24,7 @@ public abstract class Sieve extends Machine {
 
 	@Override
 	public void playerUseEvent(Player player) {
-		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, getTierName())) {
+		new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, getName())) {
 			@Override
 			public void event(InventoryClickEvent event) {
 

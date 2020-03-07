@@ -16,9 +16,4 @@ public abstract class BasicSieve extends Sieve {
 		return new MachineRecipe[] { MachineRecipe.SIEVING____COARSE_DIRT____COBBLESTONE__DIRT };
 	}
 
-	@Override
-	public String getTierName() {
-		return Tier.TIER1 + "Basic Sieve";
-	}
-
 }
