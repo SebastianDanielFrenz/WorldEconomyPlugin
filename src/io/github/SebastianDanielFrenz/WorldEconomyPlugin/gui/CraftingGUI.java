@@ -115,6 +115,11 @@ public class CraftingGUI extends WEGUI {
 					e.setCancelled(false);
 				}
 				return;
+			} else {
+				if (e.getAction() == InventoryAction.PICKUP_HALF) {
+					e.getWhoClicked().sendMessage("you may not do that.");
+					return;
+				}
 			}
 
 			for (int i = 0; i < items.length; i++) {

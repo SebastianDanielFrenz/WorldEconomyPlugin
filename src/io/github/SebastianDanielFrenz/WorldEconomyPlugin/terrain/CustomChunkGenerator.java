@@ -18,7 +18,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 		int currentHeight;
 		int i;
 
-		System.out.println("Generating chunk " + chunkX + "," + chunkZ);
+		// System.out.println("Generating chunk " + chunkX + "," + chunkZ);
 
 		for (int X = 0; X < 16; X++)
 			for (int Z = 0; Z < 16; Z++) {

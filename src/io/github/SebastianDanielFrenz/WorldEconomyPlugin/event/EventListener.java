@@ -254,20 +254,20 @@ public class EventListener implements Listener {
 	public void onMachinePlaceEvent(BlockPlaceEvent event) {
 		ItemStack item = event.getItemInHand();
 		if (Machine.canBeMachine(item.getType())) {
-			MachineGroup group = Machine.getMachineGroup(item.getItemMeta().getDisplayName());
+			MachineGroup group = Machine.getMachineGroupForItem(item.getItemMeta().getDisplayName());
 			System.out.println(group);
 			System.out.println(item.toString());
 
-			if (item.getItemMeta().getLore() != null) {
-				int lvl = Integer.parseInt(item.getItemMeta().getLore().get(1));
-				System.out.println(lvl);
-				Machine.turnIntoMachine(event.getBlock(), group, lvl);
+			String[] splitName = item.getItemMeta().getDisplayName().split(" ");
+			int lvl = Integer.parseInt(splitName[splitName.length - 1]);
 
-				Machine machine = Machine.getMachine(event.getBlock());
+			System.out.println(lvl);
+			Machine.turnIntoMachine(event.getBlock(), group, lvl);
 
-				MachineInventoryRegistry.addMachine(event.getBlock().getLocation(),
-						Bukkit.createInventory(machine, 54));
-			}
+			Machine machine = Machine.getMachine(event.getBlock());
+
+			MachineInventoryRegistry.addMachine(event.getBlock().getLocation(), Bukkit.createInventory(machine, 54));
+
 		}
 	}
 

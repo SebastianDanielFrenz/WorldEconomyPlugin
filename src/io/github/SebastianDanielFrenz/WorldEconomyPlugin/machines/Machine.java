@@ -58,7 +58,7 @@ public abstract class Machine implements InventoryHolder {
 	public abstract MachineRecipe[] getRecipes();
 
 	public abstract double getProcessTimeMultiplier();
-	
+
 	public abstract String getName();
 
 	public static boolean canBeMachine(Material material) {
@@ -75,6 +75,9 @@ public abstract class Machine implements InventoryHolder {
 	}
 
 	public static int getMachineLevel(Block block) {
+		System.out.println("checking level for machine at " + block.getLocation().toString() + " (block down is "
+				+ block.getRelative(BlockFace.DOWN).getType() + ")");
+		
 		Block down = block.getRelative(BlockFace.DOWN);
 		if (down.getType() == Material.WHITE_WOOL) {
 			return 1;
@@ -119,11 +122,24 @@ public abstract class Machine implements InventoryHolder {
 	}
 
 	public static MachineGroup getMachineGroup(String name) {
-		if (name.equals(MachineGroup.BASIC_FURNACE.getName())) {
-			return MachineGroup.BASIC_FURNACE;
-		} else {
-			return null;
+		for (MachineGroup group : MachineGroup.values()) {
+			if (group.getName().equals(name)) {
+				return group;
+			}
 		}
+		throw new RuntimeException("Could not resolve machine group from name \"" + name + "\"!");
+	}
+
+	public static MachineGroup getMachineGroupForItem(String machineItemName) {
+		for (MachineGroup group : MachineGroup.values()) {
+			String mn = group.getName() + " Stage ";
+			System.out.println(mn);
+			if (machineItemName.startsWith(group.getName() + " Stage ")) {
+				return group;
+			}
+		}
+		throw new MachineDoesNotExistException(
+				"Machine group for item with name \"" + machineItemName + "\" could not be found!");
 	}
 
 	public static void setMachine(Block block, MachineCategory kategory, MachineGroup group, int lvl) {
@@ -139,6 +155,7 @@ public abstract class Machine implements InventoryHolder {
 
 	public static void turnIntoMachine(Block block, MachineGroup group, int lvl) {
 		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
+		System.out.println("turn into machine: " + getMachineGroup(block));
 		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
 		try {
 			WEDB.registerMachine(block.getLocation(), group);
