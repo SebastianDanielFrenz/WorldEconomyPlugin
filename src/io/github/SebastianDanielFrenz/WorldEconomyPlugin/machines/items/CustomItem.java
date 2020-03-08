@@ -62,6 +62,11 @@ public enum CustomItem {
 	OSMIUM_PLATE(Material.PAPER, Tier.TIER1, "Osmium Plate", ItemCategory.PROCESSED_MATERIALS),
 	OSMIUM_ROD(Material.STICK, Tier.TIER1, "Osmium Rod", ItemCategory.PROCESSED_MATERIALS),
 
+	// lead
+	LEAD_INGOT(Material.IRON_INGOT, Tier.TIER1, "Lead Ingot", ItemCategory.RAW_MATERIALS),
+	LEAD_PLATE(Material.PAPER, Tier.TIER1, "Lead Plate", ItemCategory.PROCESSED_MATERIALS),
+	LEAD_ROD(Material.STICK, Tier.TIER1, "Lead Rod", ItemCategory.PROCESSED_MATERIALS),
+
 	// gold
 	GOLD_ORE(Material.GOLD_ORE, Tier.TIER2, ItemCategory.RAW_MATERIALS),
 	GOLD_NUGGET(Material.GOLD_NUGGET, Tier.TIER2, ItemCategory.RAW_MATERIALS),
