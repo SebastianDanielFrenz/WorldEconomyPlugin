@@ -12,111 +12,121 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves.BasicSi
 
 public enum CustomItem {
 
-	COAL_ORE(Material.COAL_ORE, Tier.TIER1),
-	COAL(Material.COAL, Tier.TIER1),
-	CHARCOAL(Material.CHARCOAL, Tier.TIER1),
-	COAL_DUST(Material.COAL, Tier.TIER1, "Coal Dust"),
-	ASH(Material.BONE_MEAL, Tier.TIER1, "Ash"),
+	COAL_ORE(Material.COAL_ORE, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	COAL(Material.COAL, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	CHARCOAL(Material.CHARCOAL, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	COAL_DUST(Material.COAL, Tier.TIER1, "Coal Dust", ItemCategory.PROCESSED_MATERIALS),
+	ASH(Material.BONE_MEAL, Tier.TIER1, "Ash", ItemCategory.OTHER),
 
 	// Iron Items
-	IRON_ORE(Material.IRON_ORE, Tier.TIER1),
-	IRON_INGOT(Material.IRON_INGOT, Tier.TIER1),
-	IRON_PLATE(Material.PAPER, Tier.TIER1, "Iron Plate"),
-	IRON_ROD(Material.STICK, Tier.TIER1, "Iron Rod"),
+	IRON_ORE(Material.IRON_ORE, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	IRON_INGOT(Material.IRON_INGOT, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	IRON_PLATE(Material.PAPER, Tier.TIER1, "Iron Plate", ItemCategory.PROCESSED_MATERIALS),
+	IRON_ROD(Material.STICK, Tier.TIER1, "Iron Rod", ItemCategory.PROCESSED_MATERIALS),
 
-	IRON_PICKAXE(Material.IRON_PICKAXE, Tier.TIER1),
-	IRON_HELMET(Material.IRON_HELMET, Tier.TIER1),
-	IRON_CHESTPLATE(Material.IRON_CHESTPLATE, Tier.TIER1),
-	IRON_LEGGINGS(Material.IRON_LEGGINGS, Tier.TIER1),
-	IRON_BOOTS(Material.IRON_BOOTS, Tier.TIER1),
+	IRON_PICKAXE(Material.IRON_PICKAXE, Tier.TIER1, ItemCategory.EQUIPMENT),
+	IRON_HELMET(Material.IRON_HELMET, Tier.TIER1, ItemCategory.EQUIPMENT),
+	IRON_CHESTPLATE(Material.IRON_CHESTPLATE, Tier.TIER1, ItemCategory.EQUIPMENT),
+	IRON_LEGGINGS(Material.IRON_LEGGINGS, Tier.TIER1, ItemCategory.EQUIPMENT),
+	IRON_BOOTS(Material.IRON_BOOTS, Tier.TIER1, ItemCategory.EQUIPMENT),
+
+	// Redstone Items
+	REDSTONE(Material.REDSTONE, Tier.TIER1, ItemCategory.TECHNOLOGY),
 
 	// Steel Items
-	STEEL_INGOT(Material.IRON_INGOT, Tier.TIER3, "Steel Ingot"), // enchanted
-	STEEL_PLATE(Material.PAPER, Tier.TIER3, "Steel Plate"), // enchanted
-	STEEL_ROD(Material.STICK, Tier.TIER3, "Steel Rod"), // enchanted
+	STEEL_INGOT(Material.IRON_INGOT, Tier.TIER3, "Steel Ingot", ItemCategory.RAW_MATERIALS), // enchanted
+	STEEL_PLATE(Material.PAPER, Tier.TIER3, "Steel Plate", ItemCategory.PROCESSED_MATERIALS), // enchanted
+	STEEL_ROD(Material.STICK, Tier.TIER3, "Steel Rod", ItemCategory.PROCESSED_MATERIALS), // enchanted
 
 	// Copper Items
-	COPPER_INGOT(Material.GOLD_INGOT, Tier.TIER1, "Copper Ingot"), // enchanted
-	COPPER_PLATE(Material.PAPER, Tier.TIER1, "Copper Plate"), // enchanted
+	COPPER_INGOT(Material.GOLD_INGOT, Tier.TIER1, "Copper Ingot", ItemCategory.RAW_MATERIALS), // enchanted
+	COPPER_PLATE(Material.PAPER, Tier.TIER1, "Copper Plate", ItemCategory.PROCESSED_MATERIALS), // enchanted
 
 	// bronze items
-	BRONZE_INGOT(Material.IRON_INGOT, Tier.TIER1, "Bronze Ingot"),
-	BRONZE_PLATE(Material.PAPER, Tier.TIER1, "Bronze Plate"),
-	BRONZE_ROD(Material.STICK, Tier.TIER1, "Bronze Rod"),
+	BRONZE_INGOT(Material.IRON_INGOT, Tier.TIER1, "Bronze Ingot", ItemCategory.RAW_MATERIALS),
+	BRONZE_PLATE(Material.PAPER, Tier.TIER1, "Bronze Plate", ItemCategory.PROCESSED_MATERIALS),
+	BRONZE_ROD(Material.STICK, Tier.TIER1, "Bronze Rod", ItemCategory.PROCESSED_MATERIALS),
 
 	// aluminum
-	ALUMINUM_INGOT(Material.IRON_INGOT, Tier.TIER1, "Aluminum Ingot"),
-	ALUMINUM_PLATE(Material.PAPER, Tier.TIER1, "Aluminum Plate"),
-	ALUMINUM_ROD(Material.STICK, Tier.TIER1, "Aluminum Rod"),
+	ALUMINUM_INGOT(Material.IRON_INGOT, Tier.TIER1, "Aluminum Ingot", ItemCategory.RAW_MATERIALS),
+	ALUMINUM_PLATE(Material.PAPER, Tier.TIER1, "Aluminum Plate", ItemCategory.PROCESSED_MATERIALS),
+	ALUMINUM_ROD(Material.STICK, Tier.TIER1, "Aluminum Rod", ItemCategory.PROCESSED_MATERIALS),
 
 	// TIN
-	TIN_INGOT(Material.IRON_INGOT, Tier.TIER1, "Tin Ingot"),
-	TIN_PLATE(Material.PAPER, Tier.TIER1, "Tin Plate"),
-	TIN_ROD(Material.STICK, Tier.TIER1, "Tin Rod"),
+	TIN_INGOT(Material.IRON_INGOT, Tier.TIER1, "Tin Ingot", ItemCategory.RAW_MATERIALS),
+	TIN_PLATE(Material.PAPER, Tier.TIER1, "Tin Plate", ItemCategory.PROCESSED_MATERIALS),
+	TIN_ROD(Material.STICK, Tier.TIER1, "Tin Rod", ItemCategory.PROCESSED_MATERIALS),
 
 	// osmium
-	OSMIUM_INGOT(Material.IRON_INGOT, Tier.TIER1, "Osmium Ingot"),
-	OSMIUM_PLATE(Material.PAPER, Tier.TIER1, "Osmium Plate"),
-	OSMIUM_ROD(Material.STICK, Tier.TIER1, "Osmium Rod"),
+	OSMIUM_INGOT(Material.IRON_INGOT, Tier.TIER1, "Osmium Ingot", ItemCategory.RAW_MATERIALS),
+	OSMIUM_PLATE(Material.PAPER, Tier.TIER1, "Osmium Plate", ItemCategory.PROCESSED_MATERIALS),
+	OSMIUM_ROD(Material.STICK, Tier.TIER1, "Osmium Rod", ItemCategory.PROCESSED_MATERIALS),
 
 	// gold
-	GOLD_ORE(Material.GOLD_ORE, Tier.TIER2),
-	GOLD_NUGGET(Material.GOLD_NUGGET, Tier.TIER2),
-	GOLD_INGOT(Material.GOLD_INGOT, Tier.TIER2),
-	GOLD_ROD(Material.STICK, Tier.TIER2, "Gold Rod"),
+	GOLD_ORE(Material.GOLD_ORE, Tier.TIER2, ItemCategory.RAW_MATERIALS),
+	GOLD_NUGGET(Material.GOLD_NUGGET, Tier.TIER2, ItemCategory.RAW_MATERIALS),
+	GOLD_INGOT(Material.GOLD_INGOT, Tier.TIER2, ItemCategory.RAW_MATERIALS),
+	GOLD_ROD(Material.STICK, Tier.TIER2, "Gold Rod", ItemCategory.PROCESSED_MATERIALS),
 
-	GOLD_CABLE(Material.GOLD_NUGGET, Tier.TIER2, "Gold Cable"),
+	GOLD_CABLE(Material.GOLD_NUGGET, Tier.TIER2, "Gold Cable", ItemCategory.TECHNOLOGY),
 
 	// silicon
 
 	// fluids
-	OIL_BUCKET(Material.LAVA_BUCKET, Tier.TIER1, "Oil Bucket"),
+	OIL_BUCKET(Material.LAVA_BUCKET, Tier.TIER1, "Oil Bucket", ItemCategory.RAW_MATERIALS),
 
 	// buckets
-	BUCKET(Material.BUCKET, Tier.TIER1),
-	WATER_BUCKET(Material.WATER_BUCKET, Tier.TIER1),
+	BUCKET(Material.BUCKET, Tier.TIER1, ItemCategory.OTHER),
+	WATER_BUCKET(Material.WATER_BUCKET, Tier.TIER1, ItemCategory.OTHER),
 
 	// clay buckets
-	CLAY_BUCKET(Material.BUCKET, Tier.TIER1, "Clay Bucket"),
-	WATER_CLAY_BUCKET(Material.WATER_BUCKET, Tier.TIER1, "Water Clay Bucket"),
+	CLAY_BUCKET(Material.BUCKET, Tier.TIER1, "Clay Bucket", ItemCategory.OTHER),
+	WATER_CLAY_BUCKET(Material.WATER_BUCKET, Tier.TIER1, "Water Clay Bucket", ItemCategory.OTHER),
 
 	// machines
 	// furnaces
-	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1"),
-	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2"),
-	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3"),
+	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",
+			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2",
+			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3",
+			ItemCategory.MACHINES),
 	// sieves
-	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1"),
+	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",
+			ItemCategory.MACHINES),
 	// blast furnaces
 	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
-			"Basic Blast Furnace Stage 1"),
+			"Basic Blast Furnace Stage 1", ItemCategory.MACHINES),
 
 	// Vanilla Items
-	STONE(Material.STONE, Tier.TIER1),
-	GRASS_BLOCK(Material.GRASS_BLOCK, Tier.TIER1),
-	DIRT(Material.DIRT, Tier.TIER1),
-	COBBLESTONE(Material.COBBLESTONE, Tier.TIER1),
-	OAK_PLANKS(Material.OAK_PLANKS, Tier.TIER1),
-	OAK_LOG(Material.OAK_LOG, Tier.TIER1),
-	COARSE_DIRT(Material.COARSE_DIRT, Tier.TIER1),
+	STONE(Material.STONE, Tier.TIER1, ItemCategory.OTHER),
+	GRASS_BLOCK(Material.GRASS_BLOCK, Tier.TIER1, ItemCategory.OTHER),
+	DIRT(Material.DIRT, Tier.TIER1, ItemCategory.OTHER),
+	COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, ItemCategory.OTHER),
+	OAK_PLANKS(Material.OAK_PLANKS, Tier.TIER1, ItemCategory.OTHER),
+	OAK_LOG(Material.OAK_LOG, Tier.TIER1, ItemCategory.OTHER),
+	COARSE_DIRT(Material.COARSE_DIRT, Tier.TIER1, ItemCategory.OTHER),
 
 	;
 
-	private CustomItem(Material base, Tier tier, String name) {
+	private CustomItem(Material base, Tier tier, String name, ItemCategory category) {
 		base_material = base;
 		item_name = name;
 		this.tier = tier;
+		this.category = category;
 	}
 
-	private CustomItem(Material base, Tier tier) {
+	private CustomItem(Material base, Tier tier, ItemCategory category) {
 		base_material = base;
 		item_name = null;
 		this.tier = tier;
+		this.category = category;
 	}
 
 	public final Material base_material;
 	public final String item_name;
 	public final Tier tier;
+	public final ItemCategory category;
 
 	public boolean matches(ItemStack itemStack) {
 		return itemStack == null ? false

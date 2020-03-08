@@ -2,7 +2,6 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tier;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class BasicSieve extends Sieve {

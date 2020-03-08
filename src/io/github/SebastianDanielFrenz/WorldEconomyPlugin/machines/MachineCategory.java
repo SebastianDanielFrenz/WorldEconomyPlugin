@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
 
 import org.bukkit.Material;
 
-public enum MachineKategory {
+public enum MachineCategory {
 
 	CRAFTING(Material.CRAFTING_TABLE),
 	SMELTING(Material.FURNACE),
@@ -11,7 +11,7 @@ public enum MachineKategory {
 	SIEVING(Material.CAULDRON),
 	BLAST_FURNACE(Material.BLAST_FURNACE),;
 
-	private MachineKategory(Material display) {
+	private MachineCategory(Material display) {
 		this.display = display;
 	}
 

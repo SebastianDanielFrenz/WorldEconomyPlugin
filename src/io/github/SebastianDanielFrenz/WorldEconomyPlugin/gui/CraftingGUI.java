@@ -9,49 +9,46 @@ import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.ItemCategory;
 
 public class CraftingGUI extends WEGUI {
 
+	private static final int[] recipe_category_slots = new int[] { 9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 27, 28, 29,
+			30, 31, 36, 37, 38, 39, 40, 45, 46, 47, 48, 49 };
+
 	protected int[] inv_representing_slots;
 	protected MachineInventory storage_inv;
-	protected MachineRecipe[] recipes;
+	protected int[] recipes_representing_slots;
 
-	public CraftingGUI(GUIItem[] items, MachineInventory inv, int[] inv_representing_slots, MachineRecipe[] recipes) {
+	public CraftingGUI(GUIItem[] items, MachineInventory inv, int[] inv_representing_slots) {
 		super(items);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
-		this.recipes = recipes;
 	}
 
 	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, MachineInventory inv,
-			int[] inv_representing_slots, MachineRecipe[] recipes) {
+			int[] inv_representing_slots) {
 		super(parent, items, title);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
-		this.recipes = recipes;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv, int[] inv_representing_slots,
-			MachineRecipe[] recipes) {
+	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv, int[] inv_representing_slots) {
 		super(items, title);
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = inv;
-		this.recipes = recipes;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots,
-			MachineRecipe[] recipes) {
+	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots) {
 		super(items, title);
 		// this.inv_representing_slots = inv_representing_slots;
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = new MachineInventory(machine.getInventory(), inv_representing_slots.length);
-		this.recipes = recipes;
 	}
 
 	@Override
 	public GUIItem[] initializeItems(GUIItem[] items) {
-		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length + recipes.length];
+		GUIItem[] new_items = new GUIItem[items.length + inv_representing_slots.length + ItemCategory.values().length];
 		for (int i = 0; i < items.length; i++) {
 			new_items[i] = items[i];
 		}
@@ -71,6 +68,18 @@ public class CraftingGUI extends WEGUI {
 					storage_inv.inv.setItem(x, event.getCursor());
 				}
 			};
+		}
+
+		// recipes - categories
+		int i = 0;
+		for (ItemCategory category : ItemCategory.values()) {
+			new_items[items.length + inv_representing_slots.length + i] = new GUIItem(recipe_category_slots[i],
+					mkItem(category.display, category.getTitle())) {
+				@Override
+				public void event(InventoryClickEvent event) {
+				}
+			};
+			i++;
 		}
 
 		return super.initializeItems(new_items);

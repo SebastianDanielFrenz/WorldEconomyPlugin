@@ -1,9 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class AdvancedFurnace extends MachineFurnace {
@@ -13,8 +12,8 @@ public abstract class AdvancedFurnace extends MachineFurnace {
 	}
 
 	@Override
-	public MachineKategory getKategory() {
-		return MachineKategory.SMELTING;
+	public MachineCategory getKategory() {
+		return MachineCategory.SMELTING;
 	}
 
 	@Override

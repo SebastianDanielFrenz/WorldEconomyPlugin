@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.CraftingGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineKategory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineCategory;
 
 public abstract class MachineFurnace extends Machine {
 
@@ -18,8 +18,8 @@ public abstract class MachineFurnace extends Machine {
 	}
 
 	@Override
-	public MachineKategory getKategory() {
-		return MachineKategory.SMELTING;
+	public MachineCategory getKategory() {
+		return MachineCategory.SMELTING;
 	}
 
 	@Override

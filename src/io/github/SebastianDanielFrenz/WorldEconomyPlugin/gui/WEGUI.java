@@ -122,7 +122,9 @@ public class WEGUI implements InventoryHolder {
 
 		if (fits_on_one_screen) {
 			for (int i = 0; i < items.length; i++) {
-				inv.setItem(items[i].slot, items[i].itemStack);
+				if (items[i] != null) {
+					inv.setItem(items[i].slot, items[i].itemStack);
+				}
 			}
 			return items;
 		} else {
@@ -136,13 +138,18 @@ public class WEGUI implements InventoryHolder {
 			int c;
 
 			for (GUIItem item : items) {
-				c = item.slot / (4 * 9);
-				if (c > highest) {
-					highest = c;
+				if (item != null) {
+					c = item.slot / (4 * 9);
+					if (c > highest) {
+						highest = c;
+					}
 				}
 			}
 
 			for (GUIItem item : items) {
+				if (item == null) {
+					continue;
+				}
 				if (page == 0) {
 					if (item.slot >= 9 && item.slot < 45) {
 						inv.setItem(item.slot, item.itemStack);
@@ -155,6 +162,9 @@ public class WEGUI implements InventoryHolder {
 			}
 
 			for (GUIItem item : items) {
+				if (item == null) {
+					continue;
+				}
 				if (item.slot < 9 && item.slot >= 0) {
 					inv.setItem(item.slot, item.itemStack);
 				}
@@ -242,6 +252,9 @@ public class WEGUI implements InventoryHolder {
 			}
 
 			for (int i = 0; i < items.length; i++) {
+				if (items[i] == null) {
+					continue;
+				}
 				if (e.getRawSlot() < 9) {
 					if (items[i].slot == e.getRawSlot()) {
 						items[i].event(e);

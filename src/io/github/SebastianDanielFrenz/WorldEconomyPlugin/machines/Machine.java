@@ -47,7 +47,7 @@ public abstract class Machine implements InventoryHolder {
 		return recipes;
 	}
 
-	public abstract MachineKategory getKategory();
+	public abstract MachineCategory getKategory();
 
 	public abstract double getMaintenanceCost();
 
@@ -62,7 +62,7 @@ public abstract class Machine implements InventoryHolder {
 	public abstract String getName();
 
 	public static boolean canBeMachine(Material material) {
-		for (MachineKategory kategory : MachineKategory.values()) {
+		for (MachineCategory kategory : MachineCategory.values()) {
 			if (kategory.display == material) {
 				return true;
 			}
@@ -126,7 +126,7 @@ public abstract class Machine implements InventoryHolder {
 		}
 	}
 
-	public static void setMachine(Block block, MachineKategory kategory, MachineGroup group, int lvl) {
+	public static void setMachine(Block block, MachineCategory kategory, MachineGroup group, int lvl) {
 		block.setType(kategory.display);
 		block.setMetadata("machineGroup", new WorldEconomyMachineMeta(group));
 		block.getRelative(BlockFace.DOWN).setType(getBlockForLevel(lvl));
