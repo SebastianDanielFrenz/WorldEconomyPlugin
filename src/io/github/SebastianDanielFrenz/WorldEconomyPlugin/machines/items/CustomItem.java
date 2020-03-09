@@ -90,18 +90,14 @@ public enum CustomItem {
 
 	// machines
 	// furnaces
-	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",
-			ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2",
-			ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3",
-			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1", ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2", ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3", ItemCategory.MACHINES),
 	// sieves
-	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",
-			ItemCategory.MACHINES),
+	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1", ItemCategory.MACHINES),
 	// blast furnaces
-	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
-			"Basic Blast Furnace Stage 1", ItemCategory.MACHINES),
+	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Blast Furnace Stage 1",
+			ItemCategory.MACHINES),
 
 	// Vanilla Items
 	STONE(Material.STONE, Tier.TIER1, ItemCategory.OTHER),
@@ -133,12 +129,6 @@ public enum CustomItem {
 	public final Tier tier;
 	public final ItemCategory category;
 
-	public boolean matches(ItemStack itemStack) {
-		return itemStack == null ? false
-				: (itemStack.getType() == base_material && (itemStack.hasItemMeta()
-						? itemStack.getItemMeta().getDisplayName().equals(item_name) : item_name == null));
-	}
-
 	public ItemStack toItemStack() {
 		if (item_name == null) {
 			return new ItemStack(base_material);
@@ -162,14 +152,6 @@ public enum CustomItem {
 
 	public static CustomItem getItem(ItemStack stack) {
 		return getItem(stack.getType(), stack.getItemMeta().getDisplayName().substring(2));
-	}
-
-	public ItemStack createItemStack(int amount) {
-		ItemStack out = new ItemStack(base_material, amount);
-		ItemMeta meta = out.getItemMeta();
-		meta.setDisplayName(item_name);
-		out.setItemMeta(meta);
-		return out;
 	}
 
 	public static void convertVanillaItemStack(ItemStack itemStack) {

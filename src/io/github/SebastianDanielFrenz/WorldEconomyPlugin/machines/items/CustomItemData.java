@@ -14,6 +14,9 @@ public class CustomItemData {
 	public Map<String, String> map = new TreeMap<String, String>();
 
 	public void load(ItemStack stack) {
+		if (stack == null) {
+			return;
+		}
 		if (stack.getItemMeta().getLore() == null) {
 			return;
 		}
@@ -34,5 +37,52 @@ public class CustomItemData {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		itemMeta.setLore(lore);
 		itemStack.setItemMeta(itemMeta);
+	}
+
+	/**
+	 * returns whether the item contains all of the data in this object. (the
+	 * ItemStack may contain more)
+	 * 
+	 * @param stack
+	 * @return
+	 */
+	public boolean containsData(ItemStack stack) {
+
+		CustomItemData other = new CustomItemData();
+		other.load(stack);
+		if (other.map.size() != map.size()) {
+			return false;
+		}
+		Iterator<String> keys = map.keySet().iterator();
+		Iterator<String> values = map.values().iterator();
+		while (keys.hasNext()) {
+			String key = keys.next();
+			String value = values.next();
+			Iterator<String> other_keys = other.map.keySet().iterator();
+			Iterator<String> other_values = other.map.values().iterator();
+			boolean found = false;
+			while (other_keys.hasNext()) {
+				String other_value = other_values.next();
+				if (other_keys.next().equals(key)) {
+					found = other_value.equals(value);
+					break;
+				}
+			}
+
+			if (!found) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean matches(ItemStack itemStack) {
+		CustomItemData stackData = new CustomItemData();
+		stackData.load(itemStack);
+		
+	}
+
+	public boolean isEmpty() {
+		return map.isEmpty();
 	}
 }
