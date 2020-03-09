@@ -42,7 +42,9 @@ public class CustomItemStack {
 
 	public boolean matches(ItemStack itemStack) {
 		return itemStack == null ? false
-				: (itemStack.getType() == item.base_material
-						&& (itemStack.hasItemMeta() ? (itemStack.getItemMeta().getDisplayName().equals(item.item_name) && itemStack.getItemMeta().getLore()==null?data.isEmpty():) : item.item_name == null));
+				: (itemStack.getType() == item.base_material && (itemStack.hasItemMeta()
+						? (itemStack.getItemMeta().getDisplayName().equals(item.item_name) && itemStack.getItemMeta().getLore() == null
+								? data.isEmpty() : data.matches(itemStack))
+						: item.item_name == null));
 	}
 }

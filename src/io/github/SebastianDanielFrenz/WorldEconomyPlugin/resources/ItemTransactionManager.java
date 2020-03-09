@@ -56,7 +56,7 @@ public class ItemTransactionManager {
 		for (int i = 0; i < items.length && amount > done; i++) {
 			System.out.println(i);
 
-			if (stack.getItem().matches(items[i])) {
+			if (stack.matches(items[i])) {
 
 				System.out.println("using slot " + i);
 
@@ -110,8 +110,8 @@ public class ItemTransactionManager {
 	public static int getPresent(Inventory inv, CustomItem item) {
 		int out = 0;
 		for (ItemStack slot : inv.getContents()) {
-			if (slot.getType() == item.base_material && slot.hasItemMeta()
-					? slot.getItemMeta().getDisplayName().equals(item.item_name) : item.item_name == null) {
+			if (slot.getType() == item.base_material && slot.hasItemMeta() ? slot.getItemMeta().getDisplayName().equals(item.item_name)
+					: item.item_name == null) {
 				out += slot.getAmount();
 			}
 		}
@@ -178,7 +178,7 @@ public class ItemTransactionManager {
 		for (int i = 0; i < limit && amount > done; i++) {
 			System.out.println(i);
 
-			if (stack.getItem().matches(items[i])) {
+			if (stack.matches(items[i])) {
 
 				System.out.println("using slot " + i);
 
@@ -236,8 +236,8 @@ public class ItemTransactionManager {
 		ItemStack slot;
 		for (int i = 0; i < limit; i++) {
 			slot = inv.getContents()[i];
-			if (slot.getType() == item.base_material && slot.hasItemMeta()
-					? slot.getItemMeta().getDisplayName().equals(item.item_name) : item.item_name == null) {
+			if (slot.getType() == item.base_material && slot.hasItemMeta() ? slot.getItemMeta().getDisplayName().equals(item.item_name)
+					: item.item_name == null) {
 				out += slot.getAmount();
 			}
 		}

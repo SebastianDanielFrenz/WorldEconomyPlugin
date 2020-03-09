@@ -46,7 +46,7 @@ public class CustomItemData {
 	 * @param stack
 	 * @return
 	 */
-	public boolean containsData(ItemStack stack) {
+	public boolean matches(ItemStack stack) {
 
 		CustomItemData other = new CustomItemData();
 		other.load(stack);
@@ -74,12 +74,6 @@ public class CustomItemData {
 			}
 		}
 		return true;
-	}
-	
-	public boolean matches(ItemStack itemStack) {
-		CustomItemData stackData = new CustomItemData();
-		stackData.load(itemStack);
-		
 	}
 
 	public boolean isEmpty() {
