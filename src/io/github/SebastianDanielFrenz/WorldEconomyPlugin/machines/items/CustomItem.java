@@ -77,6 +77,12 @@ public enum CustomItem {
 
 	// silicon
 
+	// materials
+	CLAY_BALL(Material.CLAY_BALL, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	RAW_HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+	HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+	PROCESSED_COBBLESTONE(Material.STONE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+
 	// fluids
 	OIL_BUCKET(Material.LAVA_BUCKET, Tier.TIER1, "Oil Bucket", ItemCategory.RAW_MATERIALS),
 
@@ -85,6 +91,7 @@ public enum CustomItem {
 	WATER_BUCKET(Material.WATER_BUCKET, Tier.TIER1, ItemCategory.OTHER),
 
 	// clay buckets
+	RAW_CLAY_BUCKET(Material.BUCKET, Tier.TIER1, ItemCategory.OTHER),
 	CLAY_BUCKET(Material.BUCKET, Tier.TIER1, "Clay Bucket", ItemCategory.OTHER),
 	WATER_CLAY_BUCKET(Material.WATER_BUCKET, Tier.TIER1, "Water Clay Bucket", ItemCategory.OTHER),
 
@@ -98,6 +105,21 @@ public enum CustomItem {
 	// blast furnaces
 	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Blast Furnace Stage 1",
 			ItemCategory.MACHINES),
+	// camp fire
+	CAMPFIRE(Material.CAMPFIRE, Tier.TIER1, ItemCategory.MACHINES),
+
+	// tools
+	// shovels
+	WOODEN_SHOVEL(Material.WOODEN_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
+	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
+	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
+	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
+
+	// pickaxes
+	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, ItemCategory.EQUIPMENT),
+
+	// materials
+	STICK(Material.STICK, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
 
 	// Vanilla Items
 	STONE(Material.STONE, Tier.TIER1, ItemCategory.OTHER),
@@ -107,8 +129,7 @@ public enum CustomItem {
 	OAK_PLANKS(Material.OAK_PLANKS, Tier.TIER1, ItemCategory.OTHER),
 	OAK_LOG(Material.OAK_LOG, Tier.TIER1, ItemCategory.OTHER),
 	COARSE_DIRT(Material.COARSE_DIRT, Tier.TIER1, ItemCategory.OTHER),
-
-	;
+	SAND(Material.SAND, Tier.TIER1, ItemCategory.RAW_MATERIALS),;
 
 	private CustomItem(Material base, Tier tier, String name, ItemCategory category) {
 		base_material = base;

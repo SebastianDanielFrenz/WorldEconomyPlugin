@@ -6,7 +6,24 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomIt
 
 public enum MachineRecipe {
 
-	// made by afk worker
+	CRAFTING____COBBLESTONE__STICK____COBBLESTONE_SHOVEL(new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 2) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
+	CRAFTING____CLAY____CLAY_BUCKET(new CustomItemStack[] { new CustomItemStack(CustomItem.CLAY_BALL, 8) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_CLAY_BUCKET, 1) }, 5),
+	CRAFTING____COBBLESTONE____CAMPFIRE(new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 4) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
+	CRAFTING____COBBLESTONE__SAND__WATER_CLAY_BUCKET____RAW_HARDENED_COBBLESTONE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 1), new CustomItemStack(CustomItem.SAND, 1),
+					new CustomItemStack(CustomItem.WATER_CLAY_BUCKET, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
+	CAMPFIRE____RAW_HARDENED_COBBLESTONE____HARDENED_COBBLESTONE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_HARDENED_COBBLESTONE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.HARDENED_COBBLESTONE, 1) }, 5 * Units.MINUTE),
+	SMELTING____HARDENED_COBBLESTONE____PROCESSED_COBBLESTONE(new CustomItemStack[] { new CustomItemStack(CustomItem.HARDENED_COBBLESTONE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE, 1) }, 20),
+	CRAFTING____PROCESSED_COBBLESTONE__STICK____PROCESSED_COBBLESTONE_PICKAXE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE, 3), new CustomItemStack(CustomItem.STICK, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE_PICKAXE, 1) }, 5),
 
 	// Coal processing
 	CRUSHING____COAL_ORE____COAL__COBBLESTONE(new CustomItemStack[] { new CustomItemStack(CustomItem.COAL_ORE, 1) },
@@ -29,7 +46,7 @@ public enum MachineRecipe {
 	FORGING____IRON_PLATE____IRON_HELMT(new CustomItemStack[] { new CustomItemStack(CustomItem.IRON_PLATE, 2) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.IRON_HELMET, 1) }, 600),
 
-	// Gold proccesing
+	// Gold processing
 	SMELTING____GOLD_ORE____GOLD_NUGGET(new CustomItemStack[] { new CustomItemStack(CustomItem.GOLD_ORE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.GOLD_NUGGET, 1) }, 60),
 
@@ -59,6 +76,7 @@ public enum MachineRecipe {
 			new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 16), new CustomItemStack(CustomItem.WATER_BUCKET, 4) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.BASIC_BLAST_FURNACE_STAGE1, 1), new CustomItemStack(CustomItem.BUCKET, 4) },
 			Units.MINUTE * 5),
+
 	FORGING____COBBLESTONE__WATER_CLAY_BUCKET____BASIC_BLAST_FURNACE_STAGE1(
 			new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 16), new CustomItemStack(CustomItem.WATER_CLAY_BUCKET, 4) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.BASIC_BLAST_FURNACE_STAGE1, 1) }, Units.MINUTE * 5);
