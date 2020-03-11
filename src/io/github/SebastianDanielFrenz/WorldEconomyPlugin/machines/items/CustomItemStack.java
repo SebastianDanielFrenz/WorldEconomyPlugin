@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items;
 
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CustomItemStack {
 
@@ -46,5 +47,22 @@ public class CustomItemStack {
 						? (itemStack.getItemMeta().getDisplayName().equals(item.item_name) && itemStack.getItemMeta().getLore() == null
 								? data.isEmpty() : data.matches(itemStack))
 						: item.item_name == null));
+	}
+
+	public ItemStack toItemStack() {
+		ItemStack itemStack = new ItemStack(item.base_material, count);
+		data.apply(itemStack);
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.setDisplayName(item.item_name);
+		itemStack.setItemMeta(itemMeta);
+		return itemStack;
+	}
+
+	public static ItemStack[] convert(CustomItemStack[] stacks) {
+		ItemStack[] out = new ItemStack[stacks.length];
+		for (int i = 0; i < stacks.length; i++) {
+			out[i] = stacks[i].toItemStack();
+		}
+		return out;
 	}
 }

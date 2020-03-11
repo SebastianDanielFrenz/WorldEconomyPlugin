@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.blast_furnaces.BasicBlastFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
@@ -110,13 +112,18 @@ public enum CustomItem {
 
 	// tools
 	// shovels
-	WOODEN_SHOVEL(Material.WOODEN_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
-	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
-	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
-	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT),
+	WOODEN_SHOVEL(Material.WOODEN_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD) }),
+	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.COBBLESTONE) }),
+	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.HARDENED_COBBLESTONE) }),
+	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// pickaxes
-	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, ItemCategory.EQUIPMENT),
+	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, ItemCategory.EQUIPMENT,
+			new ItemDetail[] { new ToolItemDetail(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// materials
 	STICK(Material.STICK, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
@@ -136,6 +143,7 @@ public enum CustomItem {
 		item_name = name;
 		this.tier = tier;
 		this.category = category;
+		details = new ItemDetail[] {};
 	}
 
 	private CustomItem(Material base, Tier tier, ItemCategory category) {
@@ -143,12 +151,30 @@ public enum CustomItem {
 		item_name = null;
 		this.tier = tier;
 		this.category = category;
+		details = new ItemDetail[] {};
+	}
+
+	private CustomItem(Material base, Tier tier, String name, ItemCategory category, ItemDetail[] details) {
+		base_material = base;
+		item_name = name;
+		this.tier = tier;
+		this.category = category;
+		this.details = details;
+	}
+
+	private CustomItem(Material base, Tier tier, ItemCategory category, ItemDetail[] details) {
+		base_material = base;
+		item_name = null;
+		this.tier = tier;
+		this.category = category;
+		this.details = details;
 	}
 
 	public final Material base_material;
 	public final String item_name;
 	public final Tier tier;
 	public final ItemCategory category;
+	public final ItemDetail[] details;
 
 	public ItemStack toItemStack() {
 		if (item_name == null) {
@@ -180,6 +206,33 @@ public enum CustomItem {
 		if (meta.getDisplayName() == null) {
 			meta.setDisplayName(getItem(itemStack).item_name);
 		}
+	}
+
+	public boolean hasDetail(ItemDetailType type) {
+		for (ItemDetail detail : details) {
+			if (detail.type == type) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasDetail(ItemDetail detail) {
+		for (ItemDetail _detail : details) {
+			if (_detail.type == detail.type) {
+				return _detail.data.equals(detail.data);
+			}
+		}
+		return false;
+	}
+
+	public ItemDetail getDetail(ItemDetailType type) {
+		for (ItemDetail detail : details) {
+			if (detail.type == type) {
+				return detail;
+			}
+		}
+		return null;
 	}
 
 	// Coal

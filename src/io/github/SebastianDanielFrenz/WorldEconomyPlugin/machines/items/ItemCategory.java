@@ -10,12 +10,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.Machin
 
 public enum ItemCategory {
 
-	RAW_MATERIALS(CustomItem.IRON_INGOT.base_material),
-	PROCESSED_MATERIALS(CustomItem.IRON_PLATE.base_material),
-	MACHINES(CustomItem.BASIC_FURNACE_STAGE1.base_material),
-	EQUIPMENT(CustomItem.IRON_CHESTPLATE.base_material),
-	TECHNOLOGY(CustomItem.REDSTONE.base_material),
-	OTHER(CustomItem.CLAY_BUCKET.base_material);
+	// RAW_MATERIALS(CustomItem.IRON_INGOT.base_material),
+	RAW_MATERIALS(Material.IRON_INGOT),
+	PROCESSED_MATERIALS(Material.PAPER),
+	MACHINES(Material.FURNACE),
+	EQUIPMENT(Material.IRON_PICKAXE),
+	TECHNOLOGY(Material.REDSTONE),
+	OTHER(Material.BUCKET);
 
 	private ItemCategory(Material display) {
 		this.display = display;
