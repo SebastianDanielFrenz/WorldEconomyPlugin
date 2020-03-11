@@ -13,22 +13,22 @@ public class Permissions {
 	public static final String[] SIGN_SHOP_CREATE = new String[] { "sign.*", "sign.shop.*", "sign.shop.create" };
 	public static final String[] SIGN_SHOP_USE = new String[] { "sign.*", "sign.shop.*", "sign.shop.use" };
 
-	public static final String[] MANAGE_BANK_ACCOUNT_BALANCE = new String[] { "manage.*", "manage.bank_account.*",
-			"manage.bank_account.balance" };
-	public static final String[] MANAGE_BANK_ACCOUNT_NAME_CMD = new String[] { "manage.*", "manage.bank_account.*",
-			"manage.bank_account.name", "user" };
+	public static final String[] MANAGE_BANK_ACCOUNT_BALANCE = new String[] { "manage.*", "manage.bank_account.*", "manage.bank_account.balance" };
+	public static final String[] MANAGE_BANK_ACCOUNT_NAME_CMD = new String[] { "manage.*", "manage.bank_account.*", "manage.bank_account.name",
+			"user" };
 	public static final String[] MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD = new String[] { "manage.*", "manage.bank_account.*",
 			"manage.bank_account.credit.*", "manage.bank_account.credit.take", "user" };
 	public static final String[] MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD = new String[] { "manage.*", "manage.company.*",
 			"manage.company.bank_account.*", "manage.company.bank_account.register" };
-	public static final String[] MANAGE_COMPANY_EMPLOY = new String[] { "manage.*", "manage.company.*",
-			"manage.company.employ" };
+	public static final String[] MANAGE_COMPANY_EMPLOY = new String[] { "manage.*", "manage.company.*", "manage.company.employ" };
 
-	public static final String[] MANAGE_COMPANY_MAIL_READ = new String[] { "manage.*", "manage.company.*",
-			"manage.company.mail.*", "manage.company.mail.read" };
-	public static final String[] MANAGE_COMPANY_MAIL_REMOVE = new String[] { "manage.*", "manage.company.*",
-			"manage.company.mail.*", "manage.company.mail.remove" };
+	public static final String[] MANAGE_COMPANY_MAIL_READ = new String[] { "manage.*", "manage.company.*", "manage.company.mail.*",
+			"manage.company.mail.read" };
+	public static final String[] MANAGE_COMPANY_MAIL_REMOVE = new String[] { "manage.*", "manage.company.*", "manage.company.mail.*",
+			"manage.company.mail.remove" };
 
 	public static final String[] MAIL_READ = new String[] { "mail.*", "mail.read", "user" };
 	public static final String[] MAIL_REMOVE = new String[] { "mail.*", "mail.remove", "user" };
+
+	public static final String[] ITEM_GIVE_CMD = new String[] { "item.*", "item.give" };
 }
