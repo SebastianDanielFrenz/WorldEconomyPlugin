@@ -99,14 +99,18 @@ public enum CustomItem {
 
 	// machines
 	// furnaces
-	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1", ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2", ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3", ItemCategory.MACHINES),
-	// sieves
-	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1", ItemCategory.MACHINES),
-	// blast furnaces
-	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Blast Furnace Stage 1",
+	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",
 			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2",
+			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3",
+			ItemCategory.MACHINES),
+	// sieves
+	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",
+			ItemCategory.MACHINES),
+	// blast furnaces
+	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
+			"Basic Blast Furnace Stage 1", ItemCategory.MACHINES),
 	// camp fire
 	CAMPFIRE(Material.CAMPFIRE, Tier.TIER1, ItemCategory.MACHINES),
 
@@ -140,7 +144,8 @@ public enum CustomItem {
 
 	private CustomItem(Material base, Tier tier, String name, ItemCategory category) {
 		base_material = base;
-		item_name = name;
+		raw_item_name = name;
+		item_name = tier.color.toString() + name;
 		this.tier = tier;
 		this.category = category;
 		details = new ItemDetail[] {};
@@ -148,6 +153,7 @@ public enum CustomItem {
 
 	private CustomItem(Material base, Tier tier, ItemCategory category) {
 		base_material = base;
+		raw_item_name = null;
 		item_name = null;
 		this.tier = tier;
 		this.category = category;
@@ -156,7 +162,8 @@ public enum CustomItem {
 
 	private CustomItem(Material base, Tier tier, String name, ItemCategory category, ItemDetail[] details) {
 		base_material = base;
-		item_name = name;
+		raw_item_name = name;
+		item_name = tier.color.toString() + name;
 		this.tier = tier;
 		this.category = category;
 		this.details = details;
@@ -164,6 +171,7 @@ public enum CustomItem {
 
 	private CustomItem(Material base, Tier tier, ItemCategory category, ItemDetail[] details) {
 		base_material = base;
+		raw_item_name = null;
 		item_name = null;
 		this.tier = tier;
 		this.category = category;
@@ -171,6 +179,7 @@ public enum CustomItem {
 	}
 
 	public final Material base_material;
+	public final String raw_item_name;
 	public final String item_name;
 	public final Tier tier;
 	public final ItemCategory category;

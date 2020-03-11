@@ -42,11 +42,25 @@ public class CustomItemStack {
 	}
 
 	public boolean matches(ItemStack itemStack) {
-		return itemStack == null ? false
-				: (itemStack.getType() == item.base_material && (itemStack.hasItemMeta()
-						? (itemStack.getItemMeta().getDisplayName().equals(item.item_name) && itemStack.getItemMeta().getLore() == null
-								? data.isEmpty() : data.matches(itemStack))
-						: item.item_name == null));
+		if (itemStack == null) {
+			return false;
+		} else {
+			if (itemStack.getItemMeta().getDisplayName() != null && itemStack.hasItemMeta()) {
+				if (!itemStack.getItemMeta().getDisplayName().equals(item.item_name)) {
+					return false;
+				}
+			} else {
+				if (item.item_name != null) {
+					return false;
+				}
+			}
+			if (!data.matches(itemStack)) {
+				return false;
+			}
+
+			return true;
+
+		}
 	}
 
 	public ItemStack toItemStack() {

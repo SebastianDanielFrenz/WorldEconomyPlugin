@@ -38,6 +38,12 @@ public class CustomBlockEventHandler implements Listener {
 
 		@SuppressWarnings("deprecation")
 		ItemStack hand = player.getInventory().getItemInHand();
+		if (hand == null) {
+			return;
+		}
+		if (!hand.hasItemMeta()) {
+			return;
+		}
 		CustomItem item = CustomItem.getItem(hand);
 		ToolItemDetail toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
 

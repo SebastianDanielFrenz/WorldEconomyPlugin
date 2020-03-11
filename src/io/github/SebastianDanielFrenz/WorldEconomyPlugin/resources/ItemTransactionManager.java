@@ -29,9 +29,26 @@ public class ItemTransactionManager {
 	public static void give(Inventory inv, Material material, int amount) {
 		int done = 0;
 		ItemStack[] items = inv.getContents();
-		for (int i = 0; i < items.length && amount < done; i++) {
+		for (int i = 0; i < items.length && amount > done; i++) {
+			if (items[i] == null) {
+				ItemStack _item = new ItemStack(material);
+
+				if (_item.getMaxStackSize() > amount - done) {
+					_item.setAmount(amount - done);
+					done += amount - done;
+					inv.setItem(i, _item);
+					break;
+				} else {
+					_item.setAmount(_item.getMaxStackSize());
+					done += _item.getMaxStackSize();
+					inv.setItem(i, _item);
+				}
+				continue;
+			}
+
 			if (items[i].getType() == material) {
 				int space = items[i].getMaxStackSize() - items[i].getAmount();
+
 				if (space > amount - done) {
 					items[i].setAmount(items[i].getAmount() + amount - done);
 					done += amount - done;
@@ -83,7 +100,7 @@ public class ItemTransactionManager {
 					done = amount;
 					break;
 				} else {
-					inv.getItem(i).setAmount(items[i].getMaxStackSize());
+					inv.getItem(i).setAmount(inv.getItem(i).getMaxStackSize());
 					done += inv.getItem(i).getMaxStackSize();
 				}
 			}
@@ -110,8 +127,8 @@ public class ItemTransactionManager {
 	public static int getPresent(Inventory inv, CustomItem item) {
 		int out = 0;
 		for (ItemStack slot : inv.getContents()) {
-			if (slot.getType() == item.base_material && slot.hasItemMeta() ? slot.getItemMeta().getDisplayName().equals(item.item_name)
-					: item.item_name == null) {
+			if (slot.getType() == item.base_material && slot.hasItemMeta()
+					? slot.getItemMeta().getDisplayName().equals(item.item_name) : item.item_name == null) {
 				out += slot.getAmount();
 			}
 		}
@@ -236,8 +253,8 @@ public class ItemTransactionManager {
 		ItemStack slot;
 		for (int i = 0; i < limit; i++) {
 			slot = inv.getContents()[i];
-			if (slot.getType() == item.base_material && slot.hasItemMeta() ? slot.getItemMeta().getDisplayName().equals(item.item_name)
-					: item.item_name == null) {
+			if (slot.getType() == item.base_material && slot.hasItemMeta()
+					? slot.getItemMeta().getDisplayName().equals(item.item_name) : item.item_name == null) {
 				out += slot.getAmount();
 			}
 		}
