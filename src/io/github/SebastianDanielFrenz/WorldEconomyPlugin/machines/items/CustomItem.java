@@ -116,17 +116,20 @@ public enum CustomItem {
 
 	// tools
 	// shovels
-	WOODEN_SHOVEL(Material.WOODEN_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+	WOODEN_SHOVEL(Material.WOODEN_SHOVEL, Tier.TIER1, "Wooden Shovel", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD) }),
-	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Cobblestone Shovel", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.COBBLESTONE) }),
-	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Hardened Cobblestone Shovel",
+			ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.HARDENED_COBBLESTONE) }),
-	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, ItemCategory.EQUIPMENT,
+	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Processed Cobblestone Shovel",
+			ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// pickaxes
-	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, ItemCategory.EQUIPMENT,
+	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, "Processed Cobblestone Pickaxe",
+			ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// materials
@@ -199,7 +202,7 @@ public enum CustomItem {
 
 	public static CustomItem getItem(Material material, String name) {
 		for (CustomItem item : CustomItem.values()) {
-			if (item.base_material == material && name.equals(item.tier.toString() + item.item_name)) {
+			if (item.base_material == material && name.equals(item.item_name)) {
 				return item;
 			}
 		}
@@ -207,7 +210,7 @@ public enum CustomItem {
 	}
 
 	public static CustomItem getItem(ItemStack stack) {
-		return getItem(stack.getType(), stack.getItemMeta().getDisplayName().substring(2));
+		return getItem(stack.getType(), stack.getItemMeta().getDisplayName());
 	}
 
 	public static void convertVanillaItemStack(ItemStack itemStack) {

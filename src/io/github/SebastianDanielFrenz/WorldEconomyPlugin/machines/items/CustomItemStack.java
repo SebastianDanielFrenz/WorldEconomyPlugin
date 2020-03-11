@@ -45,6 +45,10 @@ public class CustomItemStack {
 		if (itemStack == null) {
 			return false;
 		} else {
+			if (itemStack.getType() != item.base_material) {
+				return false;
+			}
+
 			if (itemStack.getItemMeta().getDisplayName() != null && itemStack.hasItemMeta()) {
 				if (!itemStack.getItemMeta().getDisplayName().equals(item.item_name)) {
 					return false;

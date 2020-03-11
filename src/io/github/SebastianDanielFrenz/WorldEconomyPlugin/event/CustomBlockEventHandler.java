@@ -46,6 +46,9 @@ public class CustomBlockEventHandler implements Listener {
 		}
 		CustomItem item = CustomItem.getItem(hand);
 		ToolItemDetail toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
+		if (toolDetails == null) {
+			return; // item in player's hand not a tool
+		}
 
 		CustomItemStack[] drops = customBlock.getDrops(toolDetails.getToolType(), toolDetails.getToolLevel());
 		ItemStack[] usable_drops = CustomItemStack.convert(drops);
