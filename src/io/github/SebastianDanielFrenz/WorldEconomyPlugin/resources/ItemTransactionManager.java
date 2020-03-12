@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.MissuseWarning;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
 
 public class ItemTransactionManager {
 

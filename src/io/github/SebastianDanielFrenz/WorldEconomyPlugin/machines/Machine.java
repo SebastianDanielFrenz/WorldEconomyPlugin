@@ -13,10 +13,11 @@ import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.MachineDoesNotExistException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.ComparableLocation;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage3;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class Machine implements InventoryHolder {
 

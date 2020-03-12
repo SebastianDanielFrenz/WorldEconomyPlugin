@@ -1,28 +1,46 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
 
 public enum MachineRecipe {
 
 	CRAFTING____COBBLESTONE__STICK____COBBLESTONE_SHOVEL(new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 2) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
+
 	CRAFTING____CLAY____CLAY_BUCKET(new CustomItemStack[] { new CustomItemStack(CustomItem.CLAY_BALL, 8) },
+
 			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_CLAY_BUCKET, 1) }, 5),
 	CRAFTING____COBBLESTONE____CAMPFIRE(new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 4) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
+
 	CRAFTING____COBBLESTONE__SAND__WATER_CLAY_BUCKET____RAW_HARDENED_COBBLESTONE(
 			new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 1), new CustomItemStack(CustomItem.SAND, 1),
 					new CustomItemStack(CustomItem.WATER_CLAY_BUCKET, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
+
+	CRAFTING____RAW_HARDENED_COBBLESTONE____RAW_HARDENED_COBBLESTONE_PLATE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_HARDENED_COBBLESTONE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_HARDENED_COBBLESTONE_PLATE, 8) }, 5),
+
+	CAMPFIRE____RAW_HARDENED_COBBLESTONE_PLATE____HARDENED_COBBLESTONE_PLATE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_HARDENED_COBBLESTONE_PLATE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.HARDENED_COBBLESTONE_PLATE, 1) }, 5 * Units.MINUTE),
+
 	CAMPFIRE____RAW_HARDENED_COBBLESTONE____HARDENED_COBBLESTONE(
 			new CustomItemStack[] { new CustomItemStack(CustomItem.RAW_HARDENED_COBBLESTONE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.HARDENED_COBBLESTONE, 1) }, 5 * Units.MINUTE),
+
 	SMELTING____HARDENED_COBBLESTONE____PROCESSED_COBBLESTONE(new CustomItemStack[] { new CustomItemStack(CustomItem.HARDENED_COBBLESTONE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE, 1) }, 20),
-	CRAFTING____PROCESSED_COBBLESTONE__STICK____PROCESSED_COBBLESTONE_PICKAXE(
-			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE, 3), new CustomItemStack(CustomItem.STICK, 1) },
+
+	SMELTING____HARDENED_COBBLESTONE_PLATE____PROCESSED_COBBLESTONE_PLATE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.HARDENED_COBBLESTONE_PLATE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE_PLATE, 1) }, 20),
+
+	CRAFTING____PROCESSED_COBBLESTONE_PLATE__STICK____PROCESSED_COBBLESTONE_PICKAXE(
+			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE_PLATE, 3), new CustomItemStack(CustomItem.STICK, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.PROCESSED_COBBLESTONE_PICKAXE, 1) }, 5),
 
 	// Coal processing

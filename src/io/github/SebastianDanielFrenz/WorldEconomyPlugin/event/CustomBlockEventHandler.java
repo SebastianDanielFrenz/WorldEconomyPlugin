@@ -11,11 +11,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.ItemDetailType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.ToolItemDetail;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.ItemDetailType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.ToolItemDetail;
 
 public class CustomBlockEventHandler implements Listener {
 
@@ -38,23 +40,38 @@ public class CustomBlockEventHandler implements Listener {
 
 		@SuppressWarnings("deprecation")
 		ItemStack hand = player.getInventory().getItemInHand();
-		if (hand == null) {
-			return;
-		}
-		if (!hand.hasItemMeta()) {
-			return;
-		}
-		CustomItem item = CustomItem.getItem(hand);
-		ToolItemDetail toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
-		if (toolDetails == null) {
-			return; // item in player's hand not a tool
+		ToolItemDetail toolDetails;
+
+		if (hand.getType() == Material.AIR) {
+			toolDetails = new ToolItemDetail(CustomToolType.HAND, CustomMaterialLevel.HAND);
+		} else if (hand.getItemMeta().getDisplayName().equals("")) {
+			CustomItem item = CustomItem.getItem(hand);
+			if (item == null) {
+				event.setCancelled(true);
+				return;
+			}
+			toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
+		} else {
+			CustomItem item = CustomItem.getItem(hand);
+			toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
+			if (toolDetails == null) {
+				toolDetails = new ToolItemDetail(CustomToolType.HAND, CustomMaterialLevel.HAND);
+			}
 		}
 
 		CustomItemStack[] drops = customBlock.getDrops(toolDetails.getToolType(), toolDetails.getToolLevel());
+		if (drops.length == 0) {
+			// if no drops are found, you are not allowed to mine the block.
+			event.setCancelled(true);
+			return;
+		}
+
 		ItemStack[] usable_drops = CustomItemStack.convert(drops);
 
 		for (ItemStack usable_drop : usable_drops) {
-			block.getWorld().dropItemNaturally(block.getLocation(), usable_drop);
+			if (usable_drop != null) {
+				block.getWorld().dropItemNaturally(block.getLocation(), usable_drop);
+			}
 		}
 
 		event.setCancelled(true);

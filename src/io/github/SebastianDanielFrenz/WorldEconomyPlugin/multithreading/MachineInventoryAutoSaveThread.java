@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.ComparableLocation;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.ComparableLocation;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventoryRegistry;
 
 public class MachineInventoryAutoSaveThread implements Runnable {

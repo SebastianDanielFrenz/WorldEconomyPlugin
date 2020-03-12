@@ -1,11 +1,12 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomBlockDrop;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomBlockDropTable;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomToolType;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomBlockDrop;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomBlockDropTable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 
 public enum CustomBlock {
 
@@ -14,7 +15,13 @@ public enum CustomBlock {
 	SAND(Material.SAND, true, new CustomBlockDropTable(new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD,
 			new CustomItemStack[] { new CustomItemStack(CustomItem.SAND, 1) }) })),
 	CLAY(Material.CLAY, true, new CustomBlockDropTable(new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.SHOVEL,
-			CustomMaterialLevel.COBBLESTONE, new CustomItemStack[] { new CustomItemStack(CustomItem.CLAY_BALL, 1) }) }));
+			CustomMaterialLevel.COBBLESTONE, new CustomItemStack[] { new CustomItemStack(CustomItem.CLAY_BALL, 1) }) })),
+	GRANITE(Material.GRANITE, true, new CustomBlockDropTable(new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE,
+			CustomMaterialLevel.PROCESSED_COBBLESTONE, new CustomItemStack[] { new CustomItemStack(CustomItem.GRANITE, 1) }) })),
+	DIORITE(Material.DIORITE, true, new CustomBlockDropTable(new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE,
+			CustomMaterialLevel.GRANITE, new CustomItemStack[] { new CustomItemStack(CustomItem.DIORITE, 1) }) })),
+	ANDESITE(Material.ANDESITE, true, new CustomBlockDropTable(new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE,
+			CustomMaterialLevel.DIORITE, new CustomItemStack[] { new CustomItemStack(CustomItem.ANDESITE, 1) }) })),;
 
 	private CustomBlock(Material material, boolean vanilla, CustomBlockDropTable drop_table) {
 		this.material = material;

@@ -17,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.MachineDoesNotExistException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.ComparableLocation;
 
 public class MachineInventoryRegistry {
 

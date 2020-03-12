@@ -1,12 +1,12 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public enum ItemCategory {
 

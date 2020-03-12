@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.research;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research;
 
 import java.util.List;
 

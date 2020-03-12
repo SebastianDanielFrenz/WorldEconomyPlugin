@@ -1,6 +1,6 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
 
 public class CustomBlockDrop {
 

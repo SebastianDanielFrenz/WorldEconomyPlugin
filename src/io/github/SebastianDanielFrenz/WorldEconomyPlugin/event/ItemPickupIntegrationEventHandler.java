@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
 
 public class ItemPickupIntegrationEventHandler implements Listener {
 

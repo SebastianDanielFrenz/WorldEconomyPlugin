@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

@@ -1,13 +1,16 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay;
 
 public enum CustomMaterialLevel {
 
-	WOOD(1),
+	HAND(0),
+	WOOD(HAND),
 	COBBLESTONE(WOOD),
 	HARDENED_COBBLESTONE(COBBLESTONE),
 	PROCESSED_COBBLESTONE(HARDENED_COBBLESTONE),
-	STONE(PROCESSED_COBBLESTONE),
-	COPPER(STONE);
+	GRANITE(PROCESSED_COBBLESTONE),
+	DIORITE(GRANITE),
+	ANDESITE(DIORITE),
+	COPPER(ANDESITE);
 
 	private CustomMaterialLevel(int lvl) {
 		this.lvl = lvl;

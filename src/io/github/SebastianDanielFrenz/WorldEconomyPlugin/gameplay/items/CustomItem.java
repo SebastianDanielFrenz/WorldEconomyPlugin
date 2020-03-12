@@ -1,11 +1,11 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.CustomToolType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.blast_furnaces.BasicBlastFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
@@ -82,8 +82,11 @@ public enum CustomItem {
 	// materials
 	CLAY_BALL(Material.CLAY_BALL, Tier.TIER1, ItemCategory.RAW_MATERIALS),
 	RAW_HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+	RAW_HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
 	HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+	HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
 	PROCESSED_COBBLESTONE(Material.STONE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+	PROCESSED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
 
 	// fluids
 	OIL_BUCKET(Material.LAVA_BUCKET, Tier.TIER1, "Oil Bucket", ItemCategory.RAW_MATERIALS),
@@ -99,18 +102,14 @@ public enum CustomItem {
 
 	// machines
 	// furnaces
-	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",
-			ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2",
-			ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3",
-			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1", ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2", ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3", ItemCategory.MACHINES),
 	// sieves
-	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",
-			ItemCategory.MACHINES),
+	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1", ItemCategory.MACHINES),
 	// blast furnaces
-	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
-			"Basic Blast Furnace Stage 1", ItemCategory.MACHINES),
+	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Blast Furnace Stage 1",
+			ItemCategory.MACHINES),
 	// camp fire
 	CAMPFIRE(Material.CAMPFIRE, Tier.TIER1, ItemCategory.MACHINES),
 
@@ -120,16 +119,13 @@ public enum CustomItem {
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD) }),
 	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Cobblestone Shovel", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.COBBLESTONE) }),
-	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Hardened Cobblestone Shovel",
-			ItemCategory.EQUIPMENT,
+	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Hardened Cobblestone Shovel", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.HARDENED_COBBLESTONE) }),
-	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Processed Cobblestone Shovel",
-			ItemCategory.EQUIPMENT,
+	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Processed Cobblestone Shovel", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// pickaxes
-	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, "Processed Cobblestone Pickaxe",
-			ItemCategory.EQUIPMENT,
+	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, "Processed Cobblestone Pickaxe", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// materials
@@ -143,7 +139,12 @@ public enum CustomItem {
 	OAK_PLANKS(Material.OAK_PLANKS, Tier.TIER1, ItemCategory.OTHER),
 	OAK_LOG(Material.OAK_LOG, Tier.TIER1, ItemCategory.OTHER),
 	COARSE_DIRT(Material.COARSE_DIRT, Tier.TIER1, ItemCategory.OTHER),
-	SAND(Material.SAND, Tier.TIER1, ItemCategory.RAW_MATERIALS),;
+	SAND(Material.SAND, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	GRANITE(Material.GRANITE, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	POLISHED_GRANITE(Material.POLISHED_GRANITE, Tier.TIER1, ItemCategory.PROCESSED_MATERIALS),
+	DIORITE(Material.DIORITE, Tier.TIER1, ItemCategory.RAW_MATERIALS),
+	POLISHED_DIORITE(Material),
+	ANDESITE(Material.ANDESITE, Tier.TIER1, ItemCategory.RAW_MATERIALS),;
 
 	private CustomItem(Material base, Tier tier, String name, ItemCategory category) {
 		base_material = base;

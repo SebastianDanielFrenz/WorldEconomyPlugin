@@ -2,8 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Location;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineCategory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.recipes.MachineRecipe;
 
 public abstract class AdvancedFurnace extends MachineFurnace {
 

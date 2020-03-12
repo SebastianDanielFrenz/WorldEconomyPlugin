@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay;
 
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -3,7 +3,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.blast_furnace
 import org.bukkit.Location;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.items.Tier;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.Tier;
 
 public class BasicBlastFurnaceStage1 extends BasicBlastFurnace {
 

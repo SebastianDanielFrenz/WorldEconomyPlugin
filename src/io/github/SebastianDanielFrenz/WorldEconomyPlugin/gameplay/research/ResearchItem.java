@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.research;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
