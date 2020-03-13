@@ -18,6 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRe
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.VanillaRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
@@ -111,22 +112,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		/**
 		 * ==================================================
 		 * 
-		 * This part is responsible for transferring metadata to machine blocks
-		 * in the world.
+		 * This part is responsible for registering vanilla crafting recipes.
 		 * 
 		 * ==================================================
 		 */
 
-		// try {
-		// WEDB.loadMachines();
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// getLogger().severe("Could not load the machines from the last server
-		// run!");
-		// }
-
-		// Bukkit.getWorld("world").getPopulators().add(new
-		// WorldEconomyBlockPopulator());
+		VanillaRecipe.init();
+		getServer().addRecipe(VanillaRecipe.STICK__PLANKS____CRAFTING_TABLE);
 
 	}
 

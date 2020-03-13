@@ -6,6 +6,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomIt
 
 public enum MachineRecipe {
 
+	CRAFTING____STICK____PLANKS(new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 8) },
+			new CustomItemStack[] { new CustomItemStack(CustomItem.OAK_PLANKS, 1) }, 2),
+
 	CRAFTING____COBBLESTONE__STICK____COBBLESTONE_SHOVEL(new CustomItemStack[] { new CustomItemStack(CustomItem.COBBLESTONE, 2) },
 			new CustomItemStack[] { new CustomItemStack(CustomItem.STICK, 1) }, 5),
 
