@@ -14,8 +14,9 @@ public class VanillaRecipe {
 	public static void init() {
 		STICK__PLANKS____CRAFTING_TABLE = new ShapedRecipe(new NamespacedKey(WorldEconomyPlugin.plugin, "crafting"),
 				new ItemStack(Material.CRAFTING_TABLE));
-		STICK__PLANKS____CRAFTING_TABLE.shape("SS");
-		STICK__PLANKS____CRAFTING_TABLE.shape("PP");
+
+		STICK__PLANKS____CRAFTING_TABLE.shape("SSS", "PPP", "PPP");
+
 		STICK__PLANKS____CRAFTING_TABLE.setIngredient('S', Material.STICK);
 		STICK__PLANKS____CRAFTING_TABLE.setIngredient('P', Material.OAK_PLANKS);
 	}

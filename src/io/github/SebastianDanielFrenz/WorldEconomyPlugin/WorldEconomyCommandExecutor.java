@@ -755,7 +755,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								}
 							}, 20 * 15);
 						}
-					} catch (SQLException | IOException e) {
+					} catch (SQLException | IOException | ClassNotFoundException e) {
 						e.printStackTrace();
 					}
 					return true;
