@@ -7,8 +7,11 @@ public abstract class Employee {
 
 	public long ID;
 
-	public Employee(long ID) {
+	public long lastResearched; // saved in milliseconds
+
+	public Employee(long ID, long lastResearched) {
 		this.ID = ID;
+		this.lastResearched = lastResearched;
 	}
 
 	public abstract String getType();

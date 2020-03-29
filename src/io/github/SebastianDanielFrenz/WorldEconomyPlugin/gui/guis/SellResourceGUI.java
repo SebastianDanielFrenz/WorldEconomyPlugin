@@ -11,20 +11,20 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BankAccountChooserEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BlockLib;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
 public class SellResourceGUI extends WEGUI {
 
-	public SellResourceGUI(WEGUI parent, Player player, Material resource) {
+	public SellResourceGUI(WEGUI parent, Player player, CustomItem resource) {
 		super(new GUIItem[] {}, "Sell Resource - " + resource.name());
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 
-		items.add(new GUIItem(0, 4, mkItem(resource,
+		items.add(new GUIItem(0, 4, mkItem(resource.base_material,
 				"Sell Resource - " + resource.name() + " - " + WEDB.getResourcePriceWithFallback(resource))) {
 			@Override
 			public void event(InventoryClickEvent event) {
@@ -47,26 +47,9 @@ public class SellResourceGUI extends WEGUI {
 									@Override
 									public void event(InventoryClickEvent event, BankAccount account) {
 										try {
-											double price = WEDB.getResourcePriceBuy(resource, x);
-											if (account.getBalance() < price) {
-												player.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "§4You do not have enough money to buy " + x + "x "
-														+ resource.name() + " (requires " + price + ")");
-											} else {
-												if (ItemTransactionManager.canFit(player.getInventory(), resource,
-														(int) x)) {
-													WEDB.setBankAccountBalance(account, account.getBalance() - price);
-													ItemTransactionManager.give(player.getInventory(), resource,
-															(int) x);
+											// code
+											throw new SQLException();
 
-												} else {
-													player.sendMessage(WorldEconomyPlugin.PREFIX
-															+ "§4You only have space for " + ItemTransactionManager
-																	.getSpace(player.getInventory(), resource)
-															+ " items!");
-													player.closeInventory();
-												}
-											}
 										} catch (SQLException e) {
 											e.printStackTrace();
 											player.sendMessage(

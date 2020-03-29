@@ -16,6 +16,7 @@ public enum ItemCategory {
 	MACHINES(Material.FURNACE),
 	EQUIPMENT(Material.IRON_PICKAXE),
 	TECHNOLOGY(Material.REDSTONE),
+	FOOD(Material.COOKED_BEEF),
 	OTHER(Material.BUCKET);
 
 	private ItemCategory(Material display) {

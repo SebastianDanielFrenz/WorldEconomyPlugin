@@ -6,13 +6,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.blast_furnaces.BasicBlastFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage3;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves.BasicSieveStage1;
 
-public enum CustomItem {
+public enum CustomItem implements ResearchableObject {
 
 	COAL_ORE(Material.COAL_ORE, Tier.TIER1, "Coal Ore", ItemCategory.RAW_MATERIALS, true),
 	COAL(Material.COAL, Tier.TIER1, "Coal", ItemCategory.RAW_MATERIALS, true),
@@ -41,6 +42,7 @@ public enum CustomItem {
 	STEEL_ROD(Material.STICK, Tier.TIER3, "Steel Rod", ItemCategory.PROCESSED_MATERIALS), // enchanted
 
 	// Copper Items
+	COPPER_ORE(Material.GOLD_ORE, Tier.TIER1, "Copper Ore", ItemCategory.RAW_MATERIALS),
 	COPPER_INGOT(Material.GOLD_INGOT, Tier.TIER1, "Copper Ingot", ItemCategory.RAW_MATERIALS), // enchanted
 	COPPER_PLATE(Material.PAPER, Tier.TIER1, "Copper Plate", ItemCategory.PROCESSED_MATERIALS), // enchanted
 
@@ -79,14 +81,26 @@ public enum CustomItem {
 
 	// silicon
 
+	// diamond
+	DIAMOND(Material.DIAMOND, Tier.TIER1, "Diamond", ItemCategory.RAW_MATERIALS, true),
+	DIAMOND_ORE(Material.DIAMOND_ORE, Tier.TIER1, "Diamond Ore", ItemCategory.RAW_MATERIALS, true),
+
+	// lapis lazuli
+	LAPIS_LAZULI(Material.LAPIS_LAZULI, Tier.TIER1, "Lapis Lazuli", ItemCategory.RAW_MATERIALS, true),
+	LAPIS_LAZULI_ORE(Material.LAPIS_ORE, Tier.TIER1, "Lapis Lazuli Ore", ItemCategory.RAW_MATERIALS, true),
+
 	// materials
 	CLAY_BALL(Material.CLAY_BALL, Tier.TIER1, "Clay Ball", ItemCategory.RAW_MATERIALS, true),
-	RAW_HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, "Raw Hardened Cobblestone", ItemCategory.PROCESSED_MATERIALS),
-	RAW_HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Raw Hardened Cobblestone Plate", ItemCategory.PROCESSED_MATERIALS),
+	RAW_HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, "Raw Hardened Cobblestone",
+			ItemCategory.PROCESSED_MATERIALS),
+	RAW_HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Raw Hardened Cobblestone Plate",
+			ItemCategory.PROCESSED_MATERIALS),
 	HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, "Hardened Cobblestone", ItemCategory.PROCESSED_MATERIALS),
-	HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Hardened Cobblestone Plate", ItemCategory.PROCESSED_MATERIALS),
+	HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Hardened Cobblestone Plate",
+			ItemCategory.PROCESSED_MATERIALS),
 	PROCESSED_COBBLESTONE(Material.STONE, Tier.TIER1, "Processed Cobblestone", ItemCategory.PROCESSED_MATERIALS),
-	PROCESSED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Processed Cobblestone Plate", ItemCategory.PROCESSED_MATERIALS),
+	PROCESSED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Processed Cobblestone Plate",
+			ItemCategory.PROCESSED_MATERIALS),
 
 	// fluids
 	OIL_BUCKET(Material.LAVA_BUCKET, Tier.TIER1, "Oil Bucket", ItemCategory.RAW_MATERIALS),
@@ -102,14 +116,18 @@ public enum CustomItem {
 
 	// machines
 	// furnaces
-	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1", ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2", ItemCategory.MACHINES),
-	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3", ItemCategory.MACHINES),
-	// sieves
-	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1", ItemCategory.MACHINES),
-	// blast furnaces
-	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Blast Furnace Stage 1",
+	BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",
 			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2",
+			ItemCategory.MACHINES),
+	BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3",
+			ItemCategory.MACHINES),
+	// sieves
+	BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",
+			ItemCategory.MACHINES),
+	// blast furnaces
+	BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
+			"Basic Blast Furnace Stage 1", ItemCategory.MACHINES),
 	// camp fire
 	CAMPFIRE(Material.CAMPFIRE, Tier.TIER1, "Campfire", ItemCategory.MACHINES, true),
 
@@ -119,13 +137,16 @@ public enum CustomItem {
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD) }),
 	COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Cobblestone Shovel", ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.COBBLESTONE) }),
-	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Hardened Cobblestone Shovel", ItemCategory.EQUIPMENT,
+	HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Hardened Cobblestone Shovel",
+			ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.HARDENED_COBBLESTONE) }),
-	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Processed Cobblestone Shovel", ItemCategory.EQUIPMENT,
+	PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Processed Cobblestone Shovel",
+			ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// pickaxes
-	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, "Processed Cobblestone Pickaxe", ItemCategory.EQUIPMENT,
+	PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, "Processed Cobblestone Pickaxe",
+			ItemCategory.EQUIPMENT,
 			new ItemDetail[] { new ToolItemDetail(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
 
 	// materials
@@ -145,7 +166,11 @@ public enum CustomItem {
 	DIORITE(Material.DIORITE, Tier.TIER1, "Diorite", ItemCategory.RAW_MATERIALS, true),
 	POLISHED_DIORITE(Material.POLISHED_DIORITE, Tier.TIER1, "Polished Diorite", ItemCategory.PROCESSED_MATERIALS, true),
 	ANDESITE(Material.ANDESITE, Tier.TIER1, "Andesite", ItemCategory.RAW_MATERIALS, true),
-	POLISHED_ANDESITE(Material.POLISHED_ANDESITE, Tier.TIER1, "Polished Andesite", ItemCategory.PROCESSED_MATERIALS, true);
+	POLISHED_ANDESITE(Material.POLISHED_ANDESITE, Tier.TIER1, "Polished Andesite", ItemCategory.PROCESSED_MATERIALS,
+			true),
+
+	// food
+	BERRIES(Material.SWEET_BERRIES, Tier.TIER1, "Berries", ItemCategory.FOOD, true);
 
 	private CustomItem(Material base, Tier tier, String name, ItemCategory category, boolean vanilla) {
 		base_material = base;
@@ -157,7 +182,8 @@ public enum CustomItem {
 		this.vanilla = vanilla;
 	}
 
-	private CustomItem(Material base, Tier tier, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
+	private CustomItem(Material base, Tier tier, String name, ItemCategory category, ItemDetail[] details,
+			boolean vanilla) {
 		base_material = base;
 		raw_item_name = name;
 		item_name = tier.color.toString() + name;
@@ -200,6 +226,18 @@ public enum CustomItem {
 			return new ItemStack(base_material);
 		} else {
 			ItemStack out = new ItemStack(base_material);
+			ItemMeta meta = out.getItemMeta();
+			meta.setDisplayName(item_name);
+			out.setItemMeta(meta);
+			return out;
+		}
+	}
+
+	public ItemStack toItemStack(int amount) {
+		if (item_name == null) {
+			return new ItemStack(base_material);
+		} else {
+			ItemStack out = new ItemStack(base_material, amount);
 			ItemMeta meta = out.getItemMeta();
 			meta.setDisplayName(item_name);
 			out.setItemMeta(meta);

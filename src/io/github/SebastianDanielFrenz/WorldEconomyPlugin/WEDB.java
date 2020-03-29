@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -26,9 +26,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeeAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePlayer;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
@@ -39,6 +38,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeeProfession;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketProductStack;
 
@@ -61,11 +61,13 @@ public class WEDB {
 	 * @throws SQLException
 	 */
 	public static WorldEconomyProfile getUserProfile(OfflinePlayer player) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(player.getUniqueId(), r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
-					r.getLong("playerBankingID"), r.getLong("mailboxID"));
+			return new WorldEconomyProfile(player.getUniqueId(), r.getLong("employeeID"),
+					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
+					r.getLong("mailboxID"));
 		} else {
 			return null;
 		}
@@ -75,8 +77,8 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + uuid + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(uuid, r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
-					r.getLong("playerBankingID"), r.getLong("mailboxID"));
+			return new WorldEconomyProfile(uuid, r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
+					r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"));
 		} else {
 			return null;
 		}
@@ -86,15 +88,17 @@ public class WEDB {
 		List<WorldEconomyProfile> out = new ArrayList<WorldEconomyProfile>();
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles");
 		while (r.next()) {
-			out.add(new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
-					r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID")));
+			out.add(new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
+					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
+					r.getLong("mailboxID")));
 		}
 		return out;
 	}
 
 	public static long getNextEnumerator(String type) {
 		try {
-			ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT value FROM sys_enumerator WHERE key = \"" + type + "\"");
+			ResultSet res = WorldEconomyPlugin
+					.runSQLquery("SELECT value FROM sys_enumerator WHERE key = \"" + type + "\"");
 			if (!res.next()) {
 				throw new RuntimeException("The enumerator \"" + type + "\" is not in the data base!");
 			}
@@ -115,9 +119,11 @@ public class WEDB {
 	public static void registerUserProfile(OfflinePlayer player) throws SQLException {
 		long ID = registerEmployee(player);
 
-		WorldEconomyPlugin.runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username, mailboxID)"
-				+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + ID + ", " + getNextEnumerator("employerID") + ", "
-				+ registerBankingEntity("player") + ", \"" + player.getName() + "\", " + registerBaseMailbox("player") + ")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO user_profiles (playerUUID, employeeID, playerAsEmployerID, playerBankingID, username, mailboxID)"
+						+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + ID + ", "
+						+ getNextEnumerator("employerID") + ", " + registerBankingEntity("player") + ", \""
+						+ player.getName() + "\", " + registerBaseMailbox("player") + ")");
 
 		moveEnumerator("employerID");
 	}
@@ -131,35 +137,38 @@ public class WEDB {
 	 */
 
 	public static void registerBankAccount(BankAccount account) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO bank_accounts (bankAccountBalance, bankID, bankAccountName, customerBankingID, customerType) VALUES ("
-				+ account.getBalance() + ", " + account.getBankID() + ", \"" + account.getName() + "\", " + account.getAccountHolderID() + ", \""
-				+ account.getType() + "\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO bank_accounts (bankAccountBalance, bankID, bankAccountName, customerBankingID, customerType) VALUES ("
+						+ account.getBalance() + ", " + account.getBankID() + ", \"" + account.getName() + "\", "
+						+ account.getAccountHolderID() + ", \"" + account.getType() + "\")");
 	}
 
 	@SQLInjection
 	public static BankAccount getBankAccount(long bankingID, String name) throws SQLException {
-		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + bankingID + " AND bankAccountName = \"" + name + "\"");
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = "
+				+ bankingID + " AND bankAccountName = \"" + name + "\"");
 		if (r.next()) {
-			return new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"), name,
-					r.getLong("customerBankingID"), r.getString("customerType"));
+			return new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+					name, r.getLong("customerBankingID"), r.getString("customerType"));
 		} else {
 			return null;
 		}
 	}
 
 	public static BankAccount getBankAccount(long bankAccountID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts WHERE bankAccountID = " + bankAccountID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_accounts WHERE bankAccountID = " + bankAccountID);
 		if (!r.next()) {
 			return null;
 		}
-		return new BankAccount(bankAccountID, r.getLong("bankID"), r.getDouble("bankAccountBalance"), r.getString("bankAccountName"),
-				r.getLong("customerBankingID"), r.getString("customerType"));
+		return new BankAccount(bankAccountID, r.getLong("bankID"), r.getDouble("bankAccountBalance"),
+				r.getString("bankAccountName"), r.getLong("customerBankingID"), r.getString("customerType"));
 	}
 
 	public static List<BankAccount> getBankAccounts(long bankingID) throws SQLException {
 		List<BankAccount> out = new ArrayList<BankAccount>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + bankingID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + bankingID);
 
 		String type = getBankingEntityType(bankingID);
 
@@ -172,7 +181,8 @@ public class WEDB {
 
 	public static List<BankAccount> getAllBankAccounts(Player player) throws SQLException {
 		List<BankAccount> out = new ArrayList<BankAccount>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + getUserProfile(player).bankingID);
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM bank_accounts WHERE customerBankingID = " + getUserProfile(player).bankingID);
 		while (r.next()) {
 			out.add(new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
 					r.getString("bankAccountName"), r.getLong("customerBankingID"), r.getString("customerType")));
@@ -185,35 +195,41 @@ public class WEDB {
 	}
 
 	public static void setBankAccountBalance(long accountID, double balance) throws SQLException {
-		WorldEconomyPlugin.runSQL("UPDATE bank_accounts SET bankAccountBalance = " + balance + " WHERE bankAccountID = " + accountID);
+		WorldEconomyPlugin.runSQL(
+				"UPDATE bank_accounts SET bankAccountBalance = " + balance + " WHERE bankAccountID = " + accountID);
 	}
 
 	public static void bankAccountTransaction(long accountID1, long accountID2, double amount) throws SQLException {
-		WorldEconomyPlugin
-				.runSQL("UPDATE bank_accounts SET bankAccountBalance = bankAccountBalance - " + amount + " WHERE bankAccountID = " + accountID1);
-		WorldEconomyPlugin
-				.runSQL("UPDATE bank_accounts SET bankAccountBalance = bankAccountBalance + " + amount + " WHERE bankAccountID = " + accountID2);
+		WorldEconomyPlugin.runSQL("UPDATE bank_accounts SET bankAccountBalance = bankAccountBalance - " + amount
+				+ " WHERE bankAccountID = " + accountID1);
+		WorldEconomyPlugin.runSQL("UPDATE bank_accounts SET bankAccountBalance = bankAccountBalance + " + amount
+				+ " WHERE bankAccountID = " + accountID2);
 	}
 
-	public static void bankAccountTransaction(BankAccount account1, BankAccount account2, double amount) throws SQLException {
+	public static void bankAccountTransaction(BankAccount account1, BankAccount account2, double amount)
+			throws SQLException {
 		bankAccountTransaction(account1.getID(), account2.getID(), amount);
 	}
 
 	public static void bankTransaction(Bank bank1, Bank bank2, double amount) throws SQLException {
-		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital = bankCapital-" + amount + " WHERE bankID = " + bank1.ID);
-		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital = bankCapital+" + amount + " WHERE bankID = " + bank2.ID);
+		WorldEconomyPlugin
+				.runSQL("UPDATE banks SET bankCapital = bankCapital-" + amount + " WHERE bankID = " + bank1.ID);
+		WorldEconomyPlugin
+				.runSQL("UPDATE banks SET bankCapital = bankCapital+" + amount + " WHERE bankID = " + bank2.ID);
 	}
 
 	@SQLInjection
 	public static void setBankAccountName(BankAccount account, String name) throws SQLException {
-		WorldEconomyPlugin.runSQL("UPDATE bank_accounts SET bankAccountName = \"" + name + "\" WHERE bankAccountID = " + account.getID());
+		WorldEconomyPlugin.runSQL(
+				"UPDATE bank_accounts SET bankAccountName = \"" + name + "\" WHERE bankAccountID = " + account.getID());
 	}
 
 	@SQLInjection
 	public static long registerBankingEntity(String type) throws SQLException {
 		long bankingID = getNextEnumerator("bankingID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO bank_customers (bankingID, bankCustomerType) VALUES (" + bankingID + ", \"" + type + "\")");
+		WorldEconomyPlugin.runSQL("INSERT INTO bank_customers (bankingID, bankCustomerType) VALUES (" + bankingID
+				+ ", \"" + type + "\")");
 
 		moveEnumerator("bankingID");
 
@@ -221,7 +237,8 @@ public class WEDB {
 	}
 
 	public static String getBankingEntityType(long bankingID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT bankCustomerType FROM bank_customers WHERE bankingID = " + bankingID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT bankCustomerType FROM bank_customers WHERE bankingID = " + bankingID);
 
 		if (!r.next()) {
 			return null;
@@ -231,8 +248,8 @@ public class WEDB {
 
 	@SQLInjection
 	public static void registerBank(String name) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO banks (bankID, bankName, companyID) VALUES (" + getNextEnumerator("bankID") + ", \"" + name + "\","
-				+ registerBaseCompany(name, "bank") + ")");
+		WorldEconomyPlugin.runSQL("INSERT INTO banks (bankID, bankName, companyID) VALUES ("
+				+ getNextEnumerator("bankID") + ", \"" + name + "\"," + registerBaseCompany(name, "bank") + ")");
 		moveEnumerator("bankID");
 	}
 
@@ -242,7 +259,8 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		} else {
-			return new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"), r.getLong("companyID"));
+			return new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"),
+					r.getLong("companyID"));
 		}
 	}
 
@@ -259,7 +277,8 @@ public class WEDB {
 		List<Bank> out = new ArrayList<Bank>();
 
 		while (r.next()) {
-			out.add(new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"), r.getLong("companyID")));
+			out.add(new Bank(r.getLong("bankID"), r.getString("bankName"), r.getDouble("bankCapital"),
+					r.getLong("companyID")));
 		}
 		return out;
 	}
@@ -287,8 +306,9 @@ public class WEDB {
 
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO bank_credits (creditID, creditBankID, creditRecieverBankingID, creditAmount, creditInterest, creditDuration, creditStart, creditRecieverBankAccountID)"
-						+ "VALUES (" + creditID + ", " + credit.bankID + ", " + credit.recieverBankingID + ", " + credit.amount + ", "
-						+ credit.interest + ", " + credit.duration + ", " + credit.start + ", " + credit.recieverBankAccountID + ")");
+						+ "VALUES (" + creditID + ", " + credit.bankID + ", " + credit.recieverBankingID + ", "
+						+ credit.amount + ", " + credit.interest + ", " + credit.duration + ", " + credit.start + ", "
+						+ credit.recieverBankAccountID + ")");
 
 		moveEnumerator("creditID");
 
@@ -308,16 +328,19 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		}
-		return new Credit(creditID, r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"), r.getDouble("creditAmount"),
-				r.getDouble("creditInterest"), r.getLong("creditDuration"), r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID"));
+		return new Credit(creditID, r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"),
+				r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
+				r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID"));
 	}
 
 	public static List<Credit> getBankAccountCredits(long bankAccountID) throws SQLException {
 		List<Credit> out = new ArrayList<Credit>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_credits WHERE creditRecieverBankAccountID = " + bankAccountID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_credits WHERE creditRecieverBankAccountID = " + bankAccountID);
 		while (r.next()) {
-			out.add(new Credit(r.getLong("creditID"), r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"), r.getDouble("creditAmount"),
-					r.getDouble("creditInterest"), r.getLong("creditDuration"), r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
+			out.add(new Credit(r.getLong("creditID"), r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"),
+					r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
+					r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
 		}
 		return out;
 	}
@@ -326,18 +349,21 @@ public class WEDB {
 		List<Credit> out = new ArrayList<Credit>();
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_credits");
 		while (r.next()) {
-			out.add(new Credit(r.getLong("creditID"), r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"), r.getDouble("creditAmount"),
-					r.getDouble("creditInterest"), r.getLong("creditDuration"), r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
+			out.add(new Credit(r.getLong("creditID"), r.getLong("creditRecieverBankingID"), r.getLong("creditBankID"),
+					r.getDouble("creditAmount"), r.getDouble("creditInterest"), r.getLong("creditDuration"),
+					r.getLong("creditStart"), r.getLong("creditRecieverBankAccountID")));
 		}
 
 		return out;
 	}
 
 	public static void payOffCredit(Credit credit) throws SQLException {
-		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital=bankCapital-" + (credit.amount * 0.04) + " WHERE bankName = \"central_bank\"");
-		WorldEconomyPlugin
-				.runSQL("UPDATE banks SET bankCapital=bankCapital+" + (credit.amount * 0.04) + " WHERE bankID = " + credit.recieverBankingID);
-		WEDB.setBankAccountBalance(credit.recieverBankAccountID, WEDB.getBankAccount(credit.recieverBankAccountID).getBalance() - credit.amount);
+		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital=bankCapital-" + (credit.amount * 0.04)
+				+ " WHERE bankName = \"central_bank\"");
+		WorldEconomyPlugin.runSQL("UPDATE banks SET bankCapital=bankCapital+" + (credit.amount * 0.04)
+				+ " WHERE bankID = " + credit.recieverBankingID);
+		WEDB.setBankAccountBalance(credit.recieverBankAccountID,
+				WEDB.getBankAccount(credit.recieverBankAccountID).getBalance() - credit.amount);
 		WorldEconomyPlugin.runSQL("DELETE FROM bank_credits WHERE creditID = " + credit.ID);
 	}
 
@@ -352,18 +378,20 @@ public class WEDB {
 	public static long registerSupplyChest(Location location, long companyID) throws SQLException {
 		long chestID = getNextEnumerator("chestID");
 
-		WorldEconomyPlugin.runSQL(
-				"INSERT INTO chests (chestID, chestX, chestY, chestZ, chestWorld, chestType) VALUES" + "(" + chestID + ", " + location.getBlockX()
-						+ ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \"" + location.getWorld().getName() + "\", \"supply\")");
+		WorldEconomyPlugin.runSQL("INSERT INTO chests (chestID, chestX, chestY, chestZ, chestWorld, chestType) VALUES"
+				+ "(" + chestID + ", " + location.getBlockX() + ", " + location.getBlockY() + ", "
+				+ location.getBlockZ() + ", \"" + location.getWorld().getName() + "\", \"supply\")");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO supply_chests (chestID, chestOwnerCompanyID) VALUES (" + chestID + ", " + companyID + ")");
+		WorldEconomyPlugin.runSQL(
+				"INSERT INTO supply_chests (chestID, chestOwnerCompanyID) VALUES (" + chestID + ", " + companyID + ")");
 
 		return chestID;
 	}
 
 	public static SupplyChestData getSupplyChest(Location location) throws SQLException {
-		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM supply_chests WHERE signX = " + location.getBlockX() + " AND signY = "
-				+ location.getBlockY() + " AND signZ = " + location.getBlockZ() + " AND signWorld = " + location.getWorld().getName());
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM supply_chests WHERE signX = "
+				+ location.getBlockX() + " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ()
+				+ " AND signWorld = " + location.getWorld().getName());
 		if (res.next()) {
 			return new SupplyChestData(res.getLong("chestID"), location, res.getLong("chestOwnerCompanyID"));
 		} else {
@@ -376,8 +404,8 @@ public class WEDB {
 		ResultSet res2 = WorldEconomyPlugin.runSQLquery("SELECT * FROM chests WHERE chestID = " + ID);
 
 		if (res.next()) {
-			return new SupplyChestData(ID,
-					new Location(Bukkit.getWorld(res2.getString("chestWorld")), res2.getInt("chestX"), res2.getInt("chestY"), res2.getInt("chestZ")),
+			return new SupplyChestData(ID, new Location(Bukkit.getWorld(res2.getString("chestWorld")),
+					res2.getInt("chestX"), res2.getInt("chestY"), res2.getInt("chestZ")),
 					res.getLong("chestOwnerCompanyID"));
 		} else {
 			return null;
@@ -388,12 +416,13 @@ public class WEDB {
 		return registerShopSign(location, productID, price, 0);
 	}
 
-	public static long registerShopSign(Location location, long productID, double price, long supplyChestID) throws SQLException {
+	public static long registerShopSign(Location location, long productID, double price, long supplyChestID)
+			throws SQLException {
 		long signID = getNextEnumerator("signID");
 
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO signs (signID, signX, signY, signZ, signWorld, signType) VALUES" + " (" + signID + ", " + location.getBlockX()
-						+ ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \"" + location.getWorld().getName() + "\", " + "\"shop\")");
+		WorldEconomyPlugin.runSQL("INSERT INTO signs (signID, signX, signY, signZ, signWorld, signType) VALUES" + " ("
+				+ signID + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ()
+				+ ", \"" + location.getWorld().getName() + "\", " + "\"shop\")");
 
 		moveEnumerator("signID");
 
@@ -401,19 +430,21 @@ public class WEDB {
 	}
 
 	public static SignData getSign(Location location) throws SQLException {
-		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM signs WHERE signX = " + location.getBlockX() + " AND signY = "
-				+ location.getBlockY() + " AND signZ = " + location.getBlockZ() + " AND signWorld = \"" + location.getWorld().getName() + "\"");
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM signs WHERE signX = " + location.getBlockX()
+				+ " AND signY = " + location.getBlockY() + " AND signZ = " + location.getBlockZ()
+				+ " AND signWorld = \"" + location.getWorld().getName() + "\"");
 
 		if (!res.next()) {
 			return null;
 		}
 
 		if (res.getString("signType").equals("shop")) {
-			ResultSet res2 = WorldEconomyPlugin.runSQLquery("SELECT * FROM shop_signs WHERE signID = " + res.getLong("signID"));
+			ResultSet res2 = WorldEconomyPlugin
+					.runSQLquery("SELECT * FROM shop_signs WHERE signID = " + res.getLong("signID"));
 
-			return new ShopSignData(res.getLong("signID"), res.getInt("signX"), res.getInt("signY"), res.getInt("signZ"),
-					Bukkit.getWorld(res.getString("signWorld")), res.getString("signType"), res2.getLong("supplyChestID"), res2.getLong("productID"),
-					res2.getDouble("signPrice"));
+			return new ShopSignData(res.getLong("signID"), res.getInt("signX"), res.getInt("signY"),
+					res.getInt("signZ"), Bukkit.getWorld(res.getString("signWorld")), res.getString("signType"),
+					res2.getLong("supplyChestID"), res2.getLong("productID"), res2.getDouble("signPrice"));
 		}
 
 		throw new RuntimeException("sign type not supported!");
@@ -424,8 +455,9 @@ public class WEDB {
 	}
 
 	public static void removeShopSign(Block block) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT signID FROM signs WHERE signX = " + block.getX() + " AND signY = " + block.getY()
-				+ " AND signZ = " + block.getZ() + " AND signWorld = \"" + block.getWorld().getName() + "\"");
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT signID FROM signs WHERE signX = " + block.getX() + " AND signY = " + block.getY()
+						+ " AND signZ = " + block.getZ() + " AND signWorld = \"" + block.getWorld().getName() + "\"");
 		long signID = r.getLong("signID");
 		WorldEconomyPlugin.runSQL("DELETE FROM signs WHERE signID = " + signID);
 		WorldEconomyPlugin.runSQL("DELETE FROM shop_signs WHERE signID = " + signID);
@@ -443,17 +475,18 @@ public class WEDB {
 	public static long registerCorporation(String name, long CEO_employeeID) throws SQLException {
 		long companyID = registerBaseCompany(name, "corporation");
 
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID + ", " + CEO_employeeID + ")");
+		WorldEconomyPlugin.runSQL("INSERT INTO companies_corporations (companyID, CEO_employeeID) VALUES (" + companyID
+				+ ", " + CEO_employeeID + ")");
 
 		Employee CEO = getEmployee(CEO_employeeID);
 		if (CEO instanceof EmployeePlayer) {
 			sendMail(0, getUserProfile(((EmployeePlayer) CEO).playerUUID).mailboxID,
 					"Please remember to register a bank account called \"shop_income\" for your company in order to be able to use shops!");
 		} else if (CEO instanceof EmployeeAI) {
-			throw new NotImplementedException("There will be no automatic informing of AIs on their ToDos because they cannot actually read mails!"
-					+ "This should only be implemented when AI can recieve custom encoded messages or if there is"
-					+ " an ID attachement telling the AI the parameters and the purpose of the mail.");
+			throw new NotImplementedException(
+					"There will be no automatic informing of AIs on their ToDos because they cannot actually read mails!"
+							+ "This should only be implemented when AI can recieve custom encoded messages or if there is"
+							+ " an ID attachement telling the AI the parameters and the purpose of the mail.");
 		} else {
 			throw new NotSupportedException(
 					"Registering a corporation as an employee that is not a player or an AI is not supported! (Recieved employee object from class "
@@ -472,8 +505,8 @@ public class WEDB {
 	public static long registerPrivateCompany(String name, OfflinePlayer owner) throws SQLException {
 		long companyID = registerBaseCompany(name, "private");
 
-		WorldEconomyPlugin.runSQL(
-				"INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID + ", " + getUserProfile(owner).employeeID + ")");
+		WorldEconomyPlugin.runSQL("INSERT INTO companies_private (companyID, ownerEmployeeID) VALUES (" + companyID
+				+ ", " + getUserProfile(owner).employeeID + ")");
 
 		sendMail(0, getUserProfile(owner).mailboxID,
 				"Please remember to register a bank account called \"shop_income\" for your company in order to be able to use shops!");
@@ -487,8 +520,8 @@ public class WEDB {
 
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO companies (companyID, companyName, companyType, companyEmployerID, companyBankingID, mailboxID) VALUES ("
-						+ companyID + ", \"" + name + "\", \"" + type + "\", " + registerEmployer("company") + ", " + registerBankingEntity("company")
-						+ "," + registerMailbox((Bank) null) + ")");
+						+ companyID + ", \"" + name + "\", \"" + type + "\", " + registerEmployer("company") + ", "
+						+ registerBankingEntity("company") + "," + registerMailbox((Bank) null) + ")");
 
 		moveEnumerator("companyID");
 
@@ -499,7 +532,8 @@ public class WEDB {
 	@AccelerationPotential(lvl = AccelerationLevel.GARBAGE_COLLECTOR)
 	public static Company getCompany(String name) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
-				"SELECT companyID, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyName = \"" + name + "\"");
+				"SELECT companyID, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyName = \""
+						+ name + "\"");
 		if (res.next()) {
 			long ID = res.getLong("companyID");
 			String type = res.getString("companyType");
@@ -519,7 +553,8 @@ public class WEDB {
 			case "private":
 				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
 				if (!r.next()) {
-					throw new RuntimeException("Private company \"" + name + "\" is not in the private companies table!");
+					throw new RuntimeException(
+							"Private company \"" + name + "\" is not in the private companies table!");
 				}
 				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID);
 			default:
@@ -541,7 +576,8 @@ public class WEDB {
 	@AccelerationPotential(lvl = AccelerationLevel.GARBAGE_COLLECTOR)
 	public static Company getCompany(long ID) throws SQLException {
 		ResultSet res = WorldEconomyPlugin.runSQLquery(
-				"SELECT companyName, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyID = " + ID + "");
+				"SELECT companyName, companyType, companyEmployerID, companyBankingID, mailboxID FROM companies WHERE companyID = "
+						+ ID + "");
 
 		if (res.next()) {
 			String type = res.getString("companyType");
@@ -562,7 +598,8 @@ public class WEDB {
 			case "private":
 				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
 				if (!r.next()) {
-					throw new RuntimeException("Private company \"" + name + "\" is not in the private companies table!");
+					throw new RuntimeException(
+							"Private company \"" + name + "\" is not in the private companies table!");
 				}
 				return new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID);
 			case "bank":
@@ -605,7 +642,8 @@ public class WEDB {
 			case "private":
 				r = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
 				if (!r.next()) {
-					throw new RuntimeException("Private company \"" + name + "\" is not in the private companies table!");
+					throw new RuntimeException(
+							"Private company \"" + name + "\" is not in the private companies table!");
 				}
 				out.add(new PrivateCompany(ID, name, employerID, bankingID, r.getLong("ownerEmployeeID"), mailboxID));
 				break;
@@ -626,7 +664,8 @@ public class WEDB {
 
 	public static List<BankAccount> getCompanyBankAccountsByBankingID(long companyBankingID) throws SQLException {
 		List<BankAccount> out = new ArrayList<BankAccount>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + companyBankingID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM bank_accounts WHERE customerBankingID = " + companyBankingID);
 
 		while (r.next()) {
 			out.add(new BankAccount(r.getLong("bankAccountID"), r.getLong("bankID"), r.getDouble("bankAccountBalance"),
@@ -637,7 +676,8 @@ public class WEDB {
 	}
 
 	public static List<BankAccount> getCompanyBankAccountsByCompanyID(long companyID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT companyBankingID FROM companies WHERE companyID = " + companyID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT companyBankingID FROM companies WHERE companyID = " + companyID);
 		if (!r.next()) {
 			throw new RuntimeException("The company with ID " + companyID + " does not exist!");
 		}
@@ -651,7 +691,8 @@ public class WEDB {
 	public static long registerEmployee(OfflinePlayer player) throws SQLException {
 		long employeeID = getNextEnumerator("employeeID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO employees (employeeID, employeeType) VALUES (" + employeeID + ", \"player\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO employees (employeeID, employeeType) VALUES (" + employeeID + ", \"player\")");
 
 		moveEnumerator("employeeID");
 
@@ -669,7 +710,8 @@ public class WEDB {
 	public static long registerEmployee(AIProfile ai) throws SQLException {
 		long employeeID = getNextEnumerator("employeeID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO employees (employeeID, employeeType) VALUES (" + employeeID + ", \"AI\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO employees (employeeID, employeeType) VALUES (" + employeeID + ", \"AI\")");
 
 		moveEnumerator("employeeID");
 
@@ -679,30 +721,34 @@ public class WEDB {
 	public static Employee getEmployee(long ID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM employees WHERE employeeID = " + ID);
 		if (r.getString("employeeType").equals("player")) {
-			ResultSet r2 = WorldEconomyPlugin.runSQLquery("SELECT playerUUID FROM user_profiles WHERE employeeID = " + ID);
-			return new EmployeePlayer(ID, UUID.fromString(r2.getString("playerUUID")));
+			ResultSet r2 = WorldEconomyPlugin
+					.runSQLquery("SELECT playerUUID FROM user_profiles WHERE employeeID = " + ID);
+			return new EmployeePlayer(ID, r.getLong("employeeLastResearch"),
+					UUID.fromString(r2.getString("playerUUID")));
 		} else if (r.getString("employeeType").equals("AI")) {
 			ResultSet r2 = WorldEconomyPlugin.runSQLquery("SELECT aiID FROM ai_profiles WHERE employeeID = " + ID);
-			return new EmployeeAI(ID, r2.getLong("aiID"));
+			return new EmployeeAI(ID, r.getLong("employeeLastResearch"), r2.getLong("aiID"));
 		} else {
 			throw new RuntimeException("Invalid employee type \"" + r.getString("employeeType") + "\"!");
 		}
 	}
 
-	public static void registerEmploymentWithContract(long employerID, long employeeID, Contract contract) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES (" + employerID + ", " + employeeID
-				+ ", " + contract.ID + ")");
+	public static void registerEmploymentWithContract(long employerID, long employeeID, Contract contract)
+			throws SQLException {
+		WorldEconomyPlugin.runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES ("
+				+ employerID + ", " + employeeID + ", " + contract.ID + ")");
 		registerContract(contract);
 	}
 
 	public static void registerEmployment(long employerID, long employeeID, long contractID) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES (" + employerID + ", " + employeeID
-				+ ", " + contractID + ")");
+		WorldEconomyPlugin.runSQL("INSERT INTO employee_matching (employerID, employeeID, contractID) VALUES ("
+				+ employerID + ", " + employeeID + ", " + contractID + ")");
 	}
 
 	public static List<Employee> getEmployeesFromCompany(Company company) throws SQLException {
 		List<Employee> out = new ArrayList<Employee>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM employee_matching WHERE employerID = " + company.companyEmployerID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM employee_matching WHERE employerID = " + company.companyEmployerID);
 		while (r.next()) {
 			out.add(getEmployee(r.getLong("employeeID")));
 		}
@@ -711,7 +757,8 @@ public class WEDB {
 
 	@FeaturePlanned(feature = "In the future, there should be more employer types than just companies!")
 	public static Employer getEmployer(long employerID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT employerType FROM employers WHERE employerID = " + employerID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT employerType FROM employers WHERE employerID = " + employerID);
 
 		if (!r.next()) {
 			return null;
@@ -720,7 +767,8 @@ public class WEDB {
 		ResultSet r2;
 
 		if (type.equals("company")) {
-			r2 = WorldEconomyPlugin.runSQLquery("SELECT companyBankingID FROM companies WHERE companyEmployerID = " + employerID);
+			r2 = WorldEconomyPlugin
+					.runSQLquery("SELECT companyBankingID FROM companies WHERE companyEmployerID = " + employerID);
 			return new Employer(employerID, r2.getLong("companyBankingID"));
 		} else {
 			throw new RuntimeException("Invalid employer type \"" + type + "\"!");
@@ -730,7 +778,8 @@ public class WEDB {
 	public static long registerEmployer(String employerType) throws SQLException {
 		long ID = getNextEnumerator("employerID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO employers (employerID, employerType) VALUES (" + ID + ",\"" + employerType + "\")");
+		WorldEconomyPlugin.runSQL(
+				"INSERT INTO employers (employerID, employerType) VALUES (" + ID + ",\"" + employerType + "\")");
 
 		moveEnumerator("employerID");
 
@@ -751,8 +800,9 @@ public class WEDB {
 
 		registerBaseContract(contractID, contract.getType());
 
-		WorldEconomyPlugin.runSQL("INSERT INTO contracts_employment_default (contractID, contractSalary, contractLastSalary) VALUES (" + contractID
-				+ ", " + contract.salary + ", " + contract.last_salary + ")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO contracts_employment_default (contractID, contractSalary, contractLastSalary) VALUES ("
+						+ contractID + ", " + contract.salary + ", " + contract.last_salary + ")");
 
 		moveEnumerator("contractID");
 
@@ -760,11 +810,13 @@ public class WEDB {
 	}
 
 	private static void registerBaseContract(long ID, String type) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO contracts (contractID, contractType) VALUES (" + ID + ", \"" + type + "\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO contracts (contractID, contractType) VALUES (" + ID + ", \"" + type + "\")");
 	}
 
 	public static Map<Long, Long> getEmploymentInformation(long employeeID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT (employerID, contractID) FROM employee_matching WHERE employeeID = " + employeeID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT (employerID, contractID) FROM employee_matching WHERE employeeID = " + employeeID);
 		Map<Long, Long> map = new HashMap<Long, Long>();
 		while (r.next()) {
 			map.put(r.getLong("employerID"), r.getLong("contractID"));
@@ -784,12 +836,15 @@ public class WEDB {
 			if (type.startsWith("employment.")) {
 				if (type.equals("employment.default")) {
 					r2 = WorldEconomyPlugin.runSQLquery(
-							"SELECT (contractSalary, contractLastSalary) FROM contracts_employment_default WHERE contractID = " + contractID);
-					return new ContractEmploymentDefault(contractID, r2.getDouble("contractSalary"), r2.getInt("contractLastSalary"));
+							"SELECT (contractSalary, contractLastSalary) FROM contracts_employment_default WHERE contractID = "
+									+ contractID);
+					return new ContractEmploymentDefault(contractID, r2.getDouble("contractSalary"),
+							r2.getInt("contractLastSalary"));
 				}
 			}
 
-			throw new RuntimeException("The contract with ID " + contractID + " has an invalid type (\"" + type + "\")!");
+			throw new RuntimeException(
+					"The contract with ID " + contractID + " has an invalid type (\"" + type + "\")!");
 		}
 	}
 
@@ -802,13 +857,14 @@ public class WEDB {
 	 */
 
 	@SQLInjection
-	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product) throws SQLException {
+	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
+			throws SQLException {
 		long productID = getNextEnumerator("productID");
 
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO products (productID, productName, productPrice, productManifacturerID, productItemID, productItemAmount) VALUES ("
-						+ productID + ", \"" + name + "\", " + price + ", " + productManifacturerID + ", \"" + product.getType().toString() + "\", "
-						+ product.getAmount() + ")");
+						+ productID + ", \"" + name + "\", " + price + ", " + productManifacturerID + ", \""
+						+ product.getType().toString() + "\", " + product.getAmount() + ")");
 
 		moveEnumerator("productID");
 
@@ -820,17 +876,18 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		} else {
-			return new Product(ID, r.getString("productName"), r.getLong("productManifacturerID"), r.getString("productItemID"),
-					r.getInt("productItemAmount"), r.getDouble("productPrice"));
+			return new Product(ID, r.getString("productName"), r.getLong("productManifacturerID"),
+					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice"));
 		}
 	}
 
 	public static List<Product> getProductsFromCompany(Company company) throws SQLException {
 		List<Product> out = new ArrayList<Product>();
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM products WHERE productManifacturerID = " + company.ID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM products WHERE productManifacturerID = " + company.ID);
 		while (r.next()) {
-			out.add(new Product(r.getLong("productID"), r.getString("productName"), company.ID, r.getString("productItemID"),
-					r.getInt("productItemAmount"), r.getDouble("productPrice")));
+			out.add(new Product(r.getLong("productID"), r.getString("productName"), company.ID,
+					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice")));
 		}
 		return out;
 	}
@@ -838,9 +895,10 @@ public class WEDB {
 	public static long registerAI() throws SQLException {
 		long aiID = getNextEnumerator("aiID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO ai_profiles (aiID, employeeID, aiAsEmployerID, username, aiBankingID) VALUES (" + aiID + ", "
-				+ getNextEnumerator("employeeID") + ", " + getNextEnumerator("employerID") + ", \"AI " + aiID + "\", "
-				+ getNextEnumerator("bankingID") + ")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO ai_profiles (aiID, employeeID, aiAsEmployerID, username, aiBankingID) VALUES ("
+						+ aiID + ", " + getNextEnumerator("employeeID") + ", " + getNextEnumerator("employerID")
+						+ ", \"AI " + aiID + "\", " + getNextEnumerator("bankingID") + ")");
 
 		moveEnumerator("employeeID");
 		moveEnumerator("employerID");
@@ -866,8 +924,8 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		}
-		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"), r.getLong("employeeID"),
-				r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
+		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
 	}
 
 	public static List<AIProfile> getAllAIs() throws SQLException {
@@ -875,8 +933,8 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM ai_profiles");
 
 		while (r.next()) {
-			out.add(new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"), r.getLong("employeeID"),
-					r.getLong("aiAsEmployerID"), r.getLong("mailboxID")));
+			out.add(new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
+					r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID")));
 		}
 		return out;
 	}
@@ -908,7 +966,8 @@ public class WEDB {
 	public static long registerBaseMailbox(String ownerType) throws SQLException {
 		long ID = getNextEnumerator("mailboxID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO mailboxes (mailboxID, ownerType) VALUES (" + ID + ", \"" + ownerType + "\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO mailboxes (mailboxID, ownerType) VALUES (" + ID + ", \"" + ownerType + "\")");
 
 		moveEnumerator("mailboxID");
 		return ID;
@@ -916,8 +975,8 @@ public class WEDB {
 
 	@SQLInjection
 	public static void sendMail(long senderMailboxID, long recieverMailboxID, String message) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO mails (mailboxID, senderMailboxID, message) VALUES (" + recieverMailboxID + ", " + senderMailboxID
-				+ ", \"" + message + "\")");
+		WorldEconomyPlugin.runSQL("INSERT INTO mails (mailboxID, senderMailboxID, message) VALUES (" + recieverMailboxID
+				+ ", " + senderMailboxID + ", \"" + message + "\")");
 
 		MailSubsystem.deliveryNotification(senderMailboxID, recieverMailboxID, message);
 	}
@@ -970,8 +1029,8 @@ public class WEDB {
 	}
 
 	public static long getMailboxID(OfflinePlayer player) throws SQLException {
-		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT mailboxID FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId().toString() + "\"");
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT mailboxID FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId().toString() + "\"");
 		if (!r.next()) {
 			return 0;
 		}
@@ -987,7 +1046,8 @@ public class WEDB {
 	}
 
 	public static long getMessageCount(long mailboxID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT COUNT(mailboxID) AS total FROM mails WHERE mailboxID = " + mailboxID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT COUNT(mailboxID) AS total FROM mails WHERE mailboxID = " + mailboxID);
 		r.next();
 		return r.getLong("total");
 	}
@@ -996,8 +1056,8 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE mailboxID = " + mailboxID);
 
 		if (r.next()) {
-			return new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getInt("employeeID"), r.getInt("playerAsEmployerID"),
-					r.getString("username"), r.getInt("playerBankingID"), mailboxID);
+			return new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getInt("employeeID"),
+					r.getInt("playerAsEmployerID"), r.getString("username"), r.getInt("playerBankingID"), mailboxID);
 		} else {
 			return null;
 		}
@@ -1009,8 +1069,8 @@ public class WEDB {
 		if (!r.next()) {
 			return null;
 		}
-		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"), r.getLong("employeeID"),
-				r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
+		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
 	}
 
 	public static long getMailboxOwnerAsCompanyID(long mailboxID) throws SQLException {
@@ -1031,13 +1091,14 @@ public class WEDB {
 	}
 
 	public static BankCompany getMailboxOwnerAsBankCompany(long mailboxID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT * FROM companies INNER JOIN banks ON banks.companyID = companies.companyID WHERE mailboxID = " + mailboxID);
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM companies INNER JOIN banks ON banks.companyID = companies.companyID WHERE mailboxID = "
+						+ mailboxID);
 		if (!r.next()) {
 			return null;
 		}
-		return new BankCompany(r.getLong("companyID"), r.getString("companyName"), r.getLong("companyEmployerID"), r.getLong("companyBankingID"),
-				r.getLong("mailboxID"), r.getLong("bankID"));
+		return new BankCompany(r.getLong("companyID"), r.getString("companyName"), r.getLong("companyEmployerID"),
+				r.getLong("companyBankingID"), r.getLong("mailboxID"), r.getLong("bankID"));
 	}
 
 	public static MailboxOwner getMailboxOwner(long mailboxID) throws SQLException {
@@ -1069,8 +1130,9 @@ public class WEDB {
 	public static long registerBaseStockMarketProduct(String name, String type) throws SQLException {
 		long ID = getNextEnumerator("stockMarketProductID");
 
-		WorldEconomyPlugin.runSQL("INSERT INTO stock_market_products (stockMarketProductID, stockMarketProductName, stockMarketProductType) VALUES ("
-				+ ID + ", \"" + name + "\",\"" + type + "\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO stock_market_products (stockMarketProductID, stockMarketProductName, stockMarketProductType) VALUES ("
+						+ ID + ", \"" + name + "\",\"" + type + "\")");
 
 		moveEnumerator("stockMarketProductID");
 
@@ -1078,44 +1140,45 @@ public class WEDB {
 	}
 
 	@SQLInjection
-	public static long registerShare(long companyID, String name, String shareType, double partage, long amount, double dividend)
-			throws SQLException {
+	public static long registerShare(long companyID, String name, String shareType, double partage, long amount,
+			double dividend) throws SQLException {
 		long ID = registerBaseStockMarketProduct(name, "share");
 
 		WorldEconomyPlugin
-				.runSQL("INSERT INTO shares (stockMarketProductID, shareTotalAmount, shareTotalPartage, shareCompanyID, shareDividend) VALUES" + "("
-						+ ID + ", " + amount + ", " + partage + ", " + companyID + ", " + dividend + ")");
+				.runSQL("INSERT INTO shares (stockMarketProductID, shareTotalAmount, shareTotalPartage, shareCompanyID, shareDividend) VALUES"
+						+ "(" + ID + ", " + amount + ", " + partage + ", " + companyID + ", " + dividend + ")");
 
 		return ID;
 	}
 
 	@SQLInjection
-	public static long registerShare(Company company, String name, String shareType, double partage, long amount, double dividend)
-			throws SQLException {
+	public static long registerShare(Company company, String name, String shareType, double partage, long amount,
+			double dividend) throws SQLException {
 		return registerShare(company.ID, name, shareType, partage, amount, dividend);
 
 	}
 
 	public static Share getShare(long stockMarketProductID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT * FROM shares INNER JOIN stock_market_products ON stock_market_products.stockMarketProductID = "
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM shares INNER JOIN stock_market_products ON stock_market_products.stockMarketProductID = "
 						+ stockMarketProductID + " WHERE stockMarketProductID = " + stockMarketProductID);
 
 		if (!r.next()) {
 			return null;
 		}
 		return new Share(stockMarketProductID, r.getString("stockMarketProductName"), r.getString("shareType"),
-				r.getDouble("stockMarketProductPrice"), r.getLong("shareTotalAmount"), r.getLong("shareCompanyID"), r.getLong("shareTotalPartage"),
-				r.getDouble("shareDividend"));
+				r.getDouble("stockMarketProductPrice"), r.getLong("shareTotalAmount"), r.getLong("shareCompanyID"),
+				r.getLong("shareTotalPartage"), r.getDouble("shareDividend"));
 	}
 
 	public static StockMarketProductStack getStockMarketProductStack(long stackID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM stock_market_possesions WHERE stockMarketPossesionID = " + stackID);
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM stock_market_possesions WHERE stockMarketPossesionID = " + stackID);
 		if (!r.next()) {
 			return null;
 		}
-		return new StockMarketProductStack(stackID, r.getLong("stockMarketProductID"), r.getLong("ownerBankAccountID"), r.getLong("purchaseTime"),
-				r.getDouble("purchasePrice"), r.getLong("purchaseAmount"));
+		return new StockMarketProductStack(stackID, r.getLong("stockMarketProductID"), r.getLong("ownerBankAccountID"),
+				r.getLong("purchaseTime"), r.getDouble("purchasePrice"), r.getLong("purchaseAmount"));
 	}
 
 	/**
@@ -1127,28 +1190,32 @@ public class WEDB {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static StockMarketProductStack getAStockMarketProductStack(BankAccount owner, long stockMarketProductID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM stock_market_possesions WHERE ownerBankAccountID = " + owner.getID());
+	public static StockMarketProductStack getAStockMarketProductStack(BankAccount owner, long stockMarketProductID)
+			throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM stock_market_possesions WHERE ownerBankAccountID = " + owner.getID());
 		if (!r.next()) {
 			return null;
 		}
-		return new StockMarketProductStack(r.getLong("stockMarketPossesionID"), stockMarketProductID, owner.getID(), r.getLong("purchaseTime"),
-				r.getLong("purchasePrice"), r.getLong("purchaseAmount"));
+		return new StockMarketProductStack(r.getLong("stockMarketPossesionID"), stockMarketProductID, owner.getID(),
+				r.getLong("purchaseTime"), r.getLong("purchasePrice"), r.getLong("purchaseAmount"));
 	}
 
 	public static void registerStackMarketProductStack(StockMarketProductStack stack) throws SQLException {
 		// TODO: Warning: No primary key inserted!
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO stock_market_possesions (stockMarketProductID, ownerBankAccountID, purchaseTime, purchasePrice, purchaseAmount) VALUES ("
-						+ stack.productID + ", " + stack.ownerBankAccountID + ", " + stack.purchaseTime + ", " + stack.purchasePrice + ", "
-						+ stack.purchaseAmount + ")");
+						+ stack.productID + ", " + stack.ownerBankAccountID + ", " + stack.purchaseTime + ", "
+						+ stack.purchasePrice + ", " + stack.purchaseAmount + ")");
 	}
 
 	public static void setStockMarketProductStackAmount(long ID, long amount) throws SQLException {
-		WorldEconomyPlugin.runSQL("UPDATE stock_market_possesions SET purchaseAmount = " + amount + " WHERE stockMarketPossesionID = " + ID);
+		WorldEconomyPlugin.runSQL("UPDATE stock_market_possesions SET purchaseAmount = " + amount
+				+ " WHERE stockMarketPossesionID = " + ID);
 	}
 
-	public static void setStockMarketProductStackAmount(StockMarketProductStack stack, long amount) throws SQLException {
+	public static void setStockMarketProductStackAmount(StockMarketProductStack stack, long amount)
+			throws SQLException {
 		setStockMarketProductStackAmount(stack.stackID, amount);
 	}
 
@@ -1168,11 +1235,12 @@ public class WEDB {
 	 * @param price
 	 * @throws SQLException
 	 */
-	public static void transferStock(BankAccount seller, BankAccount buyer, long stockMarketProductID, long amount, double price)
-			throws SQLException {
+	public static void transferStock(BankAccount seller, BankAccount buyer, long stockMarketProductID, long amount,
+			double price) throws SQLException {
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO stock_market_possesions (stockMarketProductID, ownerBankAccountID, purchaseTime, purchasePrice, purchaseAmount) VALUES ("
-						+ stockMarketProductID + ", " + buyer + ", " + System.currentTimeMillis() + ", " + price + ", " + amount + ")");
+						+ stockMarketProductID + ", " + buyer + ", " + System.currentTimeMillis() + ", " + price + ", "
+						+ amount + ")");
 		long transfered_amount = 0;
 		StockMarketProductStack stack;
 
@@ -1205,71 +1273,78 @@ public class WEDB {
 	 * ==================================================
 	 */
 
-	public static void registerResource(Material material, long startAmount, double stepSize, double maxPrice) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO resources (resourceItemID, resourceStoredAmount, resourcePriceStep, resourceMaxPrice)" + " VALUES (\""
-				+ material.toString() + "\", " + startAmount + ", " + stepSize + ", " + maxPrice + ")");
+	public static void registerResource(CustomItem material, long startAmount, double stepSize, double maxPrice)
+			throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO resources (resourceCustomItemID, resourceStoredAmount, resourcePriceStep, resourceMaxPrice)"
+						+ " VALUES (\"" + material.name() + "\", " + startAmount + ", " + stepSize + ", " + maxPrice
+						+ ")");
 	}
 
-	public static double getResourcePrice(Material material) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+	public static double getResourcePrice(CustomItem material) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.name() + "\"");
 		if (!r.next()) {
-			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+			throw new RuntimeException("Resource \"" + material.name() + "\" not found!");
 		}
-		return r.getDouble("resourceMaxPrice")
-				* Math.pow(0.5, 1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
+		return r.getDouble("resourceMaxPrice") * Math.pow(0.5,
+				1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
 						* r.getDouble("resourceStoredAmount"));
 	}
 
-	public static double getResourcePriceSell(Material material, long amount) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+	public static double getResourcePriceSell(CustomItem material, long amount) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.name() + "\"");
 		if (!r.next()) {
-			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+			throw new RuntimeException("Resource \"" + material.name() + "\" not found!");
 		}
 
 		double out = 0;
 		for (long i = 0; i < amount; i++) {
-			out += r.getDouble("resourceMaxPrice")
-					* Math.pow(0.5, 1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
-							* (r.getDouble("resourceStoredAmount") + amount));
+			out += r.getDouble("resourceMaxPrice") * Math.pow(0.5, 1
+					/ (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
+					* (r.getDouble("resourceStoredAmount") + amount));
 		}
 		return out;
 	}
 
-	public static double getResourcePriceBuy(Material material, long amount) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+	public static double getResourcePriceBuy(CustomItem material, long amount) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.name() + "\"");
 		if (!r.next()) {
-			throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+			throw new RuntimeException("Resource \"" + material.name() + "\" not found!");
 		}
 
 		double out = 0;
 		for (long i = 0; i < amount; i++) {
-			out += r.getDouble("resourceMaxPrice")
-					* Math.pow(0.5, 1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
-							* (r.getDouble("resourceStoredAmount") - amount));
+			out += r.getDouble("resourceMaxPrice") * Math.pow(0.5, 1
+					/ (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
+					* (r.getDouble("resourceStoredAmount") - amount));
 		}
 		return out;
 	}
 
-	public static double getResourcePriceWithFallback(Material material) {
+	public static double getResourcePriceWithFallback(CustomItem resource) {
 		try {
-			ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + material.toString() + "\"");
+			ResultSet r = WorldEconomyPlugin
+					.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + resource.name() + "\"");
 			if (!r.next()) {
-				throw new RuntimeException("Resource \"" + material.toString() + "\" not found!");
+				throw new RuntimeException("Resource \"" + resource.toString() + "\" not found!");
 			}
-			return r.getDouble("resourceMaxPrice")
-					* Math.pow(0.5, 1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count)));
+			return r.getDouble("resourceMaxPrice") * Math.pow(0.5, 1 / (r.getDouble("resourcePriceStep")
+					* (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count)));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return Double.NaN;
 		}
 	}
 
-	public static List<Material> getAllResources() throws SQLException {
+	public static List<CustomItem> getAllResources() throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM resources");
-		List<Material> out = new ArrayList<Material>();
+		List<CustomItem> out = new ArrayList<CustomItem>();
 
 		while (r.next()) {
-			out.add(Material.getMaterial(r.getString("resourceItemID")));
+			out.add(CustomItem.valueOf((r.getString("resourceCustomItemID"))));
 		}
 
 		return out;
@@ -1284,14 +1359,16 @@ public class WEDB {
 	 */
 
 	public static void registerMachine(Location location, MachineGroup group) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO machines (machineGroup, machineX, machineY, machineZ, machineWorld) VALUES (\"" + group.getName()
-				+ "\", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \"" + location.getWorld().getName()
-				+ "\")");
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO machines (machineGroup, machineX, machineY, machineZ, machineWorld) VALUES (\""
+						+ group.getName() + "\", " + location.getBlockX() + ", " + location.getBlockY() + ", "
+						+ location.getBlockZ() + ", \"" + location.getWorld().getName() + "\")");
 	}
 
 	public static void removeMachine(Location location) throws SQLException {
-		WorldEconomyPlugin.runSQL("DELETE FROM machines WHERE machineX = " + location.getBlockX() + " AND machineY = " + location.getBlockY()
-				+ " AND machineZ = " + location.getBlockZ() + " AND machineWorld = \"" + location.getWorld().getName() + "\"");
+		WorldEconomyPlugin.runSQL("DELETE FROM machines WHERE machineX = " + location.getBlockX() + " AND machineY = "
+				+ location.getBlockY() + " AND machineZ = " + location.getBlockZ() + " AND machineWorld = \""
+				+ location.getWorld().getName() + "\"");
 	}
 
 	public static void loadMachines() throws SQLException {
@@ -1299,30 +1376,10 @@ public class WEDB {
 		while (r.next()) {
 			World world = Bukkit.getWorld(r.getString("machineWorld"));
 
-			world.getBlockAt(new Location(world, r.getInt("machineX"), r.getInt("machineY"), r.getInt("machineZ"))).setMetadata("machineGroup",
-					new WorldEconomyMachineMeta(Machine.getMachineGroup(r.getString("machineGroup"))));
+			world.getBlockAt(new Location(world, r.getInt("machineX"), r.getInt("machineY"), r.getInt("machineZ")))
+					.setMetadata("machineGroup",
+							new WorldEconomyMachineMeta(Machine.getMachineGroup(r.getString("machineGroup"))));
 		}
-	}
-
-	/*
-	 * ==================================================
-	 * 
-	 * This section is dedicated to research.
-	 * 
-	 * ==================================================
-	 */
-
-	public static ResearchProfile getResearchProfile(long companyID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT researchItemID FROM research WHERE companyID = " + companyID);
-		ResearchProfile out = new ResearchProfile(new ArrayList<ResearchItem>(), companyID);
-		while (r.next()) {
-			out.researched.add(ResearchItem.getItem(r.getLong("researchItemID")));
-		}
-		return out;
-	}
-
-	public static void addResearchItem(long companyID, long itemID) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO research (companyID, researchItemID) VALUES (" + companyID + ", " + itemID + ")");
 	}
 
 	/*
@@ -1334,12 +1391,39 @@ public class WEDB {
 	 */
 
 	public static void registerCustomBlock(Location location, CustomBlock block) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType) VALUES (" + location.getBlockX() + ", "
-				+ location.getBlockY() + ", " + location.getBlockZ() + ", \"" + location.getWorld().getName() + "\", \"" + block.name() + "\")");
+		WorldEconomyPlugin.runSQL("INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType) VALUES ("
+				+ location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \""
+				+ location.getWorld().getName() + "\", \"" + block.ID + "\")");
 	}
 
 	public static void removeCustomBlock(Location location) throws SQLException {
-		WorldEconomyPlugin.runSQL("DELETE FROM custom_blocks WHERE blockX = " + location.getBlockX() + " AND blockY = " + location.getBlockY()
-				+ " AND blockZ = " + location.getBlockZ() + " AND blockWorld = \"" + location.getWorld().getName() + "\"");
+		WorldEconomyPlugin.runSQL("DELETE FROM custom_blocks WHERE blockX = " + location.getBlockX() + " AND blockY = "
+				+ location.getBlockY() + " AND blockZ = " + location.getBlockZ() + " AND blockWorld = \""
+				+ location.getWorld().getName() + "\"");
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to professions.
+	 * 
+	 * ==================================================
+	 */
+
+	public static List<EmployeeProfession> getProfessions(long employeeID) throws SQLException {
+		List<EmployeeProfession> out = new ArrayList<EmployeeProfession>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT professionName FROM employee_professions WHERE employeeID = " + employeeID);
+		while (r.next()) {
+			try {
+				out.add(EmployeeProfession.valueOf(r.getString("professionName")));
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Tried to get unkown profession \""
+						+ r.getString("professionName")
+						+ "\". Is the database outdated (have you changed the plugin version, changing the existing professions)?");
+			}
+		}
+		return out;
 	}
 }

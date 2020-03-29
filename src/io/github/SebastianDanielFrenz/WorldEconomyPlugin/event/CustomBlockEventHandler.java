@@ -13,7 +13,8 @@ import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.ItemDetailType;
@@ -35,7 +36,7 @@ public class CustomBlockEventHandler implements Listener {
 				return;
 			}
 		} else {
-			customBlock = CustomBlock.valueOf(metadata_values.get(0).asString());
+			customBlock = CustomBlockRegistry.getBlock(metadata_values.get(0).asString());
 		}
 
 		@SuppressWarnings("deprecation")

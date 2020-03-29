@@ -7,8 +7,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
 @DataBaseRepresentation
 public class EmployeePlayer extends Employee {
 
-	public EmployeePlayer(long employeeID, UUID playerUUID) {
-		super(employeeID);
+	public EmployeePlayer(long employeeID, long lastResearched, UUID playerUUID) {
+		super(employeeID, lastResearched);
 		this.playerUUID = playerUUID;
 	}
 

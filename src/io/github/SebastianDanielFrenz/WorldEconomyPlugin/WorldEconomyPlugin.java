@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator;
@@ -18,6 +19,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRe
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.VanillaRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
@@ -178,7 +180,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "playerAsEmployerID integer NOT NULL," + "username text NOT NULL,"
 					+ "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
+					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(playerBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
@@ -194,11 +196,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE user_profiles (" + "playerUUID text," + "employeeID integer NOT NULL,"
 					+ "playerAsEmployerID integer NOT NULL," + "username text NOT NULL,"
 					+ "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
+					+ "PRIMARY KEY(playerUUID(16)),"
 					// references
-					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
+					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(playerBankingID) REFERENCES bank_customers(bankingID),"
-					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)," + "PRIMARY KEY(playerUUID(16))" + ");");
+					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 			break;
 		default:
 			throw new RuntimeException("Invalid database type! Please use mySQL or sqlite!");
@@ -208,12 +211,13 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		if (is_new) {
 
-			runSQL("CREATE TABLE sys_enumerator (" + "key text PRIMARY KEY," + "value integer DEFAULT 1" + ");");
+			runSQL("CREATE TABLE sys_enumerator (" + "`key` text," + "`value` integer DEFAULT '1',"
+					+ "PRIMARY KEY(`key`(25))" + ");");
 
 			runSQL("CREATE TABLE employee_matching (" + "employee_matchingID integer PRIMARY KEY,"
 					+ "employerID integer NOT NULL," + "employeeID integer NOT NULL," + "contractID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(employerID) REFERENCES employers(employerID),"
+					+ "$ref$FOREIGN KEY(employerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID)" + ");");
 
 			runSQL("CREATE TABLE contracts (" + "contractID integer PRIMARY KEY," + "contractType text NOT NULL"
@@ -223,21 +227,21 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "companyType text NOT NULL," + "companyEmployerID integer NOT NULL,"
 					+ "companyBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(companyEmployerID) REFERENCES employers(employerID),"
+					+ "$ref$FOREIGN KEY(companyEmployerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(companyBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 
 			runSQL("CREATE TABLE banks (" + "bankID integer PRIMARY KEY," + "bankName text NOT NULL,"
 					+ "bankCapital real DEFAULT 0," + "companyID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
+					+ "$ref$FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
 
 			runSQL("CREATE TABLE bank_accounts (" + "bankAccountID integer PRIMARY KEY,"
 					+ "bankAccountBalance real NOT NULL," + "bankID integer NOT NULL,"
 					+ "customerBankingID integer NOT NULL," + "customerType text NOT NULL,"
 					+ "bankAccountName text NOT NULL,"
 					// references
-					+ "FOREIGN KEY(bankID) REFERENCES banks(bankID),"
+					+ "$ref$FOREIGN KEY(bankID) REFERENCES banks(bankID),"
 					+ "FOREIGN KEY(customerBankingID) REFERENCES bank_customers(bankingID)" + ");");
 
 			runSQL("CREATE TABLE products (" + "productID integer PRIMARY KEY,"
@@ -245,7 +249,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "productName text NOT NULL," + "productItemID text NOT NULL,"
 					+ "productItemAmount integer DEFAULT 1,"
 					// references
-					+ "FOREIGN KEY(productManifacturerID) REFERENCES companies(companyID)" + ");");
+					+ "$ref$FOREIGN KEY(productManifacturerID) REFERENCES companies(companyID)" + ");");
 
 			runSQL("CREATE TABLE chests (" + "chestID integer PRIMARY KEY," + "chestType text NOT NULL,"
 					+ "chestX integer NOT NULL," + "chestY integer NOT NULL," + "chestZ integer NOT NULL,"
@@ -255,7 +259,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "signOwnerCompanyID integer NOT NULL," + "productID integer NOT NULL,"
 					+ "signPrice real NOT NULL,"
 					// references
-					+ "FOREIGN KEY(supplyChestID) REFERENCES supply_chests(chestID),"
+					+ "$ref$FOREIGN KEY(supplyChestID) REFERENCES supply_chests(chestID),"
 					+ "FOREIGN KEY(signOwnerCompanyID) REFERENCES companies(companyID)" + ");");
 
 			// might have to make sub-tables with primary key as foreign key
@@ -266,19 +270,20 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE supply_chests (" + "chestID integer PRIMARY KEY,"
 					+ "chestOwnerCompanyID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(chestOwnerCompanyID) REFERENCES companies(companyID)" + ");");
+					+ "$ref$FOREIGN KEY(chestOwnerCompanyID) REFERENCES companies(companyID)" + ");");
 
 			runSQL("CREATE TABLE companies_corporations (companyID integer PRIMARY KEY,"
 					+ "CEO_employeeID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(CEO_employeeID) REFERENCES employees(employeeID)" + ");");
+					+ "$ref$FOREIGN KEY(CEO_employeeID) REFERENCES employees(employeeID)" + ");");
 
 			runSQL("CREATE TABLE companies_private (companyID integer PRIMARY KEY,"
 					+ "ownerEmployeeID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(ownerEmployeeID) REFERENCES employees(employeeID)" + ");");
+					+ "$ref$FOREIGN KEY(ownerEmployeeID) REFERENCES employees(employeeID)" + ");");
 
-			runSQL("CREATE TABLE employees (employeeID integer PRIMARY KEY," + "employeeType text NOT NULL" + ");");
+			runSQL("CREATE TABLE employees (employeeID integer PRIMARY KEY," + "employeeType text NOT NULL,"
+					+ "employeeLastResearched integer DEFAULT `0`" + ");");
 
 			runSQL("CREATE TABLE contracts_employment_default (contractID integer PRIMARY KEY,"
 					+ "contractSalary real NOT NULL," + "contractLastSalary int NOT NULL" + ");");
@@ -290,7 +295,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "aiAsEmployerID integer NOT NULL," + "username text NOT NULL," + "aiBankingID integer NOT NULL,"
 					+ "mailboxID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
+					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 					+ "FOREIGN KEY(aiAsEmployerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(aiBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
@@ -300,7 +305,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE mails (" + "mailID integer PRIMARY KEY," + "mailboxID integer NOT NULL,"
 					+ "message text NOT NULL," + "senderMailboxID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID),"
+					+ "$ref$FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID),"
 					+ "FOREIGN KEY(senderMailboxID) REFERENCES mailboxes(mailboxID)" + ");");
 
 			runSQL("CREATE TABLE bank_customers (" + "bankingID integer PRIMARY KEY," + "bankCustomerType text NOT NULL"
@@ -311,7 +316,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "creditInterest real NOT NULL," + "creditDuration integer NOT NULL,"
 					+ "creditStart integer NOT NULL," + "creditRecieverBankAccountID integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(creditBankID) REFERENCES banks(bankID),"
+					+ "$ref$FOREIGN KEY(creditBankID) REFERENCES banks(bankID),"
 					+ "FOREIGN KEY(creditRecieverBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(creditRecieverBankAccountID) REFERENCES bank_accounts(bankAccountID)" + ");");
 
@@ -323,28 +328,27 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "shareTotalAmount integer NOT NULL," + "shareTotalPartage real NOT NULL,"
 					+ "shareCompanyID integer NOT NULL," + "shareDividend real NOT NULL," + "shareType text NOT NULL,"
 					// references
-					+ "FOREIGN KEY(shareCompanyID) REFERENCES corporations(companyID)" + ");");
+					+ "$ref$FOREIGN KEY(shareCompanyID) REFERENCES corporations(companyID)" + ");");
 
 			runSQL("CREATE TABLE stock_market_possesions (" + "stockMarketPossesionID integer PRIMARY KEY,"
 					+ "stockMarketProductID integer NOT NULL," + "ownerBankAccountID integer NOT NULL,"
 					+ "purchaseTime integer NOT NULL," + "purchasePrice real NOT NULL,"
 					+ "purchaseAmount integer NOT NULL,"
 					// references
-					+ "FOREIGN KEY(ownerBankAccountID) REFERENCES bank_account(bankAccountID)" + ");");
+					+ "$ref$FOREIGN KEY(ownerBankAccountID) REFERENCES bank_account(bankAccountID)" + ");");
 
-			runSQL("CREATE TABLE resources (" + "resourceID integer PRIMARY KEY," + "resourceItemID text,"
+			runSQL("CREATE TABLE resources (" + "resourceID integer PRIMARY KEY," + "resourceCustomItemID text,"
 					+ "resourceStoredAmount real," + "resourcePriceStep real," + "resourceMaxPrice real" + ");");
 
 			runSQL("CREATE TABLE machines (" + "machineID integer PRIMARY KEY," + "machineGroup text,"
 					+ "machineX integer," + "machineY integer," + "machineZ integer," + "machineWorld text" + ");");
 
-			runSQL("CREATE TABLE research (" + "researchItemID integer PRIMARY KEY,"
-					+ "companyID integer SECONDARY KEY,"
-					// references
-					+ "FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
-
 			runSQL("CREATE TABLE custom_blocks (" + "customBlockID integer PRIMARY KEY," + "blockX integer,"
-					+ "blockY integer," + "blockZ integer," + "blockWorld text," + "blockType text" + ");");
+					+ "blockY integer," + "blockZ integer," + "blockWorld text," + "blockType text," + "blockData text"
+					+ ");");
+
+			runSQL("CREATE TABLE employee_professions (employeeProfessionMatchingID integer," + "employeeID integer,"
+					+ "professionName text");
 
 			// enumerator
 
@@ -354,11 +358,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 			WEDB.registerBank("central_bank");
 
-			WEDB.registerResource(Material.IRON_INGOT, 640, 64, Math.pow(2, 10) * 1);
-			WEDB.registerResource(Material.DIAMOND, 640, 64, Math.pow(2, 10) * 20);
-			WEDB.registerResource(Material.GOLD_INGOT, 640, 64, Math.pow(2, 10) * 8);
-			WEDB.registerResource(Material.LAPIS_LAZULI, 640, 64, Math.pow(2, 10) * 2);
-			WEDB.registerResource(Material.SAND, 640, 64, Math.pow(2, 10) * 0.1);
+			WEDB.registerResource(CustomItem.IRON_INGOT, 640, 64, Math.pow(2, 10) * 1);
+			WEDB.registerResource(CustomItem.DIAMOND, 640, 64, Math.pow(2, 10) * 20);
+			WEDB.registerResource(CustomItem.GOLD_INGOT, 640, 64, Math.pow(2, 10) * 8);
+			WEDB.registerResource(CustomItem.LAPIS_LAZULI, 640, 64, Math.pow(2, 10) * 2);
+			WEDB.registerResource(CustomItem.SAND, 640, 64, Math.pow(2, 10) * 0.1);
 
 		}
 
@@ -409,18 +413,17 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public static void runSQL(String query) throws SQLException {
 		plugin.getLogger().info("SQL: " + query);
 		if (query.startsWith("CREATE TABLE ") && Config.getSQLConnectionType() == SQLConnectionType.mySQL) {
-			String[] split = query.split("[,]");
-			String out = "";
-			for (String e : split) {
-				if (!e.startsWith("FOREIGN KEY")) {
-					out += e + ",";
-				}
+			if (query.contains("$ref$")) {
+				String[] split = query.split(Pattern.quote("$ref$"));
+				query = split[0];
+				query = query.substring(0, query.length() - 1) + ");";
 			}
-			out = out.substring(0, out.length() - 3); // cuts off: ,);
-			out += ");";
-			query = out;
+
+			query = query.replace(" integer", " int");
 
 			plugin.getLogger().info("mySQL adapted: " + query);
+		} else {
+			query = query.replace("$ref$", "");
 		}
 		sql_connection.createStatement().execute(query);
 	}

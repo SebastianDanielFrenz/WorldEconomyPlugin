@@ -77,6 +77,7 @@ public class CraftingGUI extends WEGUI {
 					mkItem(category.display, category.getTitle())) {
 				@Override
 				public void event(InventoryClickEvent event) {
+					
 				}
 			};
 			i++;

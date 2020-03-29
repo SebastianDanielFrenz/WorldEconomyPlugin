@@ -14,7 +14,28 @@ public class ItemTransactionManager {
 	public static int getSpace(Inventory inv, Material material) {
 		int out = 0;
 		for (ItemStack slot : inv.getStorageContents()) {
-			if (slot.getType() == material) {
+			if (slot == null) {
+				out += material.getMaxStackSize();
+			} else if (slot.getType() == material) {
+				out += slot.getMaxStackSize() - slot.getAmount();
+			}
+		}
+		return out;
+	}
+
+	/**
+	 * The item count of the CustomItemStack is irrelevant.
+	 * 
+	 * @param inv
+	 * @param stack
+	 * @return
+	 */
+	public static int getSpace(Inventory inv, CustomItemStack stack) {
+		int out = 0;
+		for (ItemStack slot : inv.getStorageContents()) {
+			if (slot == null) {
+				out += stack.getItem().base_material.getMaxStackSize();
+			} else if (stack.matches(slot)) {
 				out += slot.getMaxStackSize() - slot.getAmount();
 			}
 		}
@@ -23,6 +44,10 @@ public class ItemTransactionManager {
 
 	public static boolean canFit(Inventory inv, Material material, int amount) {
 		return getSpace(inv, material) >= amount;
+	}
+
+	public static boolean canFit(Inventory inv, CustomItemStack stack) {
+		return getSpace(inv, stack) >= stack.getCount();
 	}
 
 	@MissuseWarning(text = "Please check for usable inventory space before using this function.")
