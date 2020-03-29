@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces;
 
 import org.bukkit.Location;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.Tier;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.Tier;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 
 public class BasicFurnaceStage2 extends BasicFurnace {

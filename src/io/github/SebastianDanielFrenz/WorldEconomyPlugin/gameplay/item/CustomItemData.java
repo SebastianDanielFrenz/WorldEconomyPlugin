@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ public class CustomItemData {
 		}
 
 		for (String line : stack.getItemMeta().getLore()) {
-			String[] split = line.split(": ");
+			String[] split = line.split("[: ]");
 			map.put(split[0], split[1]);
 		}
 	}

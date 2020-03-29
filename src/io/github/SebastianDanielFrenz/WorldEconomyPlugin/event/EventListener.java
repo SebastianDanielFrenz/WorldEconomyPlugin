@@ -391,6 +391,8 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onWorldInitEvent(WorldInitEvent event) throws SQLException {
+		// blocks from addons should be registered by now.
+
 		if (event.getWorld().getName().equals("world")) {
 			event.getWorld().getPopulators().add(new WorldEconomyBlockPopulator());
 		}

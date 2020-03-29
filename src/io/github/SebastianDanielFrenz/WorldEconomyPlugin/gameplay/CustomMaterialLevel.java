@@ -10,7 +10,10 @@ public enum CustomMaterialLevel {
 	GRANITE(PROCESSED_COBBLESTONE),
 	DIORITE(GRANITE),
 	ANDESITE(DIORITE),
-	COPPER(ANDESITE);
+	COPPER(ANDESITE),
+	BRONZE(COPPER),
+	IRON(BRONZE),
+	STEEL(IRON);
 
 	private CustomMaterialLevel(int lvl) {
 		this.lvl = lvl;

@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 
 public abstract class ResourceChooserEvent {
 

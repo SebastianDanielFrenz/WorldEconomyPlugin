@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.ItemCategory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventory;
 

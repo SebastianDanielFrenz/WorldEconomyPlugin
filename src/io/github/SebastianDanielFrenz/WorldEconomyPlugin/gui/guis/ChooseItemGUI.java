@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.ResourceChooserEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;

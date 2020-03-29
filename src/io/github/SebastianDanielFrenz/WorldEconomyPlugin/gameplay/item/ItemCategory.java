@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
 import java.util.ArrayList;
 import java.util.List;

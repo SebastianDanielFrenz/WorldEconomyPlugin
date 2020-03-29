@@ -1,23 +1,23 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.counter.LeafStickCounter;
 
 public enum ResearchItem implements ResearchableObject {
 
 	// time: early stone age
 	// basics
-	STICK(CustomItem.STICK, new ResearchItem[] {}, new ResearchCondition[] {}),
-	BERRIES(CustomItem.BERRIES, new ResearchItem[] {}, new ResearchCondition[] {}),
+	STICK(new ItemStick(), new ResearchItem[] {}, new ResearchCondition[] {}),
+	BERRIES(new ItemBerries(), new ResearchItem[] {}, new ResearchCondition[] {}),
 
 	// research needed
-	OAK_SLAB(CustomItem.OAK_PLANKS, new ResearchItem[] { STICK },
+	OAK_SLAB(new ItemOakPlanksSlab(), new ResearchItem[] { STICK },
 			new ResearchCondition[] { new ExperienceResearchCondition(new LeafStickCounter(), 10) }),
-	OAK_PLANKS(CustomItem.OAK_PLANKS, new ResearchItem[] { STICK },
+	OAK_PLANKS(new ItemOakPlanks(), new ResearchItem[] { STICK },
 			new ResearchCondition[] { new ExperienceResearchCondition(new LeafStickCounter(), 50) }),
 
 	// mid stone age
-	BASIC_SIEVE_STAGE1(CustomItem.BASIC_SIEVE_STAGE1, new ResearchItem[] {},
+	BASIC_SIEVE_STAGE1(new ItemBasicSieveStage1(), new ResearchItem[] {},
 			new ResearchCondition[] { new ExperienceResearchCondition(new LeafStickCounter(), 10) });
 
 	private ResearchItem(ResearchableObject researchableObject, ResearchItem[] parents,

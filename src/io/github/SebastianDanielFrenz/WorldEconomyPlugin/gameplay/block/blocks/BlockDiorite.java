@@ -8,8 +8,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterial
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata.CustomEmptyBlockData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 
 public class BlockDiorite extends CustomBlock {
 

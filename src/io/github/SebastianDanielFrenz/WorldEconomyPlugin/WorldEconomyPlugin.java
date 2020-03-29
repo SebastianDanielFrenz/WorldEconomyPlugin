@@ -19,7 +19,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRe
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.VanillaRecipe;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
@@ -121,8 +122,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * ==================================================
 		 */
 
-		VanillaRecipe.init();
+		// VanillaRecipe.init();
 		// getServer().addRecipe(VanillaRecipe.STICK__PLANKS____CRAFTING_TABLE);
+
+		CustomBlockRegistry.init();
 
 	}
 
@@ -176,14 +179,20 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			sql_connection = DriverManager
 					.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toString() + "\\data.db");
 
-			runSQL("CREATE TABLE user_profiles (" + "playerUUID text PRIMARY KEY," + "employeeID integer NOT NULL,"
-					+ "playerAsEmployerID integer NOT NULL," + "username text NOT NULL,"
-					+ "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
-					// references
-					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
-					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
-					+ "FOREIGN KEY(playerBankingID) REFERENCES bank_customers(bankingID),"
-					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
+			if (is_new) {
+				runSQL("CREATE TABLE user_profiles (" + "playerUUID text PRIMARY KEY," + "employeeID integer NOT NULL,"
+						+ "playerAsEmployerID integer NOT NULL," + "username text NOT NULL,"
+						+ "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
+						// references
+						+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
+						+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
+						+ "FOREIGN KEY(playerBankingID) REFERENCES bank_customers(bankingID),"
+						+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
+
+				runSQL("CREATE TABLE sys_enumerator (" + "\"key\" text PRIMARY KEY," + "\"value\" integer DEFAULT '1'"
+						+ ");");
+			}
+
 			break;
 		case mySQL:
 			is_new = true;
@@ -202,6 +211,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
 					+ "FOREIGN KEY(playerBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(mailboxID) REFERENCES mailboxes(mailboxID)" + ");");
+
+			runSQL("CREATE TABLE sys_enumerator (" + "\"key\" text," + "\"value\" integer DEFAULT '1',"
+					+ "PRIMARY KEY(\"key\"(25))" + ");");
 			break;
 		default:
 			throw new RuntimeException("Invalid database type! Please use mySQL or sqlite!");
@@ -210,9 +222,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		// prepare DB
 
 		if (is_new) {
-
-			runSQL("CREATE TABLE sys_enumerator (" + "`key` text," + "`value` integer DEFAULT '1',"
-					+ "PRIMARY KEY(`key`(25))" + ");");
 
 			runSQL("CREATE TABLE employee_matching (" + "employee_matchingID integer PRIMARY KEY,"
 					+ "employerID integer NOT NULL," + "employeeID integer NOT NULL," + "contractID integer NOT NULL,"
@@ -348,7 +357,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ ");");
 
 			runSQL("CREATE TABLE employee_professions (employeeProfessionMatchingID integer," + "employeeID integer,"
-					+ "professionName text");
+					+ "professionName text" + ");");
 
 			// enumerator
 
@@ -421,9 +430,14 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 			query = query.replace(" integer", " int");
 
-			plugin.getLogger().info("mySQL adapted: " + query);
+			plugin.getLogger().info("mySQL adapted table creation: " + query);
 		} else {
 			query = query.replace("$ref$", "");
+		}
+
+		if (Config.getSQLConnectionType() == SQLConnectionType.mySQL) {
+			query = query.replace("\"", "`");
+			plugin.getLogger().info("mySQL adapted strings: " + query);
 		}
 		sql_connection.createStatement().execute(query);
 	}

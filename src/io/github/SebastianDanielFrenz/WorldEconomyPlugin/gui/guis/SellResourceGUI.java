@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BankAccountChooserEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BlockLib;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;

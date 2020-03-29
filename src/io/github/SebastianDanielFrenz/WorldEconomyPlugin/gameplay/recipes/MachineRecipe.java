@@ -1,8 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
 

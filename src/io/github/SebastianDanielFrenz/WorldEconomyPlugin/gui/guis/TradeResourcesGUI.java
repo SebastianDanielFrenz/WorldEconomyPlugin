@@ -3,7 +3,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.ResourceChooserEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 

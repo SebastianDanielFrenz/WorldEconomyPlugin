@@ -27,7 +27,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePla
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;

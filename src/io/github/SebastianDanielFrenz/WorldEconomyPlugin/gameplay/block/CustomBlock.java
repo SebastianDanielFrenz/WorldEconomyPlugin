@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 
 public abstract class CustomBlock {
 

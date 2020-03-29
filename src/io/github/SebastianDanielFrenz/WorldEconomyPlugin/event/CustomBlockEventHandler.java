@@ -15,10 +15,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterial
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.CustomItemStack;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.ItemDetailType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.items.ToolItemDetail;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemDetailType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemDetail;
 
 public class CustomBlockEventHandler implements Listener {
 
