@@ -1,6 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.block.Block;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +25,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.SetblockChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
@@ -764,6 +771,83 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX
 							+ "§4For security reasons, you need to use the server console to run this command!");
 					return true;
+				}
+			} else if (args[0].equalsIgnoreCase("setblock")) {
+				if (sender instanceof ConsoleCommandSender) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4You cannot run this command on the console!");
+					return true;
+				} else {
+					if (args.length == 1) {
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						return true;
+					} else {
+						CustomBlock block = CustomBlockRegistry.getBlock(args[1]);
+						CustomBlockData data;
+
+						if (args.length > 2) {
+							Constructor<? extends CustomBlockData> dataConstructor;
+							try {
+								dataConstructor = block.blockDataType.getConstructor(String.class);
+							} catch (NoSuchMethodException e) {
+								e.printStackTrace();
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
+										+ ") blockdata type (" + block.blockDataType.getCanonicalName()
+										+ ") does not have the constructor " + block.blockDataType.getName()
+										+ "(String)!");
+								return true;
+							} catch (SecurityException e) {
+								e.printStackTrace();
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
+										+ ") blockdata type (" + block.blockDataType.getCanonicalName()
+										+ ") does not have the constructor " + block.blockDataType.getName()
+										+ "(String) with modifier public. The constructor could not be accessed!");
+								return true;
+							}
+
+							if (args[2].equals("#")) {
+								if (!(sender instanceof Player)) {
+									sender.sendMessage(WorldEconomyPlugin.PREFIX
+											+ "§4This command causes a chat dialog to open. You can only use those as a player!");
+									return true;
+								}
+
+								new SetblockChatDialog((Player) sender, block, dataConstructor);
+								return true;
+							} else {
+								try {
+									data = dataConstructor.newInstance(args[2]);
+								} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+										| InvocationTargetException e) {
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occurred!");
+									return true;
+								}
+							}
+						} else {
+							try {
+								data = block.blockDataType.newInstance();
+							} catch (InstantiationException | IllegalAccessException e) {
+								e.printStackTrace();
+								sender.sendMessage(WorldEconomyPlugin.PREFIX
+										+ "§4An internal error occured while creating the blockdata with an empty constructor!");
+								return true;
+							}
+						}
+
+						try {
+							if (sender instanceof Player) {
+								CustomBlock.placeBlock(((Player) sender).getLocation(), block, data);
+								return true;
+							} else {
+								CustomBlock.placeBlock(((BlockCommandSender) sender).getBlock().getLocation(), block,
+										data);
+								return true;
+							}
+						} catch (SQLException e) {
+							e.printStackTrace();
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							return true;
+						}
+					}
 				}
 			} else if (args[0].equalsIgnoreCase("help")) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");

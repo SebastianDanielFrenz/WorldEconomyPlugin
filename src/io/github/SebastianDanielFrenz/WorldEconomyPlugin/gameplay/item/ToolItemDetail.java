@@ -1,7 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 
 public class ToolItemDetail extends ItemDetail {
 

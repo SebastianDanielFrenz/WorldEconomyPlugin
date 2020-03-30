@@ -27,6 +27,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePla
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
@@ -1390,10 +1391,12 @@ public class WEDB {
 	 * ==================================================
 	 */
 
-	public static void registerCustomBlock(Location location, CustomBlock block) throws SQLException {
-		WorldEconomyPlugin.runSQL("INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType) VALUES ("
-				+ location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \""
-				+ location.getWorld().getName() + "\", \"" + block.ID + "\")");
+	public static void registerCustomBlock(Location location, CustomBlock block, CustomBlockData data)
+			throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType, blockData) VALUES ("
+						+ location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \""
+						+ location.getWorld().getName() + "\", \"" + block.ID + "\", \"" + data.save() + "\")");
 	}
 
 	public static void removeCustomBlock(Location location) throws SQLException {

@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
+
 /**
  * 
  * This class should be extended as follows:<br>
@@ -14,7 +16,10 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
  */
 public abstract class CustomBlockData {
 
-	public CustomBlockData(String rawData) {
+	public CustomBlockData(String rawData) throws CustomBlockDataCreationException {
+	}
+
+	public CustomBlockData() {
 	}
 
 	public abstract String save();

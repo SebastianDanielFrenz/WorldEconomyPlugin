@@ -124,6 +124,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		// getServer().addRecipe(VanillaRecipe.STICK__PLANKS____CRAFTING_TABLE);
 
 		CustomBlockRegistry.init();
+		CustomItemRegistry.init();
 
 	}
 

@@ -1,12 +1,15 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
+import java.sql.SQLException;
+
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomBlockDropTable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 
 public abstract class CustomBlock {
 
@@ -37,6 +40,12 @@ public abstract class CustomBlock {
 
 	public CustomItemStack[] getDrops(CustomToolType tool, CustomMaterialLevel tool_lvl) {
 		return drop_table.getDrops(tool, tool_lvl);
+	}
+
+	public static void placeBlock(Location location, CustomBlock block, CustomBlockData data) throws SQLException {
+		WEDB.registerCustomBlock(location, block, data);
+		location.getBlock().setType(block.material);
+		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
 }
