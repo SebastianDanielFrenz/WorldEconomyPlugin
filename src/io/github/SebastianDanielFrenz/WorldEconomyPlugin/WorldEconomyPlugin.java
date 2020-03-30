@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,8 +19,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventH
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.VanillaRecipe;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
@@ -367,11 +365,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 			WEDB.registerBank("central_bank");
 
-			WEDB.registerResource(CustomItem.IRON_INGOT, 640, 64, Math.pow(2, 10) * 1);
-			WEDB.registerResource(CustomItem.DIAMOND, 640, 64, Math.pow(2, 10) * 20);
-			WEDB.registerResource(CustomItem.GOLD_INGOT, 640, 64, Math.pow(2, 10) * 8);
-			WEDB.registerResource(CustomItem.LAPIS_LAZULI, 640, 64, Math.pow(2, 10) * 2);
-			WEDB.registerResource(CustomItem.SAND, 640, 64, Math.pow(2, 10) * 0.1);
+			WEDB.registerResource(CustomItemRegistry.IRON_INGOT, 640, 64, Math.pow(2, 10) * 1);
+			WEDB.registerResource(CustomItemRegistry.DIAMOND, 640, 64, Math.pow(2, 10) * 20);
+			WEDB.registerResource(CustomItemRegistry.GOLD_INGOT, 640, 64, Math.pow(2, 10) * 8);
+			WEDB.registerResource(CustomItemRegistry.LAPIS_LAZULI, 640, 64, Math.pow(2, 10) * 2);
+			WEDB.registerResource(CustomItemRegistry.SAND, 640, 64, Math.pow(2, 10) * 0.1);
 
 		}
 

@@ -7,7 +7,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockGranite;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockOreCopper;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCopperOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSand;
 
 public class CustomBlockRegistry {
@@ -18,6 +18,14 @@ public class CustomBlockRegistry {
 		blocks.add(block);
 	}
 
+	public static final CustomBlock coarse_dirt = new BlockCoarseDirt();
+	public static final CustomBlock sand = new BlockSand();
+	public static final CustomBlock granite = new BlockGranite();
+	public static final CustomBlock diorite = new BlockDiorite();
+	public static final CustomBlock andesite = new BlockAndesite();
+
+	public static final CustomBlock copper_ore = new BlockCopperOre();
+
 	public static void init() {
 		register(new BlockCoarseDirt());
 		register(new BlockSand());
@@ -25,7 +33,7 @@ public class CustomBlockRegistry {
 		register(new BlockDiorite());
 		register(new BlockAndesite());
 
-		register(new BlockOreCopper());
+		register(new BlockCopperOre());
 	}
 
 	public static List<CustomBlock> getContents() {
@@ -34,7 +42,7 @@ public class CustomBlockRegistry {
 
 	public static CustomBlock getBlock(String ID) {
 		for (CustomBlock block : blocks) {
-			if (block.ID.equals(ID)) {
+			if (block.ID.equalsIgnoreCase(ID)) {
 				return block;
 			}
 		}

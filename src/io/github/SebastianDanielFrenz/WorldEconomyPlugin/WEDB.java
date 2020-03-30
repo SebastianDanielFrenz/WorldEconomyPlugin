@@ -28,6 +28,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedExc
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
@@ -1277,15 +1278,14 @@ public class WEDB {
 			throws SQLException {
 		WorldEconomyPlugin
 				.runSQL("INSERT INTO resources (resourceCustomItemID, resourceStoredAmount, resourcePriceStep, resourceMaxPrice)"
-						+ " VALUES (\"" + material.name() + "\", " + startAmount + ", " + stepSize + ", " + maxPrice
-						+ ")");
+						+ " VALUES (\"" + material.ID + "\", " + startAmount + ", " + stepSize + ", " + maxPrice + ")");
 	}
 
 	public static double getResourcePrice(CustomItem material) throws SQLException {
 		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.name() + "\"");
+				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.ID + "\"");
 		if (!r.next()) {
-			throw new RuntimeException("Resource \"" + material.name() + "\" not found!");
+			throw new RuntimeException("Resource \"" + material.ID + "\" not found!");
 		}
 		return r.getDouble("resourceMaxPrice") * Math.pow(0.5,
 				1 / (r.getDouble("resourcePriceStep") * (WorldEconomyPlugin.AI_count + WorldEconomyPlugin.user_count))
@@ -1294,9 +1294,9 @@ public class WEDB {
 
 	public static double getResourcePriceSell(CustomItem material, long amount) throws SQLException {
 		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.name() + "\"");
+				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.ID + "\"");
 		if (!r.next()) {
-			throw new RuntimeException("Resource \"" + material.name() + "\" not found!");
+			throw new RuntimeException("Resource \"" + material.ID + "\" not found!");
 		}
 
 		double out = 0;
@@ -1310,9 +1310,9 @@ public class WEDB {
 
 	public static double getResourcePriceBuy(CustomItem material, long amount) throws SQLException {
 		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.name() + "\"");
+				.runSQLquery("SELECT * FROM resources WHERE resourceCustomItemID = \"" + material.ID + "\"");
 		if (!r.next()) {
-			throw new RuntimeException("Resource \"" + material.name() + "\" not found!");
+			throw new RuntimeException("Resource \"" + material.ID + "\" not found!");
 		}
 
 		double out = 0;
@@ -1327,7 +1327,7 @@ public class WEDB {
 	public static double getResourcePriceWithFallback(CustomItem resource) {
 		try {
 			ResultSet r = WorldEconomyPlugin
-					.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + resource.name() + "\"");
+					.runSQLquery("SELECT * FROM resources WHERE resourceItemID = \"" + resource.ID + "\"");
 			if (!r.next()) {
 				throw new RuntimeException("Resource \"" + resource.toString() + "\" not found!");
 			}
@@ -1344,7 +1344,7 @@ public class WEDB {
 		List<CustomItem> out = new ArrayList<CustomItem>();
 
 		while (r.next()) {
-			out.add(CustomItem.valueOf((r.getString("resourceCustomItemID"))));
+			out.add(CustomItemRegistry.getItem(r.getString("resourceCustomItemID")));
 		}
 
 		return out;

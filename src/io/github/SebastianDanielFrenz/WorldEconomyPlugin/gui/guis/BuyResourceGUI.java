@@ -22,12 +22,12 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransacti
 public class BuyResourceGUI extends WEGUI {
 
 	public BuyResourceGUI(WEGUI parent, Player player, CustomItem resource) {
-		super(new GUIItem[] {}, "Buy Resource - " + resource.name());
+		super(new GUIItem[] {}, "Buy Resource - " + resource.item_name);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 
 		items.add(new GUIItem(0, 4, mkItem(resource.base_material,
-				"Buy Resource - " + resource.name() + " - " + WEDB.getResourcePriceWithFallback(resource))) {
+				"Buy Resource - " + resource.item_name + " - " + WEDB.getResourcePriceWithFallback(resource))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -53,7 +53,7 @@ public class BuyResourceGUI extends WEGUI {
 											if (account.getBalance() < price) {
 												player.sendMessage(WorldEconomyPlugin.PREFIX
 														+ "§4You do not have enough money to buy " + x + "x "
-														+ resource.name() + " (requires " + price + ")");
+														+ resource.item_name + " (requires " + price + ")");
 											} else {
 												if (ItemTransactionManager.canFit(player.getInventory(),
 														new CustomItemStack(resource, (int) x))) {

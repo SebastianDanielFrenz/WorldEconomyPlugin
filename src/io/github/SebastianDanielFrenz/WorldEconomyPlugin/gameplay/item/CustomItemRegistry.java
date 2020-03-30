@@ -3,17 +3,15 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Material;
-
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAsh;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBronzeRod;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCharcoal;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCoal;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCoalOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperPlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperRod;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemIronBoots;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemIronChestplate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemIronHelmet;
@@ -27,11 +25,70 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelRod;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.blast_furnaces.BasicBlastFurnaceStage1;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage1;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage2;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.BasicFurnaceStage3;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves.BasicSieveStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumIngot;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumPlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemTinIngot;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemTinPlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemTinRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOsmiumIngot;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOsmiumPlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOsmiumRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadIngot;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadPlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldOre;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldNugget;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldIngot;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldCable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDiamond;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDiamondOre;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLapisLazuli;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLapisLazuliOre;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemClayBall;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemRawHardenedCobblestone;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemRawHardenedCobblestonePlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestone;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestonePlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemProcessedCobblestone;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemProcessedCobblestonePlate;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOilBucket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBucket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterBucket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemRawClayBucket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemClayBucket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterClayBucket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicFurnaceStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicFurnaceStage2;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicFurnaceStage3;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicSieveStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicBlastFurnaceStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCampfire;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWoodenShovel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestoneShovel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestoneShovel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemProcessedCobblestoneShovel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemProcessedCobblestonePickaxe;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStick;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStone;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGrassBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDirt;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestone;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakPlanks;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakSlab;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakLog;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCoarseDirt;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSand;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGranite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedGranite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDiorite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedDiorite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAndesite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedAndesite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBerries;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBronzeIngot;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBronzePlate;
 
 public class CustomItemRegistry {
 
@@ -41,190 +98,206 @@ public class CustomItemRegistry {
 		items.add(item);
 	}
 
-	public static final CustomItem coalOre = new ItemCoalOre();
-	public static final CustomItem coal = new ItemCoal();
-	public static final CustomItem charcoal = new ItemCharcoal();
-	public static final CustomItem ash = new ItemAsh();
-	public static final CustomItem ironOre = new ItemIronOre();
-	public static final CustomItem ironIngot = new ItemIronIngot();
-	public static final CustomItem ironPlate = new ItemIronPlate();
-	public static final CustomItem ironRod = new ItemIronRod();
-	public static final CustomItem ironPickaxe = new ItemIronPickaxe();
-	public static final CustomItem ironHelmet = new ItemIronHelmet();
-	public static final CustomItem ironChestplate = new ItemIronChestplate();
-	public static final CustomItem ironLeggings = new ItemIronLeggings();
-	public static final CustomItem ironBoots = new ItemIronBoots();
+	public static final CustomItem COAL_ORE = new ItemCoalOre();
+	public static final CustomItem COAL = new ItemCoal();
+	public static final CustomItem CHARCOAL = new ItemCharcoal();
+	public static final CustomItem ASH = new ItemAsh();
+	public static final CustomItem IRON_ORE = new ItemIronOre();
+	public static final CustomItem IRON_INGOT = new ItemIronIngot();
+	public static final CustomItem IRON_PLATE = new ItemIronPlate();
+	public static final CustomItem IRON_ROD = new ItemIronRod();
+	public static final CustomItem IRON_PICKAXE = new ItemIronPickaxe();
+	public static final CustomItem IRON_HELMET = new ItemIronHelmet();
+	public static final CustomItem IRON_CHESTPLATE = new ItemIronChestplate();
+	public static final CustomItem IRON_LEGGINGS = new ItemIronLeggings();
+	public static final CustomItem IRON_BOOTS = new ItemIronBoots();
 
 	// Redstone
-	public static final CustomItem redstone = new ItemRedstone();
+	public static final CustomItem REDSTONE = new ItemRedstone();
 
 	// Steel
-	public static final CustomItem steel_ingot = new ItemSteelIngot();
-	public static final CustomItem steel_plate = new ItemSteelPlate();
-	public static final CustomItem steel_rod = new ItemSteelRod();
+	public static final CustomItem STEEL_INGOT = new ItemSteelIngot();
+	public static final CustomItem STEEL_PLATE = new ItemSteelPlate();
+	public static final CustomItem STEEL_ROD = new ItemSteelRod();
 
 	// Copper Items
-	public static final CustomItem copper_ore = new ItemCopperOre();
-	public static final CustomItem copper_ingot = new ItemCopperIngot();
-	public static final CustomItem copper_plate = new ItemCopperPlate();
-	public static final CustomItem copper_rod = new ItemCopperRod();
+	public static final CustomItem COPPER_ORE = new ItemCopperOre();
+	public static final CustomItem COPPER_INGOT = new ItemCopperIngot();
+	public static final CustomItem COPPER_PLATE = new ItemCopperPlate();
+	public static final CustomItem COPPER_ROD = new ItemCopperRod();
+
+	public static final CustomItem BRONZE_INGOT = new ItemBronzeIngot();
+	public static final CustomItem BRONZE_PLATE = new ItemBronzePlate();
+	public static final CustomItem BRONZE_ROD = new ItemBronzeRod();
+	public static final CustomItem ALUMINUM_INGOT = new ItemAluminumIngot();
+	public static final CustomItem ALUMINUM_PLATE = new ItemAluminumPlate();
+	public static final CustomItem ALUMINUM_ROD = new ItemAluminumRod();
+	public static final CustomItem TIN_INGOT = new ItemTinIngot();
+	public static final CustomItem TIN_PLATE = new ItemTinPlate();
+	public static final CustomItem TIN_ROD = new ItemTinRod();
+	public static final CustomItem OSMIUM_INGOT = new ItemOsmiumIngot();
+	public static final CustomItem OSMIUM_PLATE = new ItemOsmiumPlate();
+	public static final CustomItem OSMIUM_ROD = new ItemOsmiumRod();
+	public static final CustomItem LEAD_INGOT = new ItemLeadIngot();
+	public static final CustomItem LEAD_PLATE = new ItemLeadPlate();
+	public static final CustomItem LEAD_ROD = new ItemLeadRod();
+	public static final CustomItem GOLD_ORE = new ItemGoldOre();
+	public static final CustomItem GOLD_NUGGET = new ItemGoldNugget();
+	public static final CustomItem GOLD_INGOT = new ItemGoldIngot();
+	public static final CustomItem GOLD_ROD = new ItemGoldRod();
+	public static final CustomItem GOLD_CABLE = new ItemGoldCable();
+	public static final CustomItem DIAMOND = new ItemDiamond();
+	public static final CustomItem DIAMOND_ORE = new ItemDiamondOre();
+	public static final CustomItem LAPIS_LAZULI = new ItemLapisLazuli();
+	public static final CustomItem LAPIS_LAZULI_ORE = new ItemLapisLazuliOre();
+	public static final CustomItem CLAY_BALL = new ItemClayBall();
+	public static final CustomItem RAW_HARDENED_COBBLESTONE = new ItemRawHardenedCobblestone();
+	public static final CustomItem RAW_HARDENED_COBBLESTONE_PLATE = new ItemRawHardenedCobblestonePlate();
+	public static final CustomItem HARDENED_COBBLESTONE = new ItemHardenedCobblestone();
+	public static final CustomItem HARDENED_COBBLESTONE_PLATE = new ItemHardenedCobblestonePlate();
+	public static final CustomItem PROCESSED_COBBLESTONE = new ItemProcessedCobblestone();
+	public static final CustomItem PROCESSED_COBBLESTONE_PLATE = new ItemProcessedCobblestonePlate();
+	public static final CustomItem OIL_BUCKET = new ItemOilBucket();
+	public static final CustomItem BUCKET = new ItemBucket();
+	public static final CustomItem WATER_BUCKET = new ItemWaterBucket();
+	public static final CustomItem RAW_CLAY_BUCKET = new ItemRawClayBucket();
+	public static final CustomItem CLAY_BUCKET = new ItemClayBucket();
+	public static final CustomItem WATER_CLAY_BUCKET = new ItemWaterClayBucket();
+	public static final CustomItem BASIC_FURNACE_STAGE1 = new ItemBasicFurnaceStage1();
+	public static final CustomItem BASIC_FURNACE_STAGE2 = new ItemBasicFurnaceStage2();
+	public static final CustomItem BASIC_FURNACE_STAGE3 = new ItemBasicFurnaceStage3();
+	public static final CustomItem BASIC_SIEVE_STAGE1 = new ItemBasicSieveStage1();
+	public static final CustomItem BASIC_BLAST_FURNACE_STAGE1 = new ItemBasicBlastFurnaceStage1();
+	public static final CustomItem CAMPFIRE = new ItemCampfire();
+	public static final CustomItem WOODEN_SHOVEL = new ItemWoodenShovel();
+	public static final CustomItem COBBLESTONE_SHOVEL = new ItemCobblestoneShovel();
+	public static final CustomItem HARDENED_COBBLESTONE_SHOVEL = new ItemHardenedCobblestoneShovel();
+	public static final CustomItem PROCESSED_COBBLESTONE_SHOVEL = new ItemProcessedCobblestoneShovel();
+	public static final CustomItem PROCESSED_COBBLESTONE_PICKAXE = new ItemProcessedCobblestonePickaxe();
+	public static final CustomItem STICK = new ItemStick();
+	public static final CustomItem STONE = new ItemStone();
+	public static final CustomItem GRASS_BLOCK = new ItemGrassBlock();
+	public static final CustomItem DIRT = new ItemDirt();
+	public static final CustomItem COBBLESTONE = new ItemCobblestone();
+	public static final CustomItem OAK_PLANKS = new ItemOakPlanks();
+	public static final CustomItem OAK_LOG = new ItemOakLog();
+	public static final CustomItem OAK_SLAB = new ItemOakSlab();
+	public static final CustomItem COARSE_DIRT = new ItemCoarseDirt();
+	public static final CustomItem SAND = new ItemSand();
+	public static final CustomItem GRANITE = new ItemGranite();
+	public static final CustomItem POLISHED_GRANITE = new ItemPolishedGranite();
+	public static final CustomItem DIORITE = new ItemDiorite();
+	public static final CustomItem POLISHED_DIORITE = new ItemPolishedDiorite();
+	public static final CustomItem ANDESITE = new ItemAndesite();
+	public static final CustomItem POLISHED_ANDESITE = new ItemPolishedAndesite();
+	public static final CustomItem BERRIES = new ItemBerries();
 
 	public static void init() {
-		register(coalOre);
-		register(coal);
-		register(charcoal);
-		
-		register(ash);
-		
-		register(ironOre);
-		register(ironIngot);
-		register(ironPlate);
-		register(ironRod);
+		register(COAL_ORE);
+		register(COAL);
+		register(CHARCOAL);
 
-		register(ironPickaxe);
-		register(ironHelmet);
-		register(ironChestplate);
-		register(ironLeggings);
-		register(ironBoots);
+		register(ASH);
 
-		register(redstone);
+		register(IRON_ORE);
+		register(IRON_INGOT);
+		register(IRON_PLATE);
+		register(IRON_ROD);
+
+		register(IRON_PICKAXE);
+		register(IRON_HELMET);
+		register(IRON_CHESTPLATE);
+		register(IRON_LEGGINGS);
+		register(IRON_BOOTS);
+
+		register(REDSTONE);
 
 		// Steel Items
-		register(steel_ingot);
-		register(steel_plate);
-		register(steel_rod);
+		register(STEEL_INGOT);
+		register(STEEL_PLATE);
+		register(STEEL_ROD);
 
 		// Copper Items
-		register(copper_ore);
-		register(copper_ingot);
-		register(copper_plate);
-		register(copper_rod);
+		register(COPPER_ORE);
+		register(COPPER_INGOT);
+		register(COPPER_PLATE);
+		register(COPPER_ROD);
 
 		// bronze items
-		BRONZE_INGOT(Material.IRON_INGOT, Tier.TIER1, "Bronze Ingot", ItemCategory.RAW_MATERIALS),
-		BRONZE_PLATE(Material.PAPER, Tier.TIER1, "Bronze Plate", ItemCategory.PROCESSED_MATERIALS),
-		BRONZE_ROD(Material.STICK, Tier.TIER1, "Bronze Rod", ItemCategory.PROCESSED_MATERIALS),
+		register(BRONZE_INGOT);
+		register(BRONZE_PLATE);
+		register(BRONZE_ROD);
+		register(ALUMINUM_INGOT);
+		register(ALUMINUM_PLATE);
+		register(ALUMINUM_ROD);
+		register(TIN_INGOT);
+		register(TIN_PLATE);
+		register(TIN_ROD);
+		register(OSMIUM_INGOT);
+		register(OSMIUM_PLATE);
+		register(OSMIUM_ROD);
+		register(LEAD_INGOT);
+		register(LEAD_PLATE);
+		register(LEAD_ROD);
+		register(GOLD_ORE);
+		register(GOLD_NUGGET);
+		register(GOLD_INGOT);
+		register(GOLD_ROD);
+		register(GOLD_CABLE);
+		register(DIAMOND);
+		register(DIAMOND_ORE);
+		register(LAPIS_LAZULI);
+		register(LAPIS_LAZULI_ORE);
+		register(CLAY_BALL);
+		register(RAW_HARDENED_COBBLESTONE);
+		register(RAW_HARDENED_COBBLESTONE_PLATE);
+		register(HARDENED_COBBLESTONE);
+		register(HARDENED_COBBLESTONE_PLATE);
+		register(PROCESSED_COBBLESTONE);
+		register(PROCESSED_COBBLESTONE_PLATE);
+		register(OIL_BUCKET);
+		register(BUCKET);
+		register(WATER_BUCKET);
+		register(RAW_CLAY_BUCKET);
+		register(CLAY_BUCKET);
+		register(WATER_CLAY_BUCKET);
+		register(BASIC_FURNACE_STAGE1);
+		register(BASIC_FURNACE_STAGE2);
+		register(BASIC_FURNACE_STAGE3);
+		register(BASIC_SIEVE_STAGE1);
+		register(BASIC_BLAST_FURNACE_STAGE1);
+		register(CAMPFIRE);
+		register(WOODEN_SHOVEL);
+		register(COBBLESTONE_SHOVEL);
+		register(HARDENED_COBBLESTONE_SHOVEL);
+		register(PROCESSED_COBBLESTONE_SHOVEL);
+		register(PROCESSED_COBBLESTONE_PICKAXE);
+		register(STICK);
+		register(STONE);
+		register(GRASS_BLOCK);
+		register(DIRT);
+		register(COBBLESTONE);
+		register(OAK_PLANKS);
+		register(OAK_LOG);
+		register(OAK_SLAB);
+		register(COARSE_DIRT);
+		register(SAND);
+		register(GRANITE);
+		register(POLISHED_GRANITE);
+		register(DIORITE);
+		register(POLISHED_DIORITE);
+		register(ANDESITE);
+		register(POLISHED_ANDESITE);
+		register(BERRIES);
+	}
 
-		// aluminum
-		ALUMINUM_INGOT(Material.IRON_INGOT, Tier.TIER1, "Aluminum Ingot", ItemCategory.RAW_MATERIALS),
-		ALUMINUM_PLATE(Material.PAPER, Tier.TIER1, "Aluminum Plate", ItemCategory.PROCESSED_MATERIALS),
-		ALUMINUM_ROD(Material.STICK, Tier.TIER1, "Aluminum Rod", ItemCategory.PROCESSED_MATERIALS),
-
-		// TIN
-		TIN_INGOT(Material.IRON_INGOT, Tier.TIER1, "Tin Ingot", ItemCategory.RAW_MATERIALS),
-		TIN_PLATE(Material.PAPER, Tier.TIER1, "Tin Plate", ItemCategory.PROCESSED_MATERIALS),
-		TIN_ROD(Material.STICK, Tier.TIER1, "Tin Rod", ItemCategory.PROCESSED_MATERIALS),
-
-		// osmium
-		OSMIUM_INGOT(Material.IRON_INGOT, Tier.TIER1, "Osmium Ingot", ItemCategory.RAW_MATERIALS),
-		OSMIUM_PLATE(Material.PAPER, Tier.TIER1, "Osmium Plate", ItemCategory.PROCESSED_MATERIALS),
-		OSMIUM_ROD(Material.STICK, Tier.TIER1, "Osmium Rod", ItemCategory.PROCESSED_MATERIALS),
-
-		// lead
-		LEAD_INGOT(Material.IRON_INGOT, Tier.TIER1, "Lead Ingot", ItemCategory.RAW_MATERIALS),
-		LEAD_PLATE(Material.PAPER, Tier.TIER1, "Lead Plate", ItemCategory.PROCESSED_MATERIALS),
-		LEAD_ROD(Material.STICK, Tier.TIER1, "Lead Rod", ItemCategory.PROCESSED_MATERIALS),
-
-		// gold
-		GOLD_ORE(Material.GOLD_ORE, Tier.TIER2, "Gold Ore", ItemCategory.RAW_MATERIALS, true),
-		GOLD_NUGGET(Material.GOLD_NUGGET, Tier.TIER2, "Gold Nugget", ItemCategory.RAW_MATERIALS, true),
-		GOLD_INGOT(Material.GOLD_INGOT, Tier.TIER2, "Gold Ingot", ItemCategory.RAW_MATERIALS, true),
-		GOLD_ROD(Material.STICK, Tier.TIER2, "Gold Rod", ItemCategory.PROCESSED_MATERIALS),
-
-		GOLD_CABLE(Material.GOLD_NUGGET, Tier.TIER2, "Gold Cable", ItemCategory.TECHNOLOGY),
-
-		// silicon
-
-		// diamond
-		DIAMOND(Material.DIAMOND, Tier.TIER1, "Diamond", ItemCategory.RAW_MATERIALS, true),
-		DIAMOND_ORE(Material.DIAMOND_ORE, Tier.TIER1, "Diamond Ore", ItemCategory.RAW_MATERIALS, true),
-
-		// lapis lazuli
-		LAPIS_LAZULI(Material.LAPIS_LAZULI, Tier.TIER1, "Lapis Lazuli", ItemCategory.RAW_MATERIALS, true),
-		LAPIS_LAZULI_ORE(Material.LAPIS_ORE, Tier.TIER1, "Lapis Lazuli Ore", ItemCategory.RAW_MATERIALS, true),
-
-		// materials
-		CLAY_BALL(Material.CLAY_BALL, Tier.TIER1, "Clay Ball", ItemCategory.RAW_MATERIALS, true),
-		RAW_HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, "Raw Hardened Cobblestone",
-				ItemCategory.PROCESSED_MATERIALS),
-		RAW_HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Raw Hardened Cobblestone Plate",
-				ItemCategory.PROCESSED_MATERIALS),
-		HARDENED_COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, "Hardened Cobblestone", ItemCategory.PROCESSED_MATERIALS),
-		HARDENED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Hardened Cobblestone Plate",
-				ItemCategory.PROCESSED_MATERIALS),
-		PROCESSED_COBBLESTONE(Material.STONE, Tier.TIER1, "Processed Cobblestone", ItemCategory.PROCESSED_MATERIALS),
-		PROCESSED_COBBLESTONE_PLATE(Material.PAPER, Tier.TIER1, "Processed Cobblestone Plate",
-				ItemCategory.PROCESSED_MATERIALS),
-
-		// fluids
-		OIL_BUCKET(Material.LAVA_BUCKET, Tier.TIER1, "Oil Bucket", ItemCategory.RAW_MATERIALS),
-
-		// buckets
-		BUCKET(Material.BUCKET, Tier.TIER1, "Bucket", ItemCategory.OTHER, true),
-		WATER_BUCKET(Material.WATER_BUCKET, Tier.TIER1, "Water Bucket", ItemCategory.OTHER, true),
-
-		// clay buckets
-		RAW_CLAY_BUCKET(Material.BUCKET, Tier.TIER1, "Raw Clay Bucket", ItemCategory.OTHER),
-		CLAY_BUCKET(Material.BUCKET, Tier.TIER1, "Clay Bucket", ItemCategory.OTHER),
-		WATER_CLAY_BUCKET(Material.WATER_BUCKET, Tier.TIER1, "Water Clay Bucket", ItemCategory.OTHER),
-
-		// machines
-		// furnaces
-		BASIC_FURNACE_STAGE1(new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",
-				ItemCategory.MACHINES),
-		BASIC_FURNACE_STAGE2(new BasicFurnaceStage2(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 2",
-				ItemCategory.MACHINES),
-		BASIC_FURNACE_STAGE3(new BasicFurnaceStage3(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 3",
-				ItemCategory.MACHINES),
-		// sieves
-		BASIC_SIEVE_STAGE1(new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",
-				ItemCategory.MACHINES),
-		// blast furnaces
-		BASIC_BLAST_FURNACE_STAGE1(new BasicBlastFurnaceStage1(null).getKategory().display, Tier.TIER1,
-				"Basic Blast Furnace Stage 1", ItemCategory.MACHINES),
-		// camp fire
-		CAMPFIRE(Material.CAMPFIRE, Tier.TIER1, "Campfire", ItemCategory.MACHINES, true),
-
-		// tools
-		// shovels
-		WOODEN_SHOVEL(Material.WOODEN_SHOVEL, Tier.TIER1, "Wooden Shovel", ItemCategory.EQUIPMENT,
-				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD) }),
-		COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Cobblestone Shovel", ItemCategory.EQUIPMENT,
-				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.COBBLESTONE) }),
-		HARDENED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Hardened Cobblestone Shovel",
-				ItemCategory.EQUIPMENT,
-				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.HARDENED_COBBLESTONE) }),
-		PROCESSED_COBBLESTONE_SHOVEL(Material.STONE_SHOVEL, Tier.TIER1, "Processed Cobblestone Shovel",
-				ItemCategory.EQUIPMENT,
-				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
-
-		// pickaxes
-		PROCESSED_COBBLESTONE_PICKAXE(Material.STONE_PICKAXE, Tier.TIER1, "Processed Cobblestone Pickaxe",
-				ItemCategory.EQUIPMENT,
-				new ItemDetail[] { new ToolItemDetail(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE) }),
-
-		// materials
-		STICK(Material.STICK, Tier.TIER1, "Stick", ItemCategory.PROCESSED_MATERIALS, true),
-
-		// Vanilla Items
-		STONE(Material.STONE, Tier.TIER1, "Stone", ItemCategory.OTHER, true),
-		GRASS_BLOCK(Material.GRASS_BLOCK, Tier.TIER1, "Grass Block", ItemCategory.OTHER, true),
-		DIRT(Material.DIRT, Tier.TIER1, "Dirt", ItemCategory.OTHER, true),
-		COBBLESTONE(Material.COBBLESTONE, Tier.TIER1, "Cobblestone", ItemCategory.OTHER, true),
-		OAK_PLANKS(Material.OAK_PLANKS, Tier.TIER1, "Oak Planks", ItemCategory.OTHER, true),
-		OAK_LOG(Material.OAK_LOG, Tier.TIER1, "Oak Log", ItemCategory.OTHER, true),
-		COARSE_DIRT(Material.COARSE_DIRT, Tier.TIER1, "Coarse Dirt", ItemCategory.OTHER, true),
-		SAND(Material.SAND, Tier.TIER1, "Sand", ItemCategory.RAW_MATERIALS, true),
-		GRANITE(Material.GRANITE, Tier.TIER1, "Granite", ItemCategory.RAW_MATERIALS, true),
-		POLISHED_GRANITE(Material.POLISHED_GRANITE, Tier.TIER1, "Polished Granite", ItemCategory.PROCESSED_MATERIALS, true),
-		DIORITE(Material.DIORITE, Tier.TIER1, "Diorite", ItemCategory.RAW_MATERIALS, true),
-		POLISHED_DIORITE(Material.POLISHED_DIORITE, Tier.TIER1, "Polished Diorite", ItemCategory.PROCESSED_MATERIALS, true),
-		ANDESITE(Material.ANDESITE, Tier.TIER1, "Andesite", ItemCategory.RAW_MATERIALS, true),
-		POLISHED_ANDESITE(Material.POLISHED_ANDESITE, Tier.TIER1, "Polished Andesite", ItemCategory.PROCESSED_MATERIALS,
-				true),
-
-		// food
-		BERRIES(Material.SWEET_BERRIES, Tier.TIER1, "Berries", ItemCategory.FOOD, true);
+	public static CustomItem getItem(String ID) {
+		for (CustomItem item : items) {
+			if (item.ID.equalsIgnoreCase(ID)) {
+				return item;
+			}
+		}
+		return null;
 	}
 
 	public static List<CustomItem> getContents() {

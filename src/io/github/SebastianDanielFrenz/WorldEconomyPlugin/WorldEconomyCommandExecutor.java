@@ -24,6 +24,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.MainMenu;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
@@ -705,7 +706,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					if (sender instanceof Player) {
 						if (hasPermission(sender, Permissions.ITEM_GIVE_CMD)) {
 							CustomItemStack stack;
-							CustomItem item = CustomItem.valueOf(args[1].toUpperCase());
+							CustomItem item = CustomItemRegistry.getItem(args[1]);
 
 							if (args.length == 2) {
 								stack = new CustomItemStack(item, 1);

@@ -13,7 +13,7 @@ public class ResourceGUI extends WEGUI {
 
 	public ResourceGUI(WEGUI parent, CustomItem resource) {
 		super(new GUIItem[] { new GUIItem(0, 4, mkItem(resource.base_material,
-				"Resource - " + resource.name() + " - " + WEDB.getResourcePriceWithFallback(resource))) {
+				"Resource - " + resource.item_name + " - " + WEDB.getResourcePriceWithFallback(resource))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -28,7 +28,7 @@ public class ResourceGUI extends WEGUI {
 			public void event(InventoryClickEvent event) {
 				// TODO
 			}
-		}, }, "Resource - " + resource.name());
+		}, }, "Resource - " + resource.item_name);
 	}
 
 }
