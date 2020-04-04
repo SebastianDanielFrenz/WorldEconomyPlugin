@@ -48,4 +48,10 @@ public abstract class CustomBlock {
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
+	public static void placeBlock(Block vanillaBlock, CustomBlock block, CustomBlockData data) throws SQLException {
+		WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
+		vanillaBlock.setType(block.material);
+		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
+	}
+
 }

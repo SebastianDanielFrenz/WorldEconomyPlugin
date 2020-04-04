@@ -73,7 +73,6 @@ public class SalaryHandlerThread implements Runnable {
 					return;
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
 				WorldEconomyPlugin.plugin.getLogger().info("Shutting down salary handler thread!");
 				return;
 			}

@@ -2,14 +2,14 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items;
 
 import org.bukkit.Material;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomPlaceableItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.Tier;
 
-public class ItemCopperOre extends CustomPlaceableItem {
+public class ItemOakLeaves extends CustomItem {
 
-	public ItemCopperOre() {
-		super("copper_ore", Material.GOLD_ORE, Tier.TIER1, "Copper Ore", ItemCategory.RAW_MATERIALS);
+	public ItemOakLeaves() {
+		super("oak_leaves", Material.OAK_LEAVES, Tier.TIER1, "Oak Leaves", ItemCategory.RAW_MATERIALS, true);
 	}
 
 }

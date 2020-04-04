@@ -1,35 +1,23 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.counter.LeafStickCounter;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
-public enum ResearchItem implements ResearchableObject {
+public abstract class ResearchItem implements ResearchableObject {
 
-	// time: early stone age
-	// basics
-	STICK(CustomItemRegistry.STICK, new ResearchItem[] {}, new ResearchCondition[] {}),
-	BERRIES(CustomItemRegistry.BERRIES, new ResearchItem[] {}, new ResearchCondition[] {}),
-
-	// research needed
-	OAK_SLAB(CustomItemRegistry.OAK_SLAB, new ResearchItem[] { STICK },
-			new ResearchCondition[] { new ExperienceResearchCondition(new LeafStickCounter(), 10) }),
-	OAK_PLANKS(CustomItemRegistry.OAK_PLANKS, new ResearchItem[] { STICK },
-			new ResearchCondition[] { new ExperienceResearchCondition(new LeafStickCounter(), 50) }),
-
-	// mid stone age
-	BASIC_SIEVE_STAGE1(CustomItemRegistry.BASIC_SIEVE_STAGE1, new ResearchItem[] {},
-			new ResearchCondition[] { new ExperienceResearchCondition(new LeafStickCounter(), 10) });
-
-	private ResearchItem(ResearchableObject researchableObject, ResearchItem[] parents,
-			ResearchCondition[] conditions) {
+	public ResearchItem(String ID, ResearchableObject researchableObject, ResearchItem[] parents,
+			ResearchCondition[] conditions, Age age) {
+		this.ID = ID;
 		this.researchableObject = researchableObject;
 		this.parents = parents;
 		this.conditions = conditions;
+		this.age = age;
 	}
 
 	private ResearchableObject researchableObject;
 	private ResearchItem[] parents;
 	private ResearchCondition[] conditions;
+	private Age age;
+	private String ID;
 
 	public Object getResearchableObject() {
 		return researchableObject;
@@ -41,6 +29,23 @@ public enum ResearchItem implements ResearchableObject {
 
 	public ResearchCondition[] getConditions() {
 		return conditions;
+	}
+
+	public Age getAge() {
+		return age;
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public boolean areConditionsMet(long entityID, String entityType) {
+		for (ResearchCondition condition : conditions) {
+			if (!condition.isMet(entityID, entityType)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

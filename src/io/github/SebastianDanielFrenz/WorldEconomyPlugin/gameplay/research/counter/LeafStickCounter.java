@@ -9,25 +9,23 @@ import org.bukkit.Statistic;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePlayer;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ExperienceCounter;
 
 public class LeafStickCounter extends ExperienceCounter {
 
 	@Override
-	public double getXP(long employeeID, String entityType) {
+	public double getXP(long entityID, String entityType) {
 		if (entityType.equals("player")) {
 			// needs to turn into a DB statistics table arrangement.
 
 			try {
-				return Bukkit.getOfflinePlayer(((EmployeePlayer) WEDB.getEmployee(employeeID)).playerUUID).getPlayer()
+				return Bukkit.getOfflinePlayer(WEDB.getUserProfile(entityID).uuid).getPlayer()
 						.getStatistic(Statistic.MINE_BLOCK, Material.OAK_LEAVES);
 			} catch (IllegalArgumentException | SQLException e) {
 				e.printStackTrace();
 				try {
-					Bukkit.getOfflinePlayer(((EmployeePlayer) WEDB.getEmployee(employeeID)).playerUUID).getPlayer()
-							.sendMessage(WorldEconomyPlugin.PREFIX
-									+ "§4An internal error occured while getting LeafStickXP!");
+					Bukkit.getOfflinePlayer(WEDB.getUserProfile(entityID).uuid).getPlayer().sendMessage(
+							WorldEconomyPlugin.PREFIX + "§4An internal error occured while getting LeafStickXP!");
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 					WorldEconomyPlugin.plugin.getLogger().log(Level.SEVERE,

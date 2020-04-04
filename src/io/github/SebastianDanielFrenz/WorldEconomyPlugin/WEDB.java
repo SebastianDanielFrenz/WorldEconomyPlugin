@@ -30,6 +30,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
@@ -67,7 +70,7 @@ public class WEDB {
 				.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(player.getUniqueId(), r.getLong("employeeID"),
+			return new WorldEconomyProfile(r.getLong("playerID"), player.getUniqueId(), r.getLong("employeeID"),
 					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
 					r.getLong("mailboxID"));
 		} else {
@@ -79,8 +82,21 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + uuid + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(uuid, r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
-					r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"));
+			return new WorldEconomyProfile(r.getLong("playerID"), uuid, r.getLong("employeeID"),
+					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
+					r.getLong("mailboxID"));
+		} else {
+			return null;
+		}
+	}
+
+	public static WorldEconomyProfile getUserProfile(long playerID) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = " + playerID);
+
+		if (r.next()) {
+			return new WorldEconomyProfile(playerID, UUID.fromString(r.getString("playerUUID")),
+					r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
+					r.getLong("playerBankingID"), r.getLong("mailboxID"));
 		} else {
 			return null;
 		}
@@ -90,9 +106,9 @@ public class WEDB {
 		List<WorldEconomyProfile> out = new ArrayList<WorldEconomyProfile>();
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles");
 		while (r.next()) {
-			out.add(new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
-					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
-					r.getLong("mailboxID")));
+			out.add(new WorldEconomyProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
+					r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
+					r.getLong("playerBankingID"), r.getLong("mailboxID")));
 		}
 		return out;
 	}
@@ -1058,8 +1074,9 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE mailboxID = " + mailboxID);
 
 		if (r.next()) {
-			return new WorldEconomyProfile(UUID.fromString(r.getString("playerUUID")), r.getInt("employeeID"),
-					r.getInt("playerAsEmployerID"), r.getString("username"), r.getInt("playerBankingID"), mailboxID);
+			return new WorldEconomyProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
+					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
+					r.getInt("playerBankingID"), mailboxID);
 		} else {
 			return null;
 		}
@@ -1429,4 +1446,38 @@ public class WEDB {
 		}
 		return out;
 	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to research..
+	 * 
+	 * ==================================================
+	 */
+
+	public static void addResearchItem(ResearchEntity entity, ResearchItem item) throws SQLException {
+		WorldEconomyPlugin.runSQL("INSERT INTO research (researchItem, researchEntityID, researchEntityType) VALUES (\""
+				+ item.getID() + "\", " + entity.getResearchSpecifiyEntityID() + ", \"" + entity.getResearchEntityType()
+				+ "\")");
+	}
+
+	public static boolean hasResearchItem(ResearchEntity entity, ResearchItem item) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM research WHERE researchEntityID = "
+				+ entity.getResearchSpecifiyEntityID() + " AND researchEntityType = \"" + entity.getResearchEntityType()
+				+ "\" AND researchItem = \"" + item.getID() + "\"");
+		return r.next();
+	}
+
+	public static List<ResearchItem> getResearchItems(ResearchEntity entity) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM research WHERE researchEntityID = " + entity.getResearchSpecifiyEntityID()
+						+ " AND researchEntityType = \"" + entity.getResearchEntityType() + "\"");
+		List<ResearchItem> out = new ArrayList<ResearchItem>();
+
+		while (r.next()) {
+			out.add(ResearchItemRegistry.get(r.getString("researchItem")));
+		}
+		return out;
+	}
+
 }

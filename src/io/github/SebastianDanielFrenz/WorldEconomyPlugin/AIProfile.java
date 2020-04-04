@@ -1,9 +1,10 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
 @DataBaseRepresentation
-public class AIProfile implements MailboxOwner {
+public class AIProfile implements MailboxOwner, ResearchEntity {
 
 	public String username;
 	public long bankingID;
@@ -31,5 +32,15 @@ public class AIProfile implements MailboxOwner {
 	@Override
 	public String getDisplayName() {
 		return username;
+	}
+
+	@Override
+	public String getResearchEntityType() {
+		return "ai";
+	}
+
+	@Override
+	public long getResearchSpecifiyEntityID() {
+		return aiID;
 	}
 }

@@ -777,76 +777,80 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4You cannot run this command on the console!");
 					return true;
 				} else {
-					if (args.length == 1) {
-						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
-						return true;
-					} else {
-						CustomBlock block = CustomBlockRegistry.getBlock(args[1]);
-						CustomBlockData data;
+					if (hasPermission(sender, Permissions.BLOCK_SET_CMD)) {
+						if (args.length == 1) {
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+							return true;
+						} else {
+							CustomBlock block = CustomBlockRegistry.getBlock(args[1]);
+							CustomBlockData data;
 
-						if (args.length > 2) {
-							Constructor<? extends CustomBlockData> dataConstructor;
-							try {
-								dataConstructor = block.blockDataType.getConstructor(String.class);
-							} catch (NoSuchMethodException e) {
-								e.printStackTrace();
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
-										+ ") blockdata type (" + block.blockDataType.getCanonicalName()
-										+ ") does not have the constructor " + block.blockDataType.getName()
-										+ "(String)!");
-								return true;
-							} catch (SecurityException e) {
-								e.printStackTrace();
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
-										+ ") blockdata type (" + block.blockDataType.getCanonicalName()
-										+ ") does not have the constructor " + block.blockDataType.getName()
-										+ "(String) with modifier public. The constructor could not be accessed!");
-								return true;
-							}
-
-							if (args[2].equals("#")) {
-								if (!(sender instanceof Player)) {
-									sender.sendMessage(WorldEconomyPlugin.PREFIX
-											+ "§4This command causes a chat dialog to open. You can only use those as a player!");
+							if (args.length > 2) {
+								Constructor<? extends CustomBlockData> dataConstructor;
+								try {
+									dataConstructor = block.blockDataType.getConstructor(String.class);
+								} catch (NoSuchMethodException e) {
+									e.printStackTrace();
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
+											+ ") blockdata type (" + block.blockDataType.getCanonicalName()
+											+ ") does not have the constructor " + block.blockDataType.getName()
+											+ "(String)!");
+									return true;
+								} catch (SecurityException e) {
+									e.printStackTrace();
+									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
+											+ ") blockdata type (" + block.blockDataType.getCanonicalName()
+											+ ") does not have the constructor " + block.blockDataType.getName()
+											+ "(String) with modifier public. The constructor could not be accessed!");
 									return true;
 								}
 
-								new SetblockChatDialog((Player) sender, block, dataConstructor);
-								return true;
+								if (args[2].equals("#")) {
+									if (!(sender instanceof Player)) {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX
+												+ "§4This command causes a chat dialog to open. You can only use those as a player!");
+										return true;
+									}
+
+									new SetblockChatDialog((Player) sender, block, dataConstructor);
+									return true;
+								} else {
+									try {
+										data = dataConstructor.newInstance(args[2]);
+									} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+											| InvocationTargetException e) {
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occurred!");
+										return true;
+									}
+								}
 							} else {
 								try {
-									data = dataConstructor.newInstance(args[2]);
-								} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-										| InvocationTargetException e) {
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occurred!");
+									data = block.blockDataType.newInstance();
+								} catch (InstantiationException | IllegalAccessException e) {
+									e.printStackTrace();
+									sender.sendMessage(WorldEconomyPlugin.PREFIX
+											+ "§4An internal error occured while creating the blockdata with an empty constructor!");
 									return true;
 								}
 							}
-						} else {
-							try {
-								data = block.blockDataType.newInstance();
-							} catch (InstantiationException | IllegalAccessException e) {
-								e.printStackTrace();
-								sender.sendMessage(WorldEconomyPlugin.PREFIX
-										+ "§4An internal error occured while creating the blockdata with an empty constructor!");
-								return true;
-							}
-						}
 
-						try {
-							if (sender instanceof Player) {
-								CustomBlock.placeBlock(((Player) sender).getLocation(), block, data);
-								return true;
-							} else {
-								CustomBlock.placeBlock(((BlockCommandSender) sender).getBlock().getLocation(), block,
-										data);
+							try {
+								if (sender instanceof Player) {
+									CustomBlock.placeBlock(((Player) sender).getLocation(), block, data);
+									return true;
+								} else {
+									CustomBlock.placeBlock(((BlockCommandSender) sender).getBlock().getLocation(),
+											block, data);
+									return true;
+								}
+							} catch (SQLException e) {
+								e.printStackTrace();
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
 								return true;
 							}
-						} catch (SQLException e) {
-							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
-							return true;
 						}
+					} else {
+						return true;
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("help")) {
@@ -900,6 +904,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 				if (hasPermission(sender, Permissions.ITEM_GIVE_CMD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we give <item> [<amount>] [<data>]");
+				}
+				if (hasPermission(sender, Permissions.BLOCK_SET_CMD, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we setblock <block> <# for dialog|data>");
 				}
 				return true;
 			} else {

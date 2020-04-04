@@ -25,6 +25,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumRod;
@@ -37,6 +39,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakDryLeaves;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldNugget;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldIngot;
@@ -96,6 +100,11 @@ public class CustomItemRegistry {
 
 	public static void register(CustomItem item) {
 		items.add(item);
+	}
+
+	public static void register(CustomItem item, CustomBlock block) {
+		register(item);
+		((CustomPlaceableItem) item).setBlock(block);
 	}
 
 	public static final CustomItem COAL_ORE = new ItemCoalOre();
@@ -182,6 +191,8 @@ public class CustomItemRegistry {
 	public static final CustomItem OAK_PLANKS = new ItemOakPlanks();
 	public static final CustomItem OAK_LOG = new ItemOakLog();
 	public static final CustomItem OAK_SLAB = new ItemOakSlab();
+	public static final CustomItem OAK_LEAVES = new ItemOakLeaves();
+	public static final CustomItem OAK_DRY_LEAVES = new ItemOakDryLeaves();
 	public static final CustomItem COARSE_DIRT = new ItemCoarseDirt();
 	public static final CustomItem SAND = new ItemSand();
 	public static final CustomItem GRANITE = new ItemGranite();
@@ -218,7 +229,7 @@ public class CustomItemRegistry {
 		register(STEEL_ROD);
 
 		// Copper Items
-		register(COPPER_ORE);
+		register(COPPER_ORE, CustomBlockRegistry.copper_ore);
 		register(COPPER_INGOT);
 		register(COPPER_PLATE);
 		register(COPPER_ROD);
@@ -280,6 +291,7 @@ public class CustomItemRegistry {
 		register(OAK_PLANKS);
 		register(OAK_LOG);
 		register(OAK_SLAB);
+		register(OAK_LEAVES);
 		register(COARSE_DIRT);
 		register(SAND);
 		register(GRANITE);

@@ -1,9 +1,10 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
 @DataBaseRepresentation
-public abstract class Company implements MailboxOwner {
+public abstract class Company implements MailboxOwner, ResearchEntity {
 
 	public String companyName;
 	public long companyEmployerID;
@@ -28,6 +29,16 @@ public abstract class Company implements MailboxOwner {
 	@Override
 	public long getMailboxID() {
 		return mailboxID;
+	}
+
+	@Override
+	public String getResearchEntityType() {
+		return "company";
+	}
+
+	@Override
+	public long getResearchSpecifiyEntityID() {
+		return ID;
 	}
 
 }

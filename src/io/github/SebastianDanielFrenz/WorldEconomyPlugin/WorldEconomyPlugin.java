@@ -16,14 +16,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomItemInteractionEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPaymentHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.MachineInventoryAutoSaveThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.ResearchHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.CustomChunkGenerator;
 
@@ -43,6 +46,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static Thread creditPaymentHandlerThread;
 	private static Thread emptyProductStackCleanerThread;
 	private static Thread machineInventoryAutoSaveThread;
+	private static Thread researchHandlerThread;
 
 	@Override
 	public void onEnable() {
@@ -74,6 +78,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
 		getServer().getPluginManager().registerEvents(new ItemPickupIntegrationEventHandler(), this);
 		getServer().getPluginManager().registerEvents(new CustomBlockEventHandler(), this);
+		getServer().getPluginManager().registerEvents(new CustomItemInteractionEventHandler(), this);
 
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
 
@@ -125,7 +130,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		CustomBlockRegistry.init();
 		CustomItemRegistry.init();
-
+		ResearchItemRegistry.init();
 	}
 
 	@Override
@@ -179,9 +184,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toString() + "\\data.db");
 
 			if (is_new) {
-				runSQL("CREATE TABLE user_profiles (" + "playerUUID text PRIMARY KEY," + "employeeID integer NOT NULL,"
-						+ "playerAsEmployerID integer NOT NULL," + "username text NOT NULL,"
-						+ "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
+				runSQL("CREATE TABLE user_profiles (" + "playerID integer PRIMARY KEY," + "playerUUID text,"
+						+ "employeeID integer NOT NULL," + "playerAsEmployerID integer NOT NULL,"
+						+ "username text NOT NULL," + "playerBankingID integer NOT NULL,"
+						+ "mailboxID integer NOT NULL,"
 						// references
 						+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 						+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
@@ -201,10 +207,9 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					"jdbc:mysql://" + Config.getSQLHost() + ":" + Config.getSQLPort() + "/" + Config.getSQLDataBase(),
 					Config.getSQLUser(), Config.getSQLPassword());
 
-			runSQL("CREATE TABLE user_profiles (" + "playerUUID text," + "employeeID integer NOT NULL,"
-					+ "playerAsEmployerID integer NOT NULL," + "username text NOT NULL,"
-					+ "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
-					+ "PRIMARY KEY(playerUUID(16)),"
+			runSQL("CREATE TABLE user_profiles (" + "playerID integer," + "playerUUID text,"
+					+ "employeeID integer NOT NULL," + "playerAsEmployerID integer NOT NULL,"
+					+ "username text NOT NULL," + "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
 					// references
 					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
@@ -355,8 +360,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "blockY integer," + "blockZ integer," + "blockWorld text," + "blockType text," + "blockData text"
 					+ ");");
 
-			runSQL("CREATE TABLE employee_professions (employeeProfessionMatchingID integer," + "employeeID integer,"
-					+ "professionName text" + ");");
+			runSQL("CREATE TABLE employee_professions (employeeProfessionMatchingID integer PRIMARY KEY,"
+					+ "employeeID integer," + "professionName text" + ");");
+
+			runSQL("CREATE TABLE research (researchID integer PRIMARY KEY," + "researchItem string,"
+					+ "researchEntityID integer," + "researchEntityType string" + ");");
 
 			// enumerator
 
@@ -386,6 +394,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		emptyProductStackCleanerThread.start();
 		machineInventoryAutoSaveThread = new Thread(new MachineInventoryAutoSaveThread());
 		machineInventoryAutoSaveThread.start();
+		researchHandlerThread = new Thread(new ResearchHandlerThread());
+		researchHandlerThread.start();
 	}
 
 	public static void stopThreads() {
@@ -393,6 +403,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		creditPaymentHandlerThread.interrupt();
 		emptyProductStackCleanerThread.interrupt();
 		machineInventoryAutoSaveThread.interrupt();
+		researchHandlerThread.interrupt();
 	}
 
 	public static void resetDB() throws SQLException, IOException, ClassNotFoundException {
