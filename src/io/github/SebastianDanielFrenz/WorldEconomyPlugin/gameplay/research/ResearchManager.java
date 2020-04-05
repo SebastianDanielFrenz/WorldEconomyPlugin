@@ -30,8 +30,8 @@ public class ResearchManager {
 		List<ResearchItem> changed = new ArrayList<ResearchItem>();
 
 		for (ResearchItem item : ResearchItemRegistry.getContents()) {
-			if (item.areConditionsMet(entity.getResearchSpecifiyEntityID(), entity.getResearchEntityType())) {
-				if (!explored.contains(item)) {
+			if (explored.indexOf(item) == -1) {
+				if (item.areConditionsMet(entity.getResearchSpecifiyEntityID(), entity.getResearchEntityType())) {
 					WEDB.addResearchItem(entity, item);
 					changed.add(item);
 				}

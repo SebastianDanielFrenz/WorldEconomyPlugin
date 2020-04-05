@@ -91,7 +91,7 @@ public class WEDB {
 	}
 
 	public static WorldEconomyProfile getUserProfile(long playerID) throws SQLException {
-		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = " + playerID);
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerID = " + playerID);
 
 		if (r.next()) {
 			return new WorldEconomyProfile(playerID, UUID.fromString(r.getString("playerUUID")),
@@ -1450,7 +1450,7 @@ public class WEDB {
 	/*
 	 * ==================================================
 	 * 
-	 * This section is dedicated to research..
+	 * This section is dedicated to research.
 	 * 
 	 * ==================================================
 	 */
@@ -1479,5 +1479,13 @@ public class WEDB {
 		}
 		return out;
 	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to player and AI statistics.
+	 * 
+	 * ==================================================
+	 */
 
 }

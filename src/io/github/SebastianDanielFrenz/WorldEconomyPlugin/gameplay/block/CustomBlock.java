@@ -10,8 +10,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.statistics.CustomStatisticObject;
 
-public abstract class CustomBlock {
+public abstract class CustomBlock implements CustomStatisticObject {
 
 	public CustomBlock(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends CustomBlockData> blockDataType) {

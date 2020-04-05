@@ -26,6 +26,8 @@ public class ResearchItemRegistry {
 		register(STICK);
 		register(BARRIES);
 		register(OAK_LEAVES);
+
+		register(OAK_DRY_LEAVES);
 	}
 
 	public static List<ResearchItem> getContents() {
