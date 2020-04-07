@@ -1,7 +1,10 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building;
 
+import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -9,6 +12,7 @@ import java.sql.SQLException;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
 
@@ -50,8 +54,7 @@ public class BuildingIO {
 						}
 					}
 
-					fw.write(String.valueOf(x - centerX) + "," + String.valueOf(y - centerY) + ","
-							+ String.valueOf(z - centerZ) + "," + ID + ";");
+					fw.write(String.valueOf(x - centerX) + "," + String.valueOf(y - centerY) + "," + String.valueOf(z - centerZ) + "," + ID + ";");
 				}
 			}
 		}
@@ -60,8 +63,7 @@ public class BuildingIO {
 		fw.close();
 	}
 
-	public static void load(String path, Location center)
-			throws IOException, InstantiationException, IllegalAccessException, SQLException {
+	public static void load(String path, Location center) throws IOException, InstantiationException, IllegalAccessException, SQLException {
 		String text = Files.readAllLines(Paths.get(path)).get(0);
 
 		String[] rblocks;
@@ -72,8 +74,38 @@ public class BuildingIO {
 		for (String rblock : text.split(";")) {
 			rblocks = rblock.split(",");
 			loc = new Location(center.getWorld(), Integer.parseInt(rblocks[0]) + center.getBlockX(),
-					Integer.parseInt(rblocks[1]) + center.getBlockY(),
-					Integer.parseInt(rblocks[2]) + center.getBlockZ());
+					Integer.parseInt(rblocks[1]) + center.getBlockY(), Integer.parseInt(rblocks[2]) + center.getBlockZ());
+
+			if (rblocks[3].equals("air")) {
+				loc.getBlock().setType(Material.AIR);
+				// System.out.println("air at " + loc);
+			} else {
+				if (!rblocks[3].equals(ID)) {
+					block = CustomBlockRegistry.getBlock(rblocks[3]);
+				}
+				CustomBlock.placeBlock(loc, block);
+				ID = rblocks[3];
+				// System.out.println(block.ID + " at " + loc);
+			}
+		}
+	}
+
+	public static void loadInternal(String path, Location center) throws IOException, InstantiationException, IllegalAccessException, SQLException {
+		InputStream input = WorldEconomyPlugin.class.getResourceAsStream("/res/schem/" + path);
+		InputStreamReader isr = new InputStreamReader(input);
+		BufferedReader br = new BufferedReader(isr);
+
+		String text = br.readLine();
+
+		String[] rblocks;
+		CustomBlock block = null;
+		Location loc;
+		String ID = null;
+
+		for (String rblock : text.split(";")) {
+			rblocks = rblock.split(",");
+			loc = new Location(center.getWorld(), Integer.parseInt(rblocks[0]) + center.getBlockX(),
+					Integer.parseInt(rblocks[1]) + center.getBlockY(), Integer.parseInt(rblocks[2]) + center.getBlockZ());
 
 			if (rblocks[3].equals("air")) {
 				loc.getBlock().setType(Material.AIR);

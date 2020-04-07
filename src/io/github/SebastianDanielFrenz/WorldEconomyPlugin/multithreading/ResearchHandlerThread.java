@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import org.bukkit.Bukkit;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
@@ -22,12 +21,12 @@ public class ResearchHandlerThread implements Runnable {
 				// System.out.println("Checking research changes for " +
 				// entity.getResearchEntityType() + " with ID = "
 				// + entity.getResearchSpecifiyEntityID());
-				try {
-					List<ResearchItem> prev = WEDB.getResearchItems(entity);
-					// System.out.println("prev: " + prev.toString());
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				/*
+				 * try { List<ResearchItem> prev =
+				 * WEDB.getResearchItems(entity); System.out.println("prev: " +
+				 * prev.toString()); } catch (SQLException e1) {
+				 * e1.printStackTrace(); }
+				 */
 
 				try {
 					List<ResearchItem> explored = ResearchManager.updateResearch(entity);
