@@ -10,7 +10,7 @@ public class WorldEconomyBlockPopulator extends BlockPopulator {
 
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
-		// chunk.getBlock(0, 100, 0).setType(Material.BEDROCK);
+		// chunk.getBlock(1, 100, 1).setType(Material.BEDROCK);
 	}
 
 }

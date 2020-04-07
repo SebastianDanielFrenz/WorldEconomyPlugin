@@ -8,7 +8,10 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -19,48 +22,57 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 public class BuildingIO {
 
 	public static void save(String path, Location center, Location pos1, Location pos2) throws IOException {
-		FileWriter fw = new FileWriter(path);
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					FileWriter fw = new FileWriter(path);
 
-		int minX = Math.min(pos1.getBlockX(), pos2.getBlockX());
-		int maxX = Math.max(pos1.getBlockX(), pos2.getBlockX());
+					int minX = Math.min(pos1.getBlockX(), pos2.getBlockX());
+					int maxX = Math.max(pos1.getBlockX(), pos2.getBlockX());
 
-		int minY = Math.min(pos1.getBlockY(), pos2.getBlockY());
-		int maxY = Math.max(pos1.getBlockY(), pos2.getBlockY());
+					int minY = Math.min(pos1.getBlockY(), pos2.getBlockY());
+					int maxY = Math.max(pos1.getBlockY(), pos2.getBlockY());
 
-		int minZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
-		int maxZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
+					int minZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
+					int maxZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
 
-		int centerX = center.getBlockX();
-		int centerY = center.getBlockY();
-		int centerZ = center.getBlockZ();
+					int centerX = center.getBlockX();
+					int centerY = center.getBlockY();
+					int centerZ = center.getBlockZ();
 
-		CustomBlock block;
-		Location loc;
-		String ID;
+					CustomBlock block;
+					Location loc;
+					String ID;
 
-		for (int x = minX; x <= maxX; x++) {
-			for (int y = minY; y <= maxY; y++) {
-				for (int z = minZ; z <= maxZ; z++) {
-					loc = new Location(center.getWorld(), x, y, z);
-					if (loc.getBlock().getType() == Material.AIR) {
-						ID = "air";
-					} else {
-						block = CustomBlockRegistry.getBlock(loc);
-						if (block == null) {
-							System.out.println("Illegal block at " + loc);
-							ID = "air";
-						} else {
-							ID = block.ID;
+					for (int y = minY; y <= maxY; y++) {
+						for (int x = minX; x <= maxX; x++) {
+							for (int z = minZ; z <= maxZ; z++) {
+								loc = new Location(center.getWorld(), x, y, z);
+								if (loc.getBlock().getType() == Material.AIR) {
+									ID = "air";
+								} else {
+									block = CustomBlockRegistry.getBlock(loc);
+									if (block == null) {
+										System.out.println("Illegal block " + loc.getBlock().getType() + " at " + loc);
+										ID = "air";
+									} else {
+										ID = block.ID;
+									}
+								}
+
+								fw.write(String.valueOf(x - centerX) + "," + String.valueOf(y - centerY) + "," + String.valueOf(z - centerZ) + ","
+										+ ID + ";");
+							}
 						}
 					}
 
-					fw.write(String.valueOf(x - centerX) + "," + String.valueOf(y - centerY) + "," + String.valueOf(z - centerZ) + "," + ID + ";");
+					fw.flush();
+					fw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
-		}
-
-		fw.flush();
-		fw.close();
+		}).start();
 	}
 
 	public static void load(String path, Location center) throws IOException, InstantiationException, IllegalAccessException, SQLException {
@@ -70,6 +82,13 @@ public class BuildingIO {
 		CustomBlock block = null;
 		Location loc;
 		String ID = null;
+
+		int task_size = 5; // this means how many blocks will be placed per
+							// tick.
+		int runs = 0;
+		int delay = 0;
+		List<Location> locations = new ArrayList<Location>(task_size);
+		List<CustomBlock> blocks = new ArrayList<CustomBlock>(task_size);
 
 		for (String rblock : text.split(";")) {
 			rblocks = rblock.split(",");
@@ -83,9 +102,23 @@ public class BuildingIO {
 				if (!rblocks[3].equals(ID)) {
 					block = CustomBlockRegistry.getBlock(rblocks[3]);
 				}
-				CustomBlock.placeBlock(loc, block);
+				// CustomBlock.placeBlock(loc, block);
+				locations.add(loc);
+				blocks.add(block);
+
 				ID = rblocks[3];
 				// System.out.println(block.ID + " at " + loc);
+			}
+
+			runs++;
+			if (runs % task_size == 0) {
+				Bukkit.getScheduler().runTaskLater(WorldEconomyPlugin.plugin, new CustomBlockPlacerTask(locations, blocks), delay * 1);
+				// System.out.println("generated task " + runs);
+
+				locations = new ArrayList<Location>(task_size);
+				blocks = new ArrayList<CustomBlock>(task_size);
+
+				delay++;
 			}
 		}
 	}

@@ -44,31 +44,38 @@ public abstract class CustomBlock implements CustomStatisticObject {
 	}
 
 	public static void placeBlock(Location location, CustomBlock block, CustomBlockData data) throws SQLException {
-		WEDB.registerCustomBlock(location, block, data);
+		if (!block.vanilla) {
+			WEDB.registerCustomBlock(location, block, data);
+		}
 		location.getBlock().setType(block.material);
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Location location, CustomBlock block)
-			throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Location location, CustomBlock block) throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
-		WEDB.registerCustomBlock(location, block, data);
+		if (!block.vanilla) {
+			WEDB.registerCustomBlock(location, block, data);
+		}
 		location.getBlock().setType(block.material);
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
 	public static void placeBlock(Block vanillaBlock, CustomBlock block, CustomBlockData data) throws SQLException {
-		WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
+		if (!block.vanilla) {
+			WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
+		}
+
 		vanillaBlock.setType(block.material);
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Block vanillaBlock, CustomBlock block)
-			throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Block vanillaBlock, CustomBlock block) throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
-		WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
+		if (!block.vanilla) {
+			WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
+		}
 		vanillaBlock.setType(block.material);
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}

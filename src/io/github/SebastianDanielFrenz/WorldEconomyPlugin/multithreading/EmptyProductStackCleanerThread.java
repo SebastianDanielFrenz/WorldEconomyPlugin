@@ -11,8 +11,10 @@ public class EmptyProductStackCleanerThread implements Runnable {
 		try {
 			WorldEconomyPlugin.runSQL("DELETE FROM stock_market_possesions WHERE purchaseAmount = 0");
 			Thread.sleep(5 * 60 * 1000);
-		} catch (SQLException | InterruptedException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.out.println("Shutting down empty product stack cleaner thread...");
 		}
 	}
 

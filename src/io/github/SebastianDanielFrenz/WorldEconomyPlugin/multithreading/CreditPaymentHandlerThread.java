@@ -32,18 +32,15 @@ public class CreditPaymentHandlerThread implements Runnable {
 
 					if (type.equals("player")) {
 						bankAccount = WEDB.getBankAccount(credit.recieverBankAccountID);
-						ResultSet r = WorldEconomyPlugin.runSQLquery(
-								"SELECT * FROM user_profiles WHERE playerBankingID = " + credit.recieverBankingID);
+						ResultSet r = WorldEconomyPlugin
+								.runSQLquery("SELECT * FROM user_profiles WHERE playerBankingID = " + credit.recieverBankingID);
 						if (!r.next()) {
-							WorldEconomyPlugin.plugin.getLogger()
-									.info(WorldEconomyPlugin.PREFIX
-											+ "[Credit Payment Handler Thread]: Player with bankingID "
-											+ credit.recieverBankingID + " is not registered!");
+							WorldEconomyPlugin.plugin.getLogger().info(WorldEconomyPlugin.PREFIX
+									+ "[Credit Payment Handler Thread]: Player with bankingID " + credit.recieverBankingID + " is not registered!");
 							continue;
 						}
 
-						OfflinePlayer offlinePlayer = Bukkit
-								.getOfflinePlayer(UUID.fromString(r.getString("playerUUID")));
+						OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(r.getString("playerUUID")));
 						if (offlinePlayer.isOnline()) {
 							Player player = (Player) offlinePlayer;
 							long current_time = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
@@ -55,11 +52,9 @@ public class CreditPaymentHandlerThread implements Runnable {
 
 								if (bankAccount.getBalance() >= credit.amount) {
 									WEDB.payOffCredit(credit);
-									WEDB.sendMail(bankMailboxID, profile.mailboxID,
-											"You automatically paid off your credit!");
+									WEDB.sendMail(bankMailboxID, profile.mailboxID, "You automatically paid off your credit!");
 								} else {
-									WEDB.sendMail(bankMailboxID, profile.mailboxID,
-											"Your credit is due! Please put enough money o");
+									WEDB.sendMail(bankMailboxID, profile.mailboxID, "Your credit is due! Please put enough money o");
 									// TODO please fix mail sender ID; 1 is the
 									// first
 									// player
@@ -72,14 +67,12 @@ public class CreditPaymentHandlerThread implements Runnable {
 				try {
 					Thread.sleep(5 * 1000);
 				} catch (InterruptedException e) {
-					// WorldEconomyPlugin.plugin.getLogger().info("Detected
-					// shutdown! Stopping credit handler thread!");
+					WorldEconomyPlugin.plugin.getLogger().info("Detected shutdown! Stopping credit handler thread!");
 					return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				// WorldEconomyPlugin.plugin.getLogger().info("Shutting down
-				// credit handler thread!");
+				WorldEconomyPlugin.plugin.getLogger().info("Shutting down credit handler thread!");
 				return;
 			}
 		}

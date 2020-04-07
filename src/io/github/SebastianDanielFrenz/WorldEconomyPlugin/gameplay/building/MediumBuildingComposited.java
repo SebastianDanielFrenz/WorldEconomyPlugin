@@ -3,7 +3,6 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building;
 import org.bukkit.Location;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
 
 public class MediumBuildingComposited extends MediumBuilding {
 
@@ -18,22 +17,20 @@ public class MediumBuildingComposited extends MediumBuilding {
 		int i = 0;
 		for (int x = 0; x < 2; x++) {
 			for (int z = 0; z < 2; z++) {
-				sub[i].place(
-						new Location(center.getWorld(), center.getBlockX() + x * SMALL + 1, center.getBlockY(), center.getBlockZ() + z * SMALL + 1),
-						pathway);
+				sub[i].place(new Location(center.getWorld(), center.getBlockX() + x * (SMALL + 2) + 1, center.getBlockY(),
+						center.getBlockZ() + z * (SMALL + 2) + 1), pathway);
 
 				i++;
 			}
 		}
-		pathway = CustomBlockRegistry.granite;
-		for (int x = 0; x < MEDIUM; x++) {
+		for (int x = 0; x < MEDIUM + 4; x++) {
 			CustomBlock.placeBlock(new Location(center.getWorld(), center.getBlockX() + x, center.getBlockY(), center.getBlockZ()), pathway);
-			CustomBlock.placeBlock(new Location(center.getWorld(), center.getBlockX() + x, center.getBlockY(), center.getBlockZ() + MEDIUM - 1),
+			CustomBlock.placeBlock(new Location(center.getWorld(), center.getBlockX() + x, center.getBlockY(), center.getBlockZ() + MEDIUM + 3),
 					pathway);
 		}
-		for (int z = 0; z < MEDIUM; z++) {
+		for (int z = 0; z < MEDIUM + 4; z++) {
 			CustomBlock.placeBlock(new Location(center.getWorld(), center.getBlockX(), center.getBlockY(), center.getBlockZ() + z), pathway);
-			CustomBlock.placeBlock(new Location(center.getWorld(), center.getBlockX() + MEDIUM - 1, center.getBlockY(), center.getBlockZ() + z),
+			CustomBlock.placeBlock(new Location(center.getWorld(), center.getBlockX() + MEDIUM + 3, center.getBlockY(), center.getBlockZ() + z),
 					pathway);
 		}
 	}
