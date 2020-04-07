@@ -13,7 +13,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemD
 public class ItemCobblestoneShovel extends CustomItem {
 
 	public ItemCobblestoneShovel() {
-		super("COBBLESTONE_SHOVEL", Material.STONE_SHOVEL, Tier.TIER1, "Cobblestone Shovel", ItemCategory.EQUIPMENT,
+		super("cobblestone_shovel", Material.STONE_SHOVEL, Tier.TIER1, "Cobblestone Shovel", ItemCategory.EQUIPMENT,
 				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.COBBLESTONE) });
 	}
 

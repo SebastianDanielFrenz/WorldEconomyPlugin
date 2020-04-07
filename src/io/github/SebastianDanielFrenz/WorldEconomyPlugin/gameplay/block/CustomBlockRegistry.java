@@ -3,12 +3,17 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.metadata.MetadataValue;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockAndesite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockGranite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCopperOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSand;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstone;
 
 public class CustomBlockRegistry {
 
@@ -24,6 +29,8 @@ public class CustomBlockRegistry {
 	public static final CustomBlock diorite = new BlockDiorite();
 	public static final CustomBlock andesite = new BlockAndesite();
 
+	public static final CustomBlock sandstone = new BlockSandstone();
+
 	public static final CustomBlock copper_ore = new BlockCopperOre();
 
 	public static void init() {
@@ -32,6 +39,8 @@ public class CustomBlockRegistry {
 		register(new BlockGranite());
 		register(new BlockDiorite());
 		register(new BlockAndesite());
+
+		register(new BlockSandstone());
 
 		register(new BlockCopperOre());
 	}
@@ -47,6 +56,24 @@ public class CustomBlockRegistry {
 			}
 		}
 		return null;
+	}
+
+	public static CustomBlock getBlock(Block block) {
+		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
+
+		CustomBlock customBlock;
+
+		if (metadata_values.size() == 0) {
+			customBlock = CustomBlock.getVanillaBlock(block);
+		} else {
+			customBlock = ((CustomBlockMetadataValue) metadata_values.get(0)).getBlock();
+		}
+
+		return customBlock;
+	}
+
+	public static CustomBlock getBlock(Location location) {
+		return getBlock(location.getBlock());
 	}
 
 }

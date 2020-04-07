@@ -22,7 +22,8 @@ public class CreditPaymentHandlerThread implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				WorldEconomyPlugin.plugin.getLogger().info("running credit check...");
+				// WorldEconomyPlugin.plugin.getLogger().info("running credit
+				// check...");
 
 				List<Credit> credits = WEDB.getAllCredits();
 				for (Credit credit : credits) {
@@ -71,12 +72,14 @@ public class CreditPaymentHandlerThread implements Runnable {
 				try {
 					Thread.sleep(5 * 1000);
 				} catch (InterruptedException e) {
-					WorldEconomyPlugin.plugin.getLogger().info("Detected shutdown! Stopping credit handler thread!");
+					// WorldEconomyPlugin.plugin.getLogger().info("Detected
+					// shutdown! Stopping credit handler thread!");
 					return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				WorldEconomyPlugin.plugin.getLogger().info("Shutting down credit handler thread!");
+				// WorldEconomyPlugin.plugin.getLogger().info("Shutting down
+				// credit handler thread!");
 				return;
 			}
 		}

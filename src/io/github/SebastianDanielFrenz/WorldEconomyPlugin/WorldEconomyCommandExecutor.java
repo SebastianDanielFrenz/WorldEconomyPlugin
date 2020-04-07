@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.block.Block;
@@ -30,6 +31,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.BuildingIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
@@ -852,6 +854,52 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					} else {
 						return true;
 					}
+				}
+			} else if (args[0].equalsIgnoreCase("schem")) {
+				if (args.length == 1) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					return true;
+				} else if (args[1].equalsIgnoreCase("save")) {
+					if (args.length < 9) {
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						return true;
+					}
+					if (!(sender instanceof Player)) {
+						sender.sendMessage(
+								WorldEconomyPlugin.PREFIX + "§4You have to be a player to run this command!");
+						return true;
+					}
+					try {
+						BuildingIO.save(args[2], ((Player) sender).getLocation(),
+								new Location(((Player) sender).getWorld(), Integer.parseInt(args[3]),
+										Integer.parseInt(args[4]), Integer.parseInt(args[5])),
+								new Location(((Player) sender).getWorld(), Integer.parseInt(args[6]),
+										Integer.parseInt(args[7]), Integer.parseInt(args[8])));
+					} catch (NumberFormatException | IOException e) {
+						e.printStackTrace();
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+					}
+					return true;
+				} else if (args[1].equalsIgnoreCase("load")) {
+					if (args.length < 3) {
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						return true;
+					}
+					if (!(sender instanceof Player)) {
+						sender.sendMessage(
+								WorldEconomyPlugin.PREFIX + "§4You have to be a player to run this command!");
+						return true;
+					}
+					try {
+						BuildingIO.load(args[2], ((Player) sender).getLocation());
+					} catch (InstantiationException | IllegalAccessException | IOException | SQLException e) {
+						e.printStackTrace();
+						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error ocurred!");
+					}
+					return true;
+				} else {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid subcommand!");
+					return true;
 				}
 			} else if (args[0].equalsIgnoreCase("help")) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");

@@ -16,14 +16,15 @@ public class ResearchHandlerThread implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			System.out.println("Checking for research changes...");
+			// System.out.println("Checking for research changes...");
 			List<ResearchEntity> entities = ResearchManager.getOnlineEntites();
 			for (ResearchEntity entity : entities) {
-				System.out.println("Checking research changes for " + entity.getResearchEntityType() + " with ID = "
-						+ entity.getResearchSpecifiyEntityID());
+				// System.out.println("Checking research changes for " +
+				// entity.getResearchEntityType() + " with ID = "
+				// + entity.getResearchSpecifiyEntityID());
 				try {
 					List<ResearchItem> prev = WEDB.getResearchItems(entity);
-					System.out.println("prev: " + prev.toString());
+					// System.out.println("prev: " + prev.toString());
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}

@@ -99,7 +99,7 @@ public class MachineInventoryAutoSaveThread implements Runnable {
 				}
 			}
 
-			WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
+			//WorldEconomyPlugin.plugin.getLogger().info("Saved machine inventories!");
 
 			if (skip) {
 				last_run = true;

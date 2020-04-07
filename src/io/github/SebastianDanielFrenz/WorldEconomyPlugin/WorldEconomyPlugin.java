@@ -425,12 +425,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static ResultSet runSQLquery(String query) throws SQLException {
-		plugin.getLogger().info("SQL: " + query);
+		// plugin.getLogger().info("SQL: " + query);
 		return sql_connection.createStatement().executeQuery(query);
 	}
 
 	public static void runSQL(String query) throws SQLException {
-		plugin.getLogger().info("SQL: " + query);
+		// plugin.getLogger().info("SQL: " + query);
 		if (query.startsWith("CREATE TABLE ") && Config.getSQLConnectionType() == SQLConnectionType.mySQL) {
 			if (query.contains("$ref$")) {
 				String[] split = query.split(Pattern.quote("$ref$"));
@@ -453,7 +453,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static ResultSet runSQLsafeQuery(String query) {
-		plugin.getLogger().info("SQL: " + query);
+		// plugin.getLogger().info("SQL: " + query);
 		try {
 			return sql_connection.createStatement().executeQuery(query);
 		} catch (SQLException e) {
@@ -463,7 +463,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static void runSQLsafe(String query) {
-		plugin.getLogger().info("SQL: " + query);
+		// plugin.getLogger().info("SQL: " + query);
 		try {
 			sql_connection.createStatement().execute(query);
 		} catch (SQLException e) {
@@ -472,7 +472,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static void runSQLasync(String query) {
-		plugin.getLogger().info("async SQL: " + query);
+		// plugin.getLogger().info("async SQL: " + query);
 
 	}
 
