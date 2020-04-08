@@ -14,6 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCopperOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSand;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstone;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstoneTrigger;
 
 public class CustomBlockRegistry {
 
@@ -43,6 +44,8 @@ public class CustomBlockRegistry {
 		register(new BlockSandstone());
 
 		register(new BlockCopperOre());
+		
+		register(new BlockSandstoneTrigger());
 	}
 
 	public static List<CustomBlock> getContents() {

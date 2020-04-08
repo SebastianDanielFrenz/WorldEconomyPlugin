@@ -84,6 +84,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakLog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSand;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSandstoneTrigger;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGranite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedGranite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDiorite;
@@ -202,6 +203,8 @@ public class CustomItemRegistry {
 	public static final CustomItem ANDESITE = new ItemAndesite();
 	public static final CustomItem POLISHED_ANDESITE = new ItemPolishedAndesite();
 	public static final CustomItem BERRIES = new ItemBerries();
+	
+	public static final CustomItem SANDSTONE_TRIGGER = new ItemSandstoneTrigger();
 
 	public static void init() {
 		register(COAL_ORE);
@@ -301,6 +304,8 @@ public class CustomItemRegistry {
 		register(ANDESITE);
 		register(POLISHED_ANDESITE);
 		register(BERRIES);
+		
+		register(SANDSTONE_TRIGGER);
 	}
 
 	public static CustomItem getItem(String ID) {
