@@ -305,7 +305,7 @@ public class CustomItemRegistry {
 		register(POLISHED_ANDESITE);
 		register(BERRIES);
 		
-		register(SANDSTONE_TRIGGER);
+		register(SANDSTONE_TRIGGER, CustomBlockRegistry.SANDSTONE_TRIGGER);
 	}
 
 	public static CustomItem getItem(String ID) {

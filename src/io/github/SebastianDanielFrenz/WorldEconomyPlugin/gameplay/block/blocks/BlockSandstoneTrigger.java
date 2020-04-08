@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks;
 
 import org.bukkit.Material;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
@@ -18,6 +19,12 @@ public class BlockSandstoneTrigger extends CustomBlock {
 				new CustomBlockDrop(CustomToolType.PICKAXE, CustomMaterialLevel.ANDESITE,
 						new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.SANDSTONE_TRIGGER, 2)}) }),
 				CustomEmptyBlockData.class);
+	}
+	
+	@Override
+	public void onPlayerInteractEvent(PlayerInteractEvent event) {
+		event.getPlayer().sendMessage("I f your mom / put a d in her!");
+		
 	}
 
 }

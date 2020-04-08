@@ -33,6 +33,8 @@ public class CustomBlockRegistry {
 	public static final CustomBlock SANDSTONE = new BlockSandstone();
 
 	public static final CustomBlock COPPER_ORE = new BlockCopperOre();
+	
+	public static final CustomBlock SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
 
 	public static void init() {
 		register(new BlockCoarseDirt());
