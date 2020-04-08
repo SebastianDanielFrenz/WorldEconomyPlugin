@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
@@ -53,6 +54,13 @@ public class CustomPlaceableItem extends CustomItem {
 				CustomBlockData data = block.blockDataType.newInstance();
 
 				CustomBlock.placeBlock(_block, block, data);
+				event.setCancelled(true);
+				ItemStack hand = event.getPlayer().getInventory().getItemInMainHand();
+				if (hand.getAmount() == 1) {
+					event.getPlayer().getInventory().setItemInMainHand(null);
+				} else {
+					hand.setAmount(hand.getAmount() - 1);
+				}
 			} catch (InstantiationException | IllegalAccessException | SQLException e) {
 				throw new RuntimeException(e);
 			}

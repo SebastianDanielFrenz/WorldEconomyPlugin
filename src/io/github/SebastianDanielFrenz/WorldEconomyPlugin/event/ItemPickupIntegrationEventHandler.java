@@ -13,6 +13,7 @@ public class ItemPickupIntegrationEventHandler implements Listener {
 	public void onPlayerItemPickupEvent(PlayerItemConsumeEvent event) {
 		ItemStack item = event.getItem();
 		CustomItem.convertVanillaItemStack(item);
+		event.setCancelled(true);
 	}
 
 }
