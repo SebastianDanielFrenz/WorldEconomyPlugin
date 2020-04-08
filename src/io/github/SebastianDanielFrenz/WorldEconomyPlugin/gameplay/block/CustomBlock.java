@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
@@ -51,7 +52,8 @@ public abstract class CustomBlock implements CustomStatisticObject {
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Location location, CustomBlock block) throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Location location, CustomBlock block)
+			throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
@@ -70,7 +72,8 @@ public abstract class CustomBlock implements CustomStatisticObject {
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Block vanillaBlock, CustomBlock block) throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Block vanillaBlock, CustomBlock block)
+			throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
@@ -78,6 +81,10 @@ public abstract class CustomBlock implements CustomStatisticObject {
 		}
 		vanillaBlock.setType(block.material);
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
+	}
+
+	public void onPlayerInteractEvent(PlayerInteractEvent event) {
+		// nothing
 	}
 
 }

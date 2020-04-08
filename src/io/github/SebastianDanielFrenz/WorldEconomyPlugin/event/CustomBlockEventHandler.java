@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 
@@ -83,6 +84,26 @@ public class CustomBlockEventHandler implements Listener {
 		event.setCancelled(true);
 		block.setType(Material.AIR);
 		WEDB.removeCustomBlock(event.getBlock().getLocation());
+	}
+
+	@EventHandler
+	public void onPlayerInteractEvent(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		Block block = event.getClickedBlock();
+		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
+
+		CustomBlock customBlock;
+
+		if (metadata_values.size() == 0) {
+			customBlock = CustomBlock.getVanillaBlock(block);
+			if (customBlock == null) {
+				return;
+			}
+		} else {
+			customBlock = ((CustomBlockMetadataValue) metadata_values.get(0)).getBlock();
+		}
+
+		customBlock.onPlayerInteractEvent(event);
 	}
 
 }
