@@ -23,15 +23,15 @@ public class CustomBlockRegistry {
 		blocks.add(block);
 	}
 
-	public static final CustomBlock coarse_dirt = new BlockCoarseDirt();
-	public static final CustomBlock sand = new BlockSand();
-	public static final CustomBlock granite = new BlockGranite();
-	public static final CustomBlock diorite = new BlockDiorite();
-	public static final CustomBlock andesite = new BlockAndesite();
+	public static final CustomBlock COARSE_DIRT = new BlockCoarseDirt();
+	public static final CustomBlock SAND = new BlockSand();
+	public static final CustomBlock GRANITE = new BlockGranite();
+	public static final CustomBlock DIORITE = new BlockDiorite();
+	public static final CustomBlock ANDESITE = new BlockAndesite();
 
-	public static final CustomBlock sandstone = new BlockSandstone();
+	public static final CustomBlock SANDSTONE = new BlockSandstone();
 
-	public static final CustomBlock copper_ore = new BlockCopperOre();
+	public static final CustomBlock COPPER_ORE = new BlockCopperOre();
 
 	public static void init() {
 		register(new BlockCoarseDirt());

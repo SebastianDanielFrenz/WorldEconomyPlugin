@@ -229,7 +229,7 @@ public class CustomItemRegistry {
 		register(STEEL_ROD);
 
 		// Copper Items
-		register(COPPER_ORE, CustomBlockRegistry.copper_ore);
+		register(COPPER_ORE, CustomBlockRegistry.COPPER_ORE);
 		register(COPPER_INGOT);
 		register(COPPER_PLATE);
 		register(COPPER_ROD);

@@ -8,7 +8,7 @@ public class TownGenerator {
 
 	public static void generate(Location location) throws Exception {
 		new MediumBuildingComposited(new SmallBuilding[] { BuildingRegistry.new_stone_age_house, BuildingRegistry.new_stone_age_house,
-				BuildingRegistry.new_stone_age_house, BuildingRegistry.new_stone_age_house }).place(location, CustomBlockRegistry.sandstone);
+				BuildingRegistry.new_stone_age_house, BuildingRegistry.new_stone_age_house }).place(location, CustomBlockRegistry.SANDSTONE);
 	}
 
 }
