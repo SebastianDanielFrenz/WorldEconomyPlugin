@@ -79,6 +79,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGrassBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDirt;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemEgyptianCampfireStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakPlanks;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakSlab;
@@ -210,6 +211,8 @@ public class CustomItemRegistry {
 	public static final CustomItem CUT_SANDSTONE = new ItemCutSandstone();
 	public static final CustomItem SMOOTH_SANDSTONE = new ItemSmoothSandstone();
 
+	public static final CustomItem EGYPTIAN_CAMPFIRE_STAGE1 = new ItemEgyptianCampfireStage1();
+
 	public static void init() {
 		register(COAL_ORE);
 		register(COAL);
@@ -312,6 +315,8 @@ public class CustomItemRegistry {
 		register(SANDSTONE_TRIGGER, CustomBlockRegistry.SANDSTONE_TRIGGER);
 		register(CUT_SANDSTONE, CustomBlockRegistry.CUT_SANDSTONE);
 		register(SMOOTH_SANDSTONE, CustomBlockRegistry.SMOOTH_SANDSTONE);
+
+		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
 	}
 
 	public static CustomItem getItem(String ID) {

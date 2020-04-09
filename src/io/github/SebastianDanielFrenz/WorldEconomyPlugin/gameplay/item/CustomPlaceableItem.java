@@ -56,6 +56,7 @@ public class CustomPlaceableItem extends CustomItem {
 				CustomBlock.placeBlock(_block, block, data);
 				event.setCancelled(true);
 				ItemStack hand = event.getPlayer().getInventory().getItemInMainHand();
+
 				if (hand.getAmount() == 1) {
 					event.getPlayer().getInventory().setItemInMainHand(null);
 				} else {

@@ -158,4 +158,8 @@ public abstract class CustomItem implements ResearchableObject, CustomStatisticO
 		event.getPlayer().sendMessage("PlayerInteractEvent: action=" + event.getAction().name());
 	}
 
+	public String getEffectiveItemName() {
+		return item_name;
+	}
+
 }

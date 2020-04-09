@@ -9,7 +9,8 @@ public enum MachineCategory {
 	FORGING(Material.ANVIL),
 	CRUSHING(Material.SMITHING_TABLE),
 	SIEVING(Material.CAULDRON),
-	BLAST_FURNACE(Material.BLAST_FURNACE),;
+	BLAST_FURNACE(Material.BLAST_FURNACE),
+	CAMPFIRE(Material.CAMPFIRE);
 
 	private MachineCategory(Material display) {
 		this.display = display;

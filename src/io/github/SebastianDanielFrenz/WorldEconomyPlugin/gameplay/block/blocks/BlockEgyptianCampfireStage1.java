@@ -11,13 +11,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 
-public class BlockCampfire extends CustomBlock {
+public class BlockEgyptianCampfireStage1 extends CustomBlock {
 
-	public BlockCampfire() {
-		super("campfire", Material.CAMPFIRE, true,
+	public BlockEgyptianCampfireStage1() {
+		super("egyptian_campfire_stage1", Material.CAMPFIRE, false,
 				new CustomBlockDropTable(
-						new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.WOOD,
-								new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.CAMPFIRE, 1) }) }),
+						new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND,
+								new CustomItemStack[] {
+										new CustomItemStack(CustomItemRegistry.EGYPTIAN_CAMPFIRE_STAGE1, 1) }) }),
 				CustomEmptyBlockData.class);
 	}
 
