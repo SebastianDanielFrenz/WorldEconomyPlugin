@@ -8,13 +8,16 @@ import org.bukkit.block.Block;
 import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockAndesite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockGranite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCopperOre;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCutSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSand;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstoneTrigger;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSmoothSandstone;
 
 public class CustomBlockRegistry {
 
@@ -33,21 +36,27 @@ public class CustomBlockRegistry {
 	public static final CustomBlock SANDSTONE = new BlockSandstone();
 
 	public static final CustomBlock COPPER_ORE = new BlockCopperOre();
-	
+
 	public static final CustomBlock SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
+	public static final CustomBlock CUT_SANDSTONE = new BlockCutSandstone();
+	public static final CustomBlock CAMPFIRE = new BlockCampfire();
+	public static final CustomBlock SMOOTH_SANDSTONE = new BlockSmoothSandstone();
 
 	public static void init() {
-		register(new BlockCoarseDirt());
-		register(new BlockSand());
-		register(new BlockGranite());
-		register(new BlockDiorite());
-		register(new BlockAndesite());
+		register(COARSE_DIRT);
+		register(SAND);
+		register(GRANITE);
+		register(DIORITE);
+		register(ANDESITE);
 
-		register(new BlockSandstone());
+		register(SANDSTONE);
 
-		register(new BlockCopperOre());
-		
-		register(new BlockSandstoneTrigger());
+		register(COPPER_ORE);
+
+		register(SANDSTONE_TRIGGER);
+		register(CUT_SANDSTONE);
+		register(CAMPFIRE);
+		register(SMOOTH_SANDSTONE);
 	}
 
 	public static List<CustomBlock> getContents() {

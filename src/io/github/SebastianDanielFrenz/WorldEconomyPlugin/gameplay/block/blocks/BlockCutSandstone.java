@@ -1,0 +1,23 @@
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks;
+
+import org.bukkit.Material;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDrop;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata.CustomEmptyBlockData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
+
+public class BlockCutSandstone extends CustomBlock {
+
+	public BlockCutSandstone() {
+		super("cut_sandstone", Material.CUT_SANDSTONE, true, new CustomBlockDropTable(
+				new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE, CustomMaterialLevel.ANDESITE,
+						new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.CUT_SANDSTONE, 1) }) }),
+				CustomEmptyBlockData.class);
+	}
+
+}

@@ -89,6 +89,9 @@ public class CustomBlockEventHandler implements Listener {
 	@EventHandler
 	public void onPlayerInteractEvent(PlayerInteractEvent event) {
 		Block block = event.getClickedBlock();
+		if (block == null) {
+			return;
+		}
 		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
 
 		CustomBlock customBlock;

@@ -6,10 +6,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomPla
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.Tier;
 
-public class ItemAndesite extends CustomPlaceableItem {
+public class ItemCutSandstone extends CustomPlaceableItem {
 
-	public ItemAndesite() {
-		super("ANDESITE", Material.ANDESITE, Tier.TIER1, "Andesite", ItemCategory.RAW_MATERIALS, true);
+	public ItemCutSandstone() {
+		super("cut_sandstone", Material.CUT_SANDSTONE, Tier.TIER1, "Cut Sandstone", ItemCategory.BUILDING, true);
 	}
 
 }
