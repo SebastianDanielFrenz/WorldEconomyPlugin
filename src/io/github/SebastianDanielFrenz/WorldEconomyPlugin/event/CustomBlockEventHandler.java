@@ -23,6 +23,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemDetailType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemDetail;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticCategoryRegistry;
 
 public class CustomBlockEventHandler implements Listener {
 
@@ -84,6 +85,9 @@ public class CustomBlockEventHandler implements Listener {
 		event.setCancelled(true);
 		block.setType(Material.AIR);
 		WEDB.removeCustomBlock(event.getBlock().getLocation());
+
+		WEDB.incrementStatistic(customBlock, StatisticCategoryRegistry.MINED, WEDB.getUserProfile(player).ID, "player",
+				1);
 	}
 
 	@EventHandler

@@ -18,7 +18,7 @@ public abstract class MachineCampfire extends Machine {
 	}
 
 	@Override
-	public MachineCategory getKategory() {
+	public MachineCategory getCategory() {
 		return MachineCategory.CAMPFIRE;
 	}
 

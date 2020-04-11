@@ -48,7 +48,7 @@ public abstract class Machine implements InventoryHolder {
 		return recipes;
 	}
 
-	public abstract MachineCategory getKategory();
+	public abstract MachineCategory getCategory();
 
 	public abstract double getMaintenanceCost();
 

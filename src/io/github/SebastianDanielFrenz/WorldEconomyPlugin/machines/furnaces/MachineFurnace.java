@@ -18,7 +18,7 @@ public abstract class MachineFurnace extends Machine {
 	}
 
 	@Override
-	public MachineCategory getKategory() {
+	public MachineCategory getCategory() {
 		return MachineCategory.SMELTING;
 	}
 

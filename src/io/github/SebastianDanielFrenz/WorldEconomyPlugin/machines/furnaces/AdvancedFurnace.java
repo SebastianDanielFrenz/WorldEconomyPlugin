@@ -12,7 +12,7 @@ public abstract class AdvancedFurnace extends MachineFurnace {
 	}
 
 	@Override
-	public MachineCategory getKategory() {
+	public MachineCategory getCategory() {
 		return MachineCategory.SMELTING;
 	}
 

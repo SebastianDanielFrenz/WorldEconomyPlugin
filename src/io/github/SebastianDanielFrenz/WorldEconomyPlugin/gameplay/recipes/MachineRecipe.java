@@ -5,9 +5,16 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.statistics.CustomStatisticObject;
 
-public enum MachineRecipe implements ResearchableObject, CustomStatisticObject {
+/**
+ * If you create new MachineRecipes, be it here or in an addon to the plugin,
+ * please make sure to use the same object reference (same pointer) to refer to
+ * the recipe for all machines of at least one type.
+ * 
+ * @author crash
+ *
+ */
+public enum MachineRecipe implements ResearchableObject {
 
 	CRAFTING____STICK____PLANKS(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.STICK, 8) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.OAK_PLANKS, 1) }, 2),

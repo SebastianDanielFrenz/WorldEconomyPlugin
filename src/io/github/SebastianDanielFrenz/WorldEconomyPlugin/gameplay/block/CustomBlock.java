@@ -11,9 +11,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.statistics.CustomStatisticObject;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
 
-public abstract class CustomBlock implements CustomStatisticObject {
+public abstract class CustomBlock implements StatisticalObject {
 
 	public CustomBlock(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends CustomBlockData> blockDataType) {
@@ -84,7 +84,11 @@ public abstract class CustomBlock implements CustomStatisticObject {
 	}
 
 	public void onPlayerInteractEvent(PlayerInteractEvent event) {
-		// nothing
+	}
+
+	@Override
+	public String getStatisticID() {
+		return "block_" + ID;
 	}
 
 }

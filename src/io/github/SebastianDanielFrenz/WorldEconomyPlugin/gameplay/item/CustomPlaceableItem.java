@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
-public class CustomPlaceableItem extends CustomItem {
+public abstract class CustomPlaceableItem extends CustomItem {
 
 	public CustomPlaceableItem(String ID, Material base, Tier tier, String name, ItemCategory category,
 			boolean vanilla) {

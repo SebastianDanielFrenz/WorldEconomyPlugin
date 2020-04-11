@@ -4,11 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 import org.bukkit.Bukkit;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchManager;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
 
 public class ResearchHandlerThread implements Runnable {
 
@@ -34,6 +38,14 @@ public class ResearchHandlerThread implements Runnable {
 						for (ResearchItem item : explored) {
 							Bukkit.getPlayer(((WorldEconomyProfile) entity).uuid)
 									.sendMessage(WorldEconomyPlugin.PREFIX + "§aYou explored " + item.getID());
+
+							if (item.getResearchableObject() instanceof CustomBlock
+									|| item.getResearchableObject() instanceof CustomItem) {
+								// only items and blocks appear in statistics;
+								// not recipes
+								WEDB.addAllStatistics((StatisticalObject) item.getResearchableObject(),
+										entity.getResearchSpecifiyEntityID(), entity.getResearchEntityType());
+							}
 						}
 					}
 				} catch (SQLException e) {

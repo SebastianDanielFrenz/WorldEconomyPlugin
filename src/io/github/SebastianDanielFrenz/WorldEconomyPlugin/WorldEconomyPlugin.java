@@ -364,8 +364,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE research (researchID integer PRIMARY KEY," + "researchItem string,"
 					+ "researchEntityID integer," + "researchEntityType string" + ");");
 
-			runSQL("CREATE TABLE statistics (statistic text," + "entityID integer," + "entityType text," + "value real,"
-					+ "PRIMARY KEY(statistic, entityID, entityType)" + ");");
+			runSQL("CREATE TABLE statistics (statisticID text," + "entityID integer," + "entityType text,"
+					+ "value real," + "PRIMARY KEY(statisticID, entityID, entityType)" + ");");
 
 			// enumerator
 
@@ -472,9 +472,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		}
 	}
 
-	public static void runSQLasync(String query) {
+	public static void runSQLasync(String query) throws SQLException {
 		// plugin.getLogger().info("async SQL: " + query);
-
+		// later: add async functionality
+		runSQL(query);
 	}
 
 	public static String PREFIX = "§f[§eWorld Economy§f]: §e";

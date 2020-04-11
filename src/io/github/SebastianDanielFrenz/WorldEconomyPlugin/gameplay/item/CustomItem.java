@@ -6,9 +6,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.statistics.CustomStatisticObject;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
 
-public abstract class CustomItem implements ResearchableObject, CustomStatisticObject {
+public abstract class CustomItem implements ResearchableObject, StatisticalObject {
 
 	public CustomItem(String ID, Material base, Tier tier, String name, ItemCategory category, boolean vanilla) {
 		this.ID = ID;
@@ -160,6 +160,11 @@ public abstract class CustomItem implements ResearchableObject, CustomStatisticO
 
 	public String getEffectiveItemName() {
 		return item_name;
+	}
+
+	@Override
+	public String getStatisticID() {
+		return "item_" + ID;
 	}
 
 }

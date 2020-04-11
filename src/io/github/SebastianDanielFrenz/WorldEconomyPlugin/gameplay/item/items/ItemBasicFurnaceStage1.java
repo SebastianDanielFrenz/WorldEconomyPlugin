@@ -8,7 +8,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.furnaces.Basic
 public class ItemBasicFurnaceStage1 extends CustomItem {
 
 	public ItemBasicFurnaceStage1() {
-		super("BASIC_FURNACE_STAGE1", new BasicFurnaceStage1(null).getKategory().display, Tier.TIER1, "Basic Furnace Stage 1",ItemCategory.MACHINES);
+		super("BASIC_FURNACE_STAGE1", new BasicFurnaceStage1(null).getCategory().display, Tier.TIER1, "Basic Furnace Stage 1",ItemCategory.MACHINES);
 	}
 
 }

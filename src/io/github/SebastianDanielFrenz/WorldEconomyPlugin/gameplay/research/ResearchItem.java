@@ -19,7 +19,7 @@ public abstract class ResearchItem implements ResearchableObject {
 	private Age age;
 	private String ID;
 
-	public Object getResearchableObject() {
+	public ResearchableObject getResearchableObject() {
 		return researchableObject;
 	}
 

@@ -8,7 +8,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.sieves.BasicSi
 public class ItemBasicSieveStage1 extends CustomItem {
 
 	public ItemBasicSieveStage1() {
-		super("BASIC_SIEVE_STAGE1", new BasicSieveStage1(null).getKategory().display, Tier.TIER1, "Basic Sieve Stage 1",ItemCategory.MACHINES);
+		super("BASIC_SIEVE_STAGE1", new BasicSieveStage1(null).getCategory().display, Tier.TIER1, "Basic Sieve Stage 1",ItemCategory.MACHINES);
 	}
 
 }

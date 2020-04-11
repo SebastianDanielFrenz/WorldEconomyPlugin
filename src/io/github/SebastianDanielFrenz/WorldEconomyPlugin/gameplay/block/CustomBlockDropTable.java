@@ -10,6 +10,10 @@ public class CustomBlockDropTable {
 		this.drops = drops;
 	}
 
+	public CustomBlockDropTable(final CustomBlockDrop drop) {
+		drops = new CustomBlockDrop[] { drop };
+	}
+
 	public final CustomBlockDrop[] drops;
 
 	/**

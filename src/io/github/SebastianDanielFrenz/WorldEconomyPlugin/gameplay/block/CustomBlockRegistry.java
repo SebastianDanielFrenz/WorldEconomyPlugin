@@ -13,6 +13,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockEgyptianCampfireStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockGranite;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockOakLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCopperOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCutSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSand;
@@ -42,6 +43,7 @@ public class CustomBlockRegistry {
 	public static final CustomBlock CUT_SANDSTONE = new BlockCutSandstone();
 	public static final CustomBlock CAMPFIRE = new BlockCampfire();
 	public static final CustomBlock SMOOTH_SANDSTONE = new BlockSmoothSandstone();
+	public static final CustomBlock OAK_LEAVES = new BlockOakLeaves();
 
 	public static final CustomBlock EGYPTIAN_CAMPFIRE_STAGE1 = new BlockEgyptianCampfireStage1();
 
@@ -60,6 +62,7 @@ public class CustomBlockRegistry {
 		register(CUT_SANDSTONE);
 		register(CAMPFIRE);
 		register(SMOOTH_SANDSTONE);
+		register(OAK_LEAVES);
 
 		register(EGYPTIAN_CAMPFIRE_STAGE1);
 	}

@@ -18,7 +18,7 @@ public abstract class BlastFurnace extends Machine {
 	}
 
 	@Override
-	public MachineCategory getKategory() {
+	public MachineCategory getCategory() {
 		return MachineCategory.BLAST_FURNACE;
 	}
 

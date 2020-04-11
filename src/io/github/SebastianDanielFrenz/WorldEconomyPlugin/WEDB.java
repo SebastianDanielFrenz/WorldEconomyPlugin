@@ -33,6 +33,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItemRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticCategory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticCategoryRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineGroup;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.WorldEconomyMachineMeta;
@@ -1487,5 +1490,48 @@ public class WEDB {
 	 * 
 	 * ==================================================
 	 */
+
+	public static void addStatistic(String ID, long entityID, String entityType, double value) throws SQLException {
+		WorldEconomyPlugin.runSQLasync("INSERT INTO statistics (statisticID, entityID, entityType, value) VALUES (" + ID
+				+ ", " + entityID + ", " + entityType + ", " + value + ")");
+	}
+
+	public static void addStatistic(StatisticalObject object, StatisticCategory category, long entityID,
+			String entityType, double value) throws SQLException {
+		addStatistic(object.getStatisticID() + ":" + category.ID, entityID, entityType, value);
+	}
+
+	public static void addAllStatistics(StatisticalObject object, long entityID, String entityType)
+			throws SQLException {
+		for (StatisticCategory category : StatisticCategoryRegistry.getContents()) {
+			addStatistic(object, category, entityID, entityType, 0);
+		}
+	}
+
+	public static double getStatistic(String ID, long entityID, String entityType) throws SQLException {
+		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT value FROM statistics WHERE statisticsID = " + ID
+				+ " AND entityID = " + entityID + " AND entityType = \"" + "\"");
+		if (!r.next()) {
+			return Double.NaN;
+		}
+		return r.getDouble("value");
+	}
+
+	public static void changeStatistic(String ID, long entityID, String entityType, double value) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE statistics SET value = " + value + " WHERE statisticID = " + ID
+				+ " AND entityID = " + entityID + " AND entityType = \"" + entityType + "\"");
+	}
+
+	public static void changeStatistic(StatisticalObject object, StatisticCategory category, long entityID,
+			String entityType, double value) throws SQLException {
+		changeStatistic(object.getStatisticID() + ":" + category.ID, entityID, entityType, value);
+	}
+
+	public static void incrementStatistic(StatisticalObject object, StatisticCategory category, long entityID,
+			String entityType, double amount) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE statistics SET value = value + " + amount + " WHERE statisticID = "
+				+ object.getStatisticID() + ":" + category.ID + " AND entityID = " + entityID + " AND entityType = \""
+				+ entityType + "\"");
+	}
 
 }
