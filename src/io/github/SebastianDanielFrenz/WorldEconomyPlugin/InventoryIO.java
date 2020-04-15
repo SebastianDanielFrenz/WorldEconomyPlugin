@@ -32,7 +32,7 @@ public class InventoryIO {
 	public static final char SEP_INV = 7;
 
 	public static String sep(char c) {
-		return new String(new char[] { 0, c });
+		return new String(new char[] { 1, c });
 	}
 
 	public static String[] split(String text, String searched) {
@@ -173,8 +173,7 @@ public class InventoryIO {
 	}
 
 	public static Inventory loadInventoryFromFile(InventoryHolder holder, String path) throws IOException {
-		return loadInventory(holder,
-				new String(Files.readAllBytes(Paths.get("plugins/WorldEconomy/saved_inventories/" + path))));
+		return loadInventory(holder, new String(Files.readAllBytes(Paths.get("plugins/WorldEconomy/saved_inventories/" + path))));
 	}
 
 	public static void writeInventoryToFile(Inventory inv, String path) throws IOException {
@@ -183,8 +182,7 @@ public class InventoryIO {
 		} catch (IOException e) {
 		}
 
-		Files.write(Paths.get("plugins/WorldEconomy/saved_inventories/" + path), serialize(inv).getBytes(),
-				StandardOpenOption.CREATE_NEW);
+		Files.write(Paths.get("plugins/WorldEconomy/saved_inventories/" + path), serialize(inv).getBytes(), StandardOpenOption.CREATE_NEW);
 	}
 
 }

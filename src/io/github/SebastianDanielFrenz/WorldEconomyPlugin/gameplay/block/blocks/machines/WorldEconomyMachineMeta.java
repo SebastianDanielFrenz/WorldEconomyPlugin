@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines;
 
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;

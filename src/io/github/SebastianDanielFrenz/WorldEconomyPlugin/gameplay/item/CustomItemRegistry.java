@@ -64,11 +64,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemRawClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterClayBucket;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicFurnaceStage1;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicFurnaceStage2;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicFurnaceStage3;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicSieveStage1;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBasicBlastFurnaceStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWoodenShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestoneShovel;
@@ -176,11 +171,6 @@ public class CustomItemRegistry {
 	public static final CustomItem RAW_CLAY_BUCKET = new ItemRawClayBucket();
 	public static final CustomItem CLAY_BUCKET = new ItemClayBucket();
 	public static final CustomItem WATER_CLAY_BUCKET = new ItemWaterClayBucket();
-	public static final CustomItem BASIC_FURNACE_STAGE1 = new ItemBasicFurnaceStage1();
-	public static final CustomItem BASIC_FURNACE_STAGE2 = new ItemBasicFurnaceStage2();
-	public static final CustomItem BASIC_FURNACE_STAGE3 = new ItemBasicFurnaceStage3();
-	public static final CustomItem BASIC_SIEVE_STAGE1 = new ItemBasicSieveStage1();
-	public static final CustomItem BASIC_BLAST_FURNACE_STAGE1 = new ItemBasicBlastFurnaceStage1();
 	public static final CustomItem CAMPFIRE = new ItemCampfire();
 	public static final CustomItem WOODEN_SHOVEL = new ItemWoodenShovel();
 	public static final CustomItem COBBLESTONE_SHOVEL = new ItemCobblestoneShovel();
@@ -282,11 +272,6 @@ public class CustomItemRegistry {
 		register(RAW_CLAY_BUCKET);
 		register(CLAY_BUCKET);
 		register(WATER_CLAY_BUCKET);
-		register(BASIC_FURNACE_STAGE1);
-		register(BASIC_FURNACE_STAGE2);
-		register(BASIC_FURNACE_STAGE3);
-		register(BASIC_SIEVE_STAGE1);
-		register(BASIC_BLAST_FURNACE_STAGE1);
 		register(CAMPFIRE, CustomBlockRegistry.CAMPFIRE);
 		register(WOODEN_SHOVEL);
 		register(COBBLESTONE_SHOVEL);

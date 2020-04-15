@@ -19,20 +19,17 @@ public enum MachineRecipe implements ResearchableObject {
 	CRAFTING____STICK____PLANKS(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.STICK, 8) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.OAK_PLANKS, 1) }, 2),
 
-	CRAFTING____COBBLESTONE__STICK____COBBLESTONE_SHOVEL(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 2) },
+	CRAFTING____COBBLESTONE__STICK____COBBLESTONE_SHOVEL(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 2) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.STICK, 1) }, 5),
 
 	CRAFTING____CLAY____CLAY_BUCKET(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.CLAY_BALL, 8) },
 
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.RAW_CLAY_BUCKET, 1) }, 5),
-	CRAFTING____COBBLESTONE____CAMPFIRE(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 4) },
+	CRAFTING____COBBLESTONE____CAMPFIRE(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 4) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.STICK, 1) }, 5),
 
 	CRAFTING____COBBLESTONE__SAND__WATER_CLAY_BUCKET____RAW_HARDENED_COBBLESTONE(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 1),
-					new CustomItemStack(CustomItemRegistry.SAND, 1),
+			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 1), new CustomItemStack(CustomItemRegistry.SAND, 1),
 					new CustomItemStack(CustomItemRegistry.WATER_CLAY_BUCKET, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.STICK, 1) }, 5),
 
@@ -42,13 +39,11 @@ public enum MachineRecipe implements ResearchableObject {
 
 	CAMPFIRE____RAW_HARDENED_COBBLESTONE_PLATE____HARDENED_COBBLESTONE_PLATE(
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.RAW_HARDENED_COBBLESTONE_PLATE, 1) },
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.HARDENED_COBBLESTONE_PLATE, 1) },
-			5 * Units.MINUTE),
+			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.HARDENED_COBBLESTONE_PLATE, 1) }, 5 * Units.MINUTE),
 
 	CAMPFIRE____RAW_HARDENED_COBBLESTONE____HARDENED_COBBLESTONE(
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.RAW_HARDENED_COBBLESTONE, 1) },
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.HARDENED_COBBLESTONE, 1) },
-			5 * Units.MINUTE),
+			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.HARDENED_COBBLESTONE, 1) }, 5 * Units.MINUTE),
 
 	SMELTING____HARDENED_COBBLESTONE____PROCESSED_COBBLESTONE(
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.HARDENED_COBBLESTONE, 1) },
@@ -64,15 +59,11 @@ public enum MachineRecipe implements ResearchableObject {
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.PROCESSED_COBBLESTONE_PICKAXE, 1) }, 5),
 
 	// Coal processing
-	CRUSHING____COAL_ORE____COAL__COBBLESTONE(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COAL_ORE, 1) },
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COAL, 1),
-					new CustomItemStack(CustomItemRegistry.COBBLESTONE, 1) },
-			20),
+	CRUSHING____COAL_ORE____COAL__COBBLESTONE(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COAL_ORE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COAL, 1), new CustomItemStack(CustomItemRegistry.COBBLESTONE, 1) }, 20),
 
 	// Iron processing
-	BLAST_FURNACE____IRON_ORE____IRON_INGOT(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_ORE, 1) },
+	BLAST_FURNACE____IRON_ORE____IRON_INGOT(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_ORE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_INGOT, 1) }, 30),
 
 	FORGING____IRON_INGOT____IRON_PLATE(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_INGOT, 4) },
@@ -82,8 +73,7 @@ public enum MachineRecipe implements ResearchableObject {
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_ROD, 1) }, 30),
 
 	FORGING____IRON_PLATE__IRON_ROD____IRON_PICKAXE(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_ROD, 4),
-					new CustomItemStack(CustomItemRegistry.IRON_PLATE, 1) },
+			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_ROD, 4), new CustomItemStack(CustomItemRegistry.IRON_PLATE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_PICKAXE, 1) }, 600),
 
 	FORGING____IRON_PLATE____IRON_HELMT(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.IRON_PLATE, 2) },
@@ -93,8 +83,7 @@ public enum MachineRecipe implements ResearchableObject {
 	SMELTING____GOLD_ORE____GOLD_NUGGET(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_ORE, 1) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_NUGGET, 1) }, 60),
 
-	SMELTING____GOLD_NUGGET____GOLD_INGOT(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_NUGGET, 10) },
+	SMELTING____GOLD_NUGGET____GOLD_INGOT(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_NUGGET, 10) },
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_INGOT, 1) }, 30),
 
 	FORGING____GOLD_INGOT____GOLD_ROD(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_INGOT, 2) },
@@ -104,11 +93,8 @@ public enum MachineRecipe implements ResearchableObject {
 			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GOLD_CABLE, 10) }, 30),
 
 	// dirt processing
-	SIEVING____COARSE_DIRT____COBBLESTONE__DIRT(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COARSE_DIRT, 16) },
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 1),
-					new CustomItemStack(CustomItemRegistry.DIRT, 16) },
-			12),
+	SIEVING____COARSE_DIRT____COBBLESTONE__DIRT(new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COARSE_DIRT, 16) },
+			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 1), new CustomItemStack(CustomItemRegistry.DIRT, 16) }, 12);
 
 	/*
 	 * ====================
@@ -117,20 +103,6 @@ public enum MachineRecipe implements ResearchableObject {
 	 * 
 	 * ====================
 	 */
-
-	// blast furnaces
-	FORGING____COBBLESTONE__WATER_BUCKET____BASIC_BLAST_FURNACE_STAGE1(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 16),
-					new CustomItemStack(CustomItemRegistry.WATER_BUCKET, 4) },
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.BASIC_BLAST_FURNACE_STAGE1, 1),
-					new CustomItemStack(CustomItemRegistry.BUCKET, 4) },
-			Units.MINUTE * 5),
-
-	FORGING____COBBLESTONE__WATER_CLAY_BUCKET____BASIC_BLAST_FURNACE_STAGE1(
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COBBLESTONE, 16),
-					new CustomItemStack(CustomItemRegistry.WATER_CLAY_BUCKET, 4) },
-			new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.BASIC_BLAST_FURNACE_STAGE1, 1) },
-			Units.MINUTE * 5);
 
 	private MachineRecipe(CustomItemStack[] input, CustomItemStack[] output, double processTime) {
 		this.input = input;

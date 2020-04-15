@@ -1,14 +1,18 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockDataDoesNotExistException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
@@ -52,8 +56,7 @@ public abstract class CustomBlock implements StatisticalObject {
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Location location, CustomBlock block)
-			throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Location location, CustomBlock block) throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
@@ -72,8 +75,7 @@ public abstract class CustomBlock implements StatisticalObject {
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Block vanillaBlock, CustomBlock block)
-			throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Block vanillaBlock, CustomBlock block) throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
@@ -89,6 +91,19 @@ public abstract class CustomBlock implements StatisticalObject {
 	@Override
 	public String getStatisticID() {
 		return "block_" + ID;
+	}
+
+	public static CustomBlockMetadataValue getMetadata(Block block) {
+		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
+		if (metadata_values.size() == 0) {
+			throw new CustomBlockDataDoesNotExistException(block);
+		} else {
+			return (CustomBlockMetadataValue) metadata_values.get(0);
+		}
+	}
+
+	public static CustomBlockDropTable easyDrop(CustomItem item) {
+		return new CustomBlockDropTable(new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND, new CustomItemStack(item, 1)));
 	}
 
 }

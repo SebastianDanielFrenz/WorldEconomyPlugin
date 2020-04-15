@@ -1,49 +1,50 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
+import java.sql.SQLException;
+
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.MachineInventory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineInventory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.CustomBlockMachineData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
 
 public class CraftingGUI extends WEGUI {
 
-	private static final int[] recipe_category_slots = new int[] { 9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 27, 28, 29,
-			30, 31, 36, 37, 38, 39, 40, 45, 46, 47, 48, 49 };
+	private static final int[] recipe_category_slots = new int[] { 9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 27, 28, 29, 30, 31, 36, 37, 38, 39, 40, 45,
+			46, 47, 48, 49 };
 
 	protected int[] inv_representing_slots;
 	protected MachineInventory storage_inv;
 	protected int[] recipes_representing_slots;
+	private Block machine;
 
-	public CraftingGUI(GUIItem[] items, MachineInventory inv, int[] inv_representing_slots) {
-		super(items);
-		this.inv_representing_slots = inv_representing_slots;
-		storage_inv = inv;
-	}
-
-	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, MachineInventory inv,
-			int[] inv_representing_slots) {
+	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, Block machineBlock, int[] inv_representing_slots) {
 		super(parent, items, title);
+
 		this.inv_representing_slots = inv_representing_slots;
-		storage_inv = inv;
+		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlock.getMetadata(machineBlock).getBlockData()).getInventory(),
+				inv_representing_slots.length);
+		machine = machineBlock;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, MachineInventory inv, int[] inv_representing_slots) {
-		super(items, title);
-		this.inv_representing_slots = inv_representing_slots;
-		storage_inv = inv;
-	}
-
-	public CraftingGUI(GUIItem[] items, String title, Machine machine, int[] inv_representing_slots) {
+	public CraftingGUI(GUIItem[] items, String title, Block machineBlock, int[] inv_representing_slots) {
 		super(items, title);
 		// this.inv_representing_slots = inv_representing_slots;
 		this.inv_representing_slots = inv_representing_slots;
-		storage_inv = new MachineInventory(machine.getInventory(), inv_representing_slots.length);
+		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlock.getMetadata(machineBlock).getBlockData()).getInventory(),
+				inv_representing_slots.length);
+		machine = machineBlock;
 	}
 
 	@Override
@@ -66,6 +67,15 @@ public class CraftingGUI extends WEGUI {
 					event.setCancelled(false);
 					event.getWhoClicked().sendMessage("inv click!");
 					storage_inv.inv.setItem(x, event.getCursor());
+					if (machine != null) {
+						try {
+							WEDB.updateBlockData(machine, InventoryIO.serialize(storage_inv.inv));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						((CustomBlockMachineData) ((CustomBlockMetadataValue) machine.getMetadata("customBlockType").get(0)).getBlockData())
+								.setInventory(storage_inv.inv);
+					}
 				}
 			};
 		}
@@ -77,7 +87,7 @@ public class CraftingGUI extends WEGUI {
 					mkItem(category.display, category.getTitle())) {
 				@Override
 				public void event(InventoryClickEvent event) {
-					
+
 				}
 			};
 			i++;
@@ -156,8 +166,7 @@ public class CraftingGUI extends WEGUI {
 						items[i].event(e);
 						if (Utils.in(inv_representing_slots, e.getRawSlot())) {
 							e.setCancelled(false);
-							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot()),
-									e.getCurrentItem());
+							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot()), e.getCurrentItem());
 						}
 						break;
 					}
@@ -166,8 +175,7 @@ public class CraftingGUI extends WEGUI {
 						items[i].event(e);
 						if (Utils.in(inv_representing_slots, e.getRawSlot() - 6 * 9)) {
 							e.setCancelled(false);
-							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot() - 6 * 9),
-									e.getCurrentItem());
+							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot() - 6 * 9), e.getCurrentItem());
 						}
 						break;
 					}
@@ -176,9 +184,7 @@ public class CraftingGUI extends WEGUI {
 						items[i].event(e);
 						if (Utils.in(inv_representing_slots, e.getRawSlot() + page * 9 * 4)) {
 							e.setCancelled(false);
-							storage_inv.inv.setItem(
-									Utils.indexOf(inv_representing_slots, e.getRawSlot() + page * 9 * 4),
-									e.getCurrentItem());
+							storage_inv.inv.setItem(Utils.indexOf(inv_representing_slots, e.getRawSlot() + page * 9 * 4), e.getCurrentItem());
 						}
 						break;
 					}

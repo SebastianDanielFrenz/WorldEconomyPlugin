@@ -3,9 +3,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.MachineRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.Machine;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.MachineRegistry;
 
 public class MachineRecipeManager {
 
@@ -13,7 +13,8 @@ public class MachineRecipeManager {
 		List<ActualMachineRecipe> out = new ArrayList<ActualMachineRecipe>();
 
 		for (Machine machine : MachineRegistry.getContents()) {
-			machine.getInventory();
+			machine.getCategory();
+			// not actual code
 		}
 
 		return out;

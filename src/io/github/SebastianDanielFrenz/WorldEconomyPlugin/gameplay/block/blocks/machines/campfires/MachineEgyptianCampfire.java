@@ -1,13 +1,12 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.campfires;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires;
 
-import org.bukkit.Location;
-
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 
 public abstract class MachineEgyptianCampfire extends MachineCampfire {
 
-	public MachineEgyptianCampfire(Location location) {
-		super(location);
+	public MachineEgyptianCampfire(String ID, CustomBlockDropTable drop_table) {
+		super(ID, false, drop_table);
 	}
 
 	@Override

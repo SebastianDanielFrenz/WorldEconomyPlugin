@@ -1,14 +1,12 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.machines.campfires;
-
-import org.bukkit.Location;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 
-public class MachineEgyptianCampfireStage1 extends MachineEgyptianCampfire {
+public class BlockEgyptianCampfireStage1 extends MachineEgyptianCampfire {
 
-	public MachineEgyptianCampfireStage1(Location location) {
-		super(location);
+	public BlockEgyptianCampfireStage1() {
+		super("egyptian_campfire_stage1", easyDrop(CustomItemRegistry.EGYPTIAN_CAMPFIRE_STAGE1));
 	}
 
 	@Override
