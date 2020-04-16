@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -16,7 +16,7 @@ public class CustomBlockMachineData extends CustomBlockData implements Inventory
 	}
 
 	public CustomBlockMachineData(String raw) {
-		InventoryIO.loadInventory(this, raw);
+		inv = InventoryIO.loadInventory(this, raw);
 	}
 
 	@Override

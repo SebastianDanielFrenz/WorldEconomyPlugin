@@ -16,7 +16,7 @@ import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
@@ -33,10 +33,10 @@ public class CustomBlockEventHandler implements Listener {
 		Block block = event.getBlock();
 		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
 
-		CustomBlock customBlock;
+		CustomBlockType customBlock;
 
 		if (metadata_values.size() == 0) {
-			customBlock = CustomBlock.getVanillaBlock(block);
+			customBlock = CustomBlockType.getVanillaBlock(block);
 			if (customBlock == null) {
 				return;
 			}
@@ -98,10 +98,10 @@ public class CustomBlockEventHandler implements Listener {
 		}
 		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
 
-		CustomBlock customBlock;
+		CustomBlockType customBlock;
 
 		if (metadata_values.size() == 0) {
-			customBlock = CustomBlock.getVanillaBlock(block);
+			customBlock = CustomBlockType.getVanillaBlock(block);
 			if (customBlock == null) {
 				return;
 			}

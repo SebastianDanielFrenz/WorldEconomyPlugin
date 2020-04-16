@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
+import java.lang.reflect.InvocationTargetException;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 
 /**
@@ -23,5 +25,11 @@ public abstract class CustomBlockData {
 	}
 
 	public abstract String save();
+
+	public static CustomBlockData create(Class<? extends CustomBlockData> type, String raw)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+		return type.getConstructor(String.class).newInstance(raw);
+	}
 
 }

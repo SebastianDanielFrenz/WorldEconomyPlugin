@@ -7,15 +7,15 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 
 public class CustomBlockMetadataValue implements MetadataValue {
 
-	public CustomBlockMetadataValue(CustomBlock block, CustomBlockData data) {
+	public CustomBlockMetadataValue(CustomBlockType block, CustomBlockData data) {
 		this.block = block;
 		this.data = data;
 	}
 
-	private CustomBlock block;
+	private CustomBlockType block;
 	private CustomBlockData data;
 
-	public CustomBlock getBlock() {
+	public CustomBlockType getBlock() {
 		return block;
 	}
 

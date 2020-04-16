@@ -8,7 +8,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDrop;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata.CustomEmptyBlockData;
@@ -16,7 +16,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 
-public class BlockSandstoneTrigger extends CustomBlock {
+public class BlockSandstoneTrigger extends CustomBlockType {
 
 	public BlockSandstoneTrigger() {
 		super("sandstone_trigger", Material.CHISELED_SANDSTONE, false,

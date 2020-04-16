@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
@@ -39,7 +39,7 @@ public class ResearchHandlerThread implements Runnable {
 							Bukkit.getPlayer(((WorldEconomyProfile) entity).uuid)
 									.sendMessage(WorldEconomyPlugin.PREFIX + "§aYou explored " + item.getID());
 
-							if (item.getResearchableObject() instanceof CustomBlock
+							if (item.getResearchableObject() instanceof CustomBlockType
 									|| item.getResearchableObject() instanceof CustomItem) {
 								// only items and blocks appear in statistics;
 								// not recipes

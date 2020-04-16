@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.campfires;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;

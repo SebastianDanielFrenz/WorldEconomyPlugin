@@ -2,11 +2,11 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 
 public abstract class Building {
 
-	public abstract void place(Location center, CustomBlock pathway) throws Exception;
+	public abstract void place(Location center, CustomBlockType pathway) throws Exception;
 	
 	public abstract int getSize();
 

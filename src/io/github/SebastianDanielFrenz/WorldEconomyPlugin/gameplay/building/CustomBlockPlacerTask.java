@@ -5,17 +5,17 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 
 public class CustomBlockPlacerTask implements Runnable {
 
-	public CustomBlockPlacerTask(List<Location> locations, List<CustomBlock> blocks) {
+	public CustomBlockPlacerTask(List<Location> locations, List<CustomBlockType> blocks) {
 		this.locations = locations;
 		this.blocks = blocks;
 	}
 
 	private List<Location> locations;
-	private List<CustomBlock> blocks;
+	private List<CustomBlockType> blocks;
 
 	@Override
 	public void run() {
@@ -24,7 +24,7 @@ public class CustomBlockPlacerTask implements Runnable {
 		for (int i = 0; i < locations.size(); i++) {
 			try {
 				//System.out.println(locations.get(i) + " -> " + blocks.get(i).ID);
-				CustomBlock.placeBlock(locations.get(i), blocks.get(i));
+				CustomBlockType.placeBlock(locations.get(i), blocks.get(i));
 			} catch (InstantiationException | IllegalAccessException | SQLException e) {
 				e.printStackTrace();
 			}

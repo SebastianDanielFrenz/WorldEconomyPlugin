@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.campfires;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;

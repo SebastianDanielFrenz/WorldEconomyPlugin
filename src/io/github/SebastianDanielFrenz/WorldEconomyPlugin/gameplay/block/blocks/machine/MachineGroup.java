@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine;
 
 public enum MachineGroup {
 

@@ -16,8 +16,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 
 public class BuildingIO {
 
@@ -40,7 +40,7 @@ public class BuildingIO {
 					int centerY = center.getBlockY();
 					int centerZ = center.getBlockZ();
 
-					CustomBlock block;
+					CustomBlockType block;
 					Location loc;
 					String ID;
 
@@ -51,7 +51,7 @@ public class BuildingIO {
 								if (loc.getBlock().getType() == Material.AIR) {
 									ID = "air";
 								} else {
-									block = CustomBlockRegistry.getBlock(loc);
+									block = CustomBlockTypeRegistry.getBlock(loc);
 									if (block == null) {
 										System.out.println("Illegal block " + loc.getBlock().getType() + " at " + loc);
 										ID = "air";
@@ -79,7 +79,7 @@ public class BuildingIO {
 		String text = Files.readAllLines(Paths.get(path)).get(0);
 
 		String[] rblocks;
-		CustomBlock block = null;
+		CustomBlockType block = null;
 		Location loc;
 		String ID = null;
 
@@ -88,7 +88,7 @@ public class BuildingIO {
 		int runs = 0;
 		int delay = 0;
 		List<Location> locations = new ArrayList<Location>(task_size);
-		List<CustomBlock> blocks = new ArrayList<CustomBlock>(task_size);
+		List<CustomBlockType> blocks = new ArrayList<CustomBlockType>(task_size);
 
 		for (String rblock : text.split(";")) {
 			rblocks = rblock.split(",");
@@ -100,7 +100,7 @@ public class BuildingIO {
 				// System.out.println("air at " + loc);
 			} else {
 				if (!rblocks[3].equals(ID)) {
-					block = CustomBlockRegistry.getBlock(rblocks[3]);
+					block = CustomBlockTypeRegistry.getBlock(rblocks[3]);
 				}
 				// CustomBlock.placeBlock(loc, block);
 				locations.add(loc);
@@ -116,7 +116,7 @@ public class BuildingIO {
 				// System.out.println("generated task " + runs);
 
 				locations = new ArrayList<Location>(task_size);
-				blocks = new ArrayList<CustomBlock>(task_size);
+				blocks = new ArrayList<CustomBlockType>(task_size);
 
 				delay++;
 			}
@@ -131,7 +131,7 @@ public class BuildingIO {
 		String text = br.readLine();
 
 		String[] rblocks;
-		CustomBlock block = null;
+		CustomBlockType block = null;
 		Location loc;
 		String ID = null;
 
@@ -145,9 +145,9 @@ public class BuildingIO {
 				// System.out.println("air at " + loc);
 			} else {
 				if (!rblocks[3].equals(ID)) {
-					block = CustomBlockRegistry.getBlock(rblocks[3]);
+					block = CustomBlockTypeRegistry.getBlock(rblocks[3]);
 				}
-				CustomBlock.placeBlock(loc, block);
+				CustomBlockType.placeBlock(loc, block);
 				ID = rblocks[3];
 				// System.out.println(block.ID + " at " + loc);
 			}

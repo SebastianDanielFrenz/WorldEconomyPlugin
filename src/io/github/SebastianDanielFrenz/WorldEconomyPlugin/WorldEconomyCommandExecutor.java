@@ -28,9 +28,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.SetblockChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Contract;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.BuildingIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.TownGenerator;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
@@ -733,7 +733,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
 							return true;
 						} else {
-							CustomBlock block = CustomBlockRegistry.getBlock(args[1]);
+							CustomBlockType block = CustomBlockTypeRegistry.getBlock(args[1]);
 							CustomBlockData data;
 
 							if (args.length > 2) {
@@ -786,10 +786,10 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 							try {
 								if (sender instanceof Player) {
-									CustomBlock.placeBlock(((Player) sender).getLocation(), block, data);
+									CustomBlockType.placeBlock(((Player) sender).getLocation(), block, data);
 									return true;
 								} else {
-									CustomBlock.placeBlock(((BlockCommandSender) sender).getBlock().getLocation(), block, data);
+									CustomBlockType.placeBlock(((BlockCommandSender) sender).getBlock().getLocation(), block, data);
 									return true;
 								}
 							} catch (SQLException e) {

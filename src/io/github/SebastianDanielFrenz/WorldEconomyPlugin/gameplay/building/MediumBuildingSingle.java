@@ -2,7 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building;
 
 import org.bukkit.Location;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 
 public abstract class MediumBuildingSingle extends MediumBuilding {
 
@@ -13,7 +13,7 @@ public abstract class MediumBuildingSingle extends MediumBuilding {
 	protected String path;
 
 	@Override
-	public void place(Location center, CustomBlock pathway) throws Exception {
+	public void place(Location center, CustomBlockType pathway) throws Exception {
 		BuildingIO.loadInternal(path, center);
 	}
 

@@ -26,8 +26,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelRod;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumRod;
@@ -101,7 +101,7 @@ public class CustomItemRegistry {
 		items.add(item);
 	}
 
-	public static void register(CustomItem item, CustomBlock block) {
+	public static void register(CustomItem item, CustomBlockType block) {
 		register(item);
 		((CustomPlaceableItem) item).setBlock(block);
 	}
@@ -229,7 +229,7 @@ public class CustomItemRegistry {
 		register(STEEL_ROD);
 
 		// Copper Items
-		register(COPPER_ORE, CustomBlockRegistry.COPPER_ORE);
+		register(COPPER_ORE, CustomBlockTypeRegistry.COPPER_ORE);
 		register(COPPER_INGOT);
 		register(COPPER_PLATE);
 		register(COPPER_ROD);
@@ -272,7 +272,7 @@ public class CustomItemRegistry {
 		register(RAW_CLAY_BUCKET);
 		register(CLAY_BUCKET);
 		register(WATER_CLAY_BUCKET);
-		register(CAMPFIRE, CustomBlockRegistry.CAMPFIRE);
+		register(CAMPFIRE, CustomBlockTypeRegistry.CAMPFIRE);
 		register(WOODEN_SHOVEL);
 		register(COBBLESTONE_SHOVEL);
 		register(HARDENED_COBBLESTONE_SHOVEL);
@@ -287,21 +287,21 @@ public class CustomItemRegistry {
 		register(OAK_LOG);
 		register(OAK_SLAB);
 		register(OAK_LEAVES);
-		register(COARSE_DIRT, CustomBlockRegistry.COARSE_DIRT);
-		register(SAND, CustomBlockRegistry.SAND);
-		register(GRANITE, CustomBlockRegistry.GRANITE);
+		register(COARSE_DIRT, CustomBlockTypeRegistry.COARSE_DIRT);
+		register(SAND, CustomBlockTypeRegistry.SAND);
+		register(GRANITE, CustomBlockTypeRegistry.GRANITE);
 		register(POLISHED_GRANITE);
-		register(DIORITE, CustomBlockRegistry.DIORITE);
+		register(DIORITE, CustomBlockTypeRegistry.DIORITE);
 		register(POLISHED_DIORITE);
-		register(ANDESITE, CustomBlockRegistry.ANDESITE);
+		register(ANDESITE, CustomBlockTypeRegistry.ANDESITE);
 		register(POLISHED_ANDESITE);
 		register(BERRIES);
 
-		register(SANDSTONE_TRIGGER, CustomBlockRegistry.SANDSTONE_TRIGGER);
-		register(CUT_SANDSTONE, CustomBlockRegistry.CUT_SANDSTONE);
-		register(SMOOTH_SANDSTONE, CustomBlockRegistry.SMOOTH_SANDSTONE);
+		register(SANDSTONE_TRIGGER, CustomBlockTypeRegistry.SANDSTONE_TRIGGER);
+		register(CUT_SANDSTONE, CustomBlockTypeRegistry.CUT_SANDSTONE);
+		register(SMOOTH_SANDSTONE, CustomBlockTypeRegistry.SMOOTH_SANDSTONE);
 
-		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
+		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockTypeRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
 	}
 
 	public static CustomItem getItem(String ID) {

@@ -1,9 +1,9 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockEgyptianCampfireStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.campfires.BlockEgyptianCampfireStage1;
 
 public class MachineRegistry {
 

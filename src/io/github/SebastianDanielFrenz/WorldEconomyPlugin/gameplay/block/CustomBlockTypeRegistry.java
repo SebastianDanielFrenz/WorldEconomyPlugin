@@ -19,33 +19,33 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstoneTrigger;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSmoothSandstone;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockEgyptianCampfireStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.campfires.BlockEgyptianCampfireStage1;
 
-public class CustomBlockRegistry {
+public class CustomBlockTypeRegistry {
 
-	private static List<CustomBlock> blocks = new ArrayList<CustomBlock>();
+	private static List<CustomBlockType> blocks = new ArrayList<CustomBlockType>();
 
-	public static void register(CustomBlock block) {
+	public static void register(CustomBlockType block) {
 		blocks.add(block);
 	}
 
-	public static final CustomBlock COARSE_DIRT = new BlockCoarseDirt();
-	public static final CustomBlock SAND = new BlockSand();
-	public static final CustomBlock GRANITE = new BlockGranite();
-	public static final CustomBlock DIORITE = new BlockDiorite();
-	public static final CustomBlock ANDESITE = new BlockAndesite();
+	public static final CustomBlockType COARSE_DIRT = new BlockCoarseDirt();
+	public static final CustomBlockType SAND = new BlockSand();
+	public static final CustomBlockType GRANITE = new BlockGranite();
+	public static final CustomBlockType DIORITE = new BlockDiorite();
+	public static final CustomBlockType ANDESITE = new BlockAndesite();
 
-	public static final CustomBlock SANDSTONE = new BlockSandstone();
+	public static final CustomBlockType SANDSTONE = new BlockSandstone();
 
-	public static final CustomBlock COPPER_ORE = new BlockCopperOre();
+	public static final CustomBlockType COPPER_ORE = new BlockCopperOre();
 
-	public static final CustomBlock SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
-	public static final CustomBlock CUT_SANDSTONE = new BlockCutSandstone();
-	public static final CustomBlock CAMPFIRE = new BlockCampfire();
-	public static final CustomBlock SMOOTH_SANDSTONE = new BlockSmoothSandstone();
-	public static final CustomBlock OAK_LEAVES = new BlockOakLeaves();
+	public static final CustomBlockType SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
+	public static final CustomBlockType CUT_SANDSTONE = new BlockCutSandstone();
+	public static final CustomBlockType CAMPFIRE = new BlockCampfire();
+	public static final CustomBlockType SMOOTH_SANDSTONE = new BlockSmoothSandstone();
+	public static final CustomBlockType OAK_LEAVES = new BlockOakLeaves();
 
-	public static final CustomBlock EGYPTIAN_CAMPFIRE_STAGE1 = new BlockEgyptianCampfireStage1();
+	public static final CustomBlockType EGYPTIAN_CAMPFIRE_STAGE1 = new BlockEgyptianCampfireStage1();
 
 	public static void init() {
 		register(COARSE_DIRT);
@@ -67,12 +67,12 @@ public class CustomBlockRegistry {
 		register(EGYPTIAN_CAMPFIRE_STAGE1);
 	}
 
-	public static List<CustomBlock> getContents() {
+	public static List<CustomBlockType> getContents() {
 		return blocks;
 	}
 
-	public static CustomBlock getBlock(String ID) {
-		for (CustomBlock block : blocks) {
+	public static CustomBlockType getBlock(String ID) {
+		for (CustomBlockType block : blocks) {
 			if (block.ID.equalsIgnoreCase(ID)) {
 				return block;
 			}
@@ -80,13 +80,13 @@ public class CustomBlockRegistry {
 		return null;
 	}
 
-	public static CustomBlock getBlock(Block block) {
+	public static CustomBlockType getBlock(Block block) {
 		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
 
-		CustomBlock customBlock;
+		CustomBlockType customBlock;
 
 		if (metadata_values.size() == 0) {
-			customBlock = CustomBlock.getVanillaBlock(block);
+			customBlock = CustomBlockType.getVanillaBlock(block);
 		} else {
 			customBlock = ((CustomBlockMetadataValue) metadata_values.get(0)).getBlock();
 		}
@@ -94,7 +94,7 @@ public class CustomBlockRegistry {
 		return customBlock;
 	}
 
-	public static CustomBlock getBlock(Location location) {
+	public static CustomBlockType getBlock(Location location) {
 		return getBlock(location.getBlock());
 	}
 

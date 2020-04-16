@@ -1,12 +1,12 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 
-public abstract class Machine extends CustomBlock {
+public abstract class Machine extends CustomBlockType {
 
 	public Machine(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends CustomBlockMachineData> blockDataType) {

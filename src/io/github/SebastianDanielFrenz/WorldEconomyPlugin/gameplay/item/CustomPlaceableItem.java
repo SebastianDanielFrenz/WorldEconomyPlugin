@@ -9,7 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
 public abstract class CustomPlaceableItem extends CustomItem {
@@ -33,13 +33,13 @@ public abstract class CustomPlaceableItem extends CustomItem {
 		super(ID, base, tier, name, category, details);
 	}
 
-	private CustomBlock block;
+	private CustomBlockType block;
 
-	public void setBlock(CustomBlock block) {
+	public void setBlock(CustomBlockType block) {
 		this.block = block;
 	}
 
-	public CustomBlock getBlock() {
+	public CustomBlockType getBlock() {
 		return block;
 	}
 
@@ -53,7 +53,7 @@ public abstract class CustomPlaceableItem extends CustomItem {
 				Block _block = event.getClickedBlock().getRelative(face);
 				CustomBlockData data = block.blockDataType.newInstance();
 
-				CustomBlock.placeBlock(_block, block, data);
+				CustomBlockType.placeBlock(_block, block, data);
 				event.setCancelled(true);
 				ItemStack hand = event.getPlayer().getInventory().getItemInMainHand();
 

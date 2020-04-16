@@ -14,7 +14,7 @@ public class StatisticCategory {
 	}
 
 	public double getValue(StatisticalObject object, long entityID, String entityType) throws SQLException {
-		return WEDB.getStatistic(object.getStatisticID() + ":" + ID, entityID, entityType);
+		return WEDB.getStatistic(object.getStatisticID() + "$" + ID, entityID, entityType);
 	}
 
 }

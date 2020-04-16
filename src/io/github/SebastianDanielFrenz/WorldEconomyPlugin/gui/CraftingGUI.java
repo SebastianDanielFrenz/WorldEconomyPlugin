@@ -13,11 +13,11 @@ import org.bukkit.inventory.ItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.MachineInventory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.CustomBlockMachineData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.CustomBlockMachineData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.MachineInventory;
 
 public class CraftingGUI extends WEGUI {
 
@@ -33,7 +33,7 @@ public class CraftingGUI extends WEGUI {
 		super(parent, items, title);
 
 		this.inv_representing_slots = inv_representing_slots;
-		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlock.getMetadata(machineBlock).getBlockData()).getInventory(),
+		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlockType.getMetadata(machineBlock).getBlockData()).getInventory(),
 				inv_representing_slots.length);
 		machine = machineBlock;
 	}
@@ -42,7 +42,7 @@ public class CraftingGUI extends WEGUI {
 		super(items, title);
 		// this.inv_representing_slots = inv_representing_slots;
 		this.inv_representing_slots = inv_representing_slots;
-		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlock.getMetadata(machineBlock).getBlockData()).getInventory(),
+		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlockType.getMetadata(machineBlock).getBlockData()).getInventory(),
 				inv_representing_slots.length);
 		machine = machineBlock;
 	}
