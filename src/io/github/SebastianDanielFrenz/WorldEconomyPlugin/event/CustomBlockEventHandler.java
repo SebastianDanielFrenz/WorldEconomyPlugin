@@ -86,8 +86,7 @@ public class CustomBlockEventHandler implements Listener {
 		block.setType(Material.AIR);
 		WEDB.removeCustomBlock(event.getBlock().getLocation());
 
-		WEDB.incrementStatistic(customBlock, StatisticCategoryRegistry.MINED, WEDB.getUserProfile(player).ID, "player",
-				1);
+		WEDB.incrementStatistic(customBlock, StatisticCategoryRegistry.MINED, WEDB.getUserProfile(player).ID, "player", 1);
 	}
 
 	@EventHandler
