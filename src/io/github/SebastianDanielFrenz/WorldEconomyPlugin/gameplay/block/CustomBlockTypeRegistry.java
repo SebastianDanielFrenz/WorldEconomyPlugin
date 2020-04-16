@@ -20,6 +20,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstoneTrigger;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSmoothSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockEgyptianCampfireStage1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockStoneAgeCampfire;
 
 public class CustomBlockTypeRegistry {
 
@@ -45,6 +46,7 @@ public class CustomBlockTypeRegistry {
 	public static final CustomBlockType SMOOTH_SANDSTONE = new BlockSmoothSandstone();
 	public static final CustomBlockType OAK_LEAVES = new BlockOakLeaves();
 
+	public static final CustomBlockType STONE_AGE_CAMPFIRE = new BlockStoneAgeCampfire();
 	public static final CustomBlockType EGYPTIAN_CAMPFIRE_STAGE1 = new BlockEgyptianCampfireStage1();
 
 	public static void init() {
@@ -64,6 +66,7 @@ public class CustomBlockTypeRegistry {
 		register(SMOOTH_SANDSTONE);
 		register(OAK_LEAVES);
 
+		register(STONE_AGE_CAMPFIRE);
 		register(EGYPTIAN_CAMPFIRE_STAGE1);
 	}
 
