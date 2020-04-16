@@ -1,7 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.Machine;
 
 public class ActualMachineRecipe {
 

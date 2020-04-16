@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 
 public enum ItemCategory {

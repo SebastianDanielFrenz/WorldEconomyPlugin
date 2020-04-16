@@ -14,10 +14,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.CustomBlockMachineData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.MachineInventory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.CustomBlockMachineData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.MachineInventory;
 
 public class CraftingGUI extends WEGUI {
 

@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;

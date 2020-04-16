@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine;
 
 public class MachineNotSupportedException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.campfires;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires;
 
 import org.bukkit.Material;
 import org.bukkit.event.block.Action;
@@ -6,9 +6,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.CustomBlockMachineData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.Machine;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machine.MachineCategory;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.CustomBlockMachineData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.Machine;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.MachineCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.CraftingGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
