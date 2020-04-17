@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
@@ -9,7 +9,7 @@ public class ResearchItemBarries extends ResearchItem {
 
 	public ResearchItemBarries() {
 		super("Berries", CustomItemRegistry.BERRIES, new ResearchItem[] {}, new ResearchCondition[] {},
-				Age.OLD_STONE_AGE);
+				Age.EARLY_STONE_AGE);
 	}
 
 }

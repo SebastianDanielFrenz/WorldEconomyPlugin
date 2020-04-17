@@ -2,8 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay;
 
 public enum Age {
 
-	OLD_STONE_AGE,
-	MID_STONE_AGE(OLD_STONE_AGE),
+	EARLY_STONE_AGE,
+	MID_STONE_AGE(EARLY_STONE_AGE),
 	NEW_STONE_AGE(MID_STONE_AGE),
 	COPPER_AGE(NEW_STONE_AGE),
 	ANCIENT_EGYPT(COPPER_AGE),

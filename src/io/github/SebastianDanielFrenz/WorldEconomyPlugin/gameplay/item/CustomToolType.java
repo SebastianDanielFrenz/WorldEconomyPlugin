@@ -6,6 +6,7 @@ public enum CustomToolType {
 	PICKAXE,
 	SHOVEL,
 	AXE,
-	HAND
+	HAND,
+	SHEERS
 
 }

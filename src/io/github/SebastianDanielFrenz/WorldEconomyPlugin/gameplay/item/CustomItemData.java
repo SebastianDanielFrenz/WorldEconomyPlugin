@@ -79,4 +79,9 @@ public class CustomItemData {
 	public boolean isEmpty() {
 		return map.isEmpty();
 	}
+
+	@Override
+	public String toString() {
+		return map.toString();
+	}
 }

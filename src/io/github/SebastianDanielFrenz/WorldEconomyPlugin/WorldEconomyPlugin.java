@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static Thread creditPaymentHandlerThread;
 	private static Thread emptyProductStackCleanerThread;
 	private static Thread researchHandlerThread;
+
+	public static Random randomizer = new Random();
 
 	@Override
 	public void onEnable() {

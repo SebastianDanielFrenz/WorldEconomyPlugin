@@ -5,7 +5,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.CustomBlockMachineData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.Machine;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.MachineCategory;

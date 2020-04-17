@@ -41,7 +41,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
@@ -88,26 +87,23 @@ public class EventListener implements Listener {
 								if (lore != null) {
 									if (lore.get(0).equalsIgnoreCase("Credit Card")) {
 										if (lore.size() == 1) {
-											event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX
-													+ "§4This credit card has no banking information!");
+											event.getPlayer()
+													.sendMessage(WorldEconomyPlugin.PREFIX + "§4This credit card has no banking information!");
 										}
 										String bankAccountName = lore.get(1);
 										WorldEconomyProfile profile = WEDB.getUserProfile(player);
-										BankAccount bankAccount = WEDB.getBankAccount(profile.bankingID,
-												bankAccountName);
+										BankAccount bankAccount = WEDB.getBankAccount(profile.bankingID, bankAccountName);
 										if (bankAccount == null) {
-											player.sendMessage(WorldEconomyPlugin.PREFIX
-													+ "§4The bank account connected to the credit card does not exist!");
+											player.sendMessage(
+													WorldEconomyPlugin.PREFIX + "§4The bank account connected to the credit card does not exist!");
 										} else {
 											double price = Double.parseDouble(lines[3]);
 
 											if (bankAccount.getBalance() >= price) {
-												player.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "Your bank account has enough money to buy the item.");
+												player.sendMessage(WorldEconomyPlugin.PREFIX + "Your bank account has enough money to buy the item.");
 												SupplyChestData chestData = WEDB.getSupplyChest(signData.supplyChestID);
 												if (chestData == null) {
-													player.sendMessage(WorldEconomyPlugin.PREFIX
-															+ "§4The supply chest does not exist!");
+													player.sendMessage(WorldEconomyPlugin.PREFIX + "§4The supply chest does not exist!");
 												} else {
 													Block block2 = chestData.location.getBlock();
 													if (block2.getType() == Material.CHEST) {
@@ -116,9 +112,8 @@ public class EventListener implements Listener {
 
 														Product product = WEDB.getProduct(signData.productID);
 														if (product == null) {
-															player.sendMessage(
-																	WorldEconomyPlugin.PREFIX + "§4The product with ID "
-																			+ signData.productID + " does not exist!");
+															player.sendMessage(WorldEconomyPlugin.PREFIX + "§4The product with ID "
+																	+ signData.productID + " does not exist!");
 														}
 														Material productMaterial = Material.getMaterial(product.itemID);
 
@@ -128,12 +123,10 @@ public class EventListener implements Listener {
 
 														Company company = WEDB.getCompany(product.manifacturerID);
 														if (company == null) {
-															player.sendMessage(WorldEconomyPlugin.PREFIX
-																	+ "§4The company with ID " + product.manifacturerID
-																	+ " does not exist!");
+															player.sendMessage(WorldEconomyPlugin.PREFIX + "§4The company with ID "
+																	+ product.manifacturerID + " does not exist!");
 														} else {
-															BankAccount companyBankAccount = WEDB
-																	.getBankAccount(company.bankingID, "shop_income");
+															BankAccount companyBankAccount = WEDB.getBankAccount(company.bankingID, "shop_income");
 															if (companyBankAccount == null) {
 																player.sendMessage(WorldEconomyPlugin.PREFIX
 																		+ "§4The company does not have a bank account called \"shop_income\"!");
@@ -163,13 +156,10 @@ public class EventListener implements Listener {
 																		if (chestItemStack == null) {
 																			continue;
 																		}
-																		if (chestItemStack
-																				.getType() == productMaterial) {
-																			if (product.itemAmount < chestItemStack
-																					.getAmount() + itemCount) {
-																				chestItemStack.setAmount(
-																						chestItemStack.getAmount()
-																								- product.itemAmount);
+																		if (chestItemStack.getType() == productMaterial) {
+																			if (product.itemAmount < chestItemStack.getAmount() + itemCount) {
+																				chestItemStack
+																						.setAmount(chestItemStack.getAmount() - product.itemAmount);
 																				break;
 																			} else {
 																				itemCount += chestItemStack.getAmount();
@@ -187,18 +177,15 @@ public class EventListener implements Listener {
 																	// account
 																	// balance
 
-																	WEDB.bankAccountTransaction(bankAccount,
-																			companyBankAccount, price);
+																	WEDB.bankAccountTransaction(bankAccount, companyBankAccount, price);
 
 																	// give
 																	// items
 
-																	ItemStack playerItemStack = new ItemStack(
-																			productMaterial, product.itemAmount);
+																	ItemStack playerItemStack = new ItemStack(productMaterial, product.itemAmount);
 																	player.getInventory().addItem(playerItemStack);
 
-																	player.sendMessage(WorldEconomyPlugin.PREFIX
-																			+ "Bought " + product.name + " for "
+																	player.sendMessage(WorldEconomyPlugin.PREFIX + "Bought " + product.name + " for "
 																			+ product.price + "!");
 																} else {
 																	// not
@@ -206,8 +193,7 @@ public class EventListener implements Listener {
 																	// items
 																	// in
 																	// chest
-																	player.sendMessage(WorldEconomyPlugin.PREFIX
-																			+ "§4The supply chest is empty!");
+																	player.sendMessage(WorldEconomyPlugin.PREFIX + "§4The supply chest is empty!");
 																}
 															}
 														}
@@ -218,8 +204,7 @@ public class EventListener implements Listener {
 												}
 
 											} else {
-												player.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "§4The bank account does not have enough money");
+												player.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank account does not have enough money");
 											}
 										}
 									} else {
@@ -253,27 +238,23 @@ public class EventListener implements Listener {
 				double price = Double.parseDouble(lines[2]);
 				long supplyChestID = Long.parseLong(lines[3]);
 
-				ResultSet r1 = WorldEconomyPlugin.runSQLquery(
-						"SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
+				ResultSet r1 = WorldEconomyPlugin
+						.runSQLquery("SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
 
 				if (r1.next()) {
 					long companyID = r1.getLong("productManifacturerID");
 					String productName = r1.getString("productName");
 
-					ResultSet r2 = WorldEconomyPlugin
-							.runSQLquery("SELECT companyName FROM companies WHERE companyID = " + companyID);
+					ResultSet r2 = WorldEconomyPlugin.runSQLquery("SELECT companyName FROM companies WHERE companyID = " + companyID);
 					r2.next();
 					String companyName = r2.getString("companyName");
 
 					WorldEconomyPlugin
-							.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES ("
-									+ WEDB.getNextEnumerator("signID") + ", \"shop\", " + sign.getLocation().getBlockX()
-									+ ", " + sign.getLocation().getBlockY() + ", " + sign.getLocation().getBlockZ()
-									+ ", \"" + sign.getLocation().getWorld().getName() + "\")");
-					WorldEconomyPlugin
-							.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
-									+ WEDB.getNextEnumerator("signID") + ", " + supplyChestID + ", " + companyID + ", "
-									+ productID + ", " + price + ")");
+							.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES (" + WEDB.getNextEnumerator("signID")
+									+ ", \"shop\", " + sign.getLocation().getBlockX() + ", " + sign.getLocation().getBlockY() + ", "
+									+ sign.getLocation().getBlockZ() + ", \"" + sign.getLocation().getWorld().getName() + "\")");
+					WorldEconomyPlugin.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
+							+ WEDB.getNextEnumerator("signID") + ", " + supplyChestID + ", " + companyID + ", " + productID + ", " + price + ")");
 
 					WEDB.moveEnumerator("signID");
 
@@ -330,8 +311,7 @@ public class EventListener implements Listener {
 		if (entity instanceof Villager) {
 			Villager villager = (Villager) entity;
 			Map<String, String> args;
-			args = Utils.getTagsAfter(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount",
-					new String[] { "BankName" });
+			args = Utils.getTagsAfter(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount", new String[] { "BankName" });
 			if (args != null) {
 				if (VolatileCooldowns.useVillagerInteractCooldown(event.getPlayer())) {
 					new CreateBankAccountChatDialog(event.getPlayer(), WEDB.getBank(args.get("BankName")));
@@ -349,8 +329,8 @@ public class EventListener implements Listener {
 	}
 
 	@EventHandler
-	public void onWorldInitEvent(WorldInitEvent event) throws SQLException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void onWorldInitEvent(WorldInitEvent event) throws SQLException, NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// blocks from addons should be registered by now.
 
 		if (event.getWorld().getName().equals("world")) {
@@ -367,8 +347,7 @@ public class EventListener implements Listener {
 			for (CustomBlock customBlock : WEDB.getAllCustomBlocks(event.getWorld())) {
 				mcBlock = customBlock.getLocation().toLocation().getBlock();
 				mcBlock.setType(customBlock.getType().material);
-				mcBlock.setMetadata("customBlockType",
-						new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
+				mcBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
 			}
 		}
 	}

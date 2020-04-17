@@ -66,8 +66,8 @@ public class CustomBlockEventHandler implements Listener {
 				}
 			}
 
-			CustomItemStack[] drops = customBlock.getDrops(toolDetails.getToolType(), toolDetails.getToolLevel());
-			if (drops.length == 0) {
+			List<CustomItemStack> drops = customBlock.getDrops(toolDetails.getToolType(), toolDetails.getToolLevel());
+			if (drops.size() == 0) {
 				// if no drops are found, you are not allowed to mine the block.
 				event.setCancelled(true);
 				return;

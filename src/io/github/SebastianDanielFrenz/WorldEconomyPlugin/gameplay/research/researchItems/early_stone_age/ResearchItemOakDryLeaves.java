@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
@@ -16,7 +16,7 @@ public class ResearchItemOakDryLeaves extends ResearchItem {
 				new ResearchItem[] { ResearchItemRegistry.OAK_LEAVES },
 				new ResearchCondition[] { new ExperienceResearchCondition(CustomBlockTypeRegistry.OAK_LEAVES,
 						StatisticCategoryRegistry.MINED, 10) },
-				Age.OLD_STONE_AGE);
+				Age.EARLY_STONE_AGE);
 	}
 
 }

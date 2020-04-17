@@ -3,7 +3,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockDropTable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
 
 public abstract class Machine extends CustomBlockType {

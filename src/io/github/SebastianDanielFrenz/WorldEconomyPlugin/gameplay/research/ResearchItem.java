@@ -4,8 +4,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
 public abstract class ResearchItem implements ResearchableObject {
 
-	public ResearchItem(String ID, ResearchableObject researchableObject, ResearchItem[] parents,
-			ResearchCondition[] conditions, Age age) {
+	public ResearchItem(String ID, ResearchableObject researchableObject, ResearchItem[] parents, ResearchCondition[] conditions, Age age) {
 		this.ID = ID;
 		this.researchableObject = researchableObject;
 		this.parents = parents;

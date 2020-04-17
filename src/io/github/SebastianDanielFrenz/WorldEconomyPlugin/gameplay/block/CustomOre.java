@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
 import org.bukkit.Material;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
+
 public abstract class CustomOre extends CustomBlockType {
 
 	public CustomOre(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table, Class<? extends CustomBlockData> blockDataType) {

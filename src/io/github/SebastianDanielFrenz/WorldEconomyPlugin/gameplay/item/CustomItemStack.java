@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -76,10 +78,10 @@ public class CustomItemStack {
 		return itemStack;
 	}
 
-	public static ItemStack[] convert(CustomItemStack[] stacks) {
-		ItemStack[] out = new ItemStack[stacks.length];
-		for (int i = 0; i < stacks.length; i++) {
-			out[i] = stacks[i].toItemStack();
+	public static ItemStack[] convert(List<CustomItemStack> stacks) {
+		ItemStack[] out = new ItemStack[stacks.size()];
+		for (int i = 0; i < stacks.size(); i++) {
+			out[i] = stacks.get(i).toItemStack();
 		}
 		return out;
 	}

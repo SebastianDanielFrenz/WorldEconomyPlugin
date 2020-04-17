@@ -12,6 +12,9 @@ import org.bukkit.metadata.MetadataValue;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockDataDoesNotExistException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterialLevel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDrop;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropDefaultComponent;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
@@ -44,7 +47,7 @@ public abstract class CustomBlockType implements StatisticalObject {
 		return null;
 	}
 
-	public CustomItemStack[] getDrops(CustomToolType tool, CustomMaterialLevel tool_lvl) {
+	public List<CustomItemStack> getDrops(CustomToolType tool, CustomMaterialLevel tool_lvl) {
 		return drop_table.getDrops(tool, tool_lvl);
 	}
 
@@ -103,7 +106,8 @@ public abstract class CustomBlockType implements StatisticalObject {
 	}
 
 	public static CustomBlockDropTable easyDrop(CustomItem item) {
-		return new CustomBlockDropTable(new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND, new CustomItemStack(item, 1)));
+		return new CustomBlockDropTable(
+				new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND, new CustomBlockDropDefaultComponent(new CustomItemStack(item, 1))));
 	}
 
 }
