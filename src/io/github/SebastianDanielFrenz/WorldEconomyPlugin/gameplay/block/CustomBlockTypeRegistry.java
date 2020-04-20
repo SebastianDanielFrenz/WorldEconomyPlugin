@@ -2,13 +2,16 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.MetadataValue;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockAndesite;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockGranite;
@@ -43,7 +46,6 @@ public class CustomBlockTypeRegistry {
 
 	public static final CustomBlockType SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
 	public static final CustomBlockType CUT_SANDSTONE = new BlockCutSandstone();
-	public static final CustomBlockType CAMPFIRE = new BlockCampfire();
 	public static final CustomBlockType SMOOTH_SANDSTONE = new BlockSmoothSandstone();
 	public static final CustomBlockType OAK_LEAVES = new BlockOakLeaves();
 	public static final CustomBlockType TREE_OAK_LEAVES = new BlockTreeOakLeaves();
@@ -64,13 +66,61 @@ public class CustomBlockTypeRegistry {
 
 		register(SANDSTONE_TRIGGER);
 		register(CUT_SANDSTONE);
-		register(CAMPFIRE);
 		register(SMOOTH_SANDSTONE);
 		register(OAK_LEAVES);
 		register(TREE_OAK_LEAVES);
 
 		register(STONE_AGE_CAMPFIRE);
 		register(EGYPTIAN_CAMPFIRE_STAGE1);
+	}
+
+	/**
+	 * This function is run after all add-ons have registered their custom
+	 * blocks.
+	 */
+	public static void check() {
+		Map<Material, List<CustomBlockType>> map = new TreeMap<Material, List<CustomBlockType>>();
+		boolean broken = false;
+
+		for (CustomBlockType type : blocks) {
+			if (type.vanilla) {
+				if (map.get(type.material) == null) {
+					List<CustomBlockType> list = new ArrayList<CustomBlockType>(1);
+					list.add(type);
+					map.put(type.material, list);
+				} else {
+					map.get(type.material).add(type);
+					broken = true;
+				}
+			}
+		}
+
+		if (broken) {
+			WorldEconomyPlugin.plugin.getLogger().severe(
+					"The block registry is broken. There are multiple blocks registered as the same vanilla block!");
+			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
+			List<CustomBlockType> list;
+			String msg;
+			for (Material material : map.keySet()) {
+				list = map.get(material);
+				if (list.size() > 1) {
+					msg = list.size() + "x " + material.name() + " (";
+					for (int i = 0; i < list.size() - 1; i++) {
+						msg += list.get(i).ID + "[" + list.get(i).getClass().getCanonicalName() + "]" + ", ";
+					}
+					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName()
+							+ "])";
+
+					WorldEconomyPlugin.plugin.getLogger().warning(msg);
+				} else {
+					WorldEconomyPlugin.plugin.getLogger().info("1x " + material.name() + " (" + list.get(0).ID + "["
+							+ list.get(0).getClass().getCanonicalName() + "])");
+				}
+			}
+
+			throw new RuntimeException(
+					"Dublicate custom block entry for CustomBlockType[vanilla=true]. More details above.");
+		}
 	}
 
 	public static List<CustomBlockType> getContents() {

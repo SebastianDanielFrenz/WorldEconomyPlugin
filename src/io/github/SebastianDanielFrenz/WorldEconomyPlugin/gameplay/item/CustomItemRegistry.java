@@ -40,7 +40,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadRod;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakDryLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldNugget;
@@ -64,7 +63,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemRawClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterClayBucket;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWoodenShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestoneShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestoneShovel;
@@ -172,7 +170,6 @@ public class CustomItemRegistry {
 	public static final CustomItem RAW_CLAY_BUCKET = new ItemRawClayBucket();
 	public static final CustomItem CLAY_BUCKET = new ItemClayBucket();
 	public static final CustomItem WATER_CLAY_BUCKET = new ItemWaterClayBucket();
-	public static final CustomItem CAMPFIRE = new ItemCampfire();
 	public static final CustomItem WOODEN_SHOVEL = new ItemWoodenShovel();
 	public static final CustomItem COBBLESTONE_SHOVEL = new ItemCobblestoneShovel();
 	public static final CustomItem HARDENED_COBBLESTONE_SHOVEL = new ItemHardenedCobblestoneShovel();
@@ -187,7 +184,6 @@ public class CustomItemRegistry {
 	public static final CustomItem OAK_LOG = new ItemOakLog();
 	public static final CustomItem OAK_SLAB = new ItemOakSlab();
 	public static final CustomItem OAK_LEAVES = new ItemOakLeaves();
-	public static final CustomItem OAK_DRY_LEAVES = new ItemOakDryLeaves();
 	public static final CustomItem COARSE_DIRT = new ItemCoarseDirt();
 	public static final CustomItem SAND = new ItemSand();
 	public static final CustomItem GRANITE = new ItemGranite();
@@ -274,7 +270,6 @@ public class CustomItemRegistry {
 		register(RAW_CLAY_BUCKET);
 		register(CLAY_BUCKET);
 		register(WATER_CLAY_BUCKET);
-		register(CAMPFIRE, CustomBlockTypeRegistry.CAMPFIRE);
 		register(WOODEN_SHOVEL);
 		register(COBBLESTONE_SHOVEL);
 		register(HARDENED_COBBLESTONE_SHOVEL);

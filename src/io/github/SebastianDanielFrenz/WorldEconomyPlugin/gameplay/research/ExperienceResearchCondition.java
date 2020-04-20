@@ -9,6 +9,7 @@ public class ExperienceResearchCondition extends ResearchCondition {
 	public ExperienceResearchCondition(StatisticalObject statisticalObject, StatisticCategory category, double min) {
 		this.statisticalObject = statisticalObject;
 		this.min = min;
+		this.category = category;
 	}
 
 	private StatisticalObject statisticalObject;

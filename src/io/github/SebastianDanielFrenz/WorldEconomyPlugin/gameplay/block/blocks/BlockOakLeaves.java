@@ -15,7 +15,7 @@ public class BlockOakLeaves extends CustomBlockType {
 
 	public BlockOakLeaves() {
 		super("oak_leaves",
-				Material.OAK_LEAVES, true, new CustomBlockDropTable(new CustomBlockDrop(CustomToolType.ALL,
+				Material.OAK_LEAVES, false, new CustomBlockDropTable(new CustomBlockDrop(CustomToolType.ALL,
 						CustomMaterialLevel.HAND, new CustomItemStack(CustomItemRegistry.OAK_LEAVES, 1))),
 				CustomEmptyBlockData.class);
 	}

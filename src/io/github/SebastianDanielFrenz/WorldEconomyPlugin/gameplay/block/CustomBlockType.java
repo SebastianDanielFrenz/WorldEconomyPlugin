@@ -18,9 +18,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.Cus
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
 
-public abstract class CustomBlockType implements StatisticalObject {
+public abstract class CustomBlockType implements StatisticalObject, ResearchableObject {
 
 	public CustomBlockType(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends CustomBlockData> blockDataType) {
