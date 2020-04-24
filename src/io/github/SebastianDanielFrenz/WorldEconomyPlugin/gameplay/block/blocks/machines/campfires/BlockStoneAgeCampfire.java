@@ -7,7 +7,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.Machin
 public class BlockStoneAgeCampfire extends MachineCampfire {
 
 	public BlockStoneAgeCampfire() {
-		super("stone_age_campfire", true, easyDrop(CustomItemRegistry.CAMPFIRE));
+		super("stone_age_campfire", true, easyDrop(CustomItemRegistry.STONE_AGE_CAMPFIRE));
 	}
 
 	@Override

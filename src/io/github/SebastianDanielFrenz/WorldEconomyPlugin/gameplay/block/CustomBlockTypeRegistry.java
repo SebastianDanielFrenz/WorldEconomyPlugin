@@ -8,7 +8,6 @@ import org.bukkit.block.Block;
 import org.bukkit.metadata.MetadataValue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockAndesite;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockGranite;
@@ -43,7 +42,6 @@ public class CustomBlockTypeRegistry {
 
 	public static final CustomBlockType SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
 	public static final CustomBlockType CUT_SANDSTONE = new BlockCutSandstone();
-	public static final CustomBlockType CAMPFIRE = new BlockCampfire();
 	public static final CustomBlockType SMOOTH_SANDSTONE = new BlockSmoothSandstone();
 	public static final CustomBlockType OAK_LEAVES = new BlockOakLeaves();
 	public static final CustomBlockType TREE_OAK_LEAVES = new BlockTreeOakLeaves();
@@ -64,7 +62,6 @@ public class CustomBlockTypeRegistry {
 
 		register(SANDSTONE_TRIGGER);
 		register(CUT_SANDSTONE);
-		register(CAMPFIRE);
 		register(SMOOTH_SANDSTONE);
 		register(OAK_LEAVES);
 		register(TREE_OAK_LEAVES);

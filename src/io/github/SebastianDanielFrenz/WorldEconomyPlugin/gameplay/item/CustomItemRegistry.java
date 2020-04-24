@@ -64,7 +64,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemRawClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterClayBucket;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWoodenShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestoneShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestoneShovel;
@@ -172,7 +171,6 @@ public class CustomItemRegistry {
 	public static final CustomItem RAW_CLAY_BUCKET = new ItemRawClayBucket();
 	public static final CustomItem CLAY_BUCKET = new ItemClayBucket();
 	public static final CustomItem WATER_CLAY_BUCKET = new ItemWaterClayBucket();
-	public static final CustomItem CAMPFIRE = new ItemCampfire();
 	public static final CustomItem WOODEN_SHOVEL = new ItemWoodenShovel();
 	public static final CustomItem COBBLESTONE_SHOVEL = new ItemCobblestoneShovel();
 	public static final CustomItem HARDENED_COBBLESTONE_SHOVEL = new ItemHardenedCobblestoneShovel();
@@ -274,7 +272,6 @@ public class CustomItemRegistry {
 		register(RAW_CLAY_BUCKET);
 		register(CLAY_BUCKET);
 		register(WATER_CLAY_BUCKET);
-		register(CAMPFIRE, CustomBlockTypeRegistry.CAMPFIRE);
 		register(WOODEN_SHOVEL);
 		register(COBBLESTONE_SHOVEL);
 		register(HARDENED_COBBLESTONE_SHOVEL);
