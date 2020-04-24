@@ -40,7 +40,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemLeadRod;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakDryLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemOakLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGoldNugget;
@@ -185,7 +184,6 @@ public class CustomItemRegistry {
 	public static final CustomItem OAK_LOG = new ItemOakLog();
 	public static final CustomItem OAK_SLAB = new ItemOakSlab();
 	public static final CustomItem OAK_LEAVES = new ItemOakLeaves();
-	public static final CustomItem OAK_DRY_LEAVES = new ItemOakDryLeaves();
 	public static final CustomItem COARSE_DIRT = new ItemCoarseDirt();
 	public static final CustomItem SAND = new ItemSand();
 	public static final CustomItem GRANITE = new ItemGranite();
