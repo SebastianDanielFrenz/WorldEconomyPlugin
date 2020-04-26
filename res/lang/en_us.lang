@@ -127,12 +127,12 @@ age.early_stone_age=Early Stone Age
 age.stone_age=Stone Age
 age.new_stone_age=New Stone Age
 age.copper_age=Copper Age
-age.ancient_egypt=Acient Egypt
+age.ancient_egypt=Ancient Egypt
 age.ancient_greece=Ancient Greece
-age.acient_rome=Ancient Rome
-age.early_middle_ages=Early Middle Ages
-age.middle_ages=Middle Ages
-age.late_middle_ages=Late Middle Ages
+age.ancient_rome=Ancient Rome
+age.early_medieval_times=Early Medieval Times
+age.middle_medieval_times=Medieval Times
+age.late_medieval_times=Late Medieval Times
 
 # ========== Messages ==========
 
