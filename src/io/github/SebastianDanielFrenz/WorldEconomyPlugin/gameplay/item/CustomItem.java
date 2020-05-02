@@ -5,51 +5,51 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
 
 public abstract class CustomItem implements ResearchableObject, StatisticalObject {
 
-	public CustomItem(String ID, Material base, Tier tier, String name, ItemCategory category, boolean vanilla) {
+	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, boolean vanilla) {
 		this.ID = ID;
 		base_material = base;
 		raw_item_name = name;
-		item_name = tier.color.toString() + name;
-		this.tier = tier;
+		item_name = age.color.toString() + name;
+		this.age = age;
 		this.category = category;
 		details = new ItemDetail[] {};
 		this.vanilla = vanilla;
 	}
 
-	public CustomItem(String ID, Material base, Tier tier, String name, ItemCategory category, ItemDetail[] details,
-			boolean vanilla) {
+	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
 		this.ID = ID;
 		base_material = base;
 		raw_item_name = name;
-		item_name = tier.color.toString() + name;
-		this.tier = tier;
+		item_name = age.color.toString() + name;
+		this.age = age;
 		this.category = category;
 		this.details = details;
 		this.vanilla = vanilla;
 	}
 
-	public CustomItem(String ID, Material base, Tier tier, String name, ItemCategory category) {
+	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category) {
 		this.ID = ID;
 		base_material = base;
 		raw_item_name = name;
-		item_name = tier.color.toString() + name;
-		this.tier = tier;
+		item_name = age.color.toString() + name;
+		this.age = age;
 		this.category = category;
 		details = new ItemDetail[] {};
 		this.vanilla = false;
 	}
 
-	public CustomItem(String ID, Material base, Tier tier, String name, ItemCategory category, ItemDetail[] details) {
+	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
 		this.ID = ID;
 		base_material = base;
 		raw_item_name = name;
-		item_name = tier.color.toString() + name;
-		this.tier = tier;
+		item_name = age.color.toString() + name;
+		this.age = age;
 		this.category = category;
 		this.details = details;
 		this.vanilla = false;
@@ -59,7 +59,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	public final Material base_material;
 	public final String raw_item_name;
 	public final String item_name;
-	public final Tier tier;
+	public final Age age;
 	public final ItemCategory category;
 	public final ItemDetail[] details;
 	public final boolean vanilla;
