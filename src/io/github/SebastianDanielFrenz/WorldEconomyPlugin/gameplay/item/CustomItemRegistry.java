@@ -3,6 +3,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAsh;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBronzeRod;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCharcoal;
@@ -71,6 +74,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStick;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStoneAgeCampfire;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemStoneAgeCraftingTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGrassBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemEgyptianCampfireStage1;
@@ -198,6 +202,7 @@ public class CustomItemRegistry {
 	public static final CustomItem CUT_SANDSTONE = new ItemCutSandstone();
 	public static final CustomItem SMOOTH_SANDSTONE = new ItemSmoothSandstone();
 
+	public static final CustomItem STONE_AGE_CRAFTING_TABLE = new ItemStoneAgeCraftingTable();
 	public static final CustomItem STONE_AGE_CAMPFIRE = new ItemStoneAgeCampfire();
 	public static final CustomItem EGYPTIAN_CAMPFIRE_STAGE1 = new ItemEgyptianCampfireStage1();
 
@@ -298,6 +303,7 @@ public class CustomItemRegistry {
 		register(CUT_SANDSTONE, CustomBlockTypeRegistry.CUT_SANDSTONE);
 		register(SMOOTH_SANDSTONE, CustomBlockTypeRegistry.SMOOTH_SANDSTONE);
 
+		register(STONE_AGE_CRAFTING_TABLE, CustomBlockTypeRegistry.STONE_AGE_CRAFTING_TABLE);
 		register(STONE_AGE_CAMPFIRE, CustomBlockTypeRegistry.STONE_AGE_CAMPFIRE);
 		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockTypeRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
 	}
@@ -305,6 +311,23 @@ public class CustomItemRegistry {
 	public static CustomItem getItem(String ID) {
 		for (CustomItem item : items) {
 			if (item.ID.equalsIgnoreCase(ID)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	public static CustomItem getItem(ItemStack vanillaStack) {
+		ItemMeta meta = vanillaStack.getItemMeta();
+		if (meta == null) {
+			return null;
+		}
+		String name = meta.getDisplayName();
+		if (name == null) {
+			return null;
+		}
+		for (CustomItem item : items) {
+			if (item.base_material == vanillaStack.getType() && item.item_name.equals(name)) {
 				return item;
 			}
 		}

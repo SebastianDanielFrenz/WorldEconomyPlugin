@@ -2,6 +2,9 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
 public enum ItemDetailType {
 
-	TOOL;
+	TOOL,
+
+	MELEE_WEAPON,
+	RANGE_WEAPON
 
 }

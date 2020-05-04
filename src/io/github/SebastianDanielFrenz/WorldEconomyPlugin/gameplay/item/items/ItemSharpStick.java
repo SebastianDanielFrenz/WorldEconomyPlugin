@@ -8,13 +8,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCategory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemDetail;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.MeleeWeaponItemDetail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemDetail;
 
-public class ItemProcessedCobblestonePickaxe extends CustomItem {
+public class ItemSharpStick extends CustomItem {
 
-	public ItemProcessedCobblestonePickaxe() {
-		super("PROCESSED_COBBLESTONE_PICKAXE", Material.STONE_PICKAXE, Age.COPPER_AGE, "Processed Cobblestone Pickaxe", ItemCategory.EQUIPMENT,
-				new ItemDetail[] { new ToolItemDetail(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE) });
+	public ItemSharpStick(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
+		super("sharp_stick", Material.STICK, Age.EARLY_STONE_AGE, "Sharp Stick", ItemCategory.EQUIPMENT,
+				new ItemDetail[] { new MeleeWeaponItemDetail() });
 	}
 
 }

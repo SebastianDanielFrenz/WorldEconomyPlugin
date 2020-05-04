@@ -12,6 +12,14 @@ public abstract class ResearchItem implements ResearchableObject {
 		this.age = age;
 	}
 
+	public ResearchItem(String ID, ResearchableObject researchableObject, ResearchItem[] parents, ResearchCondition condition, Age age) {
+		this.ID = ID;
+		this.researchableObject = researchableObject;
+		this.parents = parents;
+		this.conditions = new ResearchCondition[] { condition };
+		this.age = age;
+	}
+
 	private ResearchableObject researchableObject;
 	private ResearchItem[] parents;
 	private ResearchCondition[] conditions;

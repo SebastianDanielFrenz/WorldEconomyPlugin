@@ -10,27 +10,25 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
 public abstract class CustomPlaceableItem extends CustomItem {
 
-	public CustomPlaceableItem(String ID, Material base, Tier tier, String name, ItemCategory category,
-			boolean vanilla) {
-		super(ID, base, tier, name, category, vanilla);
+	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category, boolean vanilla) {
+		super(ID, base, age, name, category, vanilla);
 	}
 
-	public CustomPlaceableItem(String ID, Material base, Tier tier, String name, ItemCategory category,
-			ItemDetail[] details, boolean vanilla) {
-		super(ID, base, tier, name, category, details, vanilla);
+	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
+		super(ID, base, age, name, category, details, vanilla);
 	}
 
-	public CustomPlaceableItem(String ID, Material base, Tier tier, String name, ItemCategory category) {
-		super(ID, base, tier, name, category);
+	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category) {
+		super(ID, base, age, name, category);
 	}
 
-	public CustomPlaceableItem(String ID, Material base, Tier tier, String name, ItemCategory category,
-			ItemDetail[] details) {
-		super(ID, base, tier, name, category, details);
+	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
+		super(ID, base, age, name, category, details);
 	}
 
 	private CustomBlockType block;

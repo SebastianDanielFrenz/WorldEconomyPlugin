@@ -7,16 +7,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Exper
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchCondition;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItemRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticCategoryRegistry;
 
 public class ResearchItemOakPlanks extends ResearchItem {
 
-	public ResearchItemOakPlanks(String ID, ResearchableObject researchableObject, ResearchItem[] parents,
-			ResearchCondition[] conditions, Age age) {
+	public ResearchItemOakPlanks() {
 		super("oak_planks", CustomItemRegistry.OAK_PLANKS, new ResearchItem[] { ResearchItemRegistry.STICK },
-				new ResearchCondition[] { new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES,
-						StatisticCategoryRegistry.CRAFTED, 200) },
+				new ResearchCondition[] {
+						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES, StatisticCategoryRegistry.CRAFTED, 200) },
 				Age.EARLY_STONE_AGE);
 	}
 
