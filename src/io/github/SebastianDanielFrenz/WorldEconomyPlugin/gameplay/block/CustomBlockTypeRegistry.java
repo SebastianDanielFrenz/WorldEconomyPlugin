@@ -25,6 +25,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockTreeOakLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockEgyptianCampfireStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockStoneAgeCampfire;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.crafting_tables.BlockStoneAgeCraftingTable;
 
 public class CustomBlockTypeRegistry {
 
@@ -50,6 +51,7 @@ public class CustomBlockTypeRegistry {
 	public static final CustomBlockType OAK_LEAVES = new BlockOakLeaves();
 	public static final CustomBlockType TREE_OAK_LEAVES = new BlockTreeOakLeaves();
 
+	public static final CustomBlockType STONE_AGE_CRAFTING_TABLE = new BlockStoneAgeCraftingTable();
 	public static final CustomBlockType STONE_AGE_CAMPFIRE = new BlockStoneAgeCampfire();
 	public static final CustomBlockType EGYPTIAN_CAMPFIRE_STAGE1 = new BlockEgyptianCampfireStage1();
 
@@ -70,6 +72,7 @@ public class CustomBlockTypeRegistry {
 		register(OAK_LEAVES);
 		register(TREE_OAK_LEAVES);
 
+		register(STONE_AGE_CRAFTING_TABLE);
 		register(STONE_AGE_CAMPFIRE);
 		register(EGYPTIAN_CAMPFIRE_STAGE1);
 	}
@@ -96,8 +99,8 @@ public class CustomBlockTypeRegistry {
 		}
 
 		if (broken) {
-			WorldEconomyPlugin.plugin.getLogger().severe(
-					"The block registry is broken. There are multiple blocks registered as the same vanilla block!");
+			WorldEconomyPlugin.plugin.getLogger()
+					.severe("The block registry is broken. There are multiple blocks registered as the same vanilla block!");
 			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
 			List<CustomBlockType> list;
 			String msg;
@@ -108,18 +111,16 @@ public class CustomBlockTypeRegistry {
 					for (int i = 0; i < list.size() - 1; i++) {
 						msg += list.get(i).ID + "[" + list.get(i).getClass().getCanonicalName() + "]" + ", ";
 					}
-					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName()
-							+ "])";
+					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName() + "])";
 
 					WorldEconomyPlugin.plugin.getLogger().warning(msg);
 				} else {
-					WorldEconomyPlugin.plugin.getLogger().info("1x " + material.name() + " (" + list.get(0).ID + "["
-							+ list.get(0).getClass().getCanonicalName() + "])");
+					WorldEconomyPlugin.plugin.getLogger()
+							.info("1x " + material.name() + " (" + list.get(0).ID + "[" + list.get(0).getClass().getCanonicalName() + "])");
 				}
 			}
 
-			throw new RuntimeException(
-					"Dublicate custom block entry for CustomBlockType[vanilla=true]. More details above.");
+			throw new RuntimeException("Dublicate custom block entry for CustomBlockType[vanilla=true]. More details above.");
 		}
 	}
 

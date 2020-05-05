@@ -4,16 +4,20 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.CustomMaterial
 
 public class ToolItemDetail extends ItemDetail {
 
-	public ToolItemDetail(CustomToolType tool_type, CustomMaterialLevel lvl) {
-		super(ItemDetailType.TOOL, new Enum[] { tool_type, lvl });
+	public final CustomToolType tool;
+	public final CustomMaterialLevel lvl;
+
+	public ToolItemDetail(CustomToolType tool, CustomMaterialLevel lvl) {
+		this.tool = tool;
+		this.lvl = lvl;
 	}
 
 	public CustomToolType getToolType() {
-		return (CustomToolType) ((Enum[]) data)[0];
+		return tool;
 	}
 
 	public CustomMaterialLevel getToolLevel() {
-		return (CustomMaterialLevel) ((Enum[]) data)[1];
+		return lvl;
 	}
 
 }

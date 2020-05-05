@@ -127,28 +127,20 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		}
 	}
 
-	public boolean hasDetail(ItemDetailType type) {
-		for (ItemDetail detail : details) {
-			if (detail.type == type) {
+	public boolean hasDetail(Class<? extends ItemDetail> type) {
+		for (ItemDetail _detail : details) {
+			if (_detail.getClass() == type) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean hasDetail(ItemDetail detail) {
-		for (ItemDetail _detail : details) {
-			if (_detail.type == detail.type) {
-				return _detail.data.equals(detail.data);
-			}
-		}
-		return false;
-	}
-
-	public ItemDetail getDetail(ItemDetailType type) {
+	@SuppressWarnings("unchecked")
+	public <T extends ItemDetail> T getDetail(Class<T> type) {
 		for (ItemDetail detail : details) {
-			if (detail.type == type) {
-				return detail;
+			if (detail.getClass() == type) {
+				return (T) detail;
 			}
 		}
 		return null;

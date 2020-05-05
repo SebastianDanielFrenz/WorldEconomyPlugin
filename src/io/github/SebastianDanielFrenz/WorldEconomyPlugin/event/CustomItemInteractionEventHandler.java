@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemDetailType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.MeleeWeaponItemDetail;
 
 public class CustomItemInteractionEventHandler implements Listener {
 
@@ -28,11 +28,17 @@ public class CustomItemInteractionEventHandler implements Listener {
 			ItemStack item = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
 			if (item != null) {
 				CustomItem customItem = CustomItemRegistry.getItem(item);
-				if (customItem.getDetail()) {
-					
+				// bows and other range weapons will cause damage via other
+				// entities such as arrows or snow balls.
+				MeleeWeaponItemDetail detail = customItem.getDetail(MeleeWeaponItemDetail.class);
+				if (detail != null) {
+					detail.processEvent(event);
+				} else {
+					player.sendMessage("You have dealt 0 damage. Use your fist or a weapon to deal damage.");
 				}
 			} else {
 				event.setDamage(1);
+				event.getDamager().sendMessage("You have dealt 1 damage using your hand.");
 			}
 		}
 	}

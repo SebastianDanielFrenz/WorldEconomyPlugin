@@ -21,7 +21,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemDetailType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemDetail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticCategoryRegistry;
 
@@ -57,10 +56,10 @@ public class CustomBlockEventHandler implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
+				toolDetails = (ToolItemDetail) item.getDetail(ToolItemDetail.class);
 			} else {
 				CustomItem item = CustomItem.getItem(hand);
-				toolDetails = (ToolItemDetail) item.getDetail(ItemDetailType.TOOL);
+				toolDetails = (ToolItemDetail) item.getDetail(ToolItemDetail.class);
 				if (toolDetails == null) {
 					toolDetails = new ToolItemDetail(CustomToolType.HAND, CustomMaterialLevel.HAND);
 				}

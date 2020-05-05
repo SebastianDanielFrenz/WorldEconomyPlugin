@@ -1,11 +1,9 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
-public class MeleeWeaponItemDetail extends ItemDetail {
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-	public MeleeWeaponItemDetail(ItemDetailType type, Object data) {
-		super(type, data);
-	}
-	
-	
+public abstract class MeleeWeaponItemDetail extends WeaponItemDetail {
+
+	public abstract void processEvent(EntityDamageByEntityEvent event);
 
 }
