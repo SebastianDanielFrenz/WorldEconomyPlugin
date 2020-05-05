@@ -85,6 +85,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCoarseDirt;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSand;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSandstoneTrigger;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSharpStick;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSmoothSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemGranite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedGranite;
@@ -205,6 +206,8 @@ public class CustomItemRegistry {
 	public static final CustomItem STONE_AGE_CRAFTING_TABLE = new ItemStoneAgeCraftingTable();
 	public static final CustomItem STONE_AGE_CAMPFIRE = new ItemStoneAgeCampfire();
 	public static final CustomItem EGYPTIAN_CAMPFIRE_STAGE1 = new ItemEgyptianCampfireStage1();
+	
+	public static final CustomItem SHARP_STICK = new ItemSharpStick();
 
 	public static void init() {
 		register(COAL_ORE);
@@ -306,6 +309,8 @@ public class CustomItemRegistry {
 		register(STONE_AGE_CRAFTING_TABLE, CustomBlockTypeRegistry.STONE_AGE_CRAFTING_TABLE);
 		register(STONE_AGE_CAMPFIRE, CustomBlockTypeRegistry.STONE_AGE_CAMPFIRE);
 		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockTypeRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
+		
+		register(SHARP_STICK);
 	}
 
 	public static CustomItem getItem(String ID) {

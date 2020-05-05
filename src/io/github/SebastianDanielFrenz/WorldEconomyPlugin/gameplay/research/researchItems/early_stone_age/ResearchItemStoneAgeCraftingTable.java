@@ -12,8 +12,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Stati
 
 public class ResearchItemStoneAgeCraftingTable extends ResearchItem {
 
-	public ResearchItemStoneAgeCraftingTable(String ID, ResearchableObject researchableObject, ResearchItem[] parents, ResearchCondition[] conditions,
-			Age age) {
+	public ResearchItemStoneAgeCraftingTable() {
 		super("stone_age_crafting_table", CustomItemRegistry.STONE_AGE_CRAFTING_TABLE, new ResearchItem[] { ResearchItemRegistry.OAK_PLANKS },
 				new ResearchCondition[] {
 						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES, StatisticCategoryRegistry.MINED, 400) },
