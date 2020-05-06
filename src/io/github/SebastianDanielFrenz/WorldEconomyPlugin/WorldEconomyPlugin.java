@@ -27,6 +27,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPa
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.ResearchHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
@@ -81,6 +82,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
 
 		startThreads();
+
+		TaskProcessor.init(Config.getBackGroundThreadCount(), Config.getIdleWaitMillis());
 
 		/**
 		 * ==================================================
@@ -189,7 +192,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 				runSQL("CREATE TABLE user_profiles (" + "playerID integer PRIMARY KEY," + "playerUUID text,"
 						+ "employeeID integer NOT NULL," + "playerAsEmployerID integer NOT NULL,"
 						+ "username text NOT NULL," + "playerBankingID integer NOT NULL,"
-						+ "mailboxID integer NOT NULL,"
+						+ "mailboxID integer NOT NULL," + "age text NOT NULL,"
 						// references
 						+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 						+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
@@ -212,6 +215,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE user_profiles (" + "playerID integer," + "playerUUID text,"
 					+ "employeeID integer NOT NULL," + "playerAsEmployerID integer NOT NULL,"
 					+ "username text NOT NULL," + "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
+					+ "age text NOT NULL,"
 					// references
 					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 					+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"

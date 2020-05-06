@@ -29,6 +29,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedExc
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.ComparableLocation;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
@@ -76,7 +77,7 @@ public class WEDB {
 		if (r.next()) {
 			return new WorldEconomyProfile(r.getLong("playerID"), player.getUniqueId(), r.getLong("employeeID"),
 					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
-					r.getLong("mailboxID"));
+					r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -88,7 +89,7 @@ public class WEDB {
 		if (r.next()) {
 			return new WorldEconomyProfile(r.getLong("playerID"), uuid, r.getLong("employeeID"),
 					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
-					r.getLong("mailboxID"));
+					r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -100,7 +101,7 @@ public class WEDB {
 		if (r.next()) {
 			return new WorldEconomyProfile(playerID, UUID.fromString(r.getString("playerUUID")),
 					r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
-					r.getLong("playerBankingID"), r.getLong("mailboxID"));
+					r.getLong("playerBankingID"), r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -112,7 +113,7 @@ public class WEDB {
 		while (r.next()) {
 			out.add(new WorldEconomyProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
 					r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
-					r.getLong("playerBankingID"), r.getLong("mailboxID")));
+					r.getLong("playerBankingID"), r.getLong("mailboxID"), Age.valueOf(r.getString("age"))));
 		}
 		return out;
 	}
@@ -1080,7 +1081,7 @@ public class WEDB {
 		if (r.next()) {
 			return new WorldEconomyProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
 					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
-					r.getInt("playerBankingID"), mailboxID);
+					r.getInt("playerBankingID"), mailboxID, Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}

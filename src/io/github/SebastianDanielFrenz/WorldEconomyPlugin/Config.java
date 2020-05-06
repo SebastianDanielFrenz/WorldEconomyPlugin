@@ -17,6 +17,8 @@ public class Config {
 		cfg.addDefault("DB.connection.database", "WorldEconomyPlugin");
 		cfg.addDefault("DB.connection.user", "root");
 		cfg.addDefault("DB.connection.password", "password");
+		cfg.addDefault("performace.background_thread_count", 6);
+		cfg.addDefault("performance.idle_wait_millis", 10);
 
 		cfg.options().copyDefaults(true);
 		WorldEconomyPlugin.plugin.saveConfig();
@@ -48,6 +50,14 @@ public class Config {
 
 	public static String getSQLPassword() {
 		return (String) cfg.get("DB.connection.password");
+	}
+
+	public static int getBackGroundThreadCount() {
+		return (int) cfg.getInt("performace.background_thread_count");
+	}
+
+	public static long getIdleWaitMillis() {
+		return (long) cfg.getLong("performance.idle_wait_millis");
 	}
 
 }

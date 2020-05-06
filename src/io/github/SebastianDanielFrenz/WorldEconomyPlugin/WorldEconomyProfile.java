@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.util.UUID;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
@@ -14,11 +15,12 @@ public class WorldEconomyProfile implements MailboxOwner, ResearchEntity {
 	public long employerID;
 	public String username;
 	public long bankingID;
+	public Age age;
 
 	public long mailboxID;
 
 	public WorldEconomyProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID,
-			long mailboxID) {
+			long mailboxID, Age age) {
 		this.ID = ID;
 		this.uuid = uuid;
 		this.employeeID = employeeID;
@@ -27,6 +29,7 @@ public class WorldEconomyProfile implements MailboxOwner, ResearchEntity {
 		this.bankingID = bankingID;
 
 		this.mailboxID = mailboxID;
+		this.age = age;
 	}
 
 	@Override
