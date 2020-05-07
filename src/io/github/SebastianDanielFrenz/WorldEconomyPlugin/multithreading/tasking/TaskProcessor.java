@@ -21,11 +21,11 @@ public class TaskProcessor {
 
 	private static Queue<Task> tasks = new PriorityQueue<Task>(new TaskComparator());
 
-	public static void registerTask(Task task) {
+	public synchronized static void registerTask(Task task) {
 		tasks.add(task);
 	}
 
-	public static Task assignTask() {
+	public synchronized static Task assignTask() {
 		return tasks.poll();
 	}
 
