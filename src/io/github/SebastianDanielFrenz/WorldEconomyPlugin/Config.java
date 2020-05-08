@@ -19,6 +19,8 @@ public class Config {
 		cfg.addDefault("DB.connection.password", "password");
 		cfg.addDefault("performace.background_thread_count", 6);
 		cfg.addDefault("performance.idle_wait_millis", 10);
+		cfg.addDefault("performance.AI_count", 10);
+		cfg.addDefault("debug.overload_warning", true);
 
 		cfg.options().copyDefaults(true);
 		WorldEconomyPlugin.plugin.saveConfig();
@@ -58,6 +60,14 @@ public class Config {
 
 	public static long getIdleWaitMillis() {
 		return (long) cfg.getLong("performance.idle_wait_millis");
+	}
+
+	public static int getAICount() {
+		return (int) cfg.getLong("performance.AI_count");
+	}
+
+	public static boolean doOverloadWarnings() {
+		return (boolean) cfg.getBoolean("debug.overload_warning");
 	}
 
 }

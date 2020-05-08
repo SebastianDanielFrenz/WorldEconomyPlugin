@@ -27,6 +27,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.CreditPa
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.EmptyProductStackCleanerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.ResearchHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TaskScheduler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 import net.milkbowl.vault.economy.Economy;
 
@@ -84,6 +85,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		startThreads();
 
 		TaskProcessor.init(Config.getBackGroundThreadCount(), Config.getIdleWaitMillis());
+		TaskScheduler.init();
 
 		/**
 		 * ==================================================
@@ -141,6 +143,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		stopThreads();
+		TaskProcessor.orderShutdown();
 
 		while (creditPaymentHandlerThread.isAlive() || emptyProductStackCleanerThread.isAlive()
 				|| salaryHandlerThread.isAlive() || researchHandlerThread.isAlive()) {
