@@ -12,12 +12,15 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.
  * @author crash
  *
  */
-public class TaskScheduler {
+public class TaskScheduler implements Runnable {
 
 	private static Queue<ScheduledTask> tasks_ticks = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
 	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(
 			new ScheduledTaskComparator());
-
+	
+	private boolean request_shutdown = false;
+	private static TaskScheduler instance;
+	
 	public synchronized static void scheduleTask(Task task, long time, TimeMeasurementType measurement_type) {
 		if (measurement_type == TimeMeasurementType.REAL_TIME) {
 			tasks_real_time
@@ -56,6 +59,20 @@ public class TaskScheduler {
 
 	public static void init() {
 		#please implement
+		instance = new TaskScheduler();
+		new Thread(instance).start();
+	}
+
+	@Override
+	public void run() {
+		long start;
+		long end;
+		long run_duration;
+		while (!request_shutdown) {
+			start = System.currentTimeMillis();
+			// logic
+			
+		}
 	}
 
 }

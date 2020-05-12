@@ -144,9 +144,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public void onDisable() {
 		stopThreads();
 		TaskProcessor.orderShutdown();
+		TaskScheduler.orderShutdown();
 
 		while (creditPaymentHandlerThread.isAlive() || emptyProductStackCleanerThread.isAlive()
-				|| salaryHandlerThread.isAlive() || researchHandlerThread.isAlive()) {
+				|| salaryHandlerThread.isAlive() || researchHandlerThread.isAlive() || TaskProcessor.isRunning() || TaskScheduler.isRunning()) {
 			try {
 				Thread.sleep(1000);
 				getLogger().info("Waiting for background threads to finish...");
