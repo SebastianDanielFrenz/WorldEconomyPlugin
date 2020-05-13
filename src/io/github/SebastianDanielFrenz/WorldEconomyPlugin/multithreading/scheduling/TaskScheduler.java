@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 
 /**
  * on tick event handler needed!
@@ -17,10 +18,15 @@ public class TaskScheduler implements Runnable {
 	private static Queue<ScheduledTask> tasks_ticks = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
 	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(
 			new ScheduledTaskComparator());
-	
+
 	private boolean request_shutdown = false;
+	private boolean running = true;
 	private static TaskScheduler instance;
-	
+
+	public static boolean isRunning() {
+		return instance.running;
+	}
+
 	public synchronized static void scheduleTask(Task task, long time, TimeMeasurementType measurement_type) {
 		if (measurement_type == TimeMeasurementType.REAL_TIME) {
 			tasks_real_time
@@ -58,21 +64,49 @@ public class TaskScheduler implements Runnable {
 	}
 
 	public static void init() {
-		#please implement
 		instance = new TaskScheduler();
 		new Thread(instance).start();
 	}
 
 	@Override
 	public void run() {
+		// only pushes real time based ScheduledTask objects to the
+		// TaskProcessor; tick based stuff should be handeled by a tick
+		// listener.
+
 		long start;
 		long end;
 		long run_duration;
+		Task task;
+
 		while (!request_shutdown) {
 			start = System.currentTimeMillis();
 			// logic
-			
+
+			for (task = assign(TimeMeasurementType.REAL_TIME); task != null; task = assign(
+					TimeMeasurementType.REAL_TIME)) {
+				// debugging
+				System.out.println("scheduler pushed real time based task " + task + " to task processor!");
+				TaskProcessor.registerTask(task);
+			}
+
+			// end logic
+			end = System.currentTimeMillis();
+			run_duration = end - start;
+			if (run_duration < 1000) {
+				try {
+					Thread.sleep(1000 - run_duration);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+
+		running = false;
+	}
+
+	public static void orderShutdown() {
+		instance.request_shutdown = true;
 	}
 
 }

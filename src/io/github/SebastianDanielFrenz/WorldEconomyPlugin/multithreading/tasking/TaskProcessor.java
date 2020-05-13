@@ -15,7 +15,7 @@ public class TaskProcessor {
 		workers = new TaskWorker[threads];
 		for (int i = 0; i < threads; i++) {
 			workers[i] = new TaskWorker();
-			new Thread(workers[i]);
+			new Thread(workers[i], "World Economy Task Worker #" + String.valueOf(i + 1)).start();
 		}
 	}
 

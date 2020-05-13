@@ -147,7 +147,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		TaskScheduler.orderShutdown();
 
 		while (creditPaymentHandlerThread.isAlive() || emptyProductStackCleanerThread.isAlive()
-				|| salaryHandlerThread.isAlive() || researchHandlerThread.isAlive() || TaskProcessor.isRunning() || TaskScheduler.isRunning()) {
+				|| salaryHandlerThread.isAlive() || researchHandlerThread.isAlive() || TaskProcessor.isRunning()
+				|| TaskScheduler.isRunning()) {
 			try {
 				Thread.sleep(1000);
 				getLogger().info("Waiting for background threads to finish...");
@@ -155,6 +156,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 				e.printStackTrace();
 			}
 		}
+
+		// here is the place for future task persistence features.
 
 		try {
 			sql_connection.close();
