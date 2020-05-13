@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemPolishedGranite extends CustomItem {
 
 	public ItemPolishedGranite() {
-		super("POLISHED_GRANITE", Material.POLISHED_GRANITE, Age.UNDEFINED, "Polished Granite", ItemCategory.PROCESSED_MATERIALS, true);
+		super("POLISHED_GRANITE", Material.STONE, 2, Age.UNDEFINED, "Polished Granite", ItemCategory.PROCESSED_MATERIALS, true);
 	}
 
 }

@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemGrassBlock extends CustomItem {
 
 	public ItemGrassBlock() {
-		super("GRASS_BLOCK", Material.GRASS_BLOCK, Age.MID_STONE_AGE, "Grass Block", ItemCategory.OTHER, true);
+		super("GRASS_BLOCK", Material.GRASS, Age.MID_STONE_AGE, "Grass Block", ItemCategory.OTHER, true);
 	}
 
 }

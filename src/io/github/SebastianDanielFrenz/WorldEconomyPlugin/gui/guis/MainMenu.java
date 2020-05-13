@@ -16,22 +16,22 @@ public class MainMenu extends WEGUI {
 		super(new GUIItem[] {}, "World Economy");
 		MainMenu _this = this;
 
-		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Main Menu")) {
+		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.SIGN, "Main Menu")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				event.getWhoClicked().sendMessage(WorldEconomyPlugin.PREFIX + "There is nothing to do here!");
 			}
-		}, new GUIItem(1, 0, mkItem(Material.RED_WOOL, "§4Mailbox")) {
+		}, new GUIItem(1, 0, mkItem(Material.WOOL, 1, 14, "§4Mailbox")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				MailSubsystem.showPlayerInbox((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(2, 0, mkItem(Material.PURPLE_WOOL, "Write Mail")) {
+		}, new GUIItem(2, 0, mkItem(Material.WOOL, 1, 10, "Write Mail")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new WriteMailChatDialog((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 1, mkItem(Material.GRAY_WOOL, "Banks")) {
+		}, new GUIItem(1, 1, mkItem(Material.WOOL, 1, 7, "Banks")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				Player player = (Player) event.getWhoClicked();
@@ -41,25 +41,25 @@ public class MainMenu extends WEGUI {
 											// inventory close event or not
 				new BanksGUI(_this).openInventory(player);
 			}
-		}, new GUIItem(2, 1, mkItem(Material.BLACK_WOOL, "My Bank Accounts")) {
+		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, "My Bank Accounts")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new BankAccountsGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(3, 1, mkItem(Material.BROWN_WOOL, "Register Bank Account")) {
+		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, "Register Bank Account")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(4, 1, mkItem(Material.BLACK_WOOL, "Transfer Money")) {
+		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, "Transfer Money")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new TransferMoneyGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 2, mkItem(Material.LIGHT_GRAY_WOOL, "Companies")) {
+		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, "Companies")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CompaniesGUI(_this).openInventory((Player) event.getWhoClicked());

@@ -9,6 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemStoneAgeCraftingTable extends CustomPlaceableItem {
 
 	public ItemStoneAgeCraftingTable() {
-		super("stone_age_crafting_table", Material.CRAFTING_TABLE, Age.EARLY_STONE_AGE, "Stone Age Crafting Table", ItemCategory.MACHINES, true);
+		super("stone_age_crafting_table", Material.WORKBENCH, Age.EARLY_STONE_AGE, "Stone Age Crafting Table",
+				ItemCategory.MACHINES, true);
 	}
 }

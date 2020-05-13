@@ -9,7 +9,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemSmoothSandstone extends CustomPlaceableItem {
 
 	public ItemSmoothSandstone() {
-		super("smooth_sandstone", Material.SMOOTH_SANDSTONE, Age.COPPER_AGE, "Smooth Sandstone", ItemCategory.BUILDING, true);
+		super("smooth_sandstone", Material.SANDSTONE, 2, Age.COPPER_AGE, "Smooth Sandstone", ItemCategory.BUILDING,
+				true);
 	}
 
 }

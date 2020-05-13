@@ -14,7 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToo
 public class BlockCoarseDirt extends CustomBlockType {
 
 	public BlockCoarseDirt() {
-		super("coarse_dirt", Material.COARSE_DIRT, true,
+		super("coarse_dirt", Material.DIRT, 1, true,
 				new CustomBlockDropTable(
 						new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD,
 								new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.COARSE_DIRT, 1) }) }),

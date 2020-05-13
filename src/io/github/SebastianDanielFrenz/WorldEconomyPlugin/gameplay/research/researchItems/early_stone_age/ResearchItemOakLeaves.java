@@ -8,7 +8,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Resea
 public class ResearchItemOakLeaves extends ResearchItem {
 
 	public ResearchItemOakLeaves() {
-		super("Leaves", CustomItemRegistry.OAK_LEAVES, new ResearchItem[] {}, new ResearchCondition[] {}, Age.EARLY_STONE_AGE);
+		super("leaves", CustomItemRegistry.OAK_LEAVES, new ResearchItem[] {}, new ResearchCondition[] {}, Age.EARLY_STONE_AGE);
 	}
 
 }

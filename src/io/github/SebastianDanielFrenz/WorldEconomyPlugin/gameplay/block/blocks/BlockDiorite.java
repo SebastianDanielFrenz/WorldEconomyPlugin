@@ -14,7 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToo
 public class BlockDiorite extends CustomBlockType {
 
 	public BlockDiorite() {
-		super("diorite", Material.DIORITE, true,
+		super("diorite", Material.STONE, 3, true,
 				new CustomBlockDropTable(
 						new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE, CustomMaterialLevel.GRANITE,
 								new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.DIORITE, 1) }) }),

@@ -15,7 +15,7 @@ public class BankAccountGUI extends WEGUI {
 
 		BankAccountGUI out = this;
 
-		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Bank Account - " + account.getName())) {
+		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.SIGN, "Bank Account - " + account.getName())) {
 			@Override
 			public void event(InventoryClickEvent event) {
 

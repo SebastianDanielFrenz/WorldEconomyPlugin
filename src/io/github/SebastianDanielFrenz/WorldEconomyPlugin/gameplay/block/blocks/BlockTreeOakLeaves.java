@@ -17,14 +17,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToo
 public class BlockTreeOakLeaves extends CustomBlockType {
 
 	public BlockTreeOakLeaves() {
-		super("tree_oak_leaves", Material.OAK_LEAVES, true, new CustomBlockDropTable(new CustomBlockDrop[] {
-				new CustomBlockDrop(CustomToolType.HAND, CustomMaterialLevel.HAND,
-						new CustomBlockDropComponent[] {
-								new CustomBlockDropChanceComponent(new CustomItemStack(CustomItemRegistry.OAK_LEAVES, 1), 0.5),
-								new CustomBlockDropChanceComponent(new CustomItemStack(CustomItemRegistry.STICK, 1), 0.2) }),
-				new CustomBlockDrop(CustomToolType.SHEERS, CustomMaterialLevel.WOOD,
-						new CustomBlockDropComponent[] { new CustomBlockDropDefaultComponent(new CustomItemStack(CustomItemRegistry.OAK_LEAVES, 1)),
-								new CustomBlockDropChanceComponent(new CustomItemStack(CustomItemRegistry.STICK, 1), 0.2) }) }),
+		super("tree_oak_leaves", Material.LEAVES, 0, true, new CustomBlockDropTable(new CustomBlockDrop[] {
+				new CustomBlockDrop(CustomToolType.HAND, CustomMaterialLevel.HAND, new CustomBlockDropComponent[] {
+						new CustomBlockDropChanceComponent(new CustomItemStack(CustomItemRegistry.OAK_LEAVES, 1), 0.5),
+						new CustomBlockDropChanceComponent(new CustomItemStack(CustomItemRegistry.STICK, 1), 0.2) }),
+				new CustomBlockDrop(CustomToolType.SHEERS, CustomMaterialLevel.WOOD, new CustomBlockDropComponent[] {
+						new CustomBlockDropDefaultComponent(new CustomItemStack(CustomItemRegistry.OAK_LEAVES, 1)),
+						new CustomBlockDropChanceComponent(new CustomItemStack(CustomItemRegistry.STICK, 1), 0.2) }) }),
 				CustomEmptyBlockData.class);
 	}
 

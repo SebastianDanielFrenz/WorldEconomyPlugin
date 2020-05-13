@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemOakLog extends CustomItem {
 
 	public ItemOakLog() {
-		super("OAK_LOG", Material.OAK_LOG, Age.COPPER_AGE, "Oak Log", ItemCategory.OTHER, true);
+		super("OAK_LOG", Material.LOG, Age.COPPER_AGE, "Oak Log", ItemCategory.OTHER, true);
 	}
 
 }

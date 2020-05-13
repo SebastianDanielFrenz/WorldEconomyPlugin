@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemPolishedDiorite extends CustomItem {
 
 	public ItemPolishedDiorite() {
-		super("POLISHED_DIORITE", Material.POLISHED_DIORITE, Age.UNDEFINED, "Polished Diorite", ItemCategory.PROCESSED_MATERIALS, true);
+		super("POLISHED_DIORITE", Material.STONE, 4, Age.UNDEFINED, "Polished Diorite", ItemCategory.PROCESSED_MATERIALS, true);
 	}
 
 }

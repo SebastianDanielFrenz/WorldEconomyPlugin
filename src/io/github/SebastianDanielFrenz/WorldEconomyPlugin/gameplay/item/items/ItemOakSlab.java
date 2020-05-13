@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemOakSlab extends CustomItem {
 
 	public ItemOakSlab() {
-		super("oak_slab", Material.OAK_SLAB, Age.EARLY_STONE_AGE, "Oak Slab", ItemCategory.BUILDING, true);
+		super("oak_slab", Material.WOOD_STEP, Age.EARLY_STONE_AGE, "Oak Slab", ItemCategory.BUILDING, true);
 	}
 
 }

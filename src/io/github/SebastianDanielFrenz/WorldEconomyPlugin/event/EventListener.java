@@ -71,7 +71,7 @@ public class EventListener implements Listener {
 
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = event.getClickedBlock();
-			if (block.getType() == Material.OAK_WALL_SIGN) {
+			if (block.getType() == Material.WALL_SIGN) {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
 				if (lines[0].equalsIgnoreCase("[§4Shop§0]")) {
@@ -314,7 +314,7 @@ public class EventListener implements Listener {
 	}
 
 	public static void signBreakHandler(Block block) throws SQLException {
-		if (block.getType() == Material.OAK_WALL_SIGN) {
+		if (block.getType() == Material.WALL_SIGN) {
 			if (((Sign) block.getState()).getLine(0).equals("[§4Shop§0]")) {
 				ShopSignData sign = WEDB.getShopSign(block.getLocation());
 				if (sign != null) {

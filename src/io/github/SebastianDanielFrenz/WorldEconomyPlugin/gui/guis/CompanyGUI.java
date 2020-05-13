@@ -21,24 +21,24 @@ public class CompanyGUI extends WEGUI {
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, company.companyName)) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, company.companyName)) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.ORANGE_WOOL, "Products")) {
+		items.add(new GUIItem(1, 0, mkItem(Material.WOOL, 1, 1, "Products")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new ProductFromCompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
 			}
 		});
-		items.add(new GUIItem(1, 1, mkItem(Material.YELLOW_WOOL, "Sales")) {
+		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, "Sales")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				throw new NotImplementedException();
 			}
 		});
-		items.add(new GUIItem(1, 2, mkItem(Material.LIME_WOOL, "Employees")) {
+		items.add(new GUIItem(1, 2, mkItem(Material.WOOL, 1, 5, "Employees")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new EmployeesFromCompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());

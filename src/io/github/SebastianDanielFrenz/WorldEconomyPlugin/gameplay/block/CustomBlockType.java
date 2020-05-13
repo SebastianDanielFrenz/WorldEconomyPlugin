@@ -27,6 +27,21 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 			Class<? extends CustomBlockData> blockDataType) {
 		this.ID = ID;
 		this.material = material;
+		this.vanilla_data = 0;
+		this.drop_table = drop_table;
+		this.vanilla = vanilla;
+		this.blockDataType = blockDataType;
+	}
+
+	public CustomBlockType(String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
+			Class<? extends CustomBlockData> blockDataType) {
+		this.ID = ID;
+		this.material = material;
+		if (data > 255) {
+			throw new RuntimeException(
+					"error registering custom block type " + ID + " as its provided data value is >255!");
+		}
+		this.vanilla_data = (byte) data;
 		this.drop_table = drop_table;
 		this.vanilla = vanilla;
 		this.blockDataType = blockDataType;
@@ -34,14 +49,17 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 
 	public final String ID;
 	public final Material material;
+	public final byte vanilla_data;
 	public final CustomBlockDropTable drop_table;
 	public final boolean vanilla;
 	public final Class<? extends CustomBlockData> blockDataType;
 
 	public static CustomBlockType getVanillaBlock(Block block) {
 		Material material = block.getType();
+		@SuppressWarnings("deprecation")
+		byte data = block.getData();
 		for (CustomBlockType _block : CustomBlockTypeRegistry.getContents()) {
-			if (_block.material == material && _block.vanilla) {
+			if (_block.material == material && _block.vanilla_data == data && _block.vanilla) {
 				return _block;
 			}
 		}
@@ -52,40 +70,50 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 		return drop_table.getDrops(tool, tool_lvl);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void placeBlock(Location location, CustomBlockType block, CustomBlockData data) throws SQLException {
 		if (!block.vanilla) {
 			WEDB.registerCustomBlock(location, block, data);
 		}
 		location.getBlock().setType(block.material);
+		location.getBlock().setData(block.vanilla_data);
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Location location, CustomBlockType block) throws SQLException, InstantiationException, IllegalAccessException {
+	@SuppressWarnings("deprecation")
+	public static void placeBlock(Location location, CustomBlockType block)
+			throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
 			WEDB.registerCustomBlock(location, block, data);
 		}
 		location.getBlock().setType(block.material);
+		location.getBlock().setData(block.vanilla_data);
 		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void placeBlock(Block vanillaBlock, CustomBlockType block, CustomBlockData data) throws SQLException {
 		if (!block.vanilla) {
 			WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
 		}
 
 		vanillaBlock.setType(block.material);
+		vanillaBlock.setData(block.vanilla_data);
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
-	public static void placeBlock(Block vanillaBlock, CustomBlockType block) throws SQLException, InstantiationException, IllegalAccessException {
+	@SuppressWarnings("deprecation")
+	public static void placeBlock(Block vanillaBlock, CustomBlockType block)
+			throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
 			WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
 		}
 		vanillaBlock.setType(block.material);
+		vanillaBlock.setData(block.vanilla_data);
 		vanillaBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
 	}
 
@@ -107,8 +135,8 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 	}
 
 	public static CustomBlockDropTable easyDrop(CustomItem item) {
-		return new CustomBlockDropTable(
-				new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND, new CustomBlockDropDefaultComponent(new CustomItemStack(item, 1))));
+		return new CustomBlockDropTable(new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND,
+				new CustomBlockDropDefaultComponent(new CustomItemStack(item, 1))));
 	}
 
 }

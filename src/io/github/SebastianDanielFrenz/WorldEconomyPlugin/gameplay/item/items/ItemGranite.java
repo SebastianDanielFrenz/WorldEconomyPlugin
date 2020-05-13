@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemGranite extends CustomPlaceableItem {
 
 	public ItemGranite() {
-		super("GRANITE", Material.GRANITE, Age.COPPER_AGE, "Granite", ItemCategory.RAW_MATERIALS, true);
+		super("GRANITE", Material.STONE, 1, Age.COPPER_AGE, "Granite", ItemCategory.RAW_MATERIALS, true);
 	}
 
 }

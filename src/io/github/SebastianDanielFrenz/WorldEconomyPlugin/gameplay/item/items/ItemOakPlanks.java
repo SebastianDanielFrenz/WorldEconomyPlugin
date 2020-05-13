@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemOakPlanks extends CustomItem {
 
 	public ItemOakPlanks() {
-		super("OAK_PLANKS", Material.OAK_PLANKS, Age.EARLY_STONE_AGE, "Oak Planks", ItemCategory.OTHER, true);
+		super("OAK_PLANKS", Material.WOOD, Age.EARLY_STONE_AGE, "Oak Planks", ItemCategory.OTHER, true);
 	}
 
 }

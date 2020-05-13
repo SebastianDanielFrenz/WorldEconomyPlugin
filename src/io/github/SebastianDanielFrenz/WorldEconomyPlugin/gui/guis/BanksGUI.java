@@ -23,7 +23,7 @@ public class BanksGUI extends WEGUI {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Banks")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Banks")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -60,7 +60,7 @@ public class BanksGUI extends WEGUI {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Banks")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Banks")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

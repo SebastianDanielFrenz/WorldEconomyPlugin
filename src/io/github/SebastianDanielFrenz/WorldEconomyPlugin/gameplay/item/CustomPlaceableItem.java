@@ -19,7 +19,8 @@ public abstract class CustomPlaceableItem extends CustomItem {
 		super(ID, base, age, name, category, vanilla);
 	}
 
-	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
+	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category,
+			ItemDetail[] details, boolean vanilla) {
 		super(ID, base, age, name, category, details, vanilla);
 	}
 
@@ -27,8 +28,30 @@ public abstract class CustomPlaceableItem extends CustomItem {
 		super(ID, base, age, name, category);
 	}
 
-	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
+	public CustomPlaceableItem(String ID, Material base, Age age, String name, ItemCategory category,
+			ItemDetail[] details) {
 		super(ID, base, age, name, category, details);
+	}
+
+	// now with data values
+
+	public CustomPlaceableItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
+			boolean vanilla) {
+		super(ID, base, data, age, name, category, vanilla);
+	}
+
+	public CustomPlaceableItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
+			ItemDetail[] details, boolean vanilla) {
+		super(ID, base, data, age, name, category, details, vanilla);
+	}
+
+	public CustomPlaceableItem(String ID, Material base, int data, Age age, String name, ItemCategory category) {
+		super(ID, base, data, age, name, category);
+	}
+
+	public CustomPlaceableItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
+			ItemDetail[] details) {
+		super(ID, base, data, age, name, category, details);
 	}
 
 	private CustomBlockType block;

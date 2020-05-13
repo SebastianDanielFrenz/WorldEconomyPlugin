@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 public class CampfireDecorationGUIItem extends GUIItem {
 
 	public CampfireDecorationGUIItem(int row, int column) {
-		super(row, column, new ItemStack(Material.CAMPFIRE));
+		super(row, column, new ItemStack(Material.WOOD_STEP));
 	}
 
 	@Override

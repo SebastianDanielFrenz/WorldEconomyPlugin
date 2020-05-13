@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemAndesite extends CustomPlaceableItem {
 
 	public ItemAndesite() {
-		super("ANDESITE", Material.ANDESITE, Age.COPPER_AGE, "Andesite", ItemCategory.RAW_MATERIALS, true);
+		super("ANDESITE", Material.STONE, 5, Age.COPPER_AGE, "Andesite", ItemCategory.RAW_MATERIALS, true);
 	}
 
 }

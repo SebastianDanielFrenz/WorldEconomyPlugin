@@ -14,7 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToo
 public class BlockAndesite extends CustomBlockType {
 
 	public BlockAndesite() {
-		super("andesite", Material.ANDESITE, true,
+		super("andesite", Material.STONE, 5, true,
 				new CustomBlockDropTable(
 						new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE, CustomMaterialLevel.DIORITE,
 								new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.ANDESITE, 1) }) }),

@@ -15,7 +15,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperOre;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperRod;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCutSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemIronBoots;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemIronChestplate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemIronHelmet;
@@ -93,7 +92,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedDiorite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAndesite;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemPolishedAndesite;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBerries;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBronzeIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemBronzePlate;
 
@@ -197,16 +195,14 @@ public class CustomItemRegistry {
 	public static final CustomItem POLISHED_DIORITE = new ItemPolishedDiorite();
 	public static final CustomItem ANDESITE = new ItemAndesite();
 	public static final CustomItem POLISHED_ANDESITE = new ItemPolishedAndesite();
-	public static final CustomItem BERRIES = new ItemBerries();
 
 	public static final CustomItem SANDSTONE_TRIGGER = new ItemSandstoneTrigger();
-	public static final CustomItem CUT_SANDSTONE = new ItemCutSandstone();
 	public static final CustomItem SMOOTH_SANDSTONE = new ItemSmoothSandstone();
 
 	public static final CustomItem STONE_AGE_CRAFTING_TABLE = new ItemStoneAgeCraftingTable();
 	public static final CustomItem STONE_AGE_CAMPFIRE = new ItemStoneAgeCampfire();
 	public static final CustomItem EGYPTIAN_CAMPFIRE_STAGE1 = new ItemEgyptianCampfireStage1();
-	
+
 	public static final CustomItem SHARP_STICK = new ItemSharpStick();
 
 	public static void init() {
@@ -300,16 +296,14 @@ public class CustomItemRegistry {
 		register(POLISHED_DIORITE);
 		register(ANDESITE, CustomBlockTypeRegistry.ANDESITE);
 		register(POLISHED_ANDESITE);
-		register(BERRIES);
 
 		register(SANDSTONE_TRIGGER, CustomBlockTypeRegistry.SANDSTONE_TRIGGER);
-		register(CUT_SANDSTONE, CustomBlockTypeRegistry.CUT_SANDSTONE);
 		register(SMOOTH_SANDSTONE, CustomBlockTypeRegistry.SMOOTH_SANDSTONE);
 
 		register(STONE_AGE_CRAFTING_TABLE, CustomBlockTypeRegistry.STONE_AGE_CRAFTING_TABLE);
 		register(STONE_AGE_CAMPFIRE, CustomBlockTypeRegistry.STONE_AGE_CAMPFIRE);
 		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockTypeRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
-		
+
 		register(SHARP_STICK);
 	}
 
@@ -322,6 +316,7 @@ public class CustomItemRegistry {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static CustomItem getItem(ItemStack vanillaStack) {
 		ItemMeta meta = vanillaStack.getItemMeta();
 		if (meta == null) {
@@ -332,7 +327,8 @@ public class CustomItemRegistry {
 			return null;
 		}
 		for (CustomItem item : items) {
-			if (item.base_material == vanillaStack.getType() && item.item_name.equals(name)) {
+			if (item.base_material == vanillaStack.getType() && item.item_name.equals(name)
+					&& item.vanilla_data == vanillaStack.getData().getData()) {
 				return item;
 			}
 		}

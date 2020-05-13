@@ -26,7 +26,7 @@ public class EmployeesFromCompanyGUI extends WEGUI {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, company.companyName + "'s Employees")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, company.companyName + "'s Employees")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemPolishedAndesite extends CustomItem {
 
 	public ItemPolishedAndesite() {
-		super("POLISHED_ANDESITE", Material.POLISHED_ANDESITE, Age.UNDEFINED, "Polished Andesite", ItemCategory.PROCESSED_MATERIALS,true);
+		super("POLISHED_ANDESITE", Material.STONE, 6, Age.UNDEFINED, "Polished Andesite", ItemCategory.PROCESSED_MATERIALS,true);
 	}
 
 }

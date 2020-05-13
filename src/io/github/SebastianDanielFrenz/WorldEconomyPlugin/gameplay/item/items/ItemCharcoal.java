@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemCharcoal extends CustomItem {
 
 	public ItemCharcoal() {
-		super("charcoal", Material.CHARCOAL, Age.UNDEFINED, "Charcoal", ItemCategory.RAW_MATERIALS, true);
+		super("charcoal", Material.COAL, 1, Age.UNDEFINED, "Charcoal", ItemCategory.RAW_MATERIALS, true);
 	}
 
 }

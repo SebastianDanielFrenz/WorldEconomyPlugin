@@ -16,7 +16,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public abstract class MachineCampfire extends Machine {
 
 	public MachineCampfire(String ID, boolean vanilla, CustomBlockDropTable drop_table) {
-		super(ID, Material.CAMPFIRE, vanilla, drop_table, CustomBlockMachineData.class);
+		super(ID, Material.WOOD_STEP, vanilla, drop_table, CustomBlockMachineData.class);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public abstract class MachineCampfire extends Machine {
 
 		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 
-			new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.OAK_SIGN, getName())) {
+			new CraftingGUI(new GUIItem[] { new GUIItem(4, WEGUI.mkItem(Material.WORKBENCH, getName())) {
 				@Override
 				public void event(InventoryClickEvent event) {
 				}

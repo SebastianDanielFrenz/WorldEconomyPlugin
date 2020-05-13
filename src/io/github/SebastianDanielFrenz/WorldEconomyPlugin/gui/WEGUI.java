@@ -42,7 +42,7 @@ public class WEGUI implements InventoryHolder {
 			// other constructor equivalent
 			this.items = items2;
 
-			ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
+			ItemStack backButtonItem = new ItemStack(Material.WOOL, 14);
 			ItemMeta meta = backButtonItem.getItemMeta();
 			meta.setDisplayName("§4Back");
 			backButtonItem.setItemMeta(meta);
@@ -79,7 +79,7 @@ public class WEGUI implements InventoryHolder {
 		this.parent = parent;
 		this.items = items2;
 
-		ItemStack backButtonItem = new ItemStack(Material.RED_WOOL);
+		ItemStack backButtonItem = new ItemStack(Material.WOOL, 14);
 		ItemMeta meta = backButtonItem.getItemMeta();
 		meta.setDisplayName("§4Back");
 		backButtonItem.setItemMeta(meta);
@@ -341,6 +341,30 @@ public class WEGUI implements InventoryHolder {
 
 	public static ItemStack mkItem(Material material, int amount, String name) {
 		ItemStack out = new ItemStack(material, amount);
+		ItemMeta meta = out.getItemMeta();
+
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, int amount, int data, String name, String[] lore) {
+		ItemStack out = new ItemStack(material, amount, (short) data);
+		ItemMeta meta = out.getItemMeta();
+		ArrayList<String> _lore = new ArrayList<String>();
+
+		for (int i = 0; i < lore.length; i++) {
+			_lore.add(lore[i]);
+		}
+
+		meta.setLore(_lore);
+		meta.setDisplayName(name);
+		out.setItemMeta(meta);
+		return out;
+	}
+
+	public static ItemStack mkItem(Material material, int amount, int data, String name) {
+		ItemStack out = new ItemStack(material, amount, (short) data);
 		ItemMeta meta = out.getItemMeta();
 
 		meta.setDisplayName(name);

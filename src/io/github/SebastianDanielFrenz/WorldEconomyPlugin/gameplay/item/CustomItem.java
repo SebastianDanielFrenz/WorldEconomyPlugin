@@ -14,6 +14,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, boolean vanilla) {
 		this.ID = ID;
 		base_material = base;
+		vanilla_data = 0;
 		raw_item_name = name;
 		item_name = age.color.toString() + name;
 		this.age = age;
@@ -22,9 +23,11 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		this.vanilla = vanilla;
 	}
 
-	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
+	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details,
+			boolean vanilla) {
 		this.ID = ID;
 		base_material = base;
+		vanilla_data = 0;
 		raw_item_name = name;
 		item_name = age.color.toString() + name;
 		this.age = age;
@@ -36,6 +39,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category) {
 		this.ID = ID;
 		base_material = base;
+		vanilla_data = 0;
 		raw_item_name = name;
 		item_name = age.color.toString() + name;
 		this.age = age;
@@ -47,6 +51,60 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
 		this.ID = ID;
 		base_material = base;
+		vanilla_data = 0;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		this.details = details;
+		this.vanilla = false;
+	}
+
+	// now with data values
+
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
+			boolean vanilla) {
+		this.ID = ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		details = new ItemDetail[] {};
+		this.vanilla = vanilla;
+	}
+
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
+			ItemDetail[] details, boolean vanilla) {
+		this.ID = ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		this.details = details;
+		this.vanilla = vanilla;
+	}
+
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category) {
+		this.ID = ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		details = new ItemDetail[] {};
+		this.vanilla = false;
+	}
+
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
+			ItemDetail[] details) {
+		this.ID = ID;
+		base_material = base;
+		vanilla_data = (byte) data;
 		raw_item_name = name;
 		item_name = age.color.toString() + name;
 		this.age = age;
@@ -57,6 +115,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 
 	public final String ID;
 	public final Material base_material;
+	public final byte vanilla_data;
 	public final String raw_item_name;
 	public final String item_name;
 	public final Age age;
@@ -66,7 +125,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 
 	public ItemStack toItemStack() {
 		if (item_name == null) {
-			return new ItemStack(base_material);
+			return new ItemStack(base_material, 1, vanilla_data);
 		} else {
 			ItemStack out = new ItemStack(base_material);
 			ItemMeta meta = out.getItemMeta();
@@ -80,7 +139,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		if (item_name == null) {
 			return new ItemStack(base_material);
 		} else {
-			ItemStack out = new ItemStack(base_material, amount);
+			ItemStack out = new ItemStack(base_material, amount, vanilla_data);
 			ItemMeta meta = out.getItemMeta();
 			meta.setDisplayName(item_name);
 			out.setItemMeta(meta);
@@ -88,9 +147,9 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		}
 	}
 
-	public static CustomItem getItem(Material material, String name) {
+	public static CustomItem getItem(Material material, byte data, String name) {
 		if (name.equals("")) {
-			return getVanillaItem(material);
+			return getVanillaItem(material, data);
 		}
 
 		for (CustomItem item : CustomItemRegistry.getContents()) {
@@ -101,15 +160,16 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		return null;
 	}
 
-	public static CustomItem getVanillaItem(Material material) {
+	public static CustomItem getVanillaItem(Material material, int data) {
 		for (CustomItem item : CustomItemRegistry.getContents()) {
-			if (item.vanilla && item.base_material == material) {
+			if (item.vanilla && item.base_material == material && item.vanilla_data == data) {
 				return item;
 			}
 		}
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static CustomItem getItem(ItemStack stack) {
 		if (stack == null) {
 			return null;
@@ -117,7 +177,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		if (!stack.hasItemMeta()) {
 			return null;
 		}
-		return getItem(stack.getType(), stack.getItemMeta().getDisplayName());
+		return getItem(stack.getType(), stack.getData().getData(), stack.getItemMeta().getDisplayName());
 	}
 
 	public static void convertVanillaItemStack(ItemStack itemStack) {

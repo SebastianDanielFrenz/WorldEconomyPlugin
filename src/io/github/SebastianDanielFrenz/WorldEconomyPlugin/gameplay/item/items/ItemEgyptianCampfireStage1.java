@@ -9,7 +9,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemEgyptianCampfireStage1 extends CustomPlaceableItem {
 
 	public ItemEgyptianCampfireStage1() {
-		super("egyptian_campfire_stage1", Material.CAMPFIRE, Age.COPPER_AGE, "Egyptian Campfire Stage 1", ItemCategory.MACHINES);
+		super("egyptian_campfire_stage1", Material.WOOD_STEP, Age.COPPER_AGE, "Egyptian Campfire Stage 1",
+				ItemCategory.MACHINES);
 	}
 
 }

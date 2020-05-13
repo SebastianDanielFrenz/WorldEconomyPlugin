@@ -47,7 +47,7 @@ public class CustomItemStack {
 		if (itemStack == null) {
 			return false;
 		} else {
-			if (itemStack.getType() != item.base_material) {
+			if (itemStack.getType() != item.base_material || itemStack.getData().getData() != item.vanilla_data) {
 				return false;
 			}
 

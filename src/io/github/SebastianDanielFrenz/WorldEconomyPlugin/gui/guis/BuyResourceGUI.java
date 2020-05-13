@@ -32,7 +32,7 @@ public class BuyResourceGUI extends WEGUI {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.OAK_SIGN, "Enter a custom amount")) {
+		items.add(new GUIItem(1, 0, mkItem(Material.SIGN, "Enter a custom amount")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				// TODO

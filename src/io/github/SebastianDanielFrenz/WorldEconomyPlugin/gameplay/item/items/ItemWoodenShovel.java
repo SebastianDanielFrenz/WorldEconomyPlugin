@@ -13,7 +13,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemD
 public class ItemWoodenShovel extends CustomItem {
 
 	public ItemWoodenShovel() {
-		super("WOODEN_SHOVEL", Material.WOODEN_SHOVEL, Age.NEW_STONE_AGE, "Wooden Shovel", ItemCategory.EQUIPMENT,
+		super("WOODEN_SHOVEL", Material.WOOD_SPADE, Age.NEW_STONE_AGE, "Wooden Shovel", ItemCategory.EQUIPMENT,
 				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.WOOD) });
 	}
 

@@ -13,7 +13,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ToolItemD
 public class ItemProcessedCobblestoneShovel extends CustomItem {
 
 	public ItemProcessedCobblestoneShovel() {
-		super("PROCESSED_COBBLESTONE_SHOVEL", Material.STONE_SHOVEL, Age.COPPER_AGE, "Processed Cobblestone Shovel", ItemCategory.EQUIPMENT,
+		super("PROCESSED_COBBLESTONE_SHOVEL", Material.STONE_SPADE, Age.COPPER_AGE, "Processed Cobblestone Shovel", ItemCategory.EQUIPMENT,
 				new ItemDetail[] { new ToolItemDetail(CustomToolType.SHOVEL, CustomMaterialLevel.PROCESSED_COBBLESTONE) });
 	}
 

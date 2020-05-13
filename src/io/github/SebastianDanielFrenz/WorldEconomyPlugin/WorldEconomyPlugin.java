@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
@@ -29,11 +28,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.Research
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TaskScheduler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
-import net.milkbowl.vault.economy.Economy;
 
 public class WorldEconomyPlugin extends JavaPlugin {
 
-	public static Economy economy;
 	public static Connection sql_connection;
 
 	public static WorldEconomyPlugin plugin;
@@ -53,11 +50,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		plugin = this;
 
 		Config.setup();
-
-		if (!setupEconomy()) {
-			getLogger().info("ERROR: Could not hook into Vault!");
-			getLogger().info("The money on hand will now be handled by World Economy!");
-		}
 
 		try {
 			Files.createDirectories(Paths.get("plugins/WorldEconomy"));
@@ -173,16 +165,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 				"INSERT INTO sys_enumerator (key, value) VALUES (\"bankingID\", 1), (\"employerID\", 1), (\"employeeID\", 1), (\"chestID\", 1),"
 						+ "(\"signID\", 1), (\"bankID\", 1), (\"bankAccountID\", 1), (\"companyID\", 1), (\"productID\", 1), (\"contractID\", 1),"
 						+ "(\"aiID\", 1), (\"mailboxID\", 1), (\"creditID\", 1), (\"stockMarketProductID\", 1)");
-	}
-
-	private boolean setupEconomy() {
-		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager()
-				.getRegistration(Economy.class);
-		if (economyProvider != null) {
-			economy = economyProvider.getProvider();
-		}
-
-		return economy != null;
 	}
 
 	public static boolean setupSQL() throws SQLException, ClassNotFoundException {

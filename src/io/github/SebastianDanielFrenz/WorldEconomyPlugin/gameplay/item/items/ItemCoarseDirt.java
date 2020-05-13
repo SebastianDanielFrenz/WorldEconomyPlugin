@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemCoarseDirt extends CustomPlaceableItem {
 
 	public ItemCoarseDirt() {
-		super("COARSE_DIRT", Material.COARSE_DIRT, Age.MID_STONE_AGE, "Coarse Dirt", ItemCategory.OTHER, true);
+		super("COARSE_DIRT", Material.DIRT, 1, Age.MID_STONE_AGE, "Coarse Dirt", ItemCategory.OTHER, true);
 	}
 
 }

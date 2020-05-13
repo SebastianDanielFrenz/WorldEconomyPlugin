@@ -14,8 +14,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToo
 public class BlockSmoothSandstone extends CustomBlockType {
 
 	public BlockSmoothSandstone() {
-		super("smooth_sandstone", Material.SMOOTH_SANDSTONE, true, new CustomBlockDropTable(
-				new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE, CustomMaterialLevel.ANDESITE,
+		super("smooth_sandstone", Material.SANDSTONE, 2, true,
+				new CustomBlockDropTable(new CustomBlockDrop[] { new CustomBlockDrop(CustomToolType.PICKAXE,
+						CustomMaterialLevel.ANDESITE,
 						new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.SMOOTH_SANDSTONE, 1) }) }),
 				CustomEmptyBlockData.class);
 	}

@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemLapisLazuli extends CustomItem {
 
 	public ItemLapisLazuli() {
-		super("LAPIS_LAZULI", Material.LAPIS_LAZULI, Age.UNDEFINED, "Lapis Lazuli", ItemCategory.RAW_MATERIALS, true);
+		super("LAPIS_LAZULI", Material.INK_SACK, 4, Age.UNDEFINED, "Lapis Lazuli", ItemCategory.RAW_MATERIALS, true);
 	}
 
 }

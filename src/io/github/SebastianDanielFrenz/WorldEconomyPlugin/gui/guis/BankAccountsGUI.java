@@ -24,7 +24,7 @@ public class BankAccountsGUI extends WEGUI {
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.OAK_SIGN, "Bank Accounts")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Bank Accounts")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

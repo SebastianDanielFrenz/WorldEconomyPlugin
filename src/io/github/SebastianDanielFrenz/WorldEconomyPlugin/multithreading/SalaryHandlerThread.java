@@ -41,9 +41,9 @@ public class SalaryHandlerThread implements Runnable {
 								"SELECT bankingID, playerUUID FROM user_profiles WHERE employeeID = " + employeeID);
 
 						OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(r2.getString("playerUUID")));
-						play_time = player.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE);
+						play_time = player.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK);
 
-						if (!(play_time - last_salary >= 3 * 60)) {
+						if (!(play_time - last_salary >= 3 * 60 * 60 * 20)) {
 							continue;
 						}
 

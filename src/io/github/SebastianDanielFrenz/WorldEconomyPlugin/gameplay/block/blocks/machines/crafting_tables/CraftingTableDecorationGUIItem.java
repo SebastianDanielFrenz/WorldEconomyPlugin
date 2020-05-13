@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 public class CraftingTableDecorationGUIItem extends GUIItem {
 
 	public CraftingTableDecorationGUIItem(int row, int column) {
-		super(row, column, new ItemStack(Material.CRAFTING_TABLE));
+		super(row, column, new ItemStack(Material.WORKBENCH));
 	}
 
 	@Override

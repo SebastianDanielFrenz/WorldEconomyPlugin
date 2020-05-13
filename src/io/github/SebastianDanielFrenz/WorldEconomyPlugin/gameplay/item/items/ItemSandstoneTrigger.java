@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemSandstoneTrigger extends CustomPlaceableItem {
 
 	public ItemSandstoneTrigger() {
-		super("sandstone_trigger", Material.CHISELED_SANDSTONE, Age.UNDEFINED, "Sandstone Button", ItemCategory.BUILDING);
+		super("sandstone_trigger", Material.SANDSTONE, 1, Age.UNDEFINED, "Sandstone Button", ItemCategory.BUILDING);
 	}
 
 }

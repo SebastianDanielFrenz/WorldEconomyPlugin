@@ -14,7 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToo
 public class BlockGranite extends CustomBlockType {
 
 	public BlockGranite() {
-		super("granite", Material.GRANITE, true,
+		super("granite", Material.STONE, 1, true,
 				new CustomBlockDropTable(new CustomBlockDrop[] {
 						new CustomBlockDrop(CustomToolType.PICKAXE, CustomMaterialLevel.PROCESSED_COBBLESTONE,
 								new CustomItemStack[] { new CustomItemStack(CustomItemRegistry.GRANITE, 1) }) }),

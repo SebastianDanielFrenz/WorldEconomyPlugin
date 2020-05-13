@@ -9,7 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ItemCateg
 public class ItemDiorite extends CustomPlaceableItem {
 
 	public ItemDiorite() {
-		super("DIORITE", Material.DIORITE, Age.COPPER_AGE, "Diorite", ItemCategory.RAW_MATERIALS, true);
+		super("DIORITE", Material.STONE, 3, Age.COPPER_AGE, "Diorite", ItemCategory.RAW_MATERIALS, true);
 	}
 
 }
