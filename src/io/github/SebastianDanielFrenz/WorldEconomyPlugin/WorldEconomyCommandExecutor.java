@@ -20,7 +20,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -36,6 +38,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.BuildingIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.TownGenerator;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
@@ -45,6 +48,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
+import net.minecraft.server.v1_12_R1.World;
 
 public class WorldEconomyCommandExecutor implements CommandExecutor {
 
@@ -1027,6 +1031,19 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					TownGenerator.generate(((Player) sender).getLocation());
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+				return true;
+			} else if (args[0].equalsIgnoreCase("debug")) {
+				if (sender instanceof Player) {
+					Player player = (Player) sender;
+
+					World nmsworld = ((CraftWorld) player.getWorld()).getHandle();
+					EntityAI copEntity = new EntityAI(nmsworld);
+					Location spawnLocation = player.getLocation();
+
+					copEntity.setLocation(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ(),
+							spawnLocation.getYaw(), spawnLocation.getPitch());
+					nmsworld.addEntity(copEntity, SpawnReason.CUSTOM);
 				}
 				return true;
 			} else if (args[0].equalsIgnoreCase("help")) {

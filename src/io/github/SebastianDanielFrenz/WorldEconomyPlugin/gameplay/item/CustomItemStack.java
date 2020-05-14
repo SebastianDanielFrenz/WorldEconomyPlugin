@@ -43,6 +43,7 @@ public class CustomItemStack {
 		return data;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean matches(ItemStack itemStack) {
 		if (itemStack == null) {
 			return false;
@@ -70,7 +71,7 @@ public class CustomItemStack {
 	}
 
 	public ItemStack toItemStack() {
-		ItemStack itemStack = new ItemStack(item.base_material, count);
+		ItemStack itemStack = new ItemStack(item.base_material, count, item.vanilla_data);
 		data.apply(itemStack);
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		itemMeta.setDisplayName(item.item_name);

@@ -11,6 +11,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 
 public class ItemTransactionManager {
 
+	@SuppressWarnings("deprecation")
 	public static int getSpace(Inventory inv, Material material, int data) {
 		int out = 0;
 		for (ItemStack slot : inv.getStorageContents()) {
@@ -50,6 +51,7 @@ public class ItemTransactionManager {
 		return getSpace(inv, stack) >= stack.getCount();
 	}
 
+	@SuppressWarnings("deprecation")
 	@MissuseWarning(text = "Please check for usable inventory space before using this function.")
 	public static void give(Inventory inv, Material material, int data, int amount) {
 		int done = 0;
@@ -135,6 +137,7 @@ public class ItemTransactionManager {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static int getPresent(Inventory inv, Material material, int data) {
 		int out = 0;
 		for (ItemStack slot : inv.getContents()) {
@@ -149,6 +152,7 @@ public class ItemTransactionManager {
 		return getPresent(inv, material, data) >= amount;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static int getPresent(Inventory inv, CustomItem item) {
 		int out = 0;
 		for (ItemStack slot : inv.getContents()) {
@@ -174,6 +178,7 @@ public class ItemTransactionManager {
 	 * ==================================================
 	 */
 
+	@SuppressWarnings("deprecation")
 	public static int getSpace(Inventory inv, Material material, int data, int limit) {
 		int out = 0;
 		ItemStack slot;
@@ -190,6 +195,7 @@ public class ItemTransactionManager {
 		return getSpace(inv, material, data, limit) >= amount;
 	}
 
+	@SuppressWarnings("deprecation")
 	@MissuseWarning(text = "Please check for usable inventory space before using this function.")
 	public static void give(Inventory inv, Material material, int amount, int data, int limit) {
 		int done = 0;
@@ -258,6 +264,7 @@ public class ItemTransactionManager {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static int getPresent(Inventory inv, Material material, int data, int limit) {
 		int out = 0;
 		ItemStack slot;
@@ -274,6 +281,7 @@ public class ItemTransactionManager {
 		return getPresent(inv, material, data, limit) >= amount;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static int getPresent(Inventory inv, CustomItem item, int limit) {
 		int out = 0;
 		ItemStack slot;

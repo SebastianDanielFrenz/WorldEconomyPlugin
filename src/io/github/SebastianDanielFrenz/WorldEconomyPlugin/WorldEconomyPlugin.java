@@ -19,6 +19,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomItemInterac
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.NMSUtil;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUIRegistry;
@@ -28,6 +30,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.Research
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHandlerThread;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TaskScheduler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
+import net.minecraft.server.v1_12_R1.EntityVillager;
 
 public class WorldEconomyPlugin extends JavaPlugin {
 
@@ -130,6 +133,18 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		// if plugins are supposed to work, there is a need for event calls here
 		// (in order to register items, blocks, research items, etc.
 		CustomBlockTypeRegistry.check();
+
+		/**
+		 * ==================================================
+		 * 
+		 * This part is responsible for registering custom entities and
+		 * replacing vanilla ones.
+		 * 
+		 * ==================================================
+		 */
+
+		NMSUtil.registerEntity("ai", 120, EntityVillager.class, EntityAI.class);
+
 	}
 
 	@Override
