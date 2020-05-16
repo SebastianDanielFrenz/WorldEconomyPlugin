@@ -17,13 +17,13 @@ import net.minecraft.server.v1_12_R1.PathfinderGoal;
 import net.minecraft.server.v1_12_R1.PathfinderGoalArrowAttack;
 import net.minecraft.server.v1_12_R1.World;
 
-public class EntityAI extends EntityVillager implements IRangedEntity {
+public class EntityAI extends EntityZombie implements IRangedEntity {
 
 	@SuppressWarnings("deprecation")
 	public EntityAI(World world) {
 		super(world);
 
-		Villager craftVillager = (Villager) this.getBukkitEntity();
+		Zombie craftVillager = (Zombie) this.getBukkitEntity();
 
 		craftVillager.setMaxHealth(40);
 		craftVillager.setHealth(40);
@@ -34,14 +34,14 @@ public class EntityAI extends EntityVillager implements IRangedEntity {
 		// this.setEquipment(EnumItemSlot.CHEST, new
 		// ItemStack(Items.DIAMOND_CHESTPLATE));
 
-		this.getWorld().addEntity(this);
+		//this.getWorld().addEntity(this); // fickt bei Neustart den Server
 	}
 
 	@Override
 	public void n() {
-		System.out.println("Running n() in EntityAI!");
+		// System.out.println("Running n() in EntityAI!");
 		super.n();
-		getBukkitVillager().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999999, 1));
+		((Zombie) getBukkitEntity()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999999, 1));
 
 	}
 
@@ -76,54 +76,56 @@ public class EntityAI extends EntityVillager implements IRangedEntity {
 	 * 0.10000000149011612D); }
 	 */
 
-	/*
-	 * @Override protected void do_() { this.goalSelector.a(6, new
-	 * PathfinderGoalMoveThroughVillage(this, 1.0D, false));
-	 * this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new
-	 * Class[] { EntityPigZombie.class })); this.targetSelector.a(2, new
-	 * DebugPathfinderGoal(this, EntityHuman.class, true)); if
-	 * (this.world.spigotConfig.zombieAggressiveTowardsVillager) {
-	 * this.targetSelector.a(3, new DebugPathfinderGoal(this,
-	 * EntityVillager.class, false)); } this.targetSelector.a(3, new
-	 * DebugPathfinderGoal(this, EntityIronGolem.class, true)); }
-	 */
-
 	@Override
-	protected void r() {
-		// this.goalSelector.a(0, new PathfinderGoalFloat(this));
-		// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
-		// EntityZombie.class, 8.0F, 0.6D, 0.6D));
-		// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
-		// EntityEvoker.class, 12.0F, 0.8D, 0.8D));
-		// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
-		// EntityVindicator.class, 8.0F, 0.8D, 0.8D));
-		// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
-		// EntityVex.class, 8.0F, 0.6D, 0.6D));
-		// this.goalSelector.a(1, new PathfinderGoalTradeWithPlayer(this));
-		// this.goalSelector.a(1, new PathfinderGoalLookAtTradingPlayer(this));
-		// this.goalSelector.a(2, new PathfinderGoalMoveIndoors(this));
-		// this.goalSelector.a(3, new PathfinderGoalRestrictOpenDoor(this));
-		// this.goalSelector.a(4, new PathfinderGoalOpenDoor(this, true));
-		// this.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(this,
-		// 0.6D));
-		// this.goalSelector.a(6, new PathfinderGoalMakeLove(this));
-		// this.goalSelector.a(7, new PathfinderGoalTakeFlower(this));
-		// this.goalSelector.a(9, new PathfinderGoalInteract(this, (Class)
-		// EntityHuman.class, 3.0F, 1.0F));
-		// this.goalSelector.a(9, new PathfinderGoalInteractVillagers(this));
-		// this.goalSelector.a(9, new PathfinderGoalRandomStrollLand(this,
-		// 0.6D));
-		// this.goalSelector.a(10, new PathfinderGoalLookAtPlayer(this, (Class)
-		// EntityInsentient.class, 8.0F));
+	protected void do_() {
+		// this.goalSelector.a(6, new PathfinderGoalMoveThroughVillage(this,
+		// 1.0D, false));
+		// this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true,
+		// new Class[] { EntityPigZombie.class }));
+		// this.targetSelector.a(2, new DebugPathfinderGoal(this,
+		// EntityHuman.class, true));
+		// if (this.world.spigotConfig.zombieAggressiveTowardsVillager) {
+		// this.targetSelector.a(3, new DebugPathfinderGoal(this,
+		// EntityVillager.class, false));
+		// }
+		// this.targetSelector.a(3, new DebugPathfinderGoal(this,
+		// EntityIronGolem.class, true));
 
-		System.out.println("Running r() in EntityAI!");
+		System.out.println("Running do_() in EntityAI!");
 
+		// goalSelector.a(0, new AIPathFinderGoal2(this));
 		goalSelector.a(0, new AIPathFinderGoal2(this));
 	}
 
-	public Villager getBukkitVillager() {
-		return (Villager) this.getBukkitEntity();
-	}
+	// @Override
+	// protected void r() {
+	// this.goalSelector.a(0, new PathfinderGoalFloat(this));
+	// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
+	// EntityZombie.class, 8.0F, 0.6D, 0.6D));
+	// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
+	// EntityEvoker.class, 12.0F, 0.8D, 0.8D));
+	// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
+	// EntityVindicator.class, 8.0F, 0.8D, 0.8D));
+	// this.goalSelector.a(1, new PathfinderGoalAvoidTarget<>(this,
+	// EntityVex.class, 8.0F, 0.6D, 0.6D));
+	// this.goalSelector.a(1, new PathfinderGoalTradeWithPlayer(this));
+	// this.goalSelector.a(1, new PathfinderGoalLookAtTradingPlayer(this));
+	// this.goalSelector.a(2, new PathfinderGoalMoveIndoors(this));
+	// this.goalSelector.a(3, new PathfinderGoalRestrictOpenDoor(this));
+	// this.goalSelector.a(4, new PathfinderGoalOpenDoor(this, true));
+	// this.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(this,
+	// 0.6D));
+	// this.goalSelector.a(6, new PathfinderGoalMakeLove(this));
+	// this.goalSelector.a(7, new PathfinderGoalTakeFlower(this));
+	// this.goalSelector.a(9, new PathfinderGoalInteract(this, (Class)
+	// EntityHuman.class, 3.0F, 1.0F));
+	// this.goalSelector.a(9, new PathfinderGoalInteractVillagers(this));
+	// this.goalSelector.a(9, new PathfinderGoalRandomStrollLand(this,
+	// 0.6D));
+	// this.goalSelector.a(10, new PathfinderGoalLookAtPlayer(this, (Class)
+	// EntityInsentient.class, 8.0F));
+
+	// }
 
 	public void a(EntityLiving entityliving, float f) {
 		// entity shoots gun

@@ -31,6 +31,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SalaryHa
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TaskScheduler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 import net.minecraft.server.v1_12_R1.EntityVillager;
+import net.minecraft.server.v1_12_R1.EntityZombie;
 
 public class WorldEconomyPlugin extends JavaPlugin {
 
@@ -143,7 +144,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * ==================================================
 		 */
 
-		NMSUtil.registerEntity("ai", 120, EntityVillager.class, EntityAI.class);
+		NMSUtil.registerEntity("ai", 54, EntityZombie.class, EntityAI.class);
 
 	}
 

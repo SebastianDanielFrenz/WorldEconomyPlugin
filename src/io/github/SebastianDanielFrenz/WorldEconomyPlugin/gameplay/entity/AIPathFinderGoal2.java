@@ -9,6 +9,7 @@ import net.minecraft.server.v1_12_R1.EntityCreature;
 import net.minecraft.server.v1_12_R1.EntityInsentient;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.EntityVillager;
 import net.minecraft.server.v1_12_R1.Navigation;
 import net.minecraft.server.v1_12_R1.NavigationAbstract;
 import net.minecraft.server.v1_12_R1.PathEntity;
@@ -27,24 +28,27 @@ public class AIPathFinderGoal2 extends PathfinderGoal {
 		return true;
 	}
 
-	EntityArmorStand armorStand;
+	EntityVillager armorStand;
 
 	@Override
 	public void c() {
 
-		System.out.println("Path finder c()");
+		//System.out.println("Path finder c()");
 
 		if (armorStand != null) {
 			armorStand.killEntity();
 		}
-		armorStand = new EntityArmorStand(entitycreature.world, 0, 100, 0);
+		armorStand = new EntityVillager(entitycreature.world);
 		armorStand.setInvisible(false);
 		armorStand.setNoGravity(false);
 		entitycreature.world.addEntity(armorStand);
-		entitycreature.setGoalTarget(entitycreature);
+		entitycreature.setGoalTarget(armorStand, TargetReason.CUSTOM, false);
 
 	}
 
+	/**
+	 * This method is called every tick
+	 */
 	@Override
 	public void e() {
 		// if (this.entitycreature.getGoalTarget() == null ||
@@ -54,7 +58,7 @@ public class AIPathFinderGoal2 extends PathfinderGoal {
 		// WantedManager
 		// .getWantedLevel((Player)
 		// entitycreature.getGoalTarget().getBukkitEntity()) == 0)) {
-		System.out.println("path finder e()");
+		// System.out.println("path finder e()");
 
 		if (entitycreature.getGoalTarget() == null || !this.entitycreature.getGoalTarget().isAlive()) {
 			System.out.println("no traget; running c()!");
