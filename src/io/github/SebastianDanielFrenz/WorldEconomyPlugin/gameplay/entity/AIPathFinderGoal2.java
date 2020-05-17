@@ -28,18 +28,19 @@ public class AIPathFinderGoal2 extends PathfinderGoal {
 		return true;
 	}
 
-	EntityVillager armorStand;
+	EntityArmorStand armorStand;
 
 	@Override
 	public void c() {
 
-		//System.out.println("Path finder c()");
+		// System.out.println("Path finder c()");
 
 		if (armorStand != null) {
 			armorStand.killEntity();
 		}
-		armorStand = new EntityVillager(entitycreature.world);
-		armorStand.setInvisible(false);
+		// armorStand = new EntityVillager(entitycreature.world);
+		armorStand = new EntityArmorStand(entitycreature.world);
+		armorStand.setInvisible(true);
 		armorStand.setNoGravity(false);
 		entitycreature.world.addEntity(armorStand);
 		entitycreature.setGoalTarget(armorStand, TargetReason.CUSTOM, false);
