@@ -34,6 +34,7 @@ public class CustomItemInteractionEventHandler implements Listener {
 				if (detail != null) {
 					detail.processEvent(event);
 				} else {
+					event.setDamage(0);
 					player.sendMessage("You have dealt 0 damage. Use your fist or a weapon to deal damage.");
 				}
 			} else {

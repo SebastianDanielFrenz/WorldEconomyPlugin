@@ -30,7 +30,6 @@ public class EntityAI extends EntityZombie implements IRangedEntity {
 		this.setCustomName(ChatColor.DARK_BLUE + "AI");
 		this.setCustomNameVisible(true);
 		this.setInvisible(false);
-		craftVillager.setMaximumNoDamageTicks(0);
 		// this.setEquipment(EnumItemSlot.CHEST, new
 		// ItemStack(Items.DIAMOND_CHESTPLATE));
 

@@ -12,7 +12,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class ResourceGUI extends WEGUI {
 
 	public ResourceGUI(WEGUI parent, CustomItem resource) {
-		super(new GUIItem[] { new GUIItem(0, 4, mkItem(resource.base_material,
+		super(new GUIItem[] { new GUIItem(0, 4, mkItem(resource.base_material, 1, resource.vanilla_data,
 				"Resource - " + resource.item_name + " - " + WEDB.getResourcePriceWithFallback(resource))) {
 			@Override
 			public void event(InventoryClickEvent event) {

@@ -42,7 +42,7 @@ public class WEGUI implements InventoryHolder {
 			// other constructor equivalent
 			this.items = items2;
 
-			ItemStack backButtonItem = new ItemStack(Material.WOOL, 14);
+			ItemStack backButtonItem = mkItem(Material.WOOL, 1, 14, "Back");
 			ItemMeta meta = backButtonItem.getItemMeta();
 			meta.setDisplayName("§4Back");
 			backButtonItem.setItemMeta(meta);

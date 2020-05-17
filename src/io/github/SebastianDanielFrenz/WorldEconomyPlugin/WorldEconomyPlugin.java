@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomEntityInvincebilityHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomItemInteractionEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
@@ -144,8 +145,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		 * ==================================================
 		 */
 
-		NMSUtil.registerEntity("ai", 54, EntityZombie.class, EntityAI.class);
+		// NMSUtil.registerEntity("ai", 54, EntityZombie.class, EntityAI.class);
+		NMSUtil.registerEntity("ai", 120, EntityZombie.class, EntityAI.class);
 
+		getServer().getPluginManager().registerEvents(new CustomEntityInvincebilityHandler(), this);
 	}
 
 	@Override
