@@ -1,20 +1,15 @@
 
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities;
 
-import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.StalkerPathFinderGoal;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.AIPathFinderGoal2;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityVillager;
 import net.minecraft.server.v1_12_R1.EntityZombie;
 import net.minecraft.server.v1_12_R1.IRangedEntity;
-import net.minecraft.server.v1_12_R1.PathfinderGoal;
-import net.minecraft.server.v1_12_R1.PathfinderGoalArrowAttack;
 import net.minecraft.server.v1_12_R1.World;
 
 public class EntityAI extends EntityZombie implements IRangedEntity {
@@ -33,7 +28,7 @@ public class EntityAI extends EntityZombie implements IRangedEntity {
 		// this.setEquipment(EnumItemSlot.CHEST, new
 		// ItemStack(Items.DIAMOND_CHESTPLATE));
 
-		//this.getWorld().addEntity(this); // fickt bei Neustart den Server
+		// this.getWorld().addEntity(this); // fickt bei Neustart den Server
 	}
 
 	@Override

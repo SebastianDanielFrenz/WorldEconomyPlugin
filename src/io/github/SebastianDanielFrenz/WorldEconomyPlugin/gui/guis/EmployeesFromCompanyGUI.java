@@ -36,17 +36,15 @@ public class EmployeesFromCompanyGUI extends WEGUI {
 			List<Employee> employees = WEDB.getEmployeesFromCompany(company);
 			for (Employee employee : employees) {
 				if (employee instanceof EmployeePlayer) {
-					items.add(new GUIItem(slot,
-							mkItem(BlockLib.PLAYER,
-									Bukkit.getOfflinePlayer(((EmployeePlayer) employee).playerUUID).getName(),
-									new String[] { "player" })) {
+					items.add(new GUIItem(slot, mkItem(BlockLib.PLAYER, Bukkit.getOfflinePlayer(((EmployeePlayer) employee).playerUUID).getName(),
+							new String[] { "player" })) {
 						@Override
 						public void event(InventoryClickEvent event) {
 						}
 					});
 				} else if (employee instanceof EmployeeAI) {
 					AIProfile ai = WEDB.getAI(((EmployeeAI) employee).aiID);
-					items.add(new GUIItem(slot, mkItem(BlockLib.AI, ai.username, new String[] { "AI" })) {
+					items.add(new GUIItem(slot, BlockLib.ai(ai.username)) {
 						@Override
 						public void event(InventoryClickEvent event) {
 						}

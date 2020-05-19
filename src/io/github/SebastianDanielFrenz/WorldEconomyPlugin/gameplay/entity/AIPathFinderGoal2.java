@@ -1,18 +1,9 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity;
 
-import org.bukkit.Location;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
-import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityCreature;
-import net.minecraft.server.v1_12_R1.EntityInsentient;
-import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.EntityVillager;
-import net.minecraft.server.v1_12_R1.Navigation;
-import net.minecraft.server.v1_12_R1.NavigationAbstract;
-import net.minecraft.server.v1_12_R1.PathEntity;
 import net.minecraft.server.v1_12_R1.PathfinderGoal;
 
 public class AIPathFinderGoal2 extends PathfinderGoal {

@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BlockLib;
@@ -30,15 +27,8 @@ public class BanksGUI extends WEGUI {
 		});
 		try {
 			List<Bank> banks = WEDB.getAllBanks();
-			ItemStack item;
-			ItemMeta meta;
 			for (Bank bank : banks) {
-				item = new ItemStack(BlockLib.BANK);
-				meta = item.getItemMeta();
-				meta.setDisplayName(bank.name);
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(slot, item) {
+				items.add(new GUIItem(slot, BlockLib.bank(bank)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 					}
@@ -68,15 +58,8 @@ public class BanksGUI extends WEGUI {
 
 		try {
 			List<Bank> banks = WEDB.getAllBanks();
-			ItemStack item;
-			ItemMeta meta;
 			for (Bank bank : banks) {
-				item = new ItemStack(BlockLib.BANK);
-				meta = item.getItemMeta();
-				meta.setDisplayName(bank.name);
-				item.setItemMeta(meta);
-
-				items.add(new GUIItem(slot, item) {
+				items.add(new GUIItem(slot, BlockLib.bank(bank)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 					}

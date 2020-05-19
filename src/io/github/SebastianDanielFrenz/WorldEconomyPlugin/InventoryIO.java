@@ -39,7 +39,6 @@ public class InventoryIO {
 		return text.split(Pattern.quote(searched));
 	}
 
-	@SuppressWarnings("deprecation")
 	public static String serialize(ItemStack item) {
 		if (item == null) {
 			return "null";
@@ -124,7 +123,6 @@ public class InventoryIO {
 		return out;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static ItemStack loadItemStack(String text) {
 		if (text.equals("null")) {
 			return null;

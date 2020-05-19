@@ -32,7 +32,7 @@ public class ChooseBankGUI extends WEGUI {
 		try {
 			List<Bank> banks = WEDB.getAllBanks();
 			for (Bank bank : banks) {
-				items.add(new GUIItem(slot, mkItem(BlockLib.BANK, bank.name)) {
+				items.add(new GUIItem(slot, BlockLib.bank(bank)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 						player.closeInventory();
@@ -64,7 +64,7 @@ public class ChooseBankGUI extends WEGUI {
 		try {
 			List<Bank> banks = WEDB.getAllBanks();
 			for (Bank bank : banks) {
-				items.add(new GUIItem(slot, mkItem(BlockLib.BANK, bank.name)) {
+				items.add(new GUIItem(slot, BlockLib.bank(bank)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 						player.closeInventory();

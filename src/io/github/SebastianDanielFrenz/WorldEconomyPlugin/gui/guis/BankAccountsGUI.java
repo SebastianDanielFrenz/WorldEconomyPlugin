@@ -33,10 +33,7 @@ public class BankAccountsGUI extends WEGUI {
 		try {
 			List<BankAccount> bank_accounts = WEDB.getAllBankAccounts(player);
 			for (BankAccount bank_account : bank_accounts) {
-				items.add(new GUIItem(slot,
-						mkItem(BlockLib.BANK_ACCOUNT, bank_account.getName(),
-								new String[] { "§f" + WEDB.getBank(bank_account.getBankID()).name,
-										String.valueOf(bank_account.getBalance()) })) {
+				items.add(new GUIItem(slot, BlockLib.bank_account(bank_account)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 						new BankAccountGUI(out, bank_account).openInventory((Player) event.getWhoClicked());

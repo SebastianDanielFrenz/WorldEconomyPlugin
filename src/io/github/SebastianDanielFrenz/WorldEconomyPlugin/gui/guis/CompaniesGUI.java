@@ -36,16 +36,14 @@ public class CompaniesGUI extends WEGUI {
 			for (Company company : companies) {
 
 				if (company.companyType.equals("corporation")) {
-					items.add(new GUIItem(slot, mkItem(BlockLib.COMPANY_CORPORATION, company.companyName,
-							new String[] { company.companyType })) {
+					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
 							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				} else if (company.companyType.equalsIgnoreCase("private")) {
-					items.add(new GUIItem(slot, mkItem(BlockLib.COMPANY_PRIVATE, company.companyName,
-							new String[] { company.companyType })) {
+					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
 							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());

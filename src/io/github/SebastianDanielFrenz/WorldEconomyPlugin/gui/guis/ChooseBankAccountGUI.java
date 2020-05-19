@@ -24,7 +24,7 @@ public class ChooseBankAccountGUI extends WEGUI {
 		try {
 			List<BankAccount> accounts = WEDB.getBankAccounts(bankingID);
 			for (BankAccount account : accounts) {
-				items.add(new GUIItem(slot, mkItem(BlockLib.BANK_ACCOUNT, account.getName())) {
+				items.add(new GUIItem(slot, BlockLib.bank_account(account)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 						event.getWhoClicked().closeInventory();

@@ -37,56 +37,50 @@ public class TransferMoneyGUI extends WEGUI {
 					@Override
 					public void event(InventoryClickEvent event) {
 						// this user.bankingID is NOT the GUI viewer's profile!
-						new ChooseBankAccountGUI(out, "Choose the recipient's bank account", user.bankingID,
-								new BankAccountChooserEvent() {
-									@Override
-									public void event(InventoryClickEvent event2, BankAccount dst) {
-										try {
-											new ChooseBankAccountGUI(parent, "Choose your bank account",
-													WEDB.getUserProfile(player).bankingID,
-													new BankAccountChooserEvent() {
-														@Override
-														public void event(InventoryClickEvent event, BankAccount src) {
-															new TransferMoneyChatDialog(player, src, dst);
-														}
-													}).openInventory(player);
-										} catch (SQLException e) {
-											e.printStackTrace();
-											player.sendMessage(
-													WorldEconomyPlugin.PREFIX + "§4Your user profile was not found!");
-										}
-									}
-								}).openInventory(player);
+						new ChooseBankAccountGUI(out, "Choose the recipient's bank account", user.bankingID, new BankAccountChooserEvent() {
+							@Override
+							public void event(InventoryClickEvent event2, BankAccount dst) {
+								try {
+									new ChooseBankAccountGUI(parent, "Choose your bank account", WEDB.getUserProfile(player).bankingID,
+											new BankAccountChooserEvent() {
+												@Override
+												public void event(InventoryClickEvent event, BankAccount src) {
+													new TransferMoneyChatDialog(player, src, dst);
+												}
+											}).openInventory(player);
+								} catch (SQLException e) {
+									e.printStackTrace();
+									player.sendMessage(WorldEconomyPlugin.PREFIX + "§4Your user profile was not found!");
+								}
+							}
+						}).openInventory(player);
 					}
 				});
 				slot++;
 			}
 			List<AIProfile> AIs = WEDB.getAllAIs();
 			for (AIProfile AI : AIs) {
-				items.add(new GUIItem(slot, mkItem(BlockLib.AI, AI.username, new String[] { "AI" })) {
+				items.add(new GUIItem(slot, BlockLib.ai(AI.username)) {
 
 					@Override
 					public void event(InventoryClickEvent event) {
-						new ChooseBankAccountGUI(out, "Choose the recipient's bank account", AI.bankingID,
-								new BankAccountChooserEvent() {
-									@Override
-									public void event(InventoryClickEvent event2, BankAccount dst) {
-										try {
-											new ChooseBankAccountGUI(parent, "Choose your bank account",
-													WEDB.getUserProfile(player).bankingID,
-													new BankAccountChooserEvent() {
-														@Override
-														public void event(InventoryClickEvent event, BankAccount src) {
-															new TransferMoneyChatDialog(player, src, dst);
-														}
-													}).openInventory(player);
-										} catch (SQLException e) {
-											e.printStackTrace();
-											player.sendMessage(
-													WorldEconomyPlugin.PREFIX + "§4Your user profile was not found!");
-										}
-									}
-								}).openInventory(player);
+						new ChooseBankAccountGUI(out, "Choose the recipient's bank account", AI.bankingID, new BankAccountChooserEvent() {
+							@Override
+							public void event(InventoryClickEvent event2, BankAccount dst) {
+								try {
+									new ChooseBankAccountGUI(parent, "Choose your bank account", WEDB.getUserProfile(player).bankingID,
+											new BankAccountChooserEvent() {
+												@Override
+												public void event(InventoryClickEvent event, BankAccount src) {
+													new TransferMoneyChatDialog(player, src, dst);
+												}
+											}).openInventory(player);
+								} catch (SQLException e) {
+									e.printStackTrace();
+									player.sendMessage(WorldEconomyPlugin.PREFIX + "§4Your user profile was not found!");
+								}
+							}
+						}).openInventory(player);
 					}
 				});
 				slot++;
@@ -95,59 +89,49 @@ public class TransferMoneyGUI extends WEGUI {
 			List<Company> companies = WEDB.getAllCompanies();
 			for (Company company : companies) {
 				if (company.companyType.equals("corporation")) {
-					items.add(new GUIItem(slot, mkItem(BlockLib.COMPANY_CORPORATION, company.companyName,
-							new String[] { "company - " + company.companyType })) {
+					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new ChooseBankAccountGUI(out, "Choose the recipient's bank account", company.bankingID,
-									new BankAccountChooserEvent() {
-										@Override
-										public void event(InventoryClickEvent event2, BankAccount dst) {
-											try {
-												new ChooseBankAccountGUI(parent, "Choose your bank account",
-														WEDB.getUserProfile(player).bankingID,
-														new BankAccountChooserEvent() {
-															@Override
-															public void event(InventoryClickEvent event,
-																	BankAccount src) {
-																new TransferMoneyChatDialog(player, src, dst);
-															}
-														}).openInventory(player);
-											} catch (SQLException e) {
-												e.printStackTrace();
-												player.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "§4Your user profile was not found!");
-											}
-										}
-									}).openInventory(player);
+							new ChooseBankAccountGUI(out, "Choose the recipient's bank account", company.bankingID, new BankAccountChooserEvent() {
+								@Override
+								public void event(InventoryClickEvent event2, BankAccount dst) {
+									try {
+										new ChooseBankAccountGUI(parent, "Choose your bank account", WEDB.getUserProfile(player).bankingID,
+												new BankAccountChooserEvent() {
+													@Override
+													public void event(InventoryClickEvent event, BankAccount src) {
+														new TransferMoneyChatDialog(player, src, dst);
+													}
+												}).openInventory(player);
+									} catch (SQLException e) {
+										e.printStackTrace();
+										player.sendMessage(WorldEconomyPlugin.PREFIX + "§4Your user profile was not found!");
+									}
+								}
+							}).openInventory(player);
 						}
 					});
 				} else if (company.companyType.equals("private")) {
-					items.add(new GUIItem(slot, mkItem(BlockLib.COMPANY_PRIVATE, company.companyName,
-							new String[] { "company - " + company.companyType })) {
+					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new ChooseBankAccountGUI(out, "Choose the recipient's bank account", company.bankingID,
-									new BankAccountChooserEvent() {
-										@Override
-										public void event(InventoryClickEvent event2, BankAccount dst) {
-											try {
-												new ChooseBankAccountGUI(parent, "Choose your bank account",
-														WEDB.getUserProfile(player).bankingID,
-														new BankAccountChooserEvent() {
-															@Override
-															public void event(InventoryClickEvent event,
-																	BankAccount src) {
-																new TransferMoneyChatDialog(player, src, dst);
-															}
-														}).openInventory(player);
-											} catch (SQLException e) {
-												e.printStackTrace();
-												player.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "§4Your user profile was not found!");
-											}
-										}
-									}).openInventory(player);
+							new ChooseBankAccountGUI(out, "Choose the recipient's bank account", company.bankingID, new BankAccountChooserEvent() {
+								@Override
+								public void event(InventoryClickEvent event2, BankAccount dst) {
+									try {
+										new ChooseBankAccountGUI(parent, "Choose your bank account", WEDB.getUserProfile(player).bankingID,
+												new BankAccountChooserEvent() {
+													@Override
+													public void event(InventoryClickEvent event, BankAccount src) {
+														new TransferMoneyChatDialog(player, src, dst);
+													}
+												}).openInventory(player);
+									} catch (SQLException e) {
+										e.printStackTrace();
+										player.sendMessage(WorldEconomyPlugin.PREFIX + "§4Your user profile was not found!");
+									}
+								}
+							}).openInventory(player);
 						}
 					});
 				} else {
