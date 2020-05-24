@@ -7,9 +7,12 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.AIPathFinderGoal2;
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_12_R1.DamageSource;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityZombie;
 import net.minecraft.server.v1_12_R1.IRangedEntity;
+import net.minecraft.server.v1_12_R1.SoundEffect;
+import net.minecraft.server.v1_12_R1.SoundEffects;
 import net.minecraft.server.v1_12_R1.World;
 
 public class EntityAI extends EntityZombie implements IRangedEntity {
@@ -124,6 +127,37 @@ public class EntityAI extends EntityZombie implements IRangedEntity {
 	public void a(EntityLiving entityliving, float f) {
 		// entity shoots gun
 		System.out.println("a() in EntityAI!");
+	}
+
+	/**
+	 * straight from the decompiler
+	 */
+	// protected SoundEffect F() {
+	// return do_() ? SoundEffects.io : SoundEffects.ik;
+	// }
+	//
+	// protected SoundEffect d(DamageSource damagesource) {
+	// return SoundEffects.im;
+	// }
+	//
+	// protected SoundEffect cf() {
+	// return SoundEffects.il;
+	// }
+
+	protected SoundEffect F() {
+		return SoundEffects.io; // SoundEffects.ik possible too
+	}
+
+	protected SoundEffect d(DamageSource damagesource) {
+		return SoundEffects.im;
+	}
+
+	protected SoundEffect cf() {
+		return SoundEffects.il;
+	}
+
+	protected SoundEffect dm() {
+		return SoundEffects.ik; // ambient villager sound replacing zombie step
 	}
 
 }

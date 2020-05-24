@@ -38,6 +38,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.BuildingIO;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.building.TownGenerator;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.CustomEntityTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
@@ -1036,14 +1037,18 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("debug")) {
 				if (sender instanceof Player) {
 					Player player = (Player) sender;
+					//
+					// World nmsworld = ((CraftWorld)
+					// player.getWorld()).getHandle();
+					// EntityAI copEntity = new EntityAI(nmsworld);
+					// Location spawnLocation = player.getLocation();
+					//
+					// copEntity.setLocation(spawnLocation.getX(),
+					// spawnLocation.getY(), spawnLocation.getZ(),
+					// spawnLocation.getYaw(), spawnLocation.getPitch());
+					// nmsworld.addEntity(copEntity, SpawnReason.CUSTOM);
 
-					World nmsworld = ((CraftWorld) player.getWorld()).getHandle();
-					EntityAI copEntity = new EntityAI(nmsworld);
-					Location spawnLocation = player.getLocation();
-
-					copEntity.setLocation(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ(),
-							spawnLocation.getYaw(), spawnLocation.getPitch());
-					nmsworld.addEntity(copEntity, SpawnReason.CUSTOM);
+					CustomEntityTypeRegistry.spawn(CustomEntityTypeRegistry.BABY_DEER, player.getLocation());
 				}
 				return true;
 			} else if (args[0].equalsIgnoreCase("help")) {

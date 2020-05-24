@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
@@ -19,6 +20,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomEntityInvin
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomItemInteractionEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.TickListenerRunnable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.NMSUtil;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
@@ -148,6 +150,12 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		NMSUtil.registerEntity("ai", 120, EntityZombie.class, EntityAI.class);
 
 		getServer().getPluginManager().registerEvents(new CustomEntityInvincebilityHandler(), this);
+
+		/*
+		 * On tick stuff
+		 */
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TickListenerRunnable(), 1l, 1l);
 	}
 
 	@Override

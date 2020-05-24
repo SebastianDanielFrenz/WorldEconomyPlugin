@@ -1,43 +1,30 @@
 
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities;
 
-import org.bukkit.entity.Zombie;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.AIPathFinderGoal2;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.Cow;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.CustomEntityTypeRegistry;
+import net.minecraft.server.v1_12_R1.EntityCow;
 import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityZombie;
 import net.minecraft.server.v1_12_R1.IRangedEntity;
 import net.minecraft.server.v1_12_R1.World;
 
-public class EntityBabyDeer extends EntityZombie implements IRangedEntity {
+public class EntityBabyDeer extends EntityCow implements IRangedEntity {
 
 	@SuppressWarnings("deprecation")
 	public EntityBabyDeer(World world) {
 		super(world);
 
-		Zombie craftVillager = (Zombie) this.getBukkitEntity();
+		Cow craftVillager = (Cow) this.getBukkitEntity();
 
-		craftVillager.setMaxHealth(40);
-		craftVillager.setHealth(40);
-		this.setCustomName(ChatColor.DARK_BLUE + "AI");
+		craftVillager.setMaxHealth(10);
+		craftVillager.setHealth(10);
+		this.setCustomName(CustomEntityTypeRegistry.BABY_DEER.getCustomEntityName());
 		this.setCustomNameVisible(true);
 		this.setInvisible(false);
-		// this.setEquipment(EnumItemSlot.CHEST, new
-		// ItemStack(Items.DIAMOND_CHESTPLATE));
-
-		// this.getWorld().addEntity(this); // fickt bei Neustart den Server
-	}
-
-	@Override
-	public void n() {
-		// System.out.println("Running n() in EntityAI!");
-		super.n();
-		((Zombie) getBukkitEntity()).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999999, 1));
 
 	}
+	// this.setEquipment(EnumItemSlot.CHEST, new
+	// ItemStack(Items.DIAMOND_CHESTPLATE));
 
 	// @Override
 	/*
@@ -69,27 +56,6 @@ public class EntityBabyDeer extends EntityZombie implements IRangedEntity {
 	 * getAttributeMap().b(a).setValue(this.random.nextDouble() *
 	 * 0.10000000149011612D); }
 	 */
-
-	@Override
-	protected void do_() {
-		// this.goalSelector.a(6, new PathfinderGoalMoveThroughVillage(this,
-		// 1.0D, false));
-		// this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true,
-		// new Class[] { EntityPigZombie.class }));
-		// this.targetSelector.a(2, new DebugPathfinderGoal(this,
-		// EntityHuman.class, true));
-		// if (this.world.spigotConfig.zombieAggressiveTowardsVillager) {
-		// this.targetSelector.a(3, new DebugPathfinderGoal(this,
-		// EntityVillager.class, false));
-		// }
-		// this.targetSelector.a(3, new DebugPathfinderGoal(this,
-		// EntityIronGolem.class, true));
-
-		System.out.println("Running do_() in EntityAI!");
-
-		// goalSelector.a(0, new AIPathFinderGoal2(this));
-		goalSelector.a(0, new AIPathFinderGoal2(this));
-	}
 
 	// @Override
 	// protected void r() {
@@ -124,6 +90,14 @@ public class EntityBabyDeer extends EntityZombie implements IRangedEntity {
 	public void a(EntityLiving entityliving, float f) {
 		// entity shoots gun
 		System.out.println("a() in EntityAI!");
+	}
+
+	/*
+	 * this method most likely is run every tick.
+	 */
+	@Override
+	public void p(boolean arg0) {
+		System.out.println("p() call");
 	}
 
 }
