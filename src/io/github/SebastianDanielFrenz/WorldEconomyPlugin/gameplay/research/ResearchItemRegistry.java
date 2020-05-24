@@ -3,6 +3,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemBabyDeer;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemOakLeaves;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemOakPlanks;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemSharpStick;
@@ -21,6 +22,7 @@ public class ResearchItemRegistry {
 	public static final ResearchItem STICK = new ResearchItemStick();
 	public static final ResearchItem OAK_LEAVES = new ResearchItemOakLeaves();
 	public static final ResearchItem TREE_OAK_LEAVES = new ResearchItemTreeOakLeaves();
+	public static final ResearchItem BABY_DEER = new ResearchItemBabyDeer();
 
 	public static final ResearchItem OAK_PLANKS = new ResearchItemOakPlanks();
 	public static final ResearchItem STONE_AGE_CRAFTING_TABLE = new ResearchItemStoneAgeCraftingTable();
@@ -29,8 +31,8 @@ public class ResearchItemRegistry {
 	public static void init() {
 		register(OAK_LEAVES);
 		register(TREE_OAK_LEAVES);
-
 		register(STICK);
+		register(BABY_DEER);
 
 		register(OAK_PLANKS);
 		register(STONE_AGE_CRAFTING_TABLE);

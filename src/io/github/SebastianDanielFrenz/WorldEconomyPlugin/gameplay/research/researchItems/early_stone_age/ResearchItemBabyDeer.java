@@ -1,14 +1,14 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.CustomEntityTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchCondition;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 
-public class ResearchItemOakLeaves extends ResearchItem {
+public class ResearchItemBabyDeer extends ResearchItem {
 
-	public ResearchItemOakLeaves() {
-		super("oak_leaves", CustomItemRegistry.OAK_LEAVES, new ResearchItem[] {}, new ResearchCondition[] {}, Age.EARLY_STONE_AGE);
+	public ResearchItemBabyDeer() {
+		super("baby_deer", CustomEntityTypeRegistry.BABY_DEER, new ResearchItem[] {}, new ResearchCondition[] {}, Age.EARLY_STONE_AGE);
 	}
 
 }

@@ -26,8 +26,7 @@ public class CustomEntityTypeRegistry {
 			for (CustomEntityType entity2 : entities) {
 				if (entity2.getClass() == entity.getClass()) {
 					WorldEconomyPlugin.plugin.getLogger().log(Level.SEVERE,
-							"Registering already registered custom entity type with class "
-									+ entity.getClass().getCanonicalName() + "!");
+							"Registering already registered custom entity type with class " + entity.getClass().getCanonicalName() + "!");
 					return;
 				}
 				if (entity2.getEntityID().equals(entity.getEntityID())) {
@@ -39,8 +38,7 @@ public class CustomEntityTypeRegistry {
 			// addition
 			entities.add(entity);
 		} else {
-			throw new RuntimeException("Tried to register CustomEntity " + entity.getClass().getCanonicalName()
-					+ ", but it is not a LivingEntity!");
+			throw new RuntimeException("Tried to register CustomEntity " + entity.getClass().getCanonicalName() + ", but it is not a LivingEntity!");
 		}
 	}
 
@@ -74,18 +72,17 @@ public class CustomEntityTypeRegistry {
 			try {
 				entity = constructor.newInstance(nmsworld);
 
-				entity.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(),
-						location.getPitch());
+				entity.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 
 				nmsworld.addEntity(entity, SpawnReason.CUSTOM);
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException e) {
-				throw new RuntimeException("error occured while constructing custom entity of class "
-						+ type.getCustomEntityClass().getCanonicalName() + "!");
+
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				throw new RuntimeException(
+						"error occured while constructing custom entity of class " + type.getCustomEntityClass().getCanonicalName() + "!");
 			}
 		} catch (NoSuchMethodException | SecurityException e) {
-			throw new RuntimeException("missing or invisible constructur "
-					+ type.getCustomEntityClass().getCanonicalName() + "(" + World.class.getCanonicalName() + ")!");
+			throw new RuntimeException("missing or invisible constructur " + type.getCustomEntityClass().getCanonicalName() + "("
+					+ World.class.getCanonicalName() + ")!");
 		}
 	}
 
