@@ -14,4 +14,13 @@ public class ResearchProfile {
 		this.entityType = entityType;
 	}
 
+	public boolean hasResearched(ResearchItem item) {
+		for (ResearchItem item2 : researched) {
+			if (item == item2) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

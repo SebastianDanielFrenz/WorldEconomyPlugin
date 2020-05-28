@@ -52,4 +52,21 @@ public class ResearchItemRegistry {
 		return null;
 	}
 
+	/**
+	 * This method will only work when the same instance of the
+	 * ResearchableObject is used as a parameter as is used in the ResearchItem
+	 * extending class.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public static ResearchItem getItemFor(ResearchableObject object) {
+		for (ResearchItem item : researchItems) {
+			if (item.getResearchableObject() == object) {
+				return item;
+			}
+		}
+		return null;
+	}
+
 }
