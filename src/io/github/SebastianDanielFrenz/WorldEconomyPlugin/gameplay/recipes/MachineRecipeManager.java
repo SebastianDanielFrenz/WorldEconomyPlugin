@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.AccelerationLevel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.AccelerationPotential;
@@ -22,10 +24,14 @@ public class MachineRecipeManager {
 	 * @return
 	 */
 	@AccelerationPotential(lvl = AccelerationLevel.LITTLE)
-	public static List<ActualMachineRecipe> getRecipesByOutput(CustomItem item, ResearchProfile researchProfile) {
-		List<ActualMachineRecipe> out = new ArrayList<ActualMachineRecipe>();
+	public static Map<Machine, List<MachineRecipe>> getRecipesByOutput(CustomItem item,
+			ResearchProfile researchProfile) {
+		Map<Machine, List<MachineRecipe>> out = new TreeMap<Machine, List<MachineRecipe>>();
 
+		boolean registeredMachine;
 		for (Machine machine : MachineRegistry.getContents()) {
+			registeredMachine = false;
+
 			if (researchProfile.hasResearched(ResearchItemRegistry.getItemFor(machine))) {
 				for (MachineRecipe recipe : machine.getRecipes()) {
 					boolean all_researched = true;
@@ -40,8 +46,16 @@ public class MachineRecipeManager {
 						}
 					}
 
-					if (!all_researched || !contains_item) {
+					if (all_researched && contains_item) {
+						if (registeredMachine) {
+							List<MachineRecipe> list = new ArrayList<MachineRecipe>();
+							list.add(recipe);
 
+							out.put(machine, list);
+							registeredMachine = true;
+						} else {
+							out.get(machine).add(recipe);
+						}
 					}
 				}
 			}
