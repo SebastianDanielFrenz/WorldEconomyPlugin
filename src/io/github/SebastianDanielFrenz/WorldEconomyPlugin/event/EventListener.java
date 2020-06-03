@@ -36,7 +36,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.VolatileCooldowns;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyCommandExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
@@ -54,7 +54,7 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
 		try {
-			WorldEconomyProfile profile = WEDB.getUserProfile(event.getPlayer());
+			UserProfile profile = WEDB.getUserProfile(event.getPlayer());
 			if (profile == null) {
 				WEDB.registerUserProfile(event.getPlayer());
 			}
@@ -93,7 +93,7 @@ public class EventListener implements Listener {
 													+ "§4This credit card has no banking information!");
 										}
 										String bankAccountName = lore.get(1);
-										WorldEconomyProfile profile = WEDB.getUserProfile(player);
+										UserProfile profile = WEDB.getUserProfile(player);
 										BankAccount bankAccount = WEDB.getBankAccount(profile.bankingID,
 												bankAccountName);
 										if (bankAccount == null) {

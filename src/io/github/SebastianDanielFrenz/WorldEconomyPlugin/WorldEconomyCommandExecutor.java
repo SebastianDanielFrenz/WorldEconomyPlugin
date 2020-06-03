@@ -452,7 +452,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 													try {
 														double amount = Double.parseDouble(args[6]);
 														Player player = (Player) sender;
-														WorldEconomyProfile profile = WEDB.getUserProfile(player);
+														UserProfile profile = WEDB.getUserProfile(player);
 
 														WEDB.takeCredit(new Credit(0, profile.bankingID, bank.ID, amount, 1.0, 10 * 60,
 																player.getStatistic(Statistic.PLAY_ONE_TICK), account.getID()), account);
@@ -583,7 +583,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										long salary = Long.parseLong(args[6]);
 
 										if (employeeType.equals("player")) {
-											WorldEconomyProfile profile = WEDB.getUserProfile(Bukkit.getOfflinePlayer(employeeName));
+											UserProfile profile = WEDB.getUserProfile(Bukkit.getOfflinePlayer(employeeName));
 											if (profile == null) {
 												sender.sendMessage(
 														WorldEconomyPlugin.PREFIX + "§4The player \"" + employeeName + "\" is not registered!");

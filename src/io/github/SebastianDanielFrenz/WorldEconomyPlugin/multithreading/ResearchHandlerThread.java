@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
@@ -34,9 +34,9 @@ public class ResearchHandlerThread implements Runnable {
 
 				try {
 					List<ResearchItem> explored = ResearchManager.updateResearch(entity);
-					if (entity instanceof WorldEconomyProfile) {
+					if (entity instanceof UserProfile) {
 						for (ResearchItem item : explored) {
-							Bukkit.getPlayer(((WorldEconomyProfile) entity).uuid)
+							Bukkit.getPlayer(((UserProfile) entity).uuid)
 									.sendMessage(WorldEconomyPlugin.PREFIX + "§aYou explored " + item.getID());
 
 							if (item.getResearchableObject() instanceof CustomBlockType

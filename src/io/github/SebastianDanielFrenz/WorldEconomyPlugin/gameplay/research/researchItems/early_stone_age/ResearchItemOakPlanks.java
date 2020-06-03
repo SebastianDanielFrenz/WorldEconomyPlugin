@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age;
 
+import org.bukkit.Material;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
@@ -15,7 +17,7 @@ public class ResearchItemOakPlanks extends ResearchItem {
 		super("oak_planks", CustomItemRegistry.OAK_PLANKS, new ResearchItem[] { ResearchItemRegistry.STICK },
 				new ResearchCondition[] {
 						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES, StatisticCategoryRegistry.CRAFTED, 200) },
-				Age.EARLY_STONE_AGE);
+				Age.EARLY_STONE_AGE, "Oak Planks", Material.WOOD, 0);
 	}
 
 }

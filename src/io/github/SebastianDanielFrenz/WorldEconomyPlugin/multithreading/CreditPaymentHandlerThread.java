@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.credit.Credit;
 
@@ -49,7 +49,7 @@ public class CreditPaymentHandlerThread implements Runnable {
 							long current_time = player.getStatistic(Statistic.PLAY_ONE_TICK);
 
 							if (current_time >= credit.start + credit.duration * 20 * 60) {
-								WorldEconomyProfile profile = WEDB.getUserProfile(player);
+								UserProfile profile = WEDB.getUserProfile(player);
 
 								long bankMailboxID = WEDB.getBankMailboxIDFromBankID(credit.bankID);
 

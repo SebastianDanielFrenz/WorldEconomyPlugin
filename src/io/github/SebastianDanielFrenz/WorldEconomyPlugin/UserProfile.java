@@ -1,13 +1,16 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
 @DataBaseRepresentation
-public class WorldEconomyProfile implements MailboxOwner, ResearchEntity {
+public class UserProfile implements MailboxOwner, ResearchEntity {
 
 	public long ID;
 	public UUID uuid;
@@ -19,8 +22,7 @@ public class WorldEconomyProfile implements MailboxOwner, ResearchEntity {
 
 	public long mailboxID;
 
-	public WorldEconomyProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID,
-			long mailboxID, Age age) {
+	public UserProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID, long mailboxID, Age age) {
 		this.ID = ID;
 		this.uuid = uuid;
 		this.employeeID = employeeID;
@@ -50,6 +52,10 @@ public class WorldEconomyProfile implements MailboxOwner, ResearchEntity {
 	@Override
 	public long getResearchSpecifiyEntityID() {
 		return ID;
+	}
+
+	public List<ResearchItem> getResearchedItems() throws SQLException {
+		return WEDB.getResearchItems(this);
 	}
 
 }

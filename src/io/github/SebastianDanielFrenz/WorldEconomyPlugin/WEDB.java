@@ -70,33 +70,33 @@ public class WEDB {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static WorldEconomyProfile getUserProfile(OfflinePlayer player) throws SQLException {
+	public static UserProfile getUserProfile(OfflinePlayer player) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(r.getLong("playerID"), player.getUniqueId(), r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
+			return new UserProfile(r.getLong("playerID"), player.getUniqueId(), r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
 					r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
 	}
 
-	public static WorldEconomyProfile getUserProfile(UUID uuid) throws SQLException {
+	public static UserProfile getUserProfile(UUID uuid) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + uuid + "\"");
 
 		if (r.next()) {
-			return new WorldEconomyProfile(r.getLong("playerID"), uuid, r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
+			return new UserProfile(r.getLong("playerID"), uuid, r.getLong("employeeID"), r.getLong("playerAsEmployerID"),
 					r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
 	}
 
-	public static WorldEconomyProfile getUserProfile(long playerID) throws SQLException {
+	public static UserProfile getUserProfile(long playerID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerID = " + playerID);
 
 		if (r.next()) {
-			return new WorldEconomyProfile(playerID, UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
+			return new UserProfile(playerID, UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
 					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"),
 					Age.valueOf(r.getString("age")));
 		} else {
@@ -104,11 +104,11 @@ public class WEDB {
 		}
 	}
 
-	public static List<WorldEconomyProfile> getAllUserProfiles() throws SQLException {
-		List<WorldEconomyProfile> out = new ArrayList<WorldEconomyProfile>();
+	public static List<UserProfile> getAllUserProfiles() throws SQLException {
+		List<UserProfile> out = new ArrayList<UserProfile>();
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles");
 		while (r.next()) {
-			out.add(new WorldEconomyProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
+			out.add(new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
 					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"), r.getLong("mailboxID"),
 					Age.valueOf(r.getString("age"))));
 		}
@@ -921,7 +921,7 @@ public class WEDB {
 		return registerBaseMailbox("company");
 	}
 
-	public static long registerMailbox(WorldEconomyProfile userProfile) throws SQLException {
+	public static long registerMailbox(UserProfile userProfile) throws SQLException {
 		return registerBaseMailbox("player");
 	}
 
@@ -1016,11 +1016,11 @@ public class WEDB {
 		return r.getLong("total");
 	}
 
-	public static WorldEconomyProfile getMailboxOwnerAsUserProfile(long mailboxID) throws SQLException {
+	public static UserProfile getMailboxOwnerAsUserProfile(long mailboxID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE mailboxID = " + mailboxID);
 
 		if (r.next()) {
-			return new WorldEconomyProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")), r.getInt("employeeID"),
+			return new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")), r.getInt("employeeID"),
 					r.getInt("playerAsEmployerID"), r.getString("username"), r.getInt("playerBankingID"), mailboxID, Age.valueOf(r.getString("age")));
 		} else {
 			return null;

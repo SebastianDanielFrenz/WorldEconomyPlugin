@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 
 public class MailSubsystem {
 
@@ -29,8 +29,8 @@ public class MailSubsystem {
 
 	public static void deliveryNotification(long sender, long reciever, String msg) throws SQLException {
 		MailboxOwner owner = WEDB.getMailboxOwner(reciever);
-		if (owner instanceof WorldEconomyProfile) {
-			OfflinePlayer player = Bukkit.getOfflinePlayer(((WorldEconomyProfile) owner).uuid);
+		if (owner instanceof UserProfile) {
+			OfflinePlayer player = Bukkit.getOfflinePlayer(((UserProfile) owner).uuid);
 			if (player.isOnline()) {
 				Player nplayer = (Player) player;
 				nplayer.sendMessage(WorldEconomyPlugin.PREFIX + "You recieved a mail!");

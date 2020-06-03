@@ -44,26 +44,31 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, "My Bank Accounts")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new BankAccountsGUI(_this, (Player) event.getWhoClicked())
-						.openInventory((Player) event.getWhoClicked());
+				new BankAccountsGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, "Register Bank Account")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked())
-						.openInventory((Player) event.getWhoClicked());
+				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, "Transfer Money")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new TransferMoneyGUI(_this, (Player) event.getWhoClicked())
-						.openInventory((Player) event.getWhoClicked());
+				new TransferMoneyGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, "Companies")) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CompaniesGUI(_this).openInventory((Player) event.getWhoClicked());
 			}
-		} });
+		}, new GUIItem(1, 3, mkItem(Material.GLASS_BOTTLE, 1, 0, "§aResearch")) {
+
+			@Override
+			public void event(InventoryClickEvent event) {
+				new ResearchGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
+			}
+		}
+
+		});
 	}
 }

@@ -12,7 +12,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.AIProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.TransferMoneyChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BankAccountChooserEvent;
@@ -31,8 +31,8 @@ public class TransferMoneyGUI extends WEGUI {
 		int slot = 9;
 
 		try {
-			List<WorldEconomyProfile> users = WEDB.getAllUserProfiles();
-			for (WorldEconomyProfile user : users) {
+			List<UserProfile> users = WEDB.getAllUserProfiles();
+			for (UserProfile user : users) {
 				items.add(new GUIItem(slot, mkItem(BlockLib.PLAYER, user.username, new String[] { "player" })) {
 					@Override
 					public void event(InventoryClickEvent event) {

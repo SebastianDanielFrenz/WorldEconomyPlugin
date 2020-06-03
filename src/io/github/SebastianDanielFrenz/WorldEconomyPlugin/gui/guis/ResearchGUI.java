@@ -8,36 +8,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class ResearchGUI extends WEGUI {
 
 	public ResearchGUI(WEGUI parent, Player player) {
-		super(parent, null, "Research");
+		super(parent, new GUIItem[] {}, "Research");
+
+		WEGUI _this = this;
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 		try {
-			WorldEconomyProfile profile = WEDB.getUserProfile(player);
+			UserProfile profile = WEDB.getUserProfile(player);
 			for (Age age : Age.values()) {
 				if (age.index <= profile.age.index) {
 					items.add(new GUIItem(slot, mkItem(age.representation, 1, age.repr_dmg, age.name())) {
 
 						@Override
 						public void event(InventoryClickEvent event) {
-							// code
+							new ResearchAgeGUI(_this, "Research - " + age.name(), profile).openInventory(player);
 						}
 					});
 					slot++;
 				}
-			}
-
-			for (ResearchItem item : WEDB.getResearchItems(profile)) {
-
 			}
 
 			setItems(convert(items));
