@@ -45,6 +45,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.BenchmarkTask;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
 public class WorldEconomyCommandExecutor implements CommandExecutor {
@@ -898,6 +899,11 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								public boolean continueOnShutdown() {
 									return false;
 								}
+
+								@Override
+								public String getName() {
+									return "CMD Place Block Task";
+								}
 							});
 
 							return true;
@@ -966,6 +972,23 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					e.printStackTrace();
 				}
 				return true;
+			}
+
+			else if (args[0].equalsIgnoreCase("benchmark")) {
+				if (args.length == 1) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					return true;
+				}
+
+				int runs = Integer.parseInt(args[1]);
+				int threads = Config.getBackGroundThreadCount();
+
+				for (int x = 0; x < threads; x++) {
+					TaskProcessor.registerTask(new BenchmarkTask(runs));
+				}
+
+				return true;
+
 			} else if (args[0].equalsIgnoreCase("debug")) {
 				if (sender instanceof Player) {
 					Player player = (Player) sender;

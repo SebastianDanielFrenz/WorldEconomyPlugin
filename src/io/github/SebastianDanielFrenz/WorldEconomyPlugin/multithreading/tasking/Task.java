@@ -29,5 +29,7 @@ public abstract class Task {
 	public boolean hasStarted() {
 		return started;
 	}
+	
+	public abstract String getName();
 
 }

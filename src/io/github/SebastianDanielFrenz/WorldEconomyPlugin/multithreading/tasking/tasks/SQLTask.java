@@ -6,9 +6,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 
 public class SQLTask extends Task {
-	
+
 	private String query;
-	
+
 	public SQLTask(String query) {
 		this.query = query;
 	}
@@ -25,7 +25,7 @@ public class SQLTask extends Task {
 	@Override
 	public void work() {
 		try {
-			WorldEconomyPlugin.runSQL(query);
+			WorldEconomyPlugin.runSQLasync(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,6 +53,11 @@ public class SQLTask extends Task {
 	public boolean hasFinished() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return "SQL Task";
 	}
 
 }

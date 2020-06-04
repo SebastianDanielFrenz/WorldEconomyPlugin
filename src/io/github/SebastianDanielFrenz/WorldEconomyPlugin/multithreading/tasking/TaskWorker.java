@@ -22,7 +22,8 @@ public class TaskWorker implements Runnable {
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("Assigned task " + task + " to " + Thread.currentThread().getName() + "!");
+				// System.out.println("Assigned task " + task + " to " +
+				// Thread.currentThread().getName() + "!");
 
 				if (!task.hasStarted()) {
 					if (shutdown_request && !task.startOnShutdown()) {
