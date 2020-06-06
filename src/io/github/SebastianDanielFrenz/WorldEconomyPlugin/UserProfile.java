@@ -18,11 +18,12 @@ public class UserProfile implements MailboxOwner, ResearchEntity {
 	public long employerID;
 	public String username;
 	public long bankingID;
-	public Age age;
+	private Age age;
 
 	public long mailboxID;
 
-	public UserProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID, long mailboxID, Age age) {
+	public UserProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID,
+			long mailboxID, Age age) {
 		this.ID = ID;
 		this.uuid = uuid;
 		this.employeeID = employeeID;
@@ -56,6 +57,34 @@ public class UserProfile implements MailboxOwner, ResearchEntity {
 
 	public List<ResearchItem> getResearchedItems() throws SQLException {
 		return WEDB.getResearchItems(this);
+	}
+
+	public Age getAge() {
+		for (UserProfile profile : WorldEconomyPlugin.research_passby) {
+			if (profile.uuid.equals(uuid)) {
+				return Age.UNDEFINED;
+			}
+		}
+		return age;
+	}
+
+	/**
+	 * Only use this method when writing to the DB. It does not include ascended
+	 * players!
+	 * 
+	 * @return
+	 */
+	public Age getActualAge() {
+		return age;
+	}
+
+	public boolean isAgeReal() {
+		for (UserProfile profile : WorldEconomyPlugin.research_passby) {
+			if (profile.uuid.equals(uuid)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

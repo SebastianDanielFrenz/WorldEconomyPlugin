@@ -24,6 +24,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.Inventory;
@@ -63,6 +64,16 @@ public class EventListener implements Listener {
 		}
 
 		MailSubsystem.playerJoin(event.getPlayer());
+	}
+
+	@EventHandler
+	public void onPlayerLeave(PlayerQuitEvent event) throws SQLException {
+		for (int i = 0; i < WorldEconomyPlugin.research_passby.size(); i++) {
+			if (WorldEconomyPlugin.research_passby.get(i).uuid.equals(event.getPlayer().getUniqueId())) {
+				WorldEconomyPlugin.research_passby.remove(i);
+				break;
+			}
+		}
 	}
 
 	@EventHandler

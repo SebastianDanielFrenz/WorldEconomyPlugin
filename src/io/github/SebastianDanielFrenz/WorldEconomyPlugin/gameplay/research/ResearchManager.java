@@ -26,7 +26,7 @@ public class ResearchManager {
 	}
 
 	public static List<ResearchItem> updateResearch(ResearchEntity entity) throws SQLException {
-		List<ResearchItem> explored = WEDB.getResearchItems(entity);
+		List<ResearchItem> explored = WEDB.getRawResearchItems(entity);
 		List<ResearchItem> changed = new ArrayList<ResearchItem>();
 
 		for (ResearchItem item : ResearchItemRegistry.getContents()) {

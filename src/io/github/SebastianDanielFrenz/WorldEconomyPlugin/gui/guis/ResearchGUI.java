@@ -25,12 +25,12 @@ public class ResearchGUI extends WEGUI {
 		try {
 			UserProfile profile = WEDB.getUserProfile(player);
 			for (Age age : Age.values()) {
-				if (age.index <= profile.age.index) {
+				if (age.index <= profile.getAge().index) {
 					items.add(new GUIItem(slot, mkItem(age.representation, 1, age.repr_dmg, age.name())) {
 
 						@Override
 						public void event(InventoryClickEvent event) {
-							new ResearchAgeGUI(_this, "Research - " + age.name(), profile).openInventory(player);
+							new ResearchAgeGUI(_this, age, profile).openInventory(player);
 						}
 					});
 					slot++;
