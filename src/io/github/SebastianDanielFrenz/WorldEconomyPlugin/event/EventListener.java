@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
@@ -382,6 +386,26 @@ public class EventListener implements Listener {
 				mcBlock.setType(customBlock.getType().material);
 				mcBlock.setMetadata("customBlockType",
 						new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
+			}
+
+			if (Bukkit.getWorld("heaven") == null) {
+
+				Bukkit.createWorld(new WorldCreator("heaven"));
+				World heaven = Bukkit.getWorld("heaven");
+				for (int x = -100; x < 100; x++) {
+					for (int y = 0; y < 200; y++) {
+						for (int z = -100; z < 100; z++) {
+							heaven.getBlockAt(new Location(heaven, x, y, z)).setType(Material.WOOL);
+						}
+					}
+				}
+				for (int x = -99; x < 99; x++) {
+					for (int y = 1; y < 199; y++) {
+						for (int z = -99; z < 99; z++) {
+							heaven.getBlockAt(new Location(heaven, x, y, z)).setType(Material.AIR);
+						}
+					}
+				}
 			}
 		}
 	}

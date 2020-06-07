@@ -10,6 +10,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.resea
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemStick;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemStoneAgeCraftingTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemTreeOakLeaves;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.new_stone_age.ResearchItemNewStoneAgeHouse;
 
 public class ResearchItemRegistry {
 
@@ -28,6 +29,8 @@ public class ResearchItemRegistry {
 	public static final ResearchItem STONE_AGE_CRAFTING_TABLE = new ResearchItemStoneAgeCraftingTable();
 	public static final ResearchItem SHARP_STICK = new ResearchItemSharpStick();
 
+	public static final ResearchItem NEW_STONE_AGE_HOUSE = new ResearchItemNewStoneAgeHouse();
+
 	public static void init() {
 		register(OAK_LEAVES);
 		register(TREE_OAK_LEAVES);
@@ -37,6 +40,8 @@ public class ResearchItemRegistry {
 		register(OAK_PLANKS);
 		register(STONE_AGE_CRAFTING_TABLE);
 		register(SHARP_STICK);
+
+		register(NEW_STONE_AGE_HOUSE);
 	}
 
 	public static List<ResearchItem> getContents() {

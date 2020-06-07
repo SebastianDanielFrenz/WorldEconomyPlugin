@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -949,7 +951,11 @@ public class WEDB {
 			return null;
 		}
 		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
-				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"),
+				getProfessions(r.getLong("employeeID")), r.getDouble("health"), r.getDouble("maxHealth"),
+				r.getDouble("saturation"), r.getDouble("happyness"), r.getBoolean("religious"),
+				r.getDouble("religious_satisfaction"), r.getDouble("endurance"), r.getDouble("maxEndurance"),
+				r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
 	}
 
 	public static List<AIProfile> getAllAIs() throws SQLException {
@@ -958,7 +964,11 @@ public class WEDB {
 
 		while (r.next()) {
 			out.add(new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
-					r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID")));
+					r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"),
+					getProfessions(r.getLong("employeeID")), r.getDouble("health"), r.getDouble("maxHealth"),
+					r.getDouble("saturation"), r.getDouble("happyness"), r.getBoolean("religious"),
+					r.getDouble("religious_satisfaction"), r.getDouble("endurance"), r.getDouble("maxEndurance"),
+					r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age"))));
 		}
 		return out;
 	}
@@ -1095,7 +1105,11 @@ public class WEDB {
 			return null;
 		}
 		return new AIProfile(r.getLong("aiID"), r.getString("username"), r.getLong("aiBankingID"),
-				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"));
+				r.getLong("employeeID"), r.getLong("aiAsEmployerID"), r.getLong("mailboxID"),
+				getProfessions(r.getLong("employeeID")), r.getDouble("health"), r.getDouble("maxHealth"),
+				r.getDouble("saturation"), r.getDouble("happyness"), r.getBoolean("religious"),
+				r.getDouble("religious_satisfaction"), r.getDouble("endurance"), r.getDouble("maxEndurance"),
+				r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
 	}
 
 	public static long getMailboxOwnerAsCompanyID(long mailboxID) throws SQLException {
@@ -1425,31 +1439,6 @@ public class WEDB {
 	/*
 	 * ==================================================
 	 * 
-	 * This section is dedicated to professions.
-	 * 
-	 * ==================================================
-	 */
-
-	public static List<EmployeeProfession> getProfessions(long employeeID) throws SQLException {
-		List<EmployeeProfession> out = new ArrayList<EmployeeProfession>();
-		ResultSet r = WorldEconomyPlugin
-				.runSQLquery("SELECT professionName FROM employee_professions WHERE employeeID = " + employeeID);
-		while (r.next()) {
-			try {
-				out.add(EmployeeProfession.valueOf(r.getString("professionName")));
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-				WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Tried to get unkown profession \""
-						+ r.getString("professionName")
-						+ "\". Is the database outdated (have you changed the plugin version, changing the existing professions)?");
-			}
-		}
-		return out;
-	}
-
-	/*
-	 * ==================================================
-	 * 
 	 * This section is dedicated to research.
 	 * 
 	 * ==================================================
@@ -1541,6 +1530,31 @@ public class WEDB {
 		WorldEconomyPlugin.runSQL("UPDATE statistics SET value = value + " + amount + " WHERE statisticID = \""
 				+ object.getStatisticID() + "$" + category.ID + "\" AND entityID = " + entityID + " AND entityType = \""
 				+ entityType + "\"");
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to professions.
+	 * 
+	 * ==================================================
+	 */
+
+	public static Set<EmployeeProfession> getProfessions(long employeeID) throws SQLException {
+		Set<EmployeeProfession> out = new TreeSet<EmployeeProfession>();
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM employee_professions WHERE employeeID = " + employeeID);
+		while (r.next()) {
+			try {
+				out.add(EmployeeProfession.valueOf(r.getString("professionName")));
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Tried to get unkown profession \""
+						+ r.getString("professionName")
+						+ "\". Is the database outdated (have you changed the plugin version, changing the existing professions)?");
+			}
+		}
+		return out;
 	}
 
 }

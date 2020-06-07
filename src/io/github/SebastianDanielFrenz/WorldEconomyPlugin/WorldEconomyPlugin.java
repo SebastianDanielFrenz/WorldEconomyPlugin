@@ -212,7 +212,14 @@ public class WorldEconomyPlugin extends JavaPlugin {
 				runSQL("CREATE TABLE user_profiles (" + "playerID integer PRIMARY KEY," + "playerUUID text,"
 						+ "employeeID integer NOT NULL," + "playerAsEmployerID integer NOT NULL,"
 						+ "username text NOT NULL," + "playerBankingID integer NOT NULL,"
-						+ "mailboxID integer NOT NULL," + "age text NOT NULL,"
+						+ "mailboxID integer NOT NULL,"
+
+						+ "health real NOT NULL," + "maxHealth real NOT NULL," + "saturation real NOT NULL,"
+						+ "happyness real NOT NULL," + "religious integer NOT NULL,"
+						+ "religious_satisfaction real NOT NULL," + "endurance real NOT NULL,"
+						+ "maxEndurance real NOT NULL," + "inHeaven integer NOT NULL" + "heavenEndTimeMillis integer,"
+
+						+ "age text NOT NULL,"
 						// references
 						+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 						+ "FOREIGN KEY(playerAsEmployerID) REFERENCES employers(employerID),"
@@ -235,6 +242,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE user_profiles (" + "playerID integer," + "playerUUID text,"
 					+ "employeeID integer NOT NULL," + "playerAsEmployerID integer NOT NULL,"
 					+ "username text NOT NULL," + "playerBankingID integer NOT NULL," + "mailboxID integer NOT NULL,"
+					+ "health real NOT NULL," + "maxHealth real NOT NULL," + "saturation real NOT NULL,"
+					+ "happyness real NOT NULL," + "religious integer NOT NULL,"
+					+ "religious_satisfaction real NOT NULL," + "endurance real NOT NULL,"
+					+ "maxEndurance real NOT NULL," + "inHeaven integer NOT NULL" + "heavenEndTimeMillis integer,"
 					+ "age text NOT NULL,"
 					// references
 					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
@@ -332,7 +343,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 			runSQL("CREATE TABLE ai_profiles (" + "aiID integer PRIMARY KEY," + "employeeID integer NOT NULL,"
 					+ "aiAsEmployerID integer NOT NULL," + "username text NOT NULL," + "aiBankingID integer NOT NULL,"
-					+ "mailboxID integer NOT NULL,"
+					+ "mailboxID integer NOT NULL," + "health real NOT NULL," + "maxHealth real NOT NULL,"
+					+ "saturation real NOT NULL," + "happyness real NOT NULL," + "religious integer NOT NULL,"
+					+ "religious_satisfaction real NOT NULL," + "endurance real NOT NULL,"
+					+ "maxEndurance real NOT NULL," + "inHeaven integer NOT NULL" + "heavenEndTimeMillis integer,"
+					+ "age text NOT NULL,"
 					// references
 					+ "$ref$FOREIGN KEY(employeeID) REFERENCES employees(employeeID),"
 					+ "FOREIGN KEY(aiAsEmployerID) REFERENCES employers(employerID),"
