@@ -64,7 +64,7 @@ public class CustomEntityTypeRegistry {
 		spawn(getCustomEntity(ID), location);
 	}
 
-	public static void spawn(CustomEntityType type, Location location) {
+	public static Entity spawn(CustomEntityType type, Location location) {
 		World nmsworld = ((CraftWorld) location.getWorld()).getHandle();
 		Entity entity;
 		try {
@@ -84,6 +84,7 @@ public class CustomEntityTypeRegistry {
 			throw new RuntimeException("missing or invisible constructur " + type.getCustomEntityClass().getCanonicalName() + "("
 					+ World.class.getCanonicalName() + ")!");
 		}
+		return entity;
 	}
 
 	public static final CustomEntityType BABY_DEER = new EntityTypeBabyDeer();

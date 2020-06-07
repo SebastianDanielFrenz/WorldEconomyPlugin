@@ -77,9 +77,13 @@ public class WEDB {
 				.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + player.getUniqueId() + "\"");
 
 		if (r.next()) {
-			return new UserProfile(r.getLong("playerID"), player.getUniqueId(), r.getLong("employeeID"),
-					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
-					r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
+			return new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
+					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
+					r.getInt("playerBankingID"), r.getLong("mailboxID"), WEDB.getProfessions(r.getLong("employeeID")),
+					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
+					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
+					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
+					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -89,9 +93,13 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerUUID = \"" + uuid + "\"");
 
 		if (r.next()) {
-			return new UserProfile(r.getLong("playerID"), uuid, r.getLong("employeeID"),
-					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
-					r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
+			return new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
+					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
+					r.getInt("playerBankingID"), r.getLong("mailboxID"), WEDB.getProfessions(r.getLong("employeeID")),
+					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
+					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
+					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
+					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -101,9 +109,13 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles WHERE playerID = " + playerID);
 
 		if (r.next()) {
-			return new UserProfile(playerID, UUID.fromString(r.getString("playerUUID")), r.getLong("employeeID"),
-					r.getLong("playerAsEmployerID"), r.getString("username"), r.getLong("playerBankingID"),
-					r.getLong("mailboxID"), Age.valueOf(r.getString("age")));
+			return new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
+					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
+					r.getInt("playerBankingID"), r.getLong("mailboxID"), WEDB.getProfessions(r.getLong("employeeID")),
+					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
+					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
+					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
+					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -114,8 +126,12 @@ public class WEDB {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM user_profiles");
 		while (r.next()) {
 			out.add(new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
-					r.getLong("employeeID"), r.getLong("playerAsEmployerID"), r.getString("username"),
-					r.getLong("playerBankingID"), r.getLong("mailboxID"), Age.valueOf(r.getString("age"))));
+					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
+					r.getInt("playerBankingID"), r.getLong("mailboxID"), WEDB.getProfessions(r.getLong("employeeID")),
+					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
+					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
+					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
+					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age"))));
 		}
 		return out;
 	}
@@ -1092,7 +1108,11 @@ public class WEDB {
 		if (r.next()) {
 			return new UserProfile(r.getLong("playerID"), UUID.fromString(r.getString("playerUUID")),
 					r.getInt("employeeID"), r.getInt("playerAsEmployerID"), r.getString("username"),
-					r.getInt("playerBankingID"), mailboxID, Age.valueOf(r.getString("age")));
+					r.getInt("playerBankingID"), mailboxID, WEDB.getProfessions(r.getLong("employeeID")),
+					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
+					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
+					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
+					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
 		} else {
 			return null;
 		}

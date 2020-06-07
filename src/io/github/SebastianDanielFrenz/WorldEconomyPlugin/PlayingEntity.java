@@ -1,12 +1,11 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.util.Set;
-import java.util.TreeSet;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeeProfession;
 
-public class PlayingEntity {
+public abstract class PlayingEntity {
 
 	public PlayingEntity(Set<EmployeeProfession> professions, double health, double maxHealth, double saturation,
 			double happyness, boolean religious, double religious_satisfaction, double endurance, double max_endurance,
@@ -66,6 +65,34 @@ public class PlayingEntity {
 		}
 
 		return threshold;
+	}
+
+	public Age getAge() {
+		return age;
+	}
+
+	public double getHealth() {
+		return health;
+	}
+
+	public void damage(double amount) {
+		health -= amount;
+		if (health < 0) {
+			health = 0;
+		}
+	}
+
+	public void heal(double amount) {
+		health += amount;
+		if (health > maxHealth) {
+			health = maxHealth;
+		}
+	}
+
+	public abstract void kill();
+
+	public double getMaxHealth() {
+		return maxHealth;
 	}
 
 }
