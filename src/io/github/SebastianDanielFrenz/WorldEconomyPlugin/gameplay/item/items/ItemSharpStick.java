@@ -11,7 +11,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.SwordItem
 public class ItemSharpStick extends CustomItem {
 
 	public ItemSharpStick() {
-		super("sharp_stick", Material.STICK, Age.EARLY_STONE_AGE, "Sharp Stick", ItemCategory.EQUIPMENT, new ItemDetail[] { new SwordItemDetail(1) });
+		super("sharp_stick", Material.STICK, Age.EARLY_STONE_AGE, "Sharp Stick", ItemCategory.EQUIPMENT, new ItemDetail[] { new SwordItemDetail(2) });
 	}
 
 }
