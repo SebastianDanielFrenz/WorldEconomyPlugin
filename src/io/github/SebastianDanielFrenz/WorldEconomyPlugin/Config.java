@@ -20,7 +20,9 @@ public class Config {
 		cfg.addDefault("performace.background_thread_count", 6);
 		cfg.addDefault("performance.idle_wait_millis", 10);
 		cfg.addDefault("performance.AI_count", 10);
+		cfg.addDefault("performance.pending_task_limit", 1000);
 		cfg.addDefault("debug.overload_warning", true);
+		cfg.addDefault("debug.overload_warning_interval", 1);
 
 		cfg.options().copyDefaults(true);
 		WorldEconomyPlugin.plugin.saveConfig();
@@ -39,7 +41,7 @@ public class Config {
 	}
 
 	public static int getSQLPort() {
-		return (int) cfg.get("DB.connection.port");
+		return cfg.getInt("DB.connection.port");
 	}
 
 	public static String getSQLDataBase() {
@@ -55,7 +57,7 @@ public class Config {
 	}
 
 	public static int getBackGroundThreadCount() {
-		return (int) cfg.getInt("performace.background_thread_count");
+		return cfg.getInt("performace.background_thread_count");
 	}
 
 	public static long getIdleWaitMillis() {
@@ -67,7 +69,15 @@ public class Config {
 	}
 
 	public static boolean doOverloadWarnings() {
-		return (boolean) cfg.getBoolean("debug.overload_warning");
+		return cfg.getBoolean("debug.overload_warning");
+	}
+
+	public static int getPendingTaskLimit() {
+		return cfg.getInt("performance.pending_task_limit");
+	}
+
+	public static int getOverloadWarningInterval() {
+		return cfg.getInt("debug.overload_warning_interval");
 	}
 
 }

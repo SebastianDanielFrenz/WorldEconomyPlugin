@@ -68,4 +68,9 @@ public class BenchmarkTask extends Task {
 		return "Benchmarking Task";
 	}
 
+	@Override
+	public boolean discardOnOverload() {
+		return false;
+	}
+
 }

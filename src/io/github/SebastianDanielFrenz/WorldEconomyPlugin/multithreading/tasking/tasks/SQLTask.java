@@ -60,4 +60,9 @@ public class SQLTask extends Task {
 		return "SQL Task";
 	}
 
+	@Override
+	public boolean discardOnOverload() {
+		return false;
+	}
+
 }

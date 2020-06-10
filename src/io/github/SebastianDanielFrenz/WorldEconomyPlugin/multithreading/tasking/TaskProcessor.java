@@ -2,6 +2,10 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.logging.Level;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Config;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 
 public class TaskProcessor {
 
@@ -21,8 +25,23 @@ public class TaskProcessor {
 
 	private static Queue<Task> tasks = new PriorityQueue<Task>(new TaskComparator());
 
+	private static long last_checked = 0;
+
 	public synchronized static void registerTask(Task task) {
-		tasks.add(task);
+		if (getQueueLength() > Config.getPendingTaskLimit()) {
+			if (Config.doOverloadWarnings()) {
+				if (System.currentTimeMillis() > last_checked + 1000 * Config.getOverloadWarningInterval()) {
+					last_checked = System.currentTimeMillis();
+					if (getQueueLength() > 1000) {
+						WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "WEP background task handler overloaded (" + getQueueLength()
+								+ " tasks pending, limit: " + Config.getPendingTaskLimit() + "!");
+					}
+				}
+			}
+		} else {
+			tasks.add(task);
+		}
+
 	}
 
 	public synchronized static Task assignTask() {
@@ -59,6 +78,19 @@ public class TaskProcessor {
 
 	private static void setWaitDuration(long wait_duration) {
 		TaskProcessor.wait_duration = wait_duration;
+	}
+
+	public static int getQueueLength() {
+		return tasks.size();
+	}
+
+	public static TaskWorkerStatus getStatus() {
+		Task[] current_tasks = new Task[workers.length];
+		for (int i = 0; i < workers.length; i++) {
+			current_tasks[i] = workers[i].getCurrentTask();
+		}
+		int pending_tasks = getQueueLength();
+		return new TaskWorkerStatus(current_tasks, pending_tasks > Config.getPendingTaskLimit(), pending_tasks);
 	}
 
 }

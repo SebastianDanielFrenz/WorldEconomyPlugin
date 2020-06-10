@@ -3,6 +3,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.schedul
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import org.bukkit.Bukkit;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
@@ -16,8 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.
 public class TaskScheduler implements Runnable {
 
 	private static Queue<ScheduledTask> tasks_ticks = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
-	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(
-			new ScheduledTaskComparator());
+	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
 
 	private boolean request_shutdown = false;
 	private boolean running = true;
@@ -29,12 +30,28 @@ public class TaskScheduler implements Runnable {
 
 	public synchronized static void scheduleTask(Task task, long time, TimeMeasurementType measurement_type) {
 		if (measurement_type == TimeMeasurementType.REAL_TIME) {
-			tasks_real_time
-					.add(new ScheduledTask(task, TimeMeasurementType.REAL_TIME, System.currentTimeMillis() + time));
+			tasks_real_time.add(new ScheduledTask(task, TimeMeasurementType.REAL_TIME, System.currentTimeMillis() + time));
 		} else {
 			// ticks
 			tasks_ticks.add(new ScheduledTask(task, TimeMeasurementType.TICKS, WorldEconomyPlugin.tick_counter + time));
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void scheduleRepeatingTask(Task task, long delay, long time, TimeMeasurementType measurement_type) {
+		if (measurement_type == TimeMeasurementType.REAL_TIME) {
+			Bukkit.getScheduler().scheduleAsyncRepeatingTask(WorldEconomyPlugin.plugin, new Runnable() {
+
+				@Override
+				public void run() {
+					TaskProcessor.registerTask(task);
+				}
+			}, delay, time);
+		}
+	}
+
+	public static void scheduleRepeatingTask(Task task, long time, TimeMeasurementType measurement_type) {
+		scheduleRepeatingTask(task, 0, time, measurement_type);
 	}
 
 	private static ScheduledTask assign_tmp;
@@ -83,8 +100,7 @@ public class TaskScheduler implements Runnable {
 			start = System.currentTimeMillis();
 			// logic
 
-			for (task = assign(TimeMeasurementType.REAL_TIME); task != null; task = assign(
-					TimeMeasurementType.REAL_TIME)) {
+			for (task = assign(TimeMeasurementType.REAL_TIME); task != null; task = assign(TimeMeasurementType.REAL_TIME)) {
 				// debugging
 				System.out.println("scheduler pushed real time based task " + task + " to task processor!");
 				TaskProcessor.registerTask(task);
