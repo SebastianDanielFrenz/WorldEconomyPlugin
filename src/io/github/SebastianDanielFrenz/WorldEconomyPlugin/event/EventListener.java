@@ -72,9 +72,9 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) throws SQLException {
-		for (int i = 0; i < WorldEconomyPlugin.research_passby.size(); i++) {
-			if (WorldEconomyPlugin.research_passby.get(i).uuid.equals(event.getPlayer().getUniqueId())) {
-				WorldEconomyPlugin.research_passby.remove(i);
+		for (int i = 0; i < WorldEconomyPlugin.research_age_bypass.size(); i++) {
+			if (WorldEconomyPlugin.research_age_bypass.get(i).uuid.equals(event.getPlayer().getUniqueId())) {
+				WorldEconomyPlugin.research_age_bypass.remove(i);
 				break;
 			}
 		}

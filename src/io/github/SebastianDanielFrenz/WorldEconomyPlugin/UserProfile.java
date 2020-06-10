@@ -65,7 +65,7 @@ public class UserProfile extends PlayingEntity implements MailboxOwner, Research
 
 	@Override
 	public Age getAge() {
-		for (UserProfile profile : WorldEconomyPlugin.research_passby) {
+		for (UserProfile profile : WorldEconomyPlugin.research_age_bypass) {
 			if (profile.uuid.equals(uuid)) {
 				return Age.UNDEFINED;
 			}
@@ -84,7 +84,7 @@ public class UserProfile extends PlayingEntity implements MailboxOwner, Research
 	}
 
 	public boolean isAgeReal() {
-		for (UserProfile profile : WorldEconomyPlugin.research_passby) {
+		for (UserProfile profile : WorldEconomyPlugin.research_age_bypass) {
 			if (profile.uuid.equals(uuid)) {
 				return false;
 			}

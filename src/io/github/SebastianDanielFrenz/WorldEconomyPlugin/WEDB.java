@@ -1491,7 +1491,7 @@ public class WEDB {
 
 	public static List<ResearchItem> getResearchItems(ResearchEntity entity) throws SQLException {
 		if (entity instanceof UserProfile) {
-			for (UserProfile profile : WorldEconomyPlugin.research_passby) {
+			for (UserProfile profile : WorldEconomyPlugin.research_age_bypass) {
 				if (profile.uuid.equals(((UserProfile) entity).uuid)) {
 					return ResearchItemRegistry.getContents();
 				}

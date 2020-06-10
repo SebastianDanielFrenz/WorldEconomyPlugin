@@ -1035,14 +1035,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					}
 				}
 
-				for (UserProfile profile2 : WorldEconomyPlugin.research_passby) {
+				for (UserProfile profile2 : WorldEconomyPlugin.research_age_bypass) {
 					if (profile2.uuid.equals(profile.uuid)) {
 						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Already ascended!");
 						return true;
 					}
 				}
 
-				WorldEconomyPlugin.research_passby.add(profile);
+				WorldEconomyPlugin.research_age_bypass.add(profile);
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + "§aSuccessfully ascended!");
 
 				return true;

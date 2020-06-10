@@ -54,7 +54,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static Random randomizer = new Random();
 
-	public static List<UserProfile> research_passby = new ArrayList<UserProfile>(1);
+	public static List<UserProfile> research_age_bypass = new ArrayList<UserProfile>(1);
 
 	@Override
 	public void onEnable() {
