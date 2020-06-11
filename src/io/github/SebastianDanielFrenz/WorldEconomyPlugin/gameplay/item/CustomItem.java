@@ -148,7 +148,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	}
 
 	public static CustomItem getItem(Material material, byte data, String name) {
-		if (name.equals("")) {
+		if (name == null) {
 			return getVanillaItem(material, data);
 		}
 
@@ -199,7 +199,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	@SuppressWarnings("unchecked")
 	public <T extends ItemDetail> T getDetail(Class<T> type) {
 		for (ItemDetail detail : details) {
-			if (detail.getClass() == type) {
+			if (type.isInstance(detail)) {
 				return (T) detail;
 			}
 		}

@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
@@ -7,9 +8,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeePro
 
 public abstract class PlayingEntity {
 
-	public PlayingEntity(Set<EmployeeProfession> professions, double health, double maxHealth, double saturation,
-			double happyness, boolean religious, double religious_satisfaction, double endurance, double max_endurance,
-			boolean in_heaven, long heaven_time_end_millis, Age age) {
+	public PlayingEntity(long employeeID, Set<EmployeeProfession> professions, double health, double maxHealth,
+			double saturation, double happyness, boolean religious, double religious_satisfaction, double endurance,
+			double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
+		this.employeeID = employeeID;
 		this.professions = professions;
 		this.health = health;
 		this.maxHealth = maxHealth;
@@ -21,6 +23,8 @@ public abstract class PlayingEntity {
 		this.max_endurance = max_endurance;
 		this.in_heaven = in_heaven;
 		this.heaven_end_time_millis = heaven_time_end_millis;
+
+		this.age = age;
 	}
 
 	private Set<EmployeeProfession> professions;
@@ -47,9 +51,10 @@ public abstract class PlayingEntity {
 
 	private Age age;
 
-	public void addProfession(EmployeeProfession profession) {
-		// WEDB add profession
-		int i;
+	public final long employeeID;
+
+	public void addProfession(EmployeeProfession profession) throws SQLException {
+		WEDB.addProfession(this, profession);
 		professions.add(profession);
 	}
 

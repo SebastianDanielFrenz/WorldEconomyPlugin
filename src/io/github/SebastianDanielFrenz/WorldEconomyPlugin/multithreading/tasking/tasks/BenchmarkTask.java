@@ -1,20 +1,26 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import org.bukkit.block.CommandBlock;
+import org.bukkit.command.CommandSender;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 
 public class BenchmarkTask extends Task {
 
 	private int runs;
 	private int current_runs = 0;
-	private int slice = 10000;
-	private int flos = slice * runs;
+	private long slice = 10000;
+	private long flos;
 	private long start;
 
 	private boolean done = false;
 
-	public BenchmarkTask(int runs) {
+	private CommandSender sender;
+
+	public BenchmarkTask(int runs, CommandSender sender) {
 		this.runs = runs;
+		flos = slice * runs;
+		this.sender = sender;
 	}
 
 	@Override
@@ -38,9 +44,11 @@ public class BenchmarkTask extends Task {
 
 		if (runs == current_runs) {
 			done = true;
-			float time = (System.currentTimeMillis() - start) / 1000f;
-
-			WorldEconomyPlugin.plugin.getLogger().info("[Benchmark]: " + flos + " flos in " + time + "s (" + (flos / time) + ")");
+			double time = (System.currentTimeMillis() - start) / 1000f;
+			if (!(sender instanceof CommandBlock)) {
+				sender.sendMessage("[Benchmark]: " + flos / 1000000000.0 + " GFLOS in " + time + "s ("
+						+ Math.round(flos / time / 1000000) / 1000.0 + " GFLOPS)");
+			}
 		}
 	}
 

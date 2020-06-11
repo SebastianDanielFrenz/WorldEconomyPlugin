@@ -44,4 +44,6 @@ public class Permissions {
 
 	public static final String[] ASCEND_SELF = new String[] { "ascend.self", "ascend.*" };
 	public static final String[] ASCEND_OTHERS = new String[] { "ascend.others", "ascend.*" };
+
+	public static final String[] PERFORMANCE = new String[] { "performance" };
 }

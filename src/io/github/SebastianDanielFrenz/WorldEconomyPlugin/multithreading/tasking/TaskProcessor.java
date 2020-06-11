@@ -12,14 +12,18 @@ public class TaskProcessor {
 	private static long wait_duration;
 
 	private static TaskWorker[] workers;
+	private static Thread[] worker_threads;
 
 	public static void init(int threads, long wait_duration) {
 		setWaitDuration(wait_duration);
 
 		workers = new TaskWorker[threads];
+		worker_threads = new Thread[threads];
+
 		for (int i = 0; i < threads; i++) {
 			workers[i] = new TaskWorker();
-			new Thread(workers[i], "World Economy Task Worker #" + String.valueOf(i + 1)).start();
+			worker_threads[i] = new Thread(workers[i], "World Economy Task Worker #" + String.valueOf(i + 1));
+			worker_threads[i].start();
 		}
 	}
 
@@ -33,8 +37,9 @@ public class TaskProcessor {
 				if (System.currentTimeMillis() > last_checked + 1000 * Config.getOverloadWarningInterval()) {
 					last_checked = System.currentTimeMillis();
 					if (getQueueLength() > 1000) {
-						WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "WEP background task handler overloaded (" + getQueueLength()
-								+ " tasks pending, limit: " + Config.getPendingTaskLimit() + "!");
+						WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING,
+								"WEP background task handler overloaded (" + getQueueLength()
+										+ " tasks pending, limit: " + Config.getPendingTaskLimit() + "!");
 					}
 				}
 			}
@@ -86,11 +91,21 @@ public class TaskProcessor {
 
 	public static TaskWorkerStatus getStatus() {
 		Task[] current_tasks = new Task[workers.length];
+		float[] idle_durations = new float[workers.length];
+		float[] working_durations = new float[workers.length];
 		for (int i = 0; i < workers.length; i++) {
 			current_tasks[i] = workers[i].getCurrentTask();
+
+			workers[i].requestData(Thread.currentThread());
+
+			idle_durations[i] = workers[i].getIdleTime();
+			working_durations[i] = workers[i].getWorkingTime();
+
+			worker_threads[i].interrupt();
 		}
 		int pending_tasks = getQueueLength();
-		return new TaskWorkerStatus(current_tasks, pending_tasks > Config.getPendingTaskLimit(), pending_tasks);
+		return new TaskWorkerStatus(current_tasks, pending_tasks > Config.getPendingTaskLimit(), pending_tasks,
+				idle_durations, working_durations);
 	}
 
 }

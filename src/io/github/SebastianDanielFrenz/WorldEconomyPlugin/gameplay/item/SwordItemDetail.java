@@ -12,8 +12,7 @@ public class SwordItemDetail extends MeleeWeaponItemDetail {
 
 	@Override
 	public void processEvent(EntityDamageByEntityEvent event) {
-		// event.setDamage(damage);
-		event.setDamage(1000);
+		event.setDamage(damage);
 	}
 
 }

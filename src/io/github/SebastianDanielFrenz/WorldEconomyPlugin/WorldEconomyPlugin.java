@@ -89,7 +89,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		TaskProcessor.init(Config.getBackGroundThreadCount(), Config.getIdleWaitMillis());
 		TaskScheduler.init();
-
+		
 		/**
 		 * ==================================================
 		 * 

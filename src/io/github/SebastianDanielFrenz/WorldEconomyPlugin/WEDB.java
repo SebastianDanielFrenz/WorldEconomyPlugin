@@ -56,6 +56,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarket
 
 public class WEDB {
 
+	public static String checkInput(String unsafeInput) {
+		return unsafeInput.replace("\"", "").replace("`", "");
+	}
+
 	/**
 	 * ==================================================
 	 * 
@@ -1575,6 +1579,30 @@ public class WEDB {
 			}
 		}
 		return out;
+	}
+
+	public static void addProfession(PlayingEntity entity, EmployeeProfession profession) throws SQLException {
+		WorldEconomyPlugin.runSQL("INSERT INTO employee_professions (employeeID, professionName) VALUES ("
+				+ entity.employeeID + ", \"" + profession.name() + "\"");
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to player and AI deaths (heaven).
+	 * 
+	 * ==================================================
+	 */
+
+	public static void sendToHeaven(UserProfile profile, long millis) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE user_profiles SET inHeaven = true, heavenEndTimeMillis = " + millis
+				+ " WHERE playerUUID = \"" + profile.uuid.toString() + "\"");
+		Player player = Bukkit.getPlayer(profile.uuid);
+		player.teleport(new Location(Bukkit.getWorld("heaven"), 0, 2, 0));
+	}
+
+	public static void sendToHeaven(UserProfile profile) throws SQLException {
+		sendToHeaven(profile, Config.getHeavenTimeMillis());
 	}
 
 }

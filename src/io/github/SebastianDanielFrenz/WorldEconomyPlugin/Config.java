@@ -23,6 +23,8 @@ public class Config {
 		cfg.addDefault("performance.pending_task_limit", 1000);
 		cfg.addDefault("debug.overload_warning", true);
 		cfg.addDefault("debug.overload_warning_interval", 1);
+		cfg.addDefault("gameplay.heaven_time", 5.0);
+		cfg.addDefault("debug.performance_monitoring_period", 10);
 
 		cfg.options().copyDefaults(true);
 		WorldEconomyPlugin.plugin.saveConfig();
@@ -78,6 +80,18 @@ public class Config {
 
 	public static int getOverloadWarningInterval() {
 		return cfg.getInt("debug.overload_warning_interval");
+	}
+
+	public static double getHeavenTime() {
+		return cfg.getDouble("gameplay.heaven_time");
+	}
+
+	public static long getHeavenTimeMillis() {
+		return (long) (getHeavenTime() * 1000);
+	}
+
+	public static int getPerformanceMonitoringPeriod() {
+		return cfg.getInt("debug.performance_monitoring_period");
 	}
 
 }

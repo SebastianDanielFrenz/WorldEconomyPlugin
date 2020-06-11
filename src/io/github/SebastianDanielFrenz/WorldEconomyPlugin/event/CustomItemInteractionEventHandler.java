@@ -33,6 +33,8 @@ public class CustomItemInteractionEventHandler implements Listener {
 				MeleeWeaponItemDetail detail = customItem.getDetail(MeleeWeaponItemDetail.class);
 				if (detail != null) {
 					detail.processEvent(event);
+					player.sendMessage(
+							"You have dealt " + event.getDamage() + " damage using " + customItem.item_name + ".");
 				} else {
 					event.setDamage(0);
 					player.sendMessage("You have dealt 0 damage. Use your fist or a weapon to deal damage.");
