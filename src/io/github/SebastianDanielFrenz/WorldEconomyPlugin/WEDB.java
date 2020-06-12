@@ -1605,4 +1605,17 @@ public class WEDB {
 		sendToHeaven(profile, Config.getHeavenTimeMillis());
 	}
 
+	public static void setEntityHealth(PlayingEntity entity, double health) throws SQLException {
+		if (entity instanceof UserProfile) {
+			WorldEconomyPlugin.runSQL("UPDATE user_profiles SET health = " + health + " WHERE playerUUID = \""
+					+ ((UserProfile) entity).uuid.toString() + "\"");
+		} else if (entity instanceof AIProfile) {
+			WorldEconomyPlugin
+					.runSQL("UPDATE ai_profiles SET health = " + health + " WHERE aiID = " + ((AIProfile) entity).aiID);
+		} else {
+			throw new NotSupportedException(
+					"Cannot set health for PlayingEntity of type " + entity.getClass().getCanonicalName());
+		}
+	}
+
 }

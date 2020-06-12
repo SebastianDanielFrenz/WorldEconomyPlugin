@@ -83,7 +83,12 @@ public abstract class PlayingEntity {
 	public void damage(double amount) {
 		health -= amount;
 		if (health < 0) {
-			health = 0;
+			try {
+				WEDB.setEntityHealth(this, maxHealth);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			health = maxHealth;
 		}
 	}
 
