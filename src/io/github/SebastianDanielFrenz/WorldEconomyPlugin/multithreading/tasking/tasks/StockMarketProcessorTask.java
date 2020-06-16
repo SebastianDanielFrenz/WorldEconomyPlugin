@@ -20,13 +20,11 @@ public class StockMarketProcessorTask extends Task {
 
 	@Override
 	public void work() {
-		StockMarket.getBuyOrders()
+		StockMarket.getBuyOrders();
 	}
 
 	@Override
 	public void discard() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

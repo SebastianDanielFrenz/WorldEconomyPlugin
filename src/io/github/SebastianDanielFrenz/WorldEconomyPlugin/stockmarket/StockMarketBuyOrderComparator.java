@@ -6,7 +6,7 @@ public class StockMarketBuyOrderComparator implements Comparator<StockMarketBuyO
 
 	@Override
 	public int compare(StockMarketBuyOrder arg0, StockMarketBuyOrder arg1) {
-		return 0;
+		return (arg0.max_price < arg1.max_price) ? 1 : (arg0.max_price > arg1.max_price) ? -1 : 0;
 	}
 
 }
