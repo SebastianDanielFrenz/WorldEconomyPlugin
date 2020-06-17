@@ -1,7 +1,11 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks;
 
+import java.util.Iterator;
+import java.util.Queue;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarket;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketBuyOrder;
 
 public class StockMarketProcessorTask extends Task {
 
@@ -20,7 +24,8 @@ public class StockMarketProcessorTask extends Task {
 
 	@Override
 	public void work() {
-		StockMarket.getBuyOrders();
+		Iterator<StockMarketBuyOrder> buys = StockMarket.getBuyOrders().iterator();
+		
 	}
 
 	@Override

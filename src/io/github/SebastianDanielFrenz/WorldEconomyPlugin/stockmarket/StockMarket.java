@@ -59,6 +59,7 @@ public class StockMarket {
 
 	public static void buy(StockMarketBuyOrder buy_order, StockMarketSellOrder sell_order) {
 		long amount;
+		
 		if (buy_order.amount > sell_order.amount) {
 			amount = sell_order.amount;
 		} else {
