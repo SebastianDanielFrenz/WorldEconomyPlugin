@@ -1,19 +1,23 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket;
 
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TreeMap;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotSupportedException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.util.LimitedQueue;
 
 public class StockMarket {
 
 	private static Queue<StockMarketBuyOrder> buy_orders = new PriorityQueue<StockMarketBuyOrder>(new StockMarketBuyOrderComparator());
 	private static Queue<StockMarketSellOrder> sell_orders = new PriorityQueue<StockMarketSellOrder>(new StockMarketSellOrderComparator());
 
-	private static Map<StockMarketProduct, LinkedList<Double>> market_values = new TreeMap<StockMarketProduct, LinkedList<Double>>();
+	private static Map<StockMarketProduct, LimitedQueue<Double>> market_values = new TreeMap<StockMarketProduct, LimitedQueue<Double>>();
 
 	private static boolean accept_orders = true;
 
@@ -47,26 +51,34 @@ public class StockMarket {
 
 	public static double getMarketValue(StockMarketProduct product) {
 		double total = 0;
-		LinkedList<Double> values = market_values.get(product);
-		if (values.size() == 0) {
+
+		LimitedQueue<Double> queue = market_values.get(product);
+		Iterator<Double> values = queue.iterator();
+
+		if (!values.hasNext()) {
 			return Double.NaN;
 		}
-		for (int i = 0; i < values.size(); i++) {
-			total += values.get(i);
+		while (values.hasNext()) {
+			total += values.next();
 		}
-		return total / values.size();
+		return total / queue.size();
 	}
 
-	public static void buy(StockMarketBuyOrder buy_order, StockMarketSellOrder sell_order) {
+	public static void buy(StockMarketBuyOrder buy_order, StockMarketSellOrder sell_order) throws SQLException {
 		long amount;
-		
+
 		if (buy_order.amount > sell_order.amount) {
 			amount = sell_order.amount;
 		} else {
 			amount = buy_order.amount;
 		}
-		
-		
+
+		buy(buy_order, sell_order, amount);
+
+	}
+
+	public static void buy(StockMarketBuyOrder buy_order, StockMarketSellOrder sell_order, long amount) throws SQLException {
+		WEDB.transferStock(sell_order.bank_account, buy_order.bank_account, buy_order.product, amount, getMarketValue(buy_order.product));
 	}
 
 }
