@@ -17,7 +17,5 @@ public abstract class StockMarketOrder {
 	public final double min_price;
 	public final double max_price;
 	public final BankAccount bank_account;
-	
-	public abstract boolean isWilling(double price, long amount);
 
 }

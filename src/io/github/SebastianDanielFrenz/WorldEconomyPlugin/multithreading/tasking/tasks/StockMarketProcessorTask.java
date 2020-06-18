@@ -5,6 +5,7 @@ import java.util.Iterator;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketBuyOrder;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketSellOrder;
 
 public class StockMarketProcessorTask extends Task {
 
@@ -24,7 +25,19 @@ public class StockMarketProcessorTask extends Task {
 	@Override
 	public void work() {
 		Iterator<StockMarketBuyOrder> buys = StockMarket.getBuyOrders().iterator();
-		
+		Iterator<StockMarketSellOrder> sells = StockMarket.getSellOrders().iterator();
+		// lowest seller first
+
+		if (buys.hasNext() && sells.hasNext()) {
+			return;
+		}
+
+		StockMarketBuyOrder buy = buys.next();
+		StockMarketSellOrder sell = sells.next();
+
+		while (true) {
+			if (sell.)
+		}
 	}
 
 	@Override
