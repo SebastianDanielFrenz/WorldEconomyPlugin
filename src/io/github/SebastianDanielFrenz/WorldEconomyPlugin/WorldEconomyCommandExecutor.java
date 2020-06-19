@@ -55,15 +55,13 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 			try {
 				if (WEDB.getUserProfile((Player) sender).getAge().index < min_age.index) {
 					if (show) {
-						sender.sendMessage(WorldEconomyPlugin.PREFIX
-								+ "§4You are trying to access the future. Good luck with that.");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_ACCESSING_FUTURE));
 					}
 					return false;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				sender.sendMessage(
-						WorldEconomyPlugin.PREFIX + "§4An internal error occured while checking your permissions.");
+				sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 				return false;
 			}
 		}
@@ -77,8 +75,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 			return true;
 		}
 		if (show) {
-			sender.sendMessage(WorldEconomyPlugin.PREFIX
-					+ "§4You do not have sufficient permission. In order to do this, you need at least one of the following permissions:");
+			sender.sendMessage(Lang.getError(sender, Lang.ERROR_INSUFFICIENT_PERMISSION));
 			for (String perm : permissions) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + " - WorldEconomy." + perm);
 			}
@@ -97,8 +94,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 			return true;
 		}
 		if (show) {
-			sender.sendMessage(WorldEconomyPlugin.PREFIX
-					+ "§4You do not have sufficient permission. In order to do this, you need at least one of the following permissions:");
+			sender.sendMessage(Lang.getError(sender, Lang.ERROR_INSUFFICIENT_PERMISSION));
 			for (String perm : permissions) {
 				sender.sendMessage(WorldEconomyPlugin.PREFIX + " - WorldEconomy." + perm);
 			}
@@ -138,13 +134,12 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							if (hasPermission(sender, Permissions.REGISTER_BANK_CMD, Age.LATE_MIDDLE_AGES)) {
 								try {
 									WEDB.registerBank(args[2]);
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "Successfully registered the bank \""
-											+ args[2] + "\"!");
+									sender.sendMessage(Lang.getSuccess(sender, Lang.SUCCESS_REGISTER_BANK));
 
 									return true;
 								} catch (SQLException e) {
 									e.printStackTrace();
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+									sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 									return true;
 								}
 							} else {
@@ -189,7 +184,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							}
 						} catch (SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 							return true;
 						}
 					} else if (args[1].equalsIgnoreCase("company")) {
@@ -224,7 +219,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								}
 							} catch (SQLException e) {
 								e.printStackTrace();
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+								sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 								return true;
 							}
 						} else {
@@ -256,8 +251,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											return true;
 										} catch (SQLException e) {
 											e.printStackTrace();
-											sender.sendMessage(
-													WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+											sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 											return true;
 										}
 									} else {
@@ -306,7 +300,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							}
 						} catch (SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 							return true;
 						}
 					} else {
@@ -419,7 +413,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 						} catch (SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 							return true;
 						}
 					}
@@ -518,7 +512,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									return false;
 								}
 							} catch (SQLException e) {
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+								sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 								e.printStackTrace();
 								return true;
 							}
@@ -698,7 +692,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									return true;
 								}
 							} catch (SQLException e) {
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+								sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 								e.printStackTrace();
 								return true;
 							}
@@ -928,7 +922,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										}
 									} catch (SQLException e) {
 										e.printStackTrace();
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 										finished = true;
 										return;
 									}
@@ -1003,7 +997,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											Integer.parseInt(args[7]), Integer.parseInt(args[8])));
 						} catch (NumberFormatException | IOException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 						}
 						return true;
 					} else {
@@ -1076,7 +1070,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							profile = WEDB.getUserProfile(((Player) sender));
 						} catch (SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 							return true;
 						}
 					} else {
@@ -1115,7 +1109,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				return true;
 
 			} else if (args[0].equalsIgnoreCase("lang")) {
-				sender.sendMessage(WorldEconomyPlugin.getLanguageSafe((Player) sender));
+				sender.sendMessage(Lang.getLanguageSafe((Player) sender));
 				return true;
 			} else if (args[0].equalsIgnoreCase("debug")) {
 				if (sender instanceof Player) {

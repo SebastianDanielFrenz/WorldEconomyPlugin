@@ -1,4 +1,4 @@
-# en_us should be the default 
+# en_us should be the default
 item.coal_ore=Coal Ore
 item.coal=Coal
 item.charcoal=Charcoal
@@ -137,5 +137,10 @@ age.late_medieval_times=Late Medieval Times
 # ========== Messages ==========
 
 msg.error.internal=An internal error occured!
+msg.error.command_not_found=Command not found!
 msg.error.not_enough_arguments=Not enough arguments!
+msg.error.invalid_argument=Invalid argument!
+msg.error.accessing_future=You cannot access the future!
+msg.error.insufficient_permission=You do not have sufficient permission. In order to do this, you need at least one of the following permissions:
 msg.success=Success!
+msg.success.register_bank=Successfully registered the bank %bank%!
