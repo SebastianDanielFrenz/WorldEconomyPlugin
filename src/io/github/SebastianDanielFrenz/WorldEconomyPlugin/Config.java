@@ -24,7 +24,7 @@ public class Config {
 		cfg.addDefault("debug.overload_warning", true);
 		cfg.addDefault("debug.overload_warning_interval", 1);
 		cfg.addDefault("gameplay.heaven_time", 5.0);
-		cfg.addDefault("gameplay.server_language", "#none#");
+		cfg.addDefault("gameplay.server_language", "en_us");
 		cfg.addDefault("debug.performance_monitoring_period", 10);
 
 		cfg.options().copyDefaults(true);
