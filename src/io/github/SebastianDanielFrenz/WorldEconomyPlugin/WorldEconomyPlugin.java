@@ -1,6 +1,9 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -9,11 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
@@ -60,6 +66,18 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 
+		// first the languages
+		lang_map.put("en_us", "en_us");
+		lang_map.put("en_au", "en_us");
+		lang_map.put("en_ca", "en_us");
+		lang_map.put("en_gb", "en_us");
+		lang_map.put("en_nz", "en_us");
+
+		lang_map.put("lol_us", "en_us");
+
+		lang_map.put("de_de", "de_de");
+		lang_map.put("de_at", "de_de");
+
 		Config.setup();
 
 		try {
@@ -89,7 +107,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		TaskProcessor.init(Config.getBackGroundThreadCount(), Config.getIdleWaitMillis());
 		TaskScheduler.init();
-		
+
 		/**
 		 * ==================================================
 		 * 
@@ -529,6 +547,35 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	}
 
 	public static String PREFIX = "§f[§eWorld Economy§f]: §e";
+
+	public static String getLanguage(Player p) throws IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchFieldException, SecurityException {
+		Object ep = getMethod("getHandle", p.getClass()).invoke(p, (Object[]) null);
+		Field f = ep.getClass().getDeclaredField("locale");
+		f.setAccessible(true);
+		String language = (String) f.get(ep);
+		return language;
+	}
+
+	public static String getLanguageSafe(Player p) {
+		try {
+			return getLanguage(p);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException
+				| SecurityException e) {
+			e.printStackTrace();
+			return "en_us";
+		}
+	}
+
+	private static Method getMethod(String name, Class<?> clazz) {
+		for (Method m : clazz.getDeclaredMethods()) {
+			if (m.getName().equals(name))
+				return m;
+		}
+		return null;
+	}
+
+	private static Map<String, String> lang_map = new TreeMap<String, String>();
 
 	// @Override
 	// public ChunkGenerator getDefaultWorldGenerator(String worldName, String

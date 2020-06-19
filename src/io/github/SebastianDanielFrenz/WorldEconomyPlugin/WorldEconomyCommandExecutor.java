@@ -1114,6 +1114,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 				return true;
 
+			} else if (args[0].equalsIgnoreCase("lang")) {
+				sender.sendMessage(WorldEconomyPlugin.getLanguageSafe((Player) sender));
+				return true;
 			} else if (args[0].equalsIgnoreCase("debug")) {
 				if (sender instanceof Player) {
 					Player player = (Player) sender;
