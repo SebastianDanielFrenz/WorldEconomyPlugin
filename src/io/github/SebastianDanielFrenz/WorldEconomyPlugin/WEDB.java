@@ -1524,4 +1524,16 @@ public class WEDB {
 		}
 	}
 
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to player and AI deaths (heaven).
+	 * 
+	 * ==================================================
+	 */
+	
+	public static void productTransation(Product product) {
+		
+	}
+
 }
