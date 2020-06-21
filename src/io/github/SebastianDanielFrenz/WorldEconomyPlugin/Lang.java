@@ -93,14 +93,21 @@ public class Lang {
 		}
 	}
 
-	public static String ERROR_NOT_ENOUGH_ARGUMENTS = "not_enough_arguments";
-	public static String ERROR_COMMAND_NOT_FOUND = "command_not_found";
-	public static String ERROR_INVALID_ARGUMENT = "invalid_argument";
-	public static String ERROR_INTERNAL = "internal_error";
-	public static String ERROR_ACCESSING_FUTURE = "accessing_future";
-	public static String ERROR_INSUFFICIENT_PERMISSION = "insufficient_permission";
-	
-	public static String SUCCESS_REGISTER_BANK = "register_bank";
+	public static final String ERROR_NOT_ENOUGH_ARGUMENTS = "not_enough_arguments";
+	public static final String ERROR_COMMAND_NOT_FOUND = "command_not_found";
+	public static final String ERROR_INVALID_ARGUMENT = "invalid_argument";
+	public static final String ERROR_INTERNAL = "internal_error";
+	public static final String ERROR_ACCESSING_FUTURE = "accessing_future";
+	public static final String ERROR_INSUFFICIENT_PERMISSION = "insufficient_permission";
+	public static final String ERROR_NOT_A_PLAYER = "not_a_player";
+	public static final String ERROR_BANK_DOES_NOT_EXIST = "bank_does_not_exist";
+	public static final String ERROR_INVALID_COMPANY_TYPE = "invalid_company_type";
+	public static final String ERROR_COMPANY_DOES_NOT_EXIST = "company_does_not_exist";
+
+	public static final String SUCCESS_REGISTER_BANK = "register_bank";
+	public static final String SUCCESS_REGISTER_BANK_ACCOUNT = "register_bank_account";
+	public static final String SUCCESS_REGISTER_CORPORATION = "register_corporation";
+	public static final String SUCCESS_REGISTER_PRIVATE_COMPANY = "register_private_company";
 
 	public static String getItem(CommandSender sender, String ID) {
 		return get(sender, "item." + ID);
@@ -136,6 +143,31 @@ public class Lang {
 
 	public static String getSuccess(CommandSender sender, String msg) {
 		return WorldEconomyPlugin.PREFIX + "§a" + get(sender, "msg.success." + msg);
+	}
+
+	public static String getBankDoesNotExist(CommandSender sender, String bank_name) {
+		return WorldEconomyPlugin.PREFIX + "§4"
+				+ get(sender, Lang.ERROR_BANK_DOES_NOT_EXIST).replace("%banName%", bank_name);
+	}
+
+	public static String getRegisteredCorporation(CommandSender sender, String company_name, long companyID) {
+		return WorldEconomyPlugin.PREFIX + "§a" + get(sender, Lang.SUCCESS_REGISTER_CORPORATION)
+				.replace("%companyName%", company_name).replace("%companyID%", String.valueOf(companyID));
+	}
+
+	public static String getRegisteredPrivateCompany(CommandSender sender, String company_name, long companyID) {
+		return WorldEconomyPlugin.PREFIX + "§a" + get(sender, Lang.SUCCESS_REGISTER_PRIVATE_COMPANY)
+				.replace("%companyName%", company_name).replace("%companyID%", String.valueOf(companyID));
+	}
+
+	public static String getInvalidCompanyType(CommandSender sender, String companyType) {
+		return WorldEconomyPlugin.PREFIX + "§4"
+				+ get(sender, Lang.ERROR_INVALID_COMPANY_TYPE).replace("%companyType%", companyType);
+	}
+
+	public static String getCompanyDoesNotExist(CommandSender sender, String companyName) {
+		return WorldEconomyPlugin.PREFIX + "§4"
+				+ get(sender, Lang.ERROR_COMPANY_DOES_NOT_EXIST).replace("%companyName%", companyName);
 	}
 
 }

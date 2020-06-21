@@ -151,16 +151,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						}
 					} else if (args[1].equalsIgnoreCase("bank_account")) {
 						if (!(sender instanceof Player)) {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX
-									+ "§4You have to be a player in order to create a bank account!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 							return true;
 						}
 						try {
 							if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT_CMD, Age.LATE_MIDDLE_AGES)) {
 								Bank bank = WEDB.getBank(args[2]);
 								if (bank == null) {
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2]
-											+ "\" does not exist!");
+									sender.sendMessage(Lang.getBankDoesNotExist(sender, args[2]));
 									return true;
 								}
 								WEDB.registerBankAccount(new BankAccount(0, (Player) sender, bank.ID, 0, args[3]));
@@ -176,8 +174,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 								((Player) sender).getInventory().addItem(creditCard);
 
-								sender.sendMessage(
-										WorldEconomyPlugin.PREFIX + "Successfully created the bank account!");
+								sender.sendMessage(Lang.getError(sender, Lang.SUCCESS_REGISTER_BANK_ACCOUNT));
 								return true;
 							} else {
 								return true;
@@ -189,8 +186,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						}
 					} else if (args[1].equalsIgnoreCase("company")) {
 						if (!(sender instanceof Player)) {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX
-									+ "§4You have to be a player in order to create and own a company!");
+							sender.sendMessage(Lang.getError(sender, Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER)));
 							return true;
 						}
 						if (args.length > 3) {
@@ -200,18 +196,15 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 									switch (args[3]) {
 									case "corporation":
-										sender.sendMessage(WorldEconomyPlugin.PREFIX
-												+ "Successfully created the corporation with ID "
-												+ WEDB.registerCorporation(name, (Player) sender) + "!");
+										sender.sendMessage(Lang.getRegisteredCorporation(sender, args[2],
+												WEDB.registerCorporation(name, (Player) sender)));
 										break;
 									case "private":
-										sender.sendMessage(WorldEconomyPlugin.PREFIX
-												+ "Successfully created the private company with ID "
-												+ WEDB.registerPrivateCompany(name, (Player) sender));
+										sender.sendMessage(Lang.getRegisteredPrivateCompany(sender, args[2],
+												WEDB.registerPrivateCompany(name, (Player) sender)));
 										break;
 									default:
-										sender.sendMessage(WorldEconomyPlugin.PREFIX
-												+ "§4Invalid company type! §eType \"/we company types\" to see the available types.");
+										sender.sendMessage(Lang.getInvalidCompanyType(sender, args[3]));
 									}
 									return true;
 								} else {
@@ -240,8 +233,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											Company company = WEDB.getCompany(args[2]);
 
 											if (company == null) {
-												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The company \""
-														+ args[2] + "\" does not exist!");
+												sender.sendMessage(Lang.getCompanyDoesNotExist(sender, args[2]));
 												return true;
 											}
 
