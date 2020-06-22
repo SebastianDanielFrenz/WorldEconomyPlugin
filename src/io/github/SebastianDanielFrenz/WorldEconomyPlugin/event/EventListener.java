@@ -142,10 +142,10 @@ public class EventListener implements Listener {
 														// banking
 														// details
 
-														Company company = WEDB.getCompany(product.manifacturerID);
+														Company company = WEDB.getCompany(product.manifacturerCompanyID);
 														if (company == null) {
 															player.sendMessage(WorldEconomyPlugin.PREFIX
-																	+ "§4The company with ID " + product.manifacturerID
+																	+ "§4The company with ID " + product.manifacturerCompanyID
 																	+ " does not exist!");
 														} else {
 															BankAccount companyBankAccount = WEDB

@@ -67,6 +67,12 @@ public class MainMenu extends WEGUI {
 			public void event(InventoryClickEvent event) {
 				new ResearchGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
 			}
+		}, new GUIItem(1, 4, mkItem(Material.PAPER, "§eStock Market")) {
+
+			@Override
+			public void event(InventoryClickEvent event) {
+				new StockMarketGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
+			}
 		}
 
 		});

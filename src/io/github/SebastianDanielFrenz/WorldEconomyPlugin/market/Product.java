@@ -10,6 +10,7 @@ public class Product {
 	public long manifacturerCompanyID;
 	public String itemID;
 	public double price;
+	public int itemAmount;
 
 	public Product(long ID, String name, long manifacturerCompanyID, String itemID, int itemAmount, double price) {
 		this.ID = ID;
@@ -17,6 +18,7 @@ public class Product {
 		this.manifacturerCompanyID = manifacturerCompanyID;
 		this.itemID = itemID;
 		this.price = price;
+		this.itemAmount = itemAmount;
 	}
 
 }

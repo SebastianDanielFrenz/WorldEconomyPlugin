@@ -25,6 +25,7 @@ public class Config {
 		cfg.addDefault("debug.overload_warning_interval", 1);
 		cfg.addDefault("gameplay.heaven_time", 5.0);
 		cfg.addDefault("gameplay.server_language", "en_us");
+		cfg.addDefault("gameplay.year_real_time_hours", 7 * 24);
 		cfg.addDefault("debug.performance_monitoring_period", 10);
 
 		cfg.options().copyDefaults(true);
@@ -97,6 +98,10 @@ public class Config {
 
 	public static String getServerLanguage() {
 		return cfg.getString("gameplay.server_language");
+	}
+	
+	public static double getYearRealTimeHours() {
+		return cfg.getDouble("gameplay.year_real_time_hours");
 	}
 
 }

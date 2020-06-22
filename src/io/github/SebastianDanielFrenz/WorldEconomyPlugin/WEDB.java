@@ -1162,6 +1162,18 @@ public class WEDB {
 				r.getDouble("shareDividend"));
 	}
 
+	public static List<Share> getAllShares() throws SQLException {
+		List<Share> shares = new ArrayList<Share>();
+		ResultSet r = WorldEconomyPlugin.runSQLquery(
+				"SELECT * FROM shares INNER JOIN stock_market_products ON stock_market_products.stockMarketProductID = shares.stockMarketProductID");
+		while (r.next()) {
+			shares.add(new Share(r.getLong("shares.stockMarketProductID"), r.getString("stockMarketProductName"), r.getString("shareType"),
+					r.getDouble("stockMarketProductPrice"), r.getLong("shareTotalAmount"), r.getLong("shareCompanyID"),
+					r.getLong("shareTotalPartage"), r.getDouble("shareDividend")));
+		}
+		return shares;
+	}
+
 	public static StockMarketProductStack getStockMarketProductStack(long stackID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM stock_market_possesions WHERE stockMarketPossesionID = " + stackID);
 		if (!r.next()) {
@@ -1527,13 +1539,17 @@ public class WEDB {
 	/*
 	 * ==================================================
 	 * 
-	 * This section is dedicated to player and AI deaths (heaven).
+	 * This section is dedicated to time.
 	 * 
 	 * ==================================================
 	 */
-	
-	public static void productTransation(Product product) {
-		
+
+	public static void updateTickCounter(long count) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE sys_enumerator SET value = " + count + " WHERE key = \"ticks\"");
+	}
+
+	public static double getYear() {
+		return ((WorldEconomyPlugin.tick_counter / 20) / Units.HOUR) / Config.getYearRealTimeHours();
 	}
 
 }
