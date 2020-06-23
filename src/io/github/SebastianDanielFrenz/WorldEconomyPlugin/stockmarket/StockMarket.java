@@ -17,10 +17,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.util.LimitedQueue;
 
 public class StockMarket {
 
-	private static Queue<StockMarketBuyOrder> buy_orders = new PriorityQueue<StockMarketBuyOrder>(
-			new StockMarketBuyOrderComparator());
-	private static Queue<StockMarketSellOrder> sell_orders = new PriorityQueue<StockMarketSellOrder>(
-			new StockMarketSellOrderComparator());
+	private static Queue<StockMarketBuyOrder> buy_orders = new PriorityQueue<StockMarketBuyOrder>(new StockMarketBuyOrderComparator());
+	private static Queue<StockMarketSellOrder> sell_orders = new PriorityQueue<StockMarketSellOrder>(new StockMarketSellOrderComparator());
 
 	private static Map<StockMarketProduct, LimitedQueue<Double>> market_values = new TreeMap<StockMarketProduct, LimitedQueue<Double>>();
 
@@ -37,9 +35,8 @@ public class StockMarket {
 			} else if (order instanceof StockMarketSellOrder) {
 				sell_orders.add((StockMarketSellOrder) order);
 			} else {
-				throw new NotSupportedException(
-						"Stock Market can only register StockMarketBuyOrder and StockMarketSellOrder, not orders of type "
-								+ order.getClass().getCanonicalName() + "!");
+				throw new NotSupportedException("Stock Market can only register StockMarketBuyOrder and StockMarketSellOrder, not orders of type "
+						+ order.getClass().getCanonicalName() + "!");
 			}
 		} else {
 			registering = Thread.currentThread();
@@ -71,8 +68,7 @@ public class StockMarket {
 		return total / queue.size();
 	}
 
-	public static void buy(StockMarketBuyOrder buy_order, StockMarketSellOrder sell_order, long amount, double price)
-			throws SQLException {
+	public static void buy(StockMarketBuyOrder buy_order, StockMarketSellOrder sell_order, long amount, double price) throws SQLException {
 		WEDB.transferStock(sell_order.bank_account, buy_order.bank_account, buy_order.product, amount, price);
 	}
 

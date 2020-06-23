@@ -13,7 +13,16 @@ public class TickListenerRunnable implements Runnable {
 
 	@Override
 	public void run() {
+		int year = (int) WEDB.getYear();
 		WorldEconomyPlugin.tick_counter++;
+		if ((int) WEDB.getYear() != year) {
+			// year just changed
+			try {
+				WEDB.createAllCompanyRevenues(year);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		try {
 			WEDB.updateTickCounter(WorldEconomyPlugin.tick_counter);
 		} catch (SQLException e) {

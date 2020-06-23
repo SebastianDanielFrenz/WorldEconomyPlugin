@@ -3,9 +3,12 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
@@ -27,11 +30,10 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 	public long mailboxID;
 
 	public AIProfile(long aiID, String username, long bankingID, long employeeID, long aiAsEmployerID, long mailboxID,
-			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness,
-			boolean religious, double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven,
-			long heaven_time_end_millis, Age age) {
-		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction,
-				endurance, max_endurance, in_heaven, heaven_time_end_millis, age);
+			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness, boolean religious,
+			double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
+		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction, endurance, max_endurance,
+				in_heaven, heaven_time_end_millis, age);
 
 		this.aiID = aiID;
 		this.username = username;
@@ -81,5 +83,10 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 		nmsworld.addEntity(entity, SpawnReason.CUSTOM);
 
 		uuid = entity.getUniqueID();
+	}
+
+	@Override
+	public Inventory getInventory() {
+		return ((Villager) Bukkit.getEntity(uuid)).getInventory();
 	}
 }

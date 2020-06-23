@@ -14,10 +14,13 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
@@ -662,7 +665,50 @@ public class WEDB {
 			}
 		}
 
+		res.close();
+
 		return out;
+	}
+
+	@SuppressWarnings("resource")
+	public static Company getCompanyByName(String name) throws SQLException {
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies WHERE companyName = \"" + name + "\"");
+		res.next();
+
+		String type = res.getString("companyType");
+		long employerID = res.getLong("companyEmployerID");
+		long bankingID = res.getLong("companyBankingID");
+		long mailboxID = res.getLong("mailboxID");
+		long ID = res.getLong("companyID");
+
+		res.close();
+
+		switch (type) {
+		case "corporation":
+			res = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_corporations WHERE companyID = " + ID);
+			if (!res.next()) {
+				throw new RuntimeException("Corporation \"" + name + "\" not in the corporations table!");
+			}
+			long CEO_employeeID = res.getLong("CEO_employeeID");
+			res.close();
+			return new Corporation(ID, name, employerID, bankingID, CEO_employeeID, mailboxID);
+		case "private":
+			res = WorldEconomyPlugin.runSQLquery("SELECT * FROM companies_private WHERE companyID = " + ID);
+			if (!res.next()) {
+				throw new RuntimeException("Private company \"" + name + "\" is not in the private companies table!");
+			}
+			return new PrivateCompany(ID, name, employerID, bankingID, res.getLong("ownerEmployeeID"), mailboxID);
+		case "bank":
+			res = WorldEconomyPlugin.runSQLquery("SELECT * FROM banks WHERE companyID = " + ID);
+			if (!res.next()) {
+				throw new RuntimeException("Bank \"" + name + "\" is not in the banks table!");
+			}
+			long bankID = res.getLong("bankID");
+			res.close();
+			return new BankCompany(ID, name, employerID, bankingID, mailboxID, bankID);
+		default:
+			throw new RuntimeException("Invalid company type \"" + type + "\"!");
+		}
 	}
 
 	public static List<BankAccount> getCompanyBankAccountsByBankingID(long companyBankingID) throws SQLException {
@@ -874,6 +920,126 @@ public class WEDB {
 					r.getInt("productItemAmount"), r.getDouble("productPrice")));
 		}
 		return out;
+	}
+
+	public static Product getProduct(long companyID, String productName) throws SQLException {
+		ResultSet r = WorldEconomyPlugin
+				.runSQLquery("SELECT * FROM products WHERE productManifacturerID = " + companyID + " AND productName = \"" + productName + "\"");
+		r.next();
+		return new Product(r.getLong("productID"), r.getString("productName"), companyID, r.getString("productItemID"),
+				r.getInt("productItemAmount"), r.getDouble("productPrice"));
+	}
+
+	public static void buyProductFromChest(PlayingEntity playingEntity, SupplyChestData chestData, Product product, BankAccount bankAccount,
+			double price) throws SQLException {
+		if (chestData == null) {
+			if (playingEntity instanceof UserProfile) {
+				Bukkit.getPlayer(((UserProfile) playingEntity).uuid).sendMessage(WorldEconomyPlugin.PREFIX + "§4The supply chest does not exist!");
+			}
+		} else {
+			Block chestBlock = chestData.location.getBlock();
+			if (chestBlock.getType() == Material.CHEST) {
+				Chest chest = (Chest) chestBlock.getState();
+				Inventory chestInv = chest.getBlockInventory();
+
+				Material productMaterial = Material.getMaterial(product.itemID);
+
+				// test for working
+				// banking
+				// details
+
+				Company company = WEDB.getCompany(product.manifacturerCompanyID);
+				if (company == null) {
+
+					if (playingEntity instanceof UserProfile) {
+						Bukkit.getPlayer(((UserProfile) playingEntity).uuid).sendMessage(
+								WorldEconomyPlugin.PREFIX + "§4The company with ID " + product.manifacturerCompanyID + " does not exist!");
+					}
+				} else {
+					BankAccount companyBankAccount = WEDB.getBankAccount(company.bankingID, "shop_income");
+					if (companyBankAccount == null) {
+						if (playingEntity instanceof UserProfile) {
+							Bukkit.getPlayer(((UserProfile) playingEntity).uuid)
+									.sendMessage(WorldEconomyPlugin.PREFIX + "§4The company does not have a bank account called \"shop_income\"!");
+						}
+					} else {
+
+						int itemCount = 0;
+						ItemStack chestItemStack;
+						for (int i = 0; i < chestInv.getSize(); i++) {
+							chestItemStack = chestInv.getItem(i);
+							if (chestItemStack == null) {
+								continue;
+							}
+							if (chestItemStack.getType() == productMaterial) {
+								itemCount += chestItemStack.getAmount();
+								if (itemCount >= product.itemAmount) {
+									break;
+								}
+							}
+						}
+						if (itemCount >= product.itemAmount) {
+							// remove
+							// items
+							itemCount = 0;
+
+							for (int i = 0; i < chestInv.getSize(); i++) {
+								chestItemStack = chestInv.getItem(i);
+								if (chestItemStack == null) {
+									continue;
+								}
+								if (chestItemStack.getType() == productMaterial) {
+									if (product.itemAmount < chestItemStack.getAmount() + itemCount) {
+										chestItemStack.setAmount(chestItemStack.getAmount() - product.itemAmount);
+										break;
+									} else {
+										itemCount += chestItemStack.getAmount();
+										chestInv.setItem(i, null);
+
+									}
+									if (itemCount == product.itemAmount) {
+										break;
+									}
+								}
+							}
+
+							// reduce
+							// bank
+							// account
+							// balance
+
+							WEDB.bankAccountTransaction(bankAccount, companyBankAccount, price);
+
+							// give
+							// items
+
+							ItemStack playerItemStack = new ItemStack(productMaterial, product.itemAmount);
+							playingEntity.getInventory().addItem(playerItemStack);
+
+							if (playingEntity instanceof UserProfile) {
+								Bukkit.getPlayer(((UserProfile) playingEntity).uuid)
+										.sendMessage(WorldEconomyPlugin.PREFIX + "Bought " + product.name + " for " + product.price + "!");
+							}
+						} else {
+							// not
+							// enough
+							// items
+							// in
+							// chest
+							if (playingEntity instanceof UserProfile) {
+								Bukkit.getPlayer(((UserProfile) playingEntity).uuid)
+										.sendMessage(WorldEconomyPlugin.PREFIX + "§4The supply chest is empty!");
+							}
+						}
+					}
+				}
+			} else {
+				if (playingEntity instanceof UserProfile) {
+					Bukkit.getPlayer(((UserProfile) playingEntity).uuid)
+							.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block at the registered supply chest's location is not a chest!");
+				}
+			}
+		}
 	}
 
 	public static long registerAI() throws SQLException {
@@ -1550,6 +1716,46 @@ public class WEDB {
 
 	public static double getYear() {
 		return ((WorldEconomyPlugin.tick_counter / 20) / Units.HOUR) / Config.getYearRealTimeHours();
+	}
+
+	public static void createAllCompanyRevenues(int year) throws SQLException {
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT companyID FROM companies");
+		while (res.next()) {
+			WorldEconomyPlugin.runSQL("INSERT INTO company_revenues (companyID, year, spendings, earnings) VALUES (" + res.getLong("companyID") + ", "
+					+ year + ", 0, 0)");
+		}
+	}
+
+	public static void registerCompanyEarning(long companyID, double amount) {
+		WorldEconomyPlugin.runSQLTask(
+				"UPDATE company_revenues SET earnings = earnings + " + amount + " WHERE companyID = " + companyID + " AND year = " + (int) getYear());
+	}
+
+	public static void registerCompanySpending(long companyID, double amount) {
+		WorldEconomyPlugin.runSQLTask("UPDATE company_revenues SET spendings = spendings + " + amount + " WHERE companyID = " + companyID
+				+ " AND year = " + (int) getYear());
+	}
+
+	public static double getCompanyEarnings(long companyID, int year) throws SQLException {
+		ResultSet res = WorldEconomyPlugin
+				.runSQLquery("SELECT earnings FROM company_revenues WHERE companyID = " + companyID + " AND year = " + year);
+		res.next();
+		return res.getDouble("earnings");
+	}
+
+	public static double getCompanySpendings(long companyID, int year) throws SQLException {
+		ResultSet res = WorldEconomyPlugin
+				.runSQLquery("SELECT spendings FROM company_revenues WHERE companyID = " + companyID + " AND year = " + year);
+		res.next();
+		return res.getDouble("spendings");
+	}
+
+	public static double getLastCompanyEarnings(long companyID) throws SQLException {
+		return getCompanyEarnings(companyID, (int) getYear());
+	}
+
+	public static double getLastCompanySpendings(long companyID) throws SQLException {
+		return getCompanySpendings(companyID, (int) getYear());
 	}
 
 }

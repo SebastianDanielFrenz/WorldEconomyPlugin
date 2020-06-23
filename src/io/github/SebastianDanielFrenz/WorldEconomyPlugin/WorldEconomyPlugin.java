@@ -1,9 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -12,14 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
@@ -409,7 +403,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			runSQL("CREATE TABLE statistics (statisticID text," + "entityID integer," + "entityType text," + "value real,"
 					+ "PRIMARY KEY(statisticID, entityID, entityType)" + ");");
 
-			runSQL("CREATE TABLE company_revenues (companyID integer, ");
+			runSQL("CREATE TABLE company_revenues (companyID integer," + "year integer," + "spendings real," + "earnings real,"
+					+ "PRIMARY KEY(companyID, year),"
+					// references
+					+ "$ref$FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
 
 			// enumerator
 

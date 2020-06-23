@@ -3,14 +3,16 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 import java.sql.SQLException;
 import java.util.Set;
 
+import org.bukkit.inventory.Inventory;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeeProfession;
 
 public abstract class PlayingEntity {
 
-	public PlayingEntity(long employeeID, Set<EmployeeProfession> professions, double health, double maxHealth,
-			double saturation, double happyness, boolean religious, double religious_satisfaction, double endurance,
-			double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
+	public PlayingEntity(long employeeID, Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness,
+			boolean religious, double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven, long heaven_time_end_millis,
+			Age age) {
 		this.employeeID = employeeID;
 		this.professions = professions;
 		this.health = health;
@@ -105,4 +107,5 @@ public abstract class PlayingEntity {
 		return maxHealth;
 	}
 
+	public abstract Inventory getInventory();
 }

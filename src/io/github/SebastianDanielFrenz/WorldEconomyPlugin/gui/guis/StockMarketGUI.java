@@ -29,7 +29,7 @@ public class StockMarketGUI extends WEGUI {
 
 					@Override
 					public void event(InventoryClickEvent event) {
-
+						
 					}
 				});
 			}
