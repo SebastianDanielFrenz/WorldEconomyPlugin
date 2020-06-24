@@ -146,6 +146,7 @@ msg.error.not_a_player=You need to be a player to do this!
 msg.error.bank_does_not_exist=The bank "%bank_name%" does not exist!
 msg.error.invalid_company_type=Invalid company type "%companyType%"!
 msg.error.company_does_not_exist=The company "%companyName%" does not exist!
+msg.error.hand_empty=Your hand is empty!
 msg.success=Success!
 msg.success.register_bank=Successfully registered the bank %bank%!
 msg.success.register_corporation=Successfully registered the corporation "%companyName%" with ID %companyID%!

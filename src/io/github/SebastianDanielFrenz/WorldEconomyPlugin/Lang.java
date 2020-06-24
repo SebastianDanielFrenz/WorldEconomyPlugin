@@ -103,6 +103,8 @@ public class Lang {
 	public static final String ERROR_BANK_DOES_NOT_EXIST = "bank_does_not_exist";
 	public static final String ERROR_INVALID_COMPANY_TYPE = "invalid_company_type";
 	public static final String ERROR_COMPANY_DOES_NOT_EXIST = "company_does_not_exist";
+	public static final String ERROR_HAND_EMPTY = "hand_empty";
+	public static final String ERROR_ILLEGAL_ITEM = "illegal_item";
 
 	public static final String SUCCESS_REGISTER_BANK = "register_bank";
 	public static final String SUCCESS_REGISTER_BANK_ACCOUNT = "register_bank_account";
