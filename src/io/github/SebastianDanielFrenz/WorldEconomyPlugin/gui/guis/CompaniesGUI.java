@@ -16,7 +16,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class CompaniesGUI extends WEGUI {
 
-	public CompaniesGUI(WEGUI parent) {
+	public CompaniesGUI(WEGUI parent, Player player) {
 		super(parent, new GUIItem[] {}, "Companies");
 
 		CompaniesGUI _this = this;
@@ -39,14 +39,14 @@ public class CompaniesGUI extends WEGUI {
 					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company, player).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				} else if (company.companyType.equalsIgnoreCase("private")) {
 					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company, player).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				} else {
@@ -54,7 +54,7 @@ public class CompaniesGUI extends WEGUI {
 							new String[] { "§4INVALID COMPANY TYPE \"" + company.companyType + "\"!" })) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new CompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company, player).openInventory((Player) event.getWhoClicked());
 						}
 					});
 				}

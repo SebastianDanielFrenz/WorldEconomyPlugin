@@ -62,7 +62,7 @@ public class MainMenu extends WEGUI {
 		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, "Companies")) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new CompaniesGUI(_this).openInventory((Player) event.getWhoClicked());
+				new CompaniesGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
 			}
 		}, new GUIItem(1, 3, mkItem(Material.GLASS_BOTTLE, 1, 0, "§aResearch")) {
 

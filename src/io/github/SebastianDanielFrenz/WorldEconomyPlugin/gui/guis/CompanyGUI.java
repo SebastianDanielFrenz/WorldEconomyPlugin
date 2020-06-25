@@ -14,7 +14,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class CompanyGUI extends WEGUI {
 
-	public CompanyGUI(WEGUI parent, Company company) {
+	public CompanyGUI(WEGUI parent, Company company, Player player) {
 		super(parent, new GUIItem[] {}, company.companyName);
 
 		CompanyGUI _this = this;
@@ -30,6 +30,13 @@ public class CompanyGUI extends WEGUI {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new ProductFromCompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
+			}
+		});
+		items.add(new GUIItem(2, 0, mkItem(Material.WOOL, 1, 13, "Register Product")) {
+			
+			@Override
+			public void event(InventoryClickEvent event) {
+				new ChooseResearchedItemGUI(_this, company, player).openInventory((Player)event.getWhoClicked());
 			}
 		});
 		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, "Sales")) {
