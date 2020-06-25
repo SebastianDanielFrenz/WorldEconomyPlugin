@@ -160,7 +160,6 @@ public class WorldEconomyPlugin extends JavaPlugin {
 
 		// if plugins are supposed to work, there is a need for event calls here
 		// (in order to register items, blocks, research items, etc.
-		CustomBlockTypeRegistry.check();
 
 		/**
 		 * ==================================================

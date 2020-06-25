@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -31,25 +30,25 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Permissions;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Utils;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.VolatileCooldowns;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyCommandExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WorldEconomyExtension;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WorldEconomyExtensionRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.WorldEconomyBlockPopulator;
@@ -117,11 +116,11 @@ public class EventListener implements Listener {
 
 											if (bankAccount.getBalance() >= price) {
 												player.sendMessage(WorldEconomyPlugin.PREFIX + "Your bank account has enough money to buy the item.");
-												
+
 												// start WEDB replacement
 												SupplyChestData chestData = WEDB.getSupplyChest(signData.supplyChestID);
 												String productName = lines[2];
-												
+
 												WEDB.buyProductFromChest(profile, chestData, WEDB.getProduct(chestData.ownerCompanyID, productName),
 														bankAccount, price);
 												// end WEDB replacement
@@ -257,6 +256,16 @@ public class EventListener implements Listener {
 		// blocks from addons should be registered by now.
 
 		if (event.getWorld().getName().equals("world")) {
+
+			WorldEconomyPlugin.plugin.getLogger().info("Loading extensions...");
+
+			for (WorldEconomyExtension extension : WorldEconomyExtensionRegistry.getExtensions()) {
+				WorldEconomyPlugin.plugin.getLogger().info("Loading extension " + extension.getName());
+				extension.constructionEvent();
+			}
+
+			CustomBlockTypeRegistry.check();
+
 			for (BlockPopulator pop : event.getWorld().getPopulators()) {
 				System.out.println(pop.getClass().getCanonicalName());
 			}
