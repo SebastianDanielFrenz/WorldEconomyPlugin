@@ -8,8 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.RegisterProductChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.ResearchItemChooserEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class CompanyGUI extends WEGUI {
@@ -33,10 +37,23 @@ public class CompanyGUI extends WEGUI {
 			}
 		});
 		items.add(new GUIItem(2, 0, mkItem(Material.WOOL, 1, 13, "Register Product")) {
-			
+
 			@Override
 			public void event(InventoryClickEvent event) {
-				new ChooseResearchedItemGUI(_this, company, player).openInventory((Player)event.getWhoClicked());
+				new ChooseResearchedItemGUI(_this, "Register Product - " + company.companyName, player,
+						new ResearchItemChooserEvent() {
+
+							@Override
+							public boolean filter(ResearchItem researchItem) {
+								return researchItem.getResearchableObject() instanceof CustomItem;
+							}
+
+							@Override
+							public void event(ResearchItem researchItem) {
+								new RegisterProductChatDialog(player, (CustomItem) researchItem.getResearchableObject(),
+										company);
+							}
+						}).openInventory((Player) event.getWhoClicked());
 			}
 		});
 		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, "Sales")) {

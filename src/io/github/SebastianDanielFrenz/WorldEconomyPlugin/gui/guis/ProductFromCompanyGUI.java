@@ -31,7 +31,7 @@ public class ProductFromCompanyGUI extends WEGUI {
 			List<Product> products = WEDB.getProductsFromCompany(company);
 			for (Product product : products) {
 				items.add(new GUIItem(slot,
-						mkItem(Material.getMaterial(product.itemID), product.itemAmount, product.name)) {
+						mkItem(Material.getMaterial(product.itemID), product.name)) {
 					@Override
 					public void event(InventoryClickEvent event) {
 					}

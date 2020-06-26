@@ -54,6 +54,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeeProfession;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketProduct;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketProductStack;
@@ -950,18 +951,23 @@ public class WEDB {
 	 */
 
 	@SQLInjection
-	public static long registerProduct(long productManifacturerID, String name, double price, ItemStack product)
+	public static long registerProduct(long productManifacturerID, String name, double price, CustomItem customItem)
 			throws SQLException {
 		long productID = getNextEnumerator("productID");
 
 		WorldEconomyPlugin
-				.runSQL("INSERT INTO products (productID, productName, productPrice, productManifacturerID, productItemID, productItemAmount) VALUES ("
+				.runSQL("INSERT INTO products (productID, productName, productPrice, productManifacturerID, productItemID) VALUES ("
 						+ productID + ", \"" + name + "\", " + price + ", " + productManifacturerID + ", \""
-						+ product.getType().toString() + "\", " + product.getAmount() + ")");
+						+ customItem.ID + "\")");
 
 		moveEnumerator("productID");
 
 		return productID;
+	}
+
+	public static long registerProduct(Company company, String name, double price, CustomItem customItem)
+			throws SQLException {
+		return registerProduct(company.ID, name, price, customItem);
 	}
 
 	public static Product getProduct(long ID) throws SQLException {
@@ -970,7 +976,7 @@ public class WEDB {
 			return null;
 		} else {
 			return new Product(ID, r.getString("productName"), r.getLong("productManifacturerID"),
-					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice"));
+					r.getString("productItemID"), r.getDouble("productPrice"));
 		}
 	}
 
@@ -980,7 +986,7 @@ public class WEDB {
 				.runSQLquery("SELECT * FROM products WHERE productManifacturerID = " + company.ID);
 		while (r.next()) {
 			out.add(new Product(r.getLong("productID"), r.getString("productName"), company.ID,
-					r.getString("productItemID"), r.getInt("productItemAmount"), r.getDouble("productPrice")));
+					r.getString("productItemID"), r.getDouble("productPrice")));
 		}
 		return out;
 	}
@@ -990,7 +996,7 @@ public class WEDB {
 				+ " AND productName = \"" + productName + "\"");
 		r.next();
 		return new Product(r.getLong("productID"), r.getString("productName"), companyID, r.getString("productItemID"),
-				r.getInt("productItemAmount"), r.getDouble("productPrice"));
+				r.getDouble("productPrice"));
 	}
 
 	public static void buyProductFromChest(PlayingEntity playingEntity, SupplyChestData chestData, Product product,
@@ -1028,44 +1034,48 @@ public class WEDB {
 						}
 					} else {
 
-						int itemCount = 0;
-						ItemStack chestItemStack;
-						for (int i = 0; i < chestInv.getSize(); i++) {
-							chestItemStack = chestInv.getItem(i);
-							if (chestItemStack == null) {
-								continue;
-							}
-							if (chestItemStack.getType() == productMaterial) {
-								itemCount += chestItemStack.getAmount();
-								if (itemCount >= product.itemAmount) {
-									break;
-								}
-							}
-						}
-						if (itemCount >= product.itemAmount) {
-							// remove
-							// items
-							itemCount = 0;
-
-							for (int i = 0; i < chestInv.getSize(); i++) {
-								chestItemStack = chestInv.getItem(i);
-								if (chestItemStack == null) {
-									continue;
-								}
-								if (chestItemStack.getType() == productMaterial) {
-									if (product.itemAmount < chestItemStack.getAmount() + itemCount) {
-										chestItemStack.setAmount(chestItemStack.getAmount() - product.itemAmount);
-										break;
-									} else {
-										itemCount += chestItemStack.getAmount();
-										chestInv.setItem(i, null);
-
-									}
-									if (itemCount == product.itemAmount) {
-										break;
-									}
-								}
-							}
+//						int itemCount = 0;
+//						ItemStack chestItemStack;
+//						for (int i = 0; i < chestInv.getSize(); i++) {
+//							chestItemStack = chestInv.getItem(i);
+//							if (chestItemStack == null) {
+//								continue;
+//							}
+//							if (chestItemStack.getType() == productMaterial) {
+//								itemCount += chestItemStack.getAmount();
+//								if (itemCount >= product.itemAmount) {
+//									break;
+//								}
+//							}
+//						}
+//						if (itemCount >= product.itemAmount) {
+//							// remove
+//							// items
+//							itemCount = 0;
+//
+//							for (int i = 0; i < chestInv.getSize(); i++) {
+//								chestItemStack = chestInv.getItem(i);
+//								if (chestItemStack == null) {
+//									continue;
+//								}
+//								if (chestItemStack.getType() == productMaterial) {
+//									if (product.itemAmount < chestItemStack.getAmount() + itemCount) {
+//										chestItemStack.setAmount(chestItemStack.getAmount() - product.itemAmount);
+//										break;
+//									} else {
+//										itemCount += chestItemStack.getAmount();
+//										chestInv.setItem(i, null);
+//
+//									}
+//									if (itemCount == product.itemAmount) {
+//										break;
+//									}
+//								}
+//							}
+						
+						// move items
+						
+						ItemTransactionManager.canConsume(chestInv, product.getCustomItem(), 1);
 
 							// reduce
 							// bank
@@ -1086,17 +1096,17 @@ public class WEDB {
 										.sendMessage(WorldEconomyPlugin.PREFIX + "Bought " + product.name + " for "
 												+ product.price + "!");
 							}
-						} else {
-							// not
-							// enough
-							// items
-							// in
-							// chest
-							if (playingEntity instanceof UserProfile) {
-								Bukkit.getPlayer(((UserProfile) playingEntity).uuid)
-										.sendMessage(WorldEconomyPlugin.PREFIX + "§4The supply chest is empty!");
-							}
-						}
+//						} else {
+//							// not
+//							// enough
+//							// items
+//							// in
+//							// chest
+//							if (playingEntity instanceof UserProfile) {
+//								Bukkit.getPlayer(((UserProfile) playingEntity).uuid)
+//										.sendMessage(WorldEconomyPlugin.PREFIX + "§4The supply chest is empty!");
+//							}
+//						}
 					}
 				}
 			} else {
