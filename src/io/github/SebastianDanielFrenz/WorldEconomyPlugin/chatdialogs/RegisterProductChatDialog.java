@@ -15,8 +15,9 @@ public class RegisterProductChatDialog extends ChatDialog {
 
 	public RegisterProductChatDialog(Player player, CustomItem customItem, Company company) {
 		super(player);
-		player.sendMessage(Lang.getMsg(player, Lang.MSG_REGISTER_PRODUCT_NAME));
+		player.sendMessage(Lang.getChatDialog(player, Lang.CHATDIALOG_REGISTER_PRODUCT_NAME));
 		this.company = company;
+		this.customItem = customItem;
 	}
 
 	private Company company;
@@ -35,26 +36,32 @@ public class RegisterProductChatDialog extends ChatDialog {
 				} else {
 					reply(Lang.getError(player, Lang.ERROR_PRODUCT_ALREADY_EXISTS));
 					close();
+					return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 				reply(Lang.getError(player, Lang.ERROR_INTERNAL));
 				close();
+				return;
 			}
 			stage = 1;
-			reply(Lang.getMsg(player, Lang.MSG_REGISTER_PRODUCT_PRICE));
+			reply(Lang.getChatDialog(player, Lang.CHATDIALOG_REGISTER_PRODUCT_PRICE));
+			return;
+
 		} else if (stage == 1) {
 			try {
 				double price = Double.parseDouble(msg);
 				try {
 					WEDB.registerProduct(company.ID, productName, price, customItem);
+					reply("done");
+					close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					reply(Lang.getError(player, Lang.ERROR_INTERNAL));
 					close();
 				}
 			} catch (NumberFormatException e) {
-				reply(Lang.getError(player, Lang.MSG_REGISTER_PRODUCT_INVALID_PRICE));
+				reply(Lang.getError(player, Lang.CHATDIALOG_REGISTER_PRODUCT_INVALID_PRICE));
 			}
 		}
 	}

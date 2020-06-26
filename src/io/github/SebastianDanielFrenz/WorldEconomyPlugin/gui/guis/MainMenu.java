@@ -6,6 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.WriteMailChatDialog;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
@@ -31,7 +32,7 @@ public class MainMenu extends WEGUI {
 			public void event(InventoryClickEvent event) {
 				new WriteMailChatDialog((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 1, mkItem(Material.WOOL, 1, 7, "Banks")) {
+		}, new GUIItem(1, 1, mkItem(Material.WOOL, 1, 7, "Banks"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				Player player = (Player) event.getWhoClicked();
@@ -41,25 +42,25 @@ public class MainMenu extends WEGUI {
 											// inventory close event or not
 				new BanksGUI(_this).openInventory(player);
 			}
-		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, "My Bank Accounts")) {
+		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, "My Bank Accounts"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new BankAccountsGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, "Register Bank Account")) {
+		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, "Register Bank Account"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, "Transfer Money")) {
+		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, "Transfer Money"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new TransferMoneyGUI(_this, (Player) event.getWhoClicked())
 						.openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, "Companies")) {
+		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, "Companies"), Age.LATE_MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CompaniesGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
@@ -70,7 +71,7 @@ public class MainMenu extends WEGUI {
 			public void event(InventoryClickEvent event) {
 				new ResearchGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 4, mkItem(Material.PAPER, "§eStock Market")) {
+		}, new GUIItem(1, 4, mkItem(Material.PAPER, "§eStock Market"), Age.LATE_MIDDLE_AGES) {
 
 			@Override
 			public void event(InventoryClickEvent event) {

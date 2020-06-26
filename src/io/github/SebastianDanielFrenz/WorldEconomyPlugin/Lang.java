@@ -74,12 +74,19 @@ public class Lang {
 		try {
 			while (true) {
 				line = br.readLine();
+				if (line == null) {
+					break;
+				}
+
 				if (line.startsWith(msgID)) {
 					br.close();
 					isr.close();
 					return line.split("[=]")[1];
 				}
 			}
+
+			System.out.println("Could not find " + msgID + " in " + lang + ".lang!");
+			return msgID;
 		} catch (IOException e2) {
 			try {
 				br.close();
@@ -88,7 +95,8 @@ public class Lang {
 				e.printStackTrace();
 				return msgID;
 			}
-			System.out.println("Could not find " + msgID + " in " + lang + ".lang!");
+
+			System.out.println("Error while retrieving " + msgID + " in " + lang + ".lang!");
 			return msgID;
 		}
 	}
@@ -96,7 +104,7 @@ public class Lang {
 	public static final String ERROR_NOT_ENOUGH_ARGUMENTS = "not_enough_arguments";
 	public static final String ERROR_COMMAND_NOT_FOUND = "command_not_found";
 	public static final String ERROR_INVALID_ARGUMENT = "invalid_argument";
-	public static final String ERROR_INTERNAL = "internal_error";
+	public static final String ERROR_INTERNAL = "internal";
 	public static final String ERROR_ACCESSING_FUTURE = "accessing_future";
 	public static final String ERROR_INSUFFICIENT_PERMISSION = "insufficient_permission";
 	public static final String ERROR_NOT_A_PLAYER = "not_a_player";
@@ -113,9 +121,9 @@ public class Lang {
 	public static final String SUCCESS_REGISTER_CORPORATION = "register_corporation";
 	public static final String SUCCESS_REGISTER_PRIVATE_COMPANY = "register_private_company";
 
-	public static final String MSG_REGISTER_PRODUCT_NAME = "register_product_name";
-	public static final String MSG_REGISTER_PRODUCT_PRICE = "register_product_price";
-	public static final String MSG_REGISTER_PRODUCT_INVALID_PRICE = "register_product_invalid_price";
+	public static final String CHATDIALOG_REGISTER_PRODUCT_NAME = "register_product_name";
+	public static final String CHATDIALOG_REGISTER_PRODUCT_PRICE = "register_product_price";
+	public static final String CHATDIALOG_REGISTER_PRODUCT_INVALID_PRICE = "register_product_invalid_price";
 
 	public static String getItem(CommandSender sender, String ID) {
 		return get(sender, "item." + ID);

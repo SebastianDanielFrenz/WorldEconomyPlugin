@@ -35,6 +35,8 @@ public class ChooseResearchedItemGUI extends WEGUI {
 					slot++;
 				}
 			}
+
+			setItems(convert(items));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			setErrorGUI();

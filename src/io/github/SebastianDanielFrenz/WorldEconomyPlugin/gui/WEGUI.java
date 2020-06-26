@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
 public class WEGUI implements InventoryHolder {
 	// Create a new inventory, with "this" owner for comparison with other
@@ -79,7 +83,7 @@ public class WEGUI implements InventoryHolder {
 		this.parent = parent;
 		this.items = items2;
 
-		ItemStack backButtonItem = new ItemStack(Material.WOOL, 14);
+		ItemStack backButtonItem = new ItemStack(Material.WOOL, 1, (short) 14);
 		ItemMeta meta = backButtonItem.getItemMeta();
 		meta.setDisplayName("§4Back");
 		backButtonItem.setItemMeta(meta);
@@ -106,6 +110,25 @@ public class WEGUI implements InventoryHolder {
 	@Override
 	public Inventory getInventory() {
 		return inv;
+	}
+
+	public GUIItem[] processRequirements(GUIItem[] items, Age player_age) {
+		GUIItem[] out = new GUIItem[items.length];
+		for (int i = 0; i < items.length; i++) {
+			out[i] = items[i];
+			if (out[i].min_age != null) {
+				if (out[i].min_age.index > player_age.index) {
+					out[i].itemStack.setType(Material.BARRIER);
+					out[i] = new GUIItem(out[i].slot, out[i].itemStack) {
+
+						@Override
+						public void event(InventoryClickEvent event) {
+						}
+					};
+				}
+			}
+		}
+		return out;
 	}
 
 	// You can call this whenever you want to put the items in
@@ -216,6 +239,13 @@ public class WEGUI implements InventoryHolder {
 
 	// You can open the inventory with this
 	public void openInventory(Player player) {
+		try {
+			items = processRequirements(items, WEDB.getUserProfile(player).getAge());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			setErrorGUI();
+		}
+
 		items = initializeItems(items);
 		player.openInventory(inv);
 	}

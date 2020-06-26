@@ -35,6 +35,7 @@ public class StockMarketGUI extends WEGUI {
 			}
 		} catch (SQLException e) {
 			setErrorGUI();
+			e.printStackTrace();
 		}
 	}
 

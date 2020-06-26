@@ -393,7 +393,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "FOREIGN KEY(creditRecieverBankingID) REFERENCES bank_customers(bankingID),"
 					+ "FOREIGN KEY(creditRecieverBankAccountID) REFERENCES bank_accounts(bankAccountID)" + ");");
 
-			runSQL("CREATE TABLE stock_marekt_products (" + "stockMarketProductID integer PRIMARY KEY,"
+			runSQL("CREATE TABLE stock_market_products (" + "stockMarketProductID integer PRIMARY KEY,"
 					+ "stockMarketPrice real," + "stockMarketProductName text NOT NULL,"
 					+ "stockMarketProductType text NOT NULL" + ");");
 
