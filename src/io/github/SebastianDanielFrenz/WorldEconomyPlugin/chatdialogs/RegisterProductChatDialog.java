@@ -46,10 +46,15 @@ public class RegisterProductChatDialog extends ChatDialog {
 		} else if (stage == 1) {
 			try {
 				double price = Double.parseDouble(msg);
-				WEDB.registerProduct(company.ID, productName, price, customItem);
-			}
-			catch (NumberFormatException e) {
-				reply(Lang.getError(player, Lang.ERROR_INVALID_NUMBER));
+				try {
+					WEDB.registerProduct(company.ID, productName, price, customItem);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					reply(Lang.getError(player, Lang.ERROR_INTERNAL));
+					close();
+				}
+			} catch (NumberFormatException e) {
+				reply(Lang.getError(player, Lang.MSG_REGISTER_PRODUCT_INVALID_PRICE));
 			}
 		}
 	}

@@ -273,6 +273,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 								PlayerInventory inv = player.getInventory();
 								ItemStack itemStack = inv.getItemInMainHand();
+								CustomItem customItem = CustomItem.getItem(itemStack);
 
 								Company manifacturer = WEDB.getCompany(args[2]);
 
@@ -282,9 +283,13 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									return true;
 								}
 
+								if (customItem == null) {
+
+								}
+
 								sender.sendMessage(WorldEconomyPlugin.PREFIX + "Registered product with ID "
 										+ WEDB.registerProduct(manifacturer.ID, args[3], Double.parseDouble(args[4]),
-												itemStack)
+												customItem)
 										+ "!");
 								return true;
 							} else {

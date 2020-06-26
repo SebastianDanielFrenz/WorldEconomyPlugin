@@ -154,3 +154,4 @@ msg.success.register_bank=Successfully registered the bank %bank%!
 msg.success.register_corporation=Successfully registered the corporation "%companyName%" with ID %companyID%!
 msg.success.register_private_company=Successfully registered the private company "%companyName%" with ID %companyID%!
 msg.chatdialog.register_product_name=Please enter the desired product name!
+msg.chatdialog.register_product_invalid_price=Invalid price! Please enter a valid price.

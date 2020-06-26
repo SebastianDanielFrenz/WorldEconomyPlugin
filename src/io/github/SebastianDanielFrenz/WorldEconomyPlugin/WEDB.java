@@ -1088,8 +1088,7 @@ public class WEDB {
 							// give
 							// items
 
-							ItemStack playerItemStack = new ItemStack(productMaterial, product.itemAmount);
-							playingEntity.getInventory().addItem(playerItemStack);
+							playingEntity.getInventory().addItem(product.getCustomItem().toItemStack());
 
 							if (playingEntity instanceof UserProfile) {
 								Bukkit.getPlayer(((UserProfile) playingEntity).uuid)

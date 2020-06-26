@@ -115,6 +115,7 @@ public class Lang {
 
 	public static final String MSG_REGISTER_PRODUCT_NAME = "register_product_name";
 	public static final String MSG_REGISTER_PRODUCT_PRICE = "register_product_price";
+	public static final String MSG_REGISTER_PRODUCT_INVALID_PRICE = "register_product_invalid_price";
 
 	public static String getItem(CommandSender sender, String ID) {
 		return get(sender, "item." + ID);

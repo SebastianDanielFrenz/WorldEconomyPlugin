@@ -89,7 +89,8 @@ public class EventListener implements Listener {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
 				if (lines[0].equalsIgnoreCase("[§4Shop§0]")) {
-					if (WorldEconomyCommandExecutor.hasPermission(player, Permissions.SIGN_SHOP_USE, Age.LATE_MIDDLE_AGES)) {
+					if (WorldEconomyCommandExecutor.hasPermission(player, Permissions.SIGN_SHOP_USE,
+							Age.LATE_MIDDLE_AGES)) {
 						ShopSignData signData = WEDB.getShopSign(block.getLocation());
 
 						if (signData == null) {
@@ -102,31 +103,35 @@ public class EventListener implements Listener {
 								if (lore != null) {
 									if (lore.get(0).equalsIgnoreCase("Credit Card")) {
 										if (lore.size() == 1) {
-											event.getPlayer()
-													.sendMessage(WorldEconomyPlugin.PREFIX + "§4This credit card has no banking information!");
+											event.getPlayer().sendMessage(WorldEconomyPlugin.PREFIX
+													+ "§4This credit card has no banking information!");
 										}
 										String bankAccountName = lore.get(1);
 										UserProfile profile = WEDB.getUserProfile(player);
-										BankAccount bankAccount = WEDB.getBankAccount(profile.bankingID, bankAccountName);
+										BankAccount bankAccount = WEDB.getBankAccount(profile.bankingID,
+												bankAccountName);
 										if (bankAccount == null) {
-											player.sendMessage(
-													WorldEconomyPlugin.PREFIX + "§4The bank account connected to the credit card does not exist!");
+											player.sendMessage(WorldEconomyPlugin.PREFIX
+													+ "§4The bank account connected to the credit card does not exist!");
 										} else {
 											double price = Double.parseDouble(lines[3]);
 
 											if (bankAccount.getBalance() >= price) {
-												player.sendMessage(WorldEconomyPlugin.PREFIX + "Your bank account has enough money to buy the item.");
+												player.sendMessage(WorldEconomyPlugin.PREFIX
+														+ "Your bank account has enough money to buy the item.");
 
 												// start WEDB replacement
 												SupplyChestData chestData = WEDB.getSupplyChest(signData.supplyChestID);
 												String productName = lines[2];
 
-												WEDB.buyProductFromChest(profile, chestData, WEDB.getProduct(chestData.ownerCompanyID, productName),
+												WEDB.buyProductFromChest(profile, chestData,
+														WEDB.getProduct(chestData.ownerCompanyID, productName),
 														bankAccount, price);
 												// end WEDB replacement
 
 											} else {
-												player.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank account does not have enough money");
+												player.sendMessage(WorldEconomyPlugin.PREFIX
+														+ "§4The bank account does not have enough money");
 											}
 										}
 									} else {
@@ -155,28 +160,33 @@ public class EventListener implements Listener {
 		System.out.println(lines[0]);
 
 		if (lines[0].equalsIgnoreCase("[WE - Shop]")) {
-			if (WorldEconomyCommandExecutor.hasPermission(event.getPlayer(), Permissions.SIGN_SHOP_CREATE, Age.LATE_MIDDLE_AGES)) {
+			if (WorldEconomyCommandExecutor.hasPermission(event.getPlayer(), Permissions.SIGN_SHOP_CREATE,
+					Age.LATE_MIDDLE_AGES)) {
 				long productID = Long.parseLong(lines[1]);
 				double price = Double.parseDouble(lines[2]);
 				long supplyChestID = Long.parseLong(lines[3]);
 
-				ResultSet r1 = WorldEconomyPlugin
-						.runSQLquery("SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
+				ResultSet r1 = WorldEconomyPlugin.runSQLquery(
+						"SELECT productManifacturerID, productName FROM products WHERE productID = " + productID);
 
 				if (r1.next()) {
 					long companyID = r1.getLong("productManifacturerID");
 					String productName = r1.getString("productName");
 
-					ResultSet r2 = WorldEconomyPlugin.runSQLquery("SELECT companyName FROM companies WHERE companyID = " + companyID);
+					ResultSet r2 = WorldEconomyPlugin
+							.runSQLquery("SELECT companyName FROM companies WHERE companyID = " + companyID);
 					r2.next();
 					String companyName = r2.getString("companyName");
 
 					WorldEconomyPlugin
-							.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES (" + WEDB.getNextEnumerator("signID")
-									+ ", \"shop\", " + sign.getLocation().getBlockX() + ", " + sign.getLocation().getBlockY() + ", "
-									+ sign.getLocation().getBlockZ() + ", \"" + sign.getLocation().getWorld().getName() + "\")");
-					WorldEconomyPlugin.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
-							+ WEDB.getNextEnumerator("signID") + ", " + supplyChestID + ", " + companyID + ", " + productID + ", " + price + ")");
+							.runSQL("INSERT INTO signs (signID, signType, signX, signY, signZ, signWorld) VALUES ("
+									+ WEDB.getNextEnumerator("signID") + ", \"shop\", " + sign.getLocation().getBlockX()
+									+ ", " + sign.getLocation().getBlockY() + ", " + sign.getLocation().getBlockZ()
+									+ ", \"" + sign.getLocation().getWorld().getName() + "\")");
+					WorldEconomyPlugin
+							.runSQL("INSERT INTO shop_signs (signID, supplyChestID, signOwnerCompanyID, productID, signPrice) VALUES ("
+									+ WEDB.getNextEnumerator("signID") + ", " + supplyChestID + ", " + companyID + ", "
+									+ productID + ", " + price + ")");
 
 					WEDB.moveEnumerator("signID");
 
@@ -233,7 +243,8 @@ public class EventListener implements Listener {
 		if (entity instanceof Villager) {
 			Villager villager = (Villager) entity;
 			Map<String, String> args;
-			args = Utils.getTagsAfter(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount", new String[] { "BankName" });
+			args = Utils.getTagsAfter(villager.getScoreboardTags(), "WorldEconomy_Bank_CreateAccount",
+					new String[] { "BankName" });
 			if (args != null) {
 				if (VolatileCooldowns.useVillagerInteractCooldown(event.getPlayer())) {
 					new CreateBankAccountChatDialog(event.getPlayer(), WEDB.getBank(args.get("BankName")));
@@ -251,23 +262,40 @@ public class EventListener implements Listener {
 	}
 
 	@EventHandler
-	public void onWorldInitEvent(WorldInitEvent event) throws SQLException, NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void onWorldInitEvent(WorldInitEvent event) throws SQLException, NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// blocks from addons should be registered by now.
 
 		if (event.getWorld().getName().equals("world")) {
 
 			WorldEconomyPlugin.plugin.getLogger().info("Loading extensions...");
 
+			String log_output = "Found " + WorldEconomyExtensionRegistry.getExtensions().size() + " extensions: [";
+
+			for (int i = 0; i < WorldEconomyExtensionRegistry.getExtensions().size() - 1; i++) {
+				log_output += WorldEconomyExtensionRegistry.getExtensions().get(i).getName() + ", ";
+			}
+			if (WorldEconomyExtensionRegistry.getExtensions().size() != 0) {
+				log_output += WorldEconomyExtensionRegistry.getExtensions()
+						.get(WorldEconomyExtensionRegistry.getExtensions().size() - 1);
+			}
+			log_output += "]";
+
+			WorldEconomyPlugin.plugin.getLogger().info(log_output);
+
 			for (WorldEconomyExtension extension : WorldEconomyExtensionRegistry.getExtensions()) {
 				WorldEconomyPlugin.plugin.getLogger().info("Loading extension " + extension.getName());
 				extension.constructionEvent();
 			}
 
+			WorldEconomyPlugin.plugin.getLogger().info("Extensions loaded, performing plausibility checks...");
+
 			CustomBlockTypeRegistry.check();
 
+			WorldEconomyPlugin.plugin.getLogger().info("Finished checks!");
+
 			for (BlockPopulator pop : event.getWorld().getPopulators()) {
-				System.out.println(pop.getClass().getCanonicalName());
+				System.out.println("Found block populator " + pop.getClass().getCanonicalName());
 			}
 			event.getWorld().getPopulators().clear();
 
@@ -279,7 +307,8 @@ public class EventListener implements Listener {
 			for (CustomBlock customBlock : WEDB.getAllCustomBlocks(event.getWorld())) {
 				mcBlock = customBlock.getLocation().toLocation().getBlock();
 				mcBlock.setType(customBlock.getType().material);
-				mcBlock.setMetadata("customBlockType", new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
+				mcBlock.setMetadata("customBlockType",
+						new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
 			}
 
 			if (Bukkit.getWorld("heaven") == null) {
