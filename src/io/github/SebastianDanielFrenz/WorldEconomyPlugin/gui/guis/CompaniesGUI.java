@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BlockLib;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
@@ -17,14 +18,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class CompaniesGUI extends WEGUI {
 
 	public CompaniesGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, "Companies");
+		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_COMPANIES), player);
 
 		CompaniesGUI _this = this;
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Companies")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_COMPANIES))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -39,14 +40,14 @@ public class CompaniesGUI extends WEGUI {
 					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new CompanyGUI(_this, company, player).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company, player).openInventory();
 						}
 					});
 				} else if (company.companyType.equalsIgnoreCase("private")) {
 					items.add(new GUIItem(slot, BlockLib.company(company)) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new CompanyGUI(_this, company, player).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company, player).openInventory();
 						}
 					});
 				} else {
@@ -54,7 +55,7 @@ public class CompaniesGUI extends WEGUI {
 							new String[] { "§4INVALID COMPANY TYPE \"" + company.companyType + "\"!" })) {
 						@Override
 						public void event(InventoryClickEvent event) {
-							new CompanyGUI(_this, company, player).openInventory((Player) event.getWhoClicked());
+							new CompanyGUI(_this, company, player).openInventory();
 						}
 					});
 				}

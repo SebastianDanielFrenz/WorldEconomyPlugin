@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.RegisterProductChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
@@ -19,7 +20,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class CompanyGUI extends WEGUI {
 
 	public CompanyGUI(WEGUI parent, Company company, Player player) {
-		super(parent, new GUIItem[] {}, company.companyName);
+		super(parent, new GUIItem[] {}, company.companyName, player);
 
 		CompanyGUI _this = this;
 
@@ -30,17 +31,19 @@ public class CompanyGUI extends WEGUI {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.WOOL, 1, 1, "Products")) {
+		items.add(new GUIItem(1, 0, mkItem(Material.WOOL, 1, 1, Lang.get(player, Lang.GUI_ITEM_COMPANY__PRODUCTS))) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new ProductFromCompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
+				new ProductsFromCompanyGUI(_this, company, player).openInventory();
 			}
 		});
-		items.add(new GUIItem(2, 0, mkItem(Material.WOOL, 1, 13, "Register Product")) {
+		items.add(new GUIItem(2, 0,
+				mkItem(Material.WOOL, 1, 13, Lang.get(player, Lang.GUI_ITEM_COMPANY__REGISTER_PRODUCT))) {
 
 			@Override
 			public void event(InventoryClickEvent event) {
-				new ChooseResearchedItemGUI(_this, "Register Product - " + company.companyName, player,
+				new ChooseResearchedItemGUI(_this,
+						Lang.get(player, Lang.GUI_ITEM_COMPANY__REGISTER_PRODUCT) + " - " + company.companyName, player,
 						new ResearchItemChooserEvent() {
 
 							@Override
@@ -53,19 +56,19 @@ public class CompanyGUI extends WEGUI {
 								new RegisterProductChatDialog(player, (CustomItem) researchItem.getResearchableObject(),
 										company);
 							}
-						}).openInventory((Player) event.getWhoClicked());
+						}).openInventory();
 			}
 		});
-		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, "Sales")) {
+		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, Lang.get(player, Lang.GUI_ITEM_COMPANY__SALES))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				throw new NotImplementedException();
 			}
 		});
-		items.add(new GUIItem(1, 2, mkItem(Material.WOOL, 1, 5, "Employees")) {
+		items.add(new GUIItem(1, 2, mkItem(Material.WOOL, 1, 5, Lang.get(player, Lang.GUI_ITEM_COMPANY__EMPLOYEES))) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new EmployeesFromCompanyGUI(_this, company).openInventory((Player) event.getWhoClicked());
+				new EmployeesFromCompanyGUI(_this, company, player).openInventory();
 			}
 		});
 

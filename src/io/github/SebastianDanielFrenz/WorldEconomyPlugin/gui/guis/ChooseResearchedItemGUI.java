@@ -17,7 +17,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class ChooseResearchedItemGUI extends WEGUI {
 
 	public ChooseResearchedItemGUI(WEGUI parent, String title, Player player, ResearchItemChooserEvent chooserEvent) {
-		super(parent, new GUIItem[] {}, title);
+		super(parent, new GUIItem[] {}, title, player);
 
 		int slot = 9;
 

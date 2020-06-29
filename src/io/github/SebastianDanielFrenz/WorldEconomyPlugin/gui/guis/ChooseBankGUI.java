@@ -18,7 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class ChooseBankGUI extends WEGUI {
 
 	public ChooseBankGUI(WEGUI parent, Player player, BankChooserEvent chooserEvent, String title) {
-		super(parent, new GUIItem[] {}, title);
+		super(parent, new GUIItem[] {}, title, player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
@@ -50,7 +50,7 @@ public class ChooseBankGUI extends WEGUI {
 	}
 
 	public ChooseBankGUI(Player player, BankChooserEvent chooserEvent, String title) {
-		super(new GUIItem[] {}, title);
+		super(new GUIItem[] {}, title, player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;

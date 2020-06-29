@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
@@ -20,12 +21,12 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class SellResourceGUI extends WEGUI {
 
 	public SellResourceGUI(WEGUI parent, Player player, CustomItem resource) {
-		super(new GUIItem[] {}, "Sell Resource - " + resource.item_name);
+		super(new GUIItem[] {}, Lang.GUI_TITLE_SELL_RESOURCE(player, resource), player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 
 		items.add(new GUIItem(0, 4, mkItem(resource.base_material,
-				"Sell Resource - " + resource.item_name + " - " + WEDB.getResourcePriceWithFallback(resource))) {
+				Lang.GUI_TITLE_SELL_RESOURCE(player, resource) + " - " + WEDB.getResourcePriceWithFallback(resource))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -56,7 +57,7 @@ public class SellResourceGUI extends WEGUI {
 													WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
 										}
 									}
-								}).openInventory(player);
+								}, player).openInventory();
 
 					} catch (SQLException e) {
 						e.printStackTrace();

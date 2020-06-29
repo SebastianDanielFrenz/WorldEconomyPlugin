@@ -26,49 +26,55 @@ public class BuyResourceGUI extends WEGUI {
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 
-		items.add(new GUIItem(0, 4, mkItem(resource.base_material,
-				Lang.GUI_ITEM_BUY_RESOURCE__SIGN(player, resource.item_name, WEDB.getResourcePriceWithFallback(resource)))) {
+		items.add(new GUIItem(0, 4, mkItem(resource.base_material, Lang.GUI_ITEM_BUY_RESOURCE__SIGN(player,
+				resource.item_name, WEDB.getResourcePriceWithFallback(resource)))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_ITEM_BUY_RESOURCE__CUSTOM_AMOUNT))) {
-			@Override
-			public void event(InventoryClickEvent event) {
-				// TODO
-			}
-		});
+		items.add(
+				new GUIItem(1, 0, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_ITEM_BUY_RESOURCE__CUSTOM_AMOUNT))) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						// TODO
+					}
+				});
 		for (long i = 1; i < 100000; i *= 8) {
 			long x = i;
 			items.add(new GUIItem(1, 1, mkItem(BlockLib.BUY, Lang.GUI_ITEM_BUY_RESOURCE__BUY_AMOUNT(player, i))) {
 				@Override
 				public void event(InventoryClickEvent event) {
 					try {
-						new ChooseBankAccountGUI(parent, WEDB.getUserProfile(player).bankingID, new BankAccountChooserEvent() {
-							@Override
-							public void event(InventoryClickEvent event, BankAccount account) {
-								try {
-									double price = WEDB.getResourcePriceBuy(resource, x);
-									if (account.getBalance() < price) {
-										player.sendMessage(Lang.getNotEnoughMoney(player, account.getBalance(), price));
-									} else {
-										if (ItemTransactionManager.canFit(player.getInventory(), new CustomItemStack(resource, (int) x))) {
-											WEDB.setBankAccountBalance(account, account.getBalance() - price);
-											ItemTransactionManager.give(player.getInventory(), new CustomItemStack(resource, (int) x));
+						new ChooseBankAccountGUI(parent, WEDB.getUserProfile(player).bankingID,
+								new BankAccountChooserEvent() {
+									@Override
+									public void event(InventoryClickEvent event, BankAccount account) {
+										try {
+											double price = WEDB.getResourcePriceBuy(resource, x);
+											if (account.getBalance() < price) {
+												player.sendMessage(
+														Lang.getNotEnoughMoney(player, account.getBalance(), price));
+											} else {
+												if (ItemTransactionManager.canFit(player.getInventory(),
+														new CustomItemStack(resource, (int) x))) {
+													WEDB.setBankAccountBalance(account, account.getBalance() - price);
+													ItemTransactionManager.give(player.getInventory(),
+															new CustomItemStack(resource, (int) x));
 
-										} else {
-											player.sendMessage(Lang.getNotEnoughSpaceDetailed(player,
-													ItemTransactionManager.getSpace(player.getInventory(), new CustomItemStack(resource, (int) x)),
-													x));
-											player.closeInventory();
+												} else {
+													player.sendMessage(Lang.getNotEnoughSpaceDetailed(player,
+															ItemTransactionManager.getSpace(player.getInventory(),
+																	new CustomItemStack(resource, (int) x)),
+															x));
+													player.closeInventory();
+												}
+											}
+										} catch (SQLException e) {
+											e.printStackTrace();
+											player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
 										}
 									}
-								} catch (SQLException e) {
-									e.printStackTrace();
-									player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
-								}
-							}
-						}).openInventory();
+								}, player).openInventory();
 
 					} catch (SQLException e) {
 						e.printStackTrace();

@@ -187,3 +187,30 @@ gui.title.buy_resource=Buy Resource - %resourceName%
 gui.item.buy_resource.sign=Buy Resource - %resourceName% - %resourcePrice%
 gui.item.buy_resource.custom_amount=Enter a custom amount
 gui.item.buy_resource.buy_amount=Buy %amount%
+
+gui.title.choose_bank_account=Bank Account Chooser
+
+gui.title.companies=Companies
+
+gui.item.company.products=Products
+gui.item.company.register_product=Register Product
+gui.item.company.sales=Sales
+gui.item.company.employees=Employees
+
+gui.title.create_bank_account=Create Bank Account
+
+gui.title.employees_from_company=Employees of %companyName%
+
+gui.title.main_menu=Main Menu
+gui.item.main_menu.mailbox=Mailbox
+
+gui.title.products_from_company=Products from %companyName%
+
+gui.title.research=Research
+
+# ========== Other ==========
+
+other.player=Player
+other.ai=AI
+other.corporation=Corporation
+other.private_company=Private Company

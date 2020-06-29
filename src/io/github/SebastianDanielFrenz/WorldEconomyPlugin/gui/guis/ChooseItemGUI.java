@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
@@ -13,8 +14,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class ChooseItemGUI extends WEGUI {
 
-	public ChooseItemGUI(ResourceChooserEvent chooserEvent) {
-		super(new GUIItem[] {}, "Resource Market");
+	public ChooseItemGUI(ResourceChooserEvent chooserEvent, Player player) {
+		super(new GUIItem[] {}, "Resource Market", player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;

@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
@@ -14,8 +16,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class ResearchAgeGUI extends WEGUI {
 
-	public ResearchAgeGUI(WEGUI parent, Age age, UserProfile profile) {
-		super(parent, new GUIItem[] {}, "Research - " + age.name());
+	public ResearchAgeGUI(WEGUI parent, Age age, UserProfile profile, Player player) {
+		super(parent, new GUIItem[] {}, Lang.GUI_TITLE_RESEARCH + " - " + age.name(), player);
 
 		try {
 			List<ResearchItem> researchItems = profile.getResearchedItems();

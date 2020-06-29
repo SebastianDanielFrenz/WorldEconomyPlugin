@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BankAccountChooserEvent;
@@ -15,8 +17,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class ChooseBankAccountGUI extends WEGUI {
 
-	public ChooseBankAccountGUI(WEGUI parent, String title, long bankingID, BankAccountChooserEvent chooserEvent) {
-		super(parent, new GUIItem[] {}, title);
+	public ChooseBankAccountGUI(WEGUI parent, String title, long bankingID, BankAccountChooserEvent chooserEvent,
+			Player player) {
+		super(parent, new GUIItem[] {}, title, player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
@@ -41,8 +44,8 @@ public class ChooseBankAccountGUI extends WEGUI {
 		}
 	}
 
-	public ChooseBankAccountGUI(WEGUI parent, long bankingID, BankAccountChooserEvent chooserEvent) {
-		this(parent, "Choose a bank account", bankingID, chooserEvent);
+	public ChooseBankAccountGUI(WEGUI parent, long bankingID, BankAccountChooserEvent chooserEvent, Player player) {
+		this(parent, Lang.get(player, Lang.GUI_TITLE_CHOOSE_BANK_ACCOUNT), bankingID, chooserEvent, player);
 	}
 
 }
