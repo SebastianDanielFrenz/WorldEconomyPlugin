@@ -37,8 +37,8 @@ public abstract class MachineCampfire extends Machine {
 			}, new CampfireDecorationGUIItem(2, 5), new CampfireDecorationGUIItem(2, 6), new CampfireDecorationGUIItem(2, 7),
 					new CampfireDecorationGUIItem(2, 8), new CampfireDecorationGUIItem(3, 5), new CampfireDecorationGUIItem(4, 5),
 					new CampfireDecorationGUIItem(5, 5) }, "Campfire", event.getClickedBlock(),
-					new int[] { 9 * 3 + 6, 9 * 3 + 7, 9 * 3 + 8, 9 * 4 + 6, 9 * 4 + 7, 9 * 4 + 8, 9 * 5 + 6, 9 * 5 + 7, 9 * 5 + 8 })
-							.openInventory(event.getPlayer());
+					new int[] { 9 * 3 + 6, 9 * 3 + 7, 9 * 3 + 8, 9 * 4 + 6, 9 * 4 + 7, 9 * 4 + 8, 9 * 5 + 6, 9 * 5 + 7, 9 * 5 + 8 },
+					event.getPlayer()).openInventory();
 		}
 	}
 

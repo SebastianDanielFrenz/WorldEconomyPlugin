@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BlockLib;
@@ -14,13 +17,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class BanksGUI extends WEGUI {
 
-	public BanksGUI() {
-		super(new GUIItem[] {}, "Banks");
+	public BanksGUI(Player player) {
+		super(new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANKS), player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Banks")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_BANKS))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -44,13 +47,13 @@ public class BanksGUI extends WEGUI {
 		}
 	}
 
-	public BanksGUI(WEGUI parent) {
-		super(parent, new GUIItem[] {}, "Banks");
+	public BanksGUI(WEGUI parent, Player player) {
+		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANKS), player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Banks")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_BANKS))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

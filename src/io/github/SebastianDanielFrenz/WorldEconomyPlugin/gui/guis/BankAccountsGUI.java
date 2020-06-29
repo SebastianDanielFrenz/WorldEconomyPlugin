@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.BlockLib;
@@ -17,14 +18,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class BankAccountsGUI extends WEGUI {
 
 	public BankAccountsGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, "Bank Accounts");
+		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANK_ACCOUNTS), player);
 
 		BankAccountsGUI out = this;
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, "Bank Accounts")) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_BANK_ACCOUNTS))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -36,7 +37,7 @@ public class BankAccountsGUI extends WEGUI {
 				items.add(new GUIItem(slot, BlockLib.bank_account(bank_account)) {
 					@Override
 					public void event(InventoryClickEvent event) {
-						new BankAccountGUI(out, bank_account).openInventory((Player) event.getWhoClicked());
+						new BankAccountGUI(out, bank_account, player).openInventory();
 					}
 				});
 				slot++;

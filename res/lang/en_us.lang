@@ -153,6 +153,9 @@ msg.error.look_at_chest=Please look at a chest!
 msg.error.move_closer=Please move closer!
 msg.error.empty_hand=Your hand is empty!
 msg.error.bank_account_does_not_exist=That bank account does not exist!
+msg.error.not_enough_space_details=%needed% is too much. You can only fit %available%!
+msg.error.not_enough_space=Not enough space!
+msg.error.not_enough_money=You do not have enough money! The cost is %price% and your balance is only %balance%.
 
 msg.success=Success!
 msg.success.register_bank=Successfully registered the bank %bank%!
@@ -160,7 +163,27 @@ msg.success.register_corporation=Successfully registered the corporation "%compa
 msg.success.register_private_company=Successfully registered the private company "%companyName%" with ID %companyID%!
 msg.success.register_supply_chest=Successfully registered supply chest for %companyName%!
 msg.success.register_product=Successfully registered product "%productName%" for "%companyName%"!
+msg.success.register_company_bank_account=Successfully registered the bank account "%bankAccountName%" at "%bankName%" for "%companyName%"!
+msg.success.register_player_bank_account=Successfully registered the bank account "%bankAccountName%" at "%bankName%"!
 
 msg.chatdialog.register_product_name=Please enter the desired product name!
 msg.chatdialog.register_product_invalid_price=Invalid price! Please enter a valid price.
 msg.chatdialog.register_product_price=Please enter the desired price!
+
+# ========== GUI ==========
+
+gui.item.back=Back
+
+gui.title.bank_account_credits=Credits
+
+gui.title.bank_account=Bank Account - %bankAccountName%
+gui.item.bank_account.credits=$gui.title.bank_account_credits
+
+gui.title.bank_accounts=Bank Accounts
+
+gui.title.banks=Banks
+
+gui.title.buy_resource=Buy Resource - %resourceName%
+gui.item.buy_resource.sign=Buy Resource - %resourceName% - %resourcePrice%
+gui.item.buy_resource.custom_amount=Enter a custom amount
+gui.item.buy_resource.buy_amount=Buy %amount%

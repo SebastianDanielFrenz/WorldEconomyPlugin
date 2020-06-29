@@ -34,12 +34,11 @@ public abstract class MachineCraftingTable extends Machine {
 				@Override
 				public void event(InventoryClickEvent event) {
 				}
-			}, new CraftingTableDecorationGUIItem(2, 5), new CraftingTableDecorationGUIItem(2, 6),
-					new CraftingTableDecorationGUIItem(2, 7), new CraftingTableDecorationGUIItem(2, 8),
-					new CraftingTableDecorationGUIItem(3, 5), new CraftingTableDecorationGUIItem(4, 5),
+			}, new CraftingTableDecorationGUIItem(2, 5), new CraftingTableDecorationGUIItem(2, 6), new CraftingTableDecorationGUIItem(2, 7),
+					new CraftingTableDecorationGUIItem(2, 8), new CraftingTableDecorationGUIItem(3, 5), new CraftingTableDecorationGUIItem(4, 5),
 					new CraftingTableDecorationGUIItem(5, 5) }, "Crafting Table", event.getClickedBlock(),
-					new int[] { 9 * 3 + 6, 9 * 3 + 7, 9 * 3 + 8, 9 * 4 + 6, 9 * 4 + 7, 9 * 4 + 8, 9 * 5 + 6, 9 * 5 + 7,
-							9 * 5 + 8 }).openInventory(event.getPlayer());
+					new int[] { 9 * 3 + 6, 9 * 3 + 7, 9 * 3 + 8, 9 * 4 + 6, 9 * 4 + 7, 9 * 4 + 8, 9 * 5 + 6, 9 * 5 + 7, 9 * 5 + 8 },
+					event.getPlayer()).openInventory();
 		}
 	}
 

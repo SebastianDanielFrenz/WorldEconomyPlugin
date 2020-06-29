@@ -119,7 +119,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				return true;
 			}
 
-			new MainMenu().openInventory((Player) sender);
+			new MainMenu((Player) sender).openInventory();
 
 			return true;
 		} else {
@@ -174,7 +174,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 								((Player) sender).getInventory().addItem(creditCard);
 
-								sender.sendMessage(Lang.getError(sender, Lang.SUCCESS_REGISTER_BANK_ACCOUNT));
+								sender.sendMessage(Lang.getRegisteredPlayerBankAccount(sender, args[3], bank.name));
 								return true;
 							} else {
 								return true;
@@ -196,8 +196,8 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 									switch (args[3]) {
 									case "corporation":
-										sender.sendMessage(Lang.getRegisteredCorporation(sender, args[2],
-												WEDB.registerCorporation(name, (Player) sender)));
+										sender.sendMessage(
+												Lang.getRegisteredCorporation(sender, args[2], WEDB.registerCorporation(name, (Player) sender)));
 										break;
 									case "private":
 										sender.sendMessage(Lang.getRegisteredPrivateCompany(sender, args[2],
@@ -293,8 +293,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 								WEDB.registerProduct(manifacturer.ID, args[3], Double.parseDouble(args[4]), customItem);
 
-								sender.sendMessage(
-										Lang.getRegisteredProduct(sender, args[3], manifacturer.companyName));
+								sender.sendMessage(Lang.getRegisteredProduct(sender, args[3], manifacturer.companyName));
 								return true;
 							} else {
 								return true;
@@ -322,8 +321,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						} else {
 							try {
-								BankAccount account = WEDB
-										.getBankAccount(WEDB.getUserProfile((Player) sender).bankingID, args[2]);
+								BankAccount account = WEDB.getBankAccount(WEDB.getUserProfile((Player) sender).bankingID, args[2]);
 								if (account == null) {
 									sender.sendMessage(Lang.getError(sender, Lang.ERROR_BANK_ACCOUNT_DOES_NOT_EXIST));
 									return true;
@@ -334,16 +332,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										if (args[4].equalsIgnoreCase("balance")) {
 											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_BALANCE)) {
 												WEDB.setBankAccountBalance(account, Double.parseDouble(args[5]));
-												sender.sendMessage(
-														WorldEconomyPlugin.PREFIX + "The balance of your account \""
-																+ account.getName() + "\" was set to " + args[5] + "!");
+												sender.sendMessage(WorldEconomyPlugin.PREFIX + "The balance of your account \"" + account.getName()
+														+ "\" was set to " + args[5] + "!");
 											}
 											return true;
 										} else if (args[4].equalsIgnoreCase("name")) {
 											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME_CMD)) {
 												WEDB.setBankAccountName(account, args[5]);
-												sender.sendMessage(WorldEconomyPlugin.PREFIX
-														+ "Your bank account's name was changed from " + args[2]
+												sender.sendMessage(WorldEconomyPlugin.PREFIX + "Your bank account's name was changed from " + args[2]
 														+ " to " + args[5] + "!");
 											}
 											return true;
@@ -363,8 +359,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 									if (args[4].equalsIgnoreCase("take")) {
 										if (args.length >= 7) {
-											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD,
-													Age.LATE_MIDDLE_AGES)) {
+											if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD, Age.LATE_MIDDLE_AGES)) {
 												if (sender instanceof Player) {
 													Bank bank = WEDB.getBank(args[5]);
 													try {
@@ -372,19 +367,15 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 														Player player = (Player) sender;
 														UserProfile profile = WEDB.getUserProfile(player);
 
-														WEDB.takeCredit(new Credit(0, profile.bankingID, bank.ID,
-																amount, 1.0, 10 * 60,
-																player.getStatistic(Statistic.PLAY_ONE_TICK),
-																account.getID()), account);
+														WEDB.takeCredit(new Credit(0, profile.bankingID, bank.ID, amount, 1.0, 10 * 60,
+																player.getStatistic(Statistic.PLAY_ONE_TICK), account.getID()), account);
 														return true;
 													} catch (NumberFormatException e) {
-														sender.sendMessage(
-																WorldEconomyPlugin.PREFIX + "§4Invalid number!");
+														sender.sendMessage(Lang.getError(sender, Lang.ERROR_INVALID_NUMBER));
 														return true;
 													}
 												} else {
-													sender.sendMessage(WorldEconomyPlugin.PREFIX
-															+ "The only banking entities that can run commands and take credits are players!");
+													sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 													return true;
 												}
 											} else {
@@ -416,7 +407,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							try {
 								Company company = WEDB.getCompany(args[2]);
 								if (company == null) {
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4That company does not exist!");
+									sender.sendMessage(Lang.getCompanyDoesNotExist(sender, args[2]));
 									return true;
 								}
 
@@ -432,17 +423,15 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											return true;
 										}
 
-										if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD,
-												Age.LATE_MIDDLE_AGES)) {
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD, Age.LATE_MIDDLE_AGES)) {
 											Bank bank = WEDB.getBank(args[5]);
 											if (bank == null) {
-												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The bank \"" + args[2]
-														+ "\" does not exist!");
+												sender.sendMessage(Lang.getBankDoesNotExist(sender, args[2]));
 												return true;
 											}
 											WEDB.registerBankAccount(new BankAccount(0, company, bank.ID, 0, args[6]));
-											sender.sendMessage(WorldEconomyPlugin.PREFIX
-													+ "Registered company bank account \"" + args[5] + "\"!");
+
+											sender.sendMessage(Lang.getRegisteredCompanyBankAccount(sender, args[6], bank.name, company.companyName));
 										}
 										return true;
 									} else {
@@ -456,8 +445,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									}
 
 									if (args[4].equalsIgnoreCase("employees")) {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "Listing the employees of "
-												+ args[2] + ":");
+										sender.sendMessage(WorldEconomyPlugin.PREFIX + "Listing the employees of " + args[2] + ":");
 										ResultSet r = WorldEconomyPlugin.runSQLquery(
 												"SELECT employee_matching.employeeID, employees.employeeType, employee_matching.contractID FROM "
 														+ "(employee_matching LEFT JOIN employees ON employees.employeeID = employee_matching.employeeID) WHERE employee_matching.employerID = "
@@ -472,12 +460,10 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 											if (r.getString("employeeType").equals("player")) {
 												r_inner_employee = WorldEconomyPlugin.runSQLquery(
-														"SELECT username FROM user_profiles WHERE employeeID = "
-																+ r.getLong("employeeID"));
+														"SELECT username FROM user_profiles WHERE employeeID = " + r.getLong("employeeID"));
 												line = "player: " + r_inner_employee.getString("username");
 											} else {
-												sender.sendMessage(
-														WorldEconomyPlugin.PREFIX + "§4Invalid employee type!");
+												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid employee type!");
 												continue;
 											}
 
@@ -486,13 +472,10 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											line += contract.getType() + " - ";
 
 											if (contract instanceof ContractEmploymentDefault) {
-												line += "salary: "
-														+ String.valueOf(((ContractEmploymentDefault) contract).salary);
-												line += "; last salary: " + String
-														.valueOf(((ContractEmploymentDefault) contract).last_salary);
+												line += "salary: " + String.valueOf(((ContractEmploymentDefault) contract).salary);
+												line += "; last salary: " + String.valueOf(((ContractEmploymentDefault) contract).last_salary);
 											} else {
-												sender.sendMessage(
-														WorldEconomyPlugin.PREFIX + "§4Invalid contract type!");
+												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid contract type!");
 												continue;
 											}
 											sender.sendMessage(line);
@@ -507,35 +490,29 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
-									if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY,
-											Age.LATE_MIDDLE_AGES)) {
+									if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY, Age.LATE_MIDDLE_AGES)) {
 										String employeeType = args[4];
 										String employeeName = args[5];
 										long salary = Long.parseLong(args[6]);
 
 										if (employeeType.equals("player")) {
-											UserProfile profile = WEDB
-													.getUserProfile(Bukkit.getOfflinePlayer(employeeName));
+											UserProfile profile = WEDB.getUserProfile(Bukkit.getOfflinePlayer(employeeName));
 											if (profile == null) {
-												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The player \""
-														+ employeeName + "\" is not registered!");
+												sender.sendMessage(
+														WorldEconomyPlugin.PREFIX + "§4The player \"" + employeeName + "\" is not registered!");
 												return true;
 											}
 
-											int minutes_played = ((Player) sender)
-													.getStatistic(Statistic.PLAY_ONE_TICK);
+											int minutes_played = ((Player) sender).getStatistic(Statistic.PLAY_ONE_TICK);
 
-											ContractEmploymentDefault contract = new ContractEmploymentDefault(0,
-													salary, minutes_played);
+											ContractEmploymentDefault contract = new ContractEmploymentDefault(0, salary, minutes_played);
 											long contractID = WEDB.registerContract(contract);
 
-											WEDB.registerEmployment(company.companyEmployerID, profile.employeeID,
-													contractID);
+											WEDB.registerEmployment(company.companyEmployerID, profile.employeeID, contractID);
 
 											return true;
 										} else {
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid employee type \""
-													+ employeeType + "\"!");
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Invalid employee type \"" + employeeType + "\"!");
 											return true;
 										}
 									} else {
@@ -548,14 +525,12 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										return true;
 									}
 									if (args[4].equalsIgnoreCase("read")) {
-										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_READ,
-												Age.LATE_MIDDLE_AGES)) {
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_READ, Age.LATE_MIDDLE_AGES)) {
 											List<Mail> mails = WEDB.getMails(company, 10);
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "Listing at most 10 of "
-													+ company.companyName + "'s mails:");
+											sender.sendMessage(
+													WorldEconomyPlugin.PREFIX + "Listing at most 10 of " + company.companyName + "'s mails:");
 											for (int i = 0; i < 10 || i < mails.size(); i++) {
-												sender.sendMessage("[" + mails.get(i).ID + "]: Mail from "
-														+ mails.get(i).senderMailboxID + ":");
+												sender.sendMessage("[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
 												sender.sendMessage(mails.get(i).message);
 											}
 											return true;
@@ -567,8 +542,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 											return true;
 										}
-										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_REMOVE,
-												Age.LATE_MIDDLE_AGES)) {
+										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_REMOVE, Age.LATE_MIDDLE_AGES)) {
 											WEDB.removeMail(Long.parseLong(args[5]), company.mailboxID);
 											return true;
 										} else {
@@ -645,7 +619,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						} catch (SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "An internal error occured!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 							return true;
 						}
 					} else {
@@ -676,8 +650,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									return true;
 								}
 							} else {
-								sender.sendMessage(
-										WorldEconomyPlugin.PREFIX + "§4Item data in /we give not implemented yet!");
+								sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Item data in /we give not implemented yet!");
 								return true;
 							}
 
@@ -687,8 +660,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							return true;
 						}
 					} else {
-						sender.sendMessage(WorldEconomyPlugin.PREFIX
-								+ "§4You need to be a player in order to give yourself items!");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 						return true;
 					}
 				}
@@ -697,8 +669,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 			else if (args[0].equalsIgnoreCase("reset")) {
 				if (sender instanceof ConsoleCommandSender) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "Resetting...");
-					Bukkit.broadcastMessage(
-							WorldEconomyPlugin.PREFIX + "§4§kxxx §4§lWARNING! RESETTING THE ENTIRE ECONOMY! §kxxx");
+					Bukkit.broadcastMessage(WorldEconomyPlugin.PREFIX + "§4§kxxx §4§lWARNING! RESETTING THE ENTIRE ECONOMY! §kxxx");
 					try {
 						WorldEconomyPlugin.resetDB();
 						sender.sendMessage(WorldEconomyPlugin.PREFIX + "Done!");
@@ -708,8 +679,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							Bukkit.getScheduler().runTaskLater(WorldEconomyPlugin.plugin, new Runnable() {
 								@Override
 								public void run() {
-									player.kickPlayer(WorldEconomyPlugin.PREFIX
-											+ "Please relog in order for the economy to register you!");
+									player.kickPlayer(WorldEconomyPlugin.PREFIX + "Please relog in order for the economy to register you!");
 								}
 							}, 20 * 15);
 						}
@@ -718,8 +688,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					}
 					return true;
 				} else {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "§4For security reasons, you need to use the server console to run this command!");
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4For security reasons, you need to use the server console to run this command!");
 					return true;
 				}
 			} else if (args[0].equalsIgnoreCase("setblock")) {
@@ -749,17 +718,16 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											dataConstructor = block.blockDataType.getConstructor(String.class);
 										} catch (NoSuchMethodException e) {
 											e.printStackTrace();
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
-													+ ") blockdata type (" + block.blockDataType.getCanonicalName()
-													+ ") does not have the constructor " + block.blockDataType.getName()
-													+ "(String)!");
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID + ") blockdata type ("
+													+ block.blockDataType.getCanonicalName() + ") does not have the constructor "
+													+ block.blockDataType.getName() + "(String)!");
 											finished = true;
 											return;
 										} catch (SecurityException e) {
 											e.printStackTrace();
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID
-													+ ") blockdata type (" + block.blockDataType.getCanonicalName()
-													+ ") does not have the constructor " + block.blockDataType.getName()
+											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The block's (" + block.ID + ") blockdata type ("
+													+ block.blockDataType.getCanonicalName() + ") does not have the constructor "
+													+ block.blockDataType.getName()
 													+ "(String) with modifier public. The constructor could not be accessed!");
 											finished = true;
 											return;
@@ -779,10 +747,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										} else {
 											try {
 												data = dataConstructor.newInstance(args[2]);
-											} catch (InstantiationException | IllegalAccessException
-													| IllegalArgumentException | InvocationTargetException e) {
-												sender.sendMessage(
-														WorldEconomyPlugin.PREFIX + "§4An internal error occurred!");
+											} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+													| InvocationTargetException e) {
+												sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occurred!");
 												finished = true;
 												return;
 											}
@@ -805,9 +772,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											finished = true;
 											return;
 										} else {
-											CustomBlockType.placeBlock(
-													((BlockCommandSender) sender).getBlock().getLocation(), block,
-													data);
+											CustomBlockType.placeBlock(((BlockCommandSender) sender).getBlock().getLocation(), block, data);
 											finished = true;
 											return;
 										}
@@ -875,17 +840,16 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						return true;
 					}
 					if (!(sender instanceof Player)) {
-						sender.sendMessage(
-								WorldEconomyPlugin.PREFIX + "§4You have to be a player to run this command!");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 						return true;
 					}
 					if (hasPermission(sender, Permissions.SCHEM_SAVE)) {
 						try {
 							BuildingIO.save(args[2], ((Player) sender).getLocation(),
-									new Location(((Player) sender).getWorld(), Integer.parseInt(args[3]),
-											Integer.parseInt(args[4]), Integer.parseInt(args[5])),
-									new Location(((Player) sender).getWorld(), Integer.parseInt(args[6]),
-											Integer.parseInt(args[7]), Integer.parseInt(args[8])));
+									new Location(((Player) sender).getWorld(), Integer.parseInt(args[3]), Integer.parseInt(args[4]),
+											Integer.parseInt(args[5])),
+									new Location(((Player) sender).getWorld(), Integer.parseInt(args[6]), Integer.parseInt(args[7]),
+											Integer.parseInt(args[8])));
 						} catch (NumberFormatException | IOException e) {
 							e.printStackTrace();
 							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
@@ -900,8 +864,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						return true;
 					}
 					if (!(sender instanceof Player)) {
-						sender.sendMessage(
-								WorldEconomyPlugin.PREFIX + "§4You have to be a player to run this command!");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 						return true;
 					}
 					if (hasPermission(sender, Permissions.SCHEM_LOAD)) {
@@ -909,7 +872,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							BuildingIO.load(args[2], ((Player) sender).getLocation());
 						} catch (InstantiationException | IllegalAccessException | IOException | SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error ocurred!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 						}
 						return true;
 					} else {
@@ -971,15 +934,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					if (hasPermission(sender, Permissions.ASCEND_OTHERS)) {
 						Player player = Bukkit.getPlayer(args[1]);
 						if (player == null) {
-							sender.sendMessage(
-									WorldEconomyPlugin.PREFIX + "§4The player " + args[1] + " is not online!");
+							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The player " + args[1] + " is not online!");
 							return true;
 						}
 						try {
 							profile = WEDB.getUserProfile(player);
 						} catch (SQLException e) {
 							e.printStackTrace();
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error ocurred!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_INTERNAL));
 							return true;
 						}
 					} else {
@@ -1047,8 +1009,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register bank <name>");
 				}
 				if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT_CMD, Age.LATE_MIDDLE_AGES, false)) {
-					sender.sendMessage(
-							WorldEconomyPlugin.PREFIX + "/we register bank_account <bank name> <bank account name>");
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register bank_account <bank name> <bank account name>");
 				}
 				if (hasPermission(sender, Permissions.REGISTER_COMPANY_CMD, Age.LATE_MIDDLE_AGES, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register company <name> <company type>");
@@ -1057,34 +1018,28 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register supply_chest <owner company name>");
 				}
 				if (hasPermission(sender, Permissions.REGISTER_PRODUCT_CMD, Age.LATE_MIDDLE_AGES, false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we register product <manifacturing company name> <product name> <MSRP>");
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we register product <manifacturing company name> <product name> <MSRP>");
 				}
 				if (hasPermission(sender, Permissions.LIST, false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we list <banks/companies/user_profiles/supply_chests/bank_accounts/products/chests>");
+					sender.sendMessage(
+							WorldEconomyPlugin.PREFIX + "/we list <banks/companies/user_profiles/supply_chests/bank_accounts/products/chests>");
 				}
 				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_BALANCE, Age.LATE_MIDDLE_AGES, false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we manage bank_account <bank account name> set balance <balance>");
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we manage bank_account <bank account name> set balance <balance>");
 				}
 				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME_CMD, Age.LATE_MIDDLE_AGES, false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we manage bank_account <bank account name> set name <new bank account name>");
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we manage bank_account <bank account name> set name <new bank account name>");
 				}
-				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD, Age.LATE_MIDDLE_AGES,
-						false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we manage bank_account <bank account name> credit take <bank> <amount>");
+				if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD, Age.LATE_MIDDLE_AGES, false)) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we manage bank_account <bank account name> credit take <bank> <amount>");
 				}
-				if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD, Age.LATE_MIDDLE_AGES,
-						false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we manage company <company name> register bank_account <bank name> <bank account name>");
+				if (hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD, Age.LATE_MIDDLE_AGES, false)) {
+					sender.sendMessage(
+							WorldEconomyPlugin.PREFIX + "/we manage company <company name> register bank_account <bank name> <bank account name>");
 				}
 				if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY, Age.LATE_MIDDLE_AGES, false)) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX
-							+ "/we manage company <company name> employ <employee type> <employee name> <salary>");
+					sender.sendMessage(
+							WorldEconomyPlugin.PREFIX + "/we manage company <company name> employ <employee type> <employee name> <salary>");
 				}
 				if (hasPermission(sender, Permissions.MAIL_READ, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we mail read");
@@ -1099,8 +1054,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we setblock <block> <# for dialog|data>");
 				}
 				if (hasPermission(sender, Permissions.SCHEM_SAVE, false)) {
-					sender.sendMessage(
-							WorldEconomyPlugin.PREFIX + "/we schem save <filename> <x> <y> <z> <x2> <y2> <z2>");
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we schem save <filename> <x> <y> <z> <x2> <y2> <z2>");
 				}
 				if (hasPermission(sender, Permissions.SCHEM_LOAD, false)) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "/we schem load <filename>");

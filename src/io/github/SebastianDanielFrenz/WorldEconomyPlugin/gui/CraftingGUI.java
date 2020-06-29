@@ -29,8 +29,8 @@ public class CraftingGUI extends WEGUI {
 	protected int[] recipes_representing_slots;
 	private Block machine;
 
-	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, Block machineBlock, int[] inv_representing_slots) {
-		super(parent, items, title);
+	public CraftingGUI(CraftingGUI parent, GUIItem[] items, String title, Block machineBlock, int[] inv_representing_slots, Player player) {
+		super(parent, items, title, player);
 
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlockType.getMetadata(machineBlock).getBlockData()).getInventory(),
@@ -38,8 +38,8 @@ public class CraftingGUI extends WEGUI {
 		machine = machineBlock;
 	}
 
-	public CraftingGUI(GUIItem[] items, String title, Block machineBlock, int[] inv_representing_slots) {
-		super(items, title);
+	public CraftingGUI(GUIItem[] items, String title, Block machineBlock, int[] inv_representing_slots, Player player) {
+		super(items, title, player);
 		// this.inv_representing_slots = inv_representing_slots;
 		this.inv_representing_slots = inv_representing_slots;
 		storage_inv = new MachineInventory(((CustomBlockMachineData) CustomBlockType.getMetadata(machineBlock).getBlockData()).getInventory(),

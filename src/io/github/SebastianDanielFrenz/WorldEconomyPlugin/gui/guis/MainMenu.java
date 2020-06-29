@@ -13,8 +13,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 
 public class MainMenu extends WEGUI {
 
-	public MainMenu() {
-		super(new GUIItem[] {}, "World Economy");
+	public MainMenu(Player player) {
+		super(new GUIItem[] {}, "World Economy", player);
 		MainMenu _this = this;
 
 		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.SIGN, "Main Menu")) {
@@ -40,42 +40,39 @@ public class MainMenu extends WEGUI {
 
 				player.closeInventory(); // not sure weather this handles the
 											// inventory close event or not
-				new BanksGUI(_this).openInventory(player);
+				new BanksGUI(_this).openInventory();
 			}
 		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, "My Bank Accounts"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new BankAccountsGUI(_this, (Player) event.getWhoClicked())
-						.openInventory((Player) event.getWhoClicked());
+				new BankAccountsGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
 		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, "Register Bank Account"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked())
-						.openInventory((Player) event.getWhoClicked());
+				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
 		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, "Transfer Money"), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new TransferMoneyGUI(_this, (Player) event.getWhoClicked())
-						.openInventory((Player) event.getWhoClicked());
+				new TransferMoneyGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
 		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, "Companies"), Age.LATE_MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				new CompaniesGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
+				new CompaniesGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
 		}, new GUIItem(1, 3, mkItem(Material.GLASS_BOTTLE, 1, 0, "§aResearch")) {
 
 			@Override
 			public void event(InventoryClickEvent event) {
-				new ResearchGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
+				new ResearchGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
 		}, new GUIItem(1, 4, mkItem(Material.PAPER, "§eStock Market"), Age.LATE_MIDDLE_AGES) {
 
 			@Override
 			public void event(InventoryClickEvent event) {
-				new StockMarketGUI(_this, (Player) event.getWhoClicked()).openInventory((Player) event.getWhoClicked());
+				new StockMarketGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
 		}
 

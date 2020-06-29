@@ -14,6 +14,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
@@ -48,13 +49,13 @@ public class WEGUI implements InventoryHolder {
 
 			ItemStack backButtonItem = mkItem(Material.WOOL, 1, 14, "Back");
 			ItemMeta meta = backButtonItem.getItemMeta();
-			meta.setDisplayName("§4Back");
+			meta.setDisplayName("§4" + Lang.get(player, Lang.GUI_ITEM_BACK));
 			backButtonItem.setItemMeta(meta);
 
 			items2[items.length] = new GUIItem(0, 8, backButtonItem) {
 				@Override
 				public void event(InventoryClickEvent event) {
-					parent.openInventory((Player) event.getWhoClicked());
+					parent.openInventory();
 					WEGUIRegistry.GUIs.add(parent);
 				}
 			};
@@ -64,14 +65,19 @@ public class WEGUI implements InventoryHolder {
 	}
 
 	public WEGUI parent;
+	public Player player;
 
-	public WEGUI(GUIItem[] items) {
+	public WEGUI(GUIItem[] items, Player player) {
+		this.player = player;
+
 		inv = Bukkit.createInventory(this, 54);
 
 		WEGUIRegistry.GUIs.add(this);
 	}
 
-	public WEGUI(WEGUI parent, GUIItem[] items, String title) {
+	public WEGUI(WEGUI parent, GUIItem[] items, String title, Player player) {
+		this.player = player;
+
 		inv = Bukkit.createInventory(this, 54, title);
 
 		GUIItem[] items2 = new GUIItem[items.length + 1];
@@ -85,13 +91,13 @@ public class WEGUI implements InventoryHolder {
 
 		ItemStack backButtonItem = new ItemStack(Material.WOOL, 1, (short) 14);
 		ItemMeta meta = backButtonItem.getItemMeta();
-		meta.setDisplayName("§4Back");
+		meta.setDisplayName("§4" + Lang.get(player, Lang.GUI_ITEM_BACK));
 		backButtonItem.setItemMeta(meta);
 
 		items2[items.length] = new GUIItem(0, 8, backButtonItem) {
 			@Override
 			public void event(InventoryClickEvent event) {
-				parent.openInventory((Player) event.getWhoClicked());
+				parent.openInventory();
 				WEGUIRegistry.GUIs.add(parent);
 			}
 		};
@@ -99,7 +105,9 @@ public class WEGUI implements InventoryHolder {
 		WEGUIRegistry.GUIs.add(this);
 	}
 
-	public WEGUI(GUIItem[] items, String title) {
+	public WEGUI(GUIItem[] items, String title, Player player) {
+		this.player = player;
+
 		inv = Bukkit.createInventory(this, 54, title);
 
 		this.items = items;
@@ -238,7 +246,7 @@ public class WEGUI implements InventoryHolder {
 	}
 
 	// You can open the inventory with this
-	public void openInventory(Player player) {
+	public void openInventory() {
 		try {
 			items = processRequirements(items, WEDB.getUserProfile(player).getAge());
 		} catch (SQLException e) {
