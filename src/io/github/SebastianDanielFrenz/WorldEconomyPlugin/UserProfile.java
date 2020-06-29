@@ -26,17 +26,19 @@ public class UserProfile extends PlayingEntity implements MailboxOwner, Research
 
 	public long mailboxID;
 
-	public UserProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID, long mailboxID,
-			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness, boolean religious,
-			double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
-		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction, endurance, max_endurance,
-				in_heaven, heaven_time_end_millis, age);
+	public UserProfile(long ID, UUID uuid, long employeeID, long employerID, String username, long bankingID,
+			long mailboxID, Set<EmployeeProfession> professions, double health, double maxHealth, double saturation,
+			double happyness, boolean religious, double religious_satisfaction, double endurance, double max_endurance,
+			boolean in_heaven, long heaven_time_end_millis, Age age) {
+		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction,
+				endurance, max_endurance, in_heaven, heaven_time_end_millis, age);
 
 		this.ID = ID;
 		this.uuid = uuid;
 		this.employerID = employerID;
 		this.username = username;
 		this.bankingID = bankingID;
+		this.employeeID = employeeID;
 
 		this.mailboxID = mailboxID;
 	}

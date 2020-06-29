@@ -21,7 +21,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.Bank;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
@@ -530,9 +529,10 @@ public class WEDB {
 				+ ", " + CEO_employeeID + ")");
 
 		Employee CEO = getEmployee(CEO_employeeID);
+
 		if (CEO instanceof EmployeePlayer) {
 			sendMail(0, getUserProfile(((EmployeePlayer) CEO).playerUUID).mailboxID,
-					"Please remember to register a bank account called \"shop_income\" for your company in order to be able to use shops!");
+					"Please remember to register a bank account called shop_income for your company in order to be able to use shops!");
 		} else if (CEO instanceof EmployeeAI) {
 			throw new NotImplementedException(
 					"There will be no automatic informing of AIs on their ToDos because they cannot actually read mails!"
@@ -560,7 +560,7 @@ public class WEDB {
 				+ ", " + getUserProfile(owner).employeeID + ")");
 
 		sendMail(0, getUserProfile(owner).mailboxID,
-				"Please remember to register a bank account called \"shop_income\" for your company in order to be able to use shops!");
+				"Please remember to register a bank account called shop_income for your company in order to be able to use shops!");
 
 		return companyID;
 	}
@@ -814,14 +814,18 @@ public class WEDB {
 
 	public static Employee getEmployee(long ID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT * FROM employees WHERE employeeID = " + ID);
+		r.next();
+
+		System.out.println("employeeID=" + ID);
+
 		if (r.getString("employeeType").equals("player")) {
 			ResultSet r2 = WorldEconomyPlugin
 					.runSQLquery("SELECT playerUUID FROM user_profiles WHERE employeeID = " + ID);
-			return new EmployeePlayer(ID, r.getLong("employeeLastResearch"),
+			return new EmployeePlayer(ID, r.getLong("employeeLastResearched"),
 					UUID.fromString(r2.getString("playerUUID")));
 		} else if (r.getString("employeeType").equals("AI")) {
 			ResultSet r2 = WorldEconomyPlugin.runSQLquery("SELECT aiID FROM ai_profiles WHERE employeeID = " + ID);
-			return new EmployeeAI(ID, r.getLong("employeeLastResearch"), r2.getLong("aiID"));
+			return new EmployeeAI(ID, r.getLong("employeeLastResearched"), r2.getLong("aiID"));
 		} else {
 			throw new RuntimeException("Invalid employee type \"" + r.getString("employeeType") + "\"!");
 		}
@@ -1014,8 +1018,6 @@ public class WEDB {
 			if (chestBlock.getType() == Material.CHEST) {
 				Chest chest = (Chest) chestBlock.getState();
 				Inventory chestInv = chest.getBlockInventory();
-
-				Material productMaterial = Material.getMaterial(product.itemID);
 
 				// test for working
 				// banking

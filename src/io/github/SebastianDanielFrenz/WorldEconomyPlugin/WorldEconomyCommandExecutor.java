@@ -221,13 +221,8 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					} else if (args[1].equalsIgnoreCase("supply_chest")) {
 						if (args.length > 2) {
 							if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST_CMD, Age.LATE_MIDDLE_AGES)) {
-								Set<Material> searched_types = new TreeSet<Material>();
-								searched_types.add(Material.CHEST);
-
-								List<Block> blocks = ((Player) sender).getLineOfSight(searched_types, 5);
-								if (blocks.size() > 0) {
-									Block block = blocks.get(0);
-
+								Block block = ((Player) sender).getTargetBlock(null, 5);
+								if (block != null) {
 									if (block.getType() == Material.CHEST) {
 										try {
 											Company company = WEDB.getCompany(args[2]);
@@ -237,9 +232,14 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 												return true;
 											}
 
-											sender.sendMessage(WorldEconomyPlugin.PREFIX
-													+ "Successfully registered supply chest with ID "
-													+ WEDB.registerSupplyChest(block.getLocation(), company.ID) + "!");
+											// long supplyChestID =
+											// WEDB.registerSupplyChest(block.getLocation(),
+											// company.ID);
+
+											WEDB.registerSupplyChest(block.getLocation(), company.ID);
+
+											sender.sendMessage(Lang.getRegisteredSupplyChest(sender, company));
+
 											return true;
 										} catch (SQLException e) {
 											e.printStackTrace();
@@ -247,24 +247,23 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											return true;
 										}
 									} else {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "Please look at a chest.");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_LOOK_AT_CHEST));
 										return true;
 									}
 								} else {
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "Please move closer.");
+									sender.sendMessage(Lang.getError(sender, Lang.ERROR_MOVE_CLOSER));
 									return true;
 								}
 							} else {
 								return true;
 							}
 						} else {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 							return true;
 						}
 					} else if (args[1].equalsIgnoreCase("product")) {
 						if (!(sender instanceof Player)) {
-							sender.sendMessage(
-									WorldEconomyPlugin.PREFIX + "§4You have to be a player to register an item!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 							return true;
 						}
 						try {
@@ -278,19 +277,24 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 								Company manifacturer = WEDB.getCompany(args[2]);
 
 								if (manifacturer == null) {
-									sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4The company \"" + args[2]
-											+ "\" does not exist!");
+									sender.sendMessage(Lang.getCompanyDoesNotExist(sender, args[2]));
 									return true;
 								}
 
 								if (customItem == null) {
-
+									sender.sendMessage(Lang.getError(sender, Lang.ERROR_EMPTY_HAND));
+									return true;
 								}
 
-								sender.sendMessage(WorldEconomyPlugin.PREFIX + "Registered product with ID "
-										+ WEDB.registerProduct(manifacturer.ID, args[3], Double.parseDouble(args[4]),
-												customItem)
-										+ "!");
+								// long productID =
+								// WEDB.registerProduct(manifacturer.ID,
+								// args[3],
+								// Double.parseDouble(args[4]), customItem);
+
+								WEDB.registerProduct(manifacturer.ID, args[3], Double.parseDouble(args[4]), customItem);
+
+								sender.sendMessage(
+										Lang.getRegisteredProduct(sender, args[3], manifacturer.companyName));
 								return true;
 							} else {
 								return true;
@@ -309,20 +313,19 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 			} else if (args[0].equalsIgnoreCase("manage")) {
 				if (args.length == 1) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 					return true;
 				} else {
 					if (args[1].equalsIgnoreCase("bank_account")) {
 						if (args.length == 3) {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 							return true;
 						} else {
 							try {
 								BankAccount account = WEDB
 										.getBankAccount(WEDB.getUserProfile((Player) sender).bankingID, args[2]);
 								if (account == null) {
-									sender.sendMessage(
-											WorldEconomyPlugin.PREFIX + "§4That bank account does not exist!");
+									sender.sendMessage(Lang.getError(sender, Lang.ERROR_BANK_ACCOUNT_DOES_NOT_EXIST));
 									return true;
 								}
 
@@ -349,12 +352,12 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 											return false;
 										}
 									} else {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguements!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 								} else if (args[3].equalsIgnoreCase("credit")) {
 									if (args.length == 4) {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 
@@ -388,11 +391,11 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 												return true;
 											}
 										} else {
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+											sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 											return true;
 										}
 									} else {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 								} else {
@@ -407,7 +410,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						}
 					} else if (args[1].equalsIgnoreCase("company")) {
 						if (args.length == 3) {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 							return true;
 						} else {
 							try {
@@ -419,13 +422,13 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 								if (args[3].equalsIgnoreCase("register")) {
 									if (args.length == 4) {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 
 									if (args[4].equalsIgnoreCase("bank_account")) {
 										if (args.length < 7) {
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+											sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 											return true;
 										}
 
@@ -448,7 +451,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									}
 								} else if (args[3].equalsIgnoreCase("list")) {
 									if (args.length == 4) {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 
@@ -501,7 +504,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 									}
 								} else if (args[3].equalsIgnoreCase("employ")) {
 									if (args.length < 7) {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 									if (hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY,
@@ -541,7 +544,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 								} else if (args[3].equalsIgnoreCase("mail")) {
 									if (args.length == 4) {
-										sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+										sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 										return true;
 									}
 									if (args[4].equalsIgnoreCase("read")) {
@@ -561,7 +564,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 										}
 									} else if (args[4].equalsIgnoreCase("remove")) {
 										if (args.length == 5) {
-											sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+											sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 											return true;
 										}
 										if (hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_REMOVE,
@@ -592,7 +595,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("SQL")) {
 				if (args.length == 1) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 					return true;
 				}
 				if (args[1].equalsIgnoreCase("run")) {
@@ -617,7 +620,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("mail")) {
 				if (args.length == 1) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 					return true;
 				}
 				if (args[1].equalsIgnoreCase("read")) {
@@ -629,7 +632,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					}
 				} else if (args[1].equalsIgnoreCase("remove")) {
 					if (args.length == 2) {
-						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 						return true;
 					}
 					if (hasPermission(sender, Permissions.MAIL_REMOVE)) {
@@ -654,7 +657,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("give")) {
 				if (args.length == 1) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 					return true;
 				} else {
 					if (sender instanceof Player) {
@@ -726,7 +729,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				} else {
 					if (hasPermission(sender, Permissions.BLOCK_SET_CMD)) {
 						if (args.length == 1) {
-							sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+							sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 							return true;
 						} else {
 							String ID = args[1];
@@ -864,11 +867,11 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("schem")) {
 				if (args.length == 1) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 					return true;
 				} else if (args[1].equalsIgnoreCase("save")) {
 					if (args.length < 9) {
-						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 						return true;
 					}
 					if (!(sender instanceof Player)) {
@@ -893,7 +896,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					}
 				} else if (args[1].equalsIgnoreCase("load")) {
 					if (args.length < 3) {
-						sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 						return true;
 					}
 					if (!(sender instanceof Player)) {
@@ -927,7 +930,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 			else if (args[0].equalsIgnoreCase("benchmark")) {
 				if (args.length == 1) {
-					sender.sendMessage(WorldEconomyPlugin.PREFIX + "§4Not enough arguments!");
+					sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_ENOUGH_ARGUMENTS));
 					return true;
 				}
 

@@ -149,10 +149,18 @@ msg.error.company_does_not_exist=The company "%companyName%" does not exist!
 msg.error.hand_empty=Your hand is empty!
 msg.error.product_already_exists=The product already exists!
 msg.error.invalid_number=Invalid number!
+msg.error.look_at_chest=Please look at a chest!
+msg.error.move_closer=Please move closer!
+msg.error.empty_hand=Your hand is empty!
+msg.error.bank_account_does_not_exist=That bank account does not exist!
+
 msg.success=Success!
 msg.success.register_bank=Successfully registered the bank %bank%!
 msg.success.register_corporation=Successfully registered the corporation "%companyName%" with ID %companyID%!
 msg.success.register_private_company=Successfully registered the private company "%companyName%" with ID %companyID%!
+msg.success.register_supply_chest=Successfully registered supply chest for %companyName%!
+msg.success.register_product=Successfully registered product "%productName%" for "%companyName%"!
+
 msg.chatdialog.register_product_name=Please enter the desired product name!
 msg.chatdialog.register_product_invalid_price=Invalid price! Please enter a valid price.
 msg.chatdialog.register_product_price=Please enter the desired price!

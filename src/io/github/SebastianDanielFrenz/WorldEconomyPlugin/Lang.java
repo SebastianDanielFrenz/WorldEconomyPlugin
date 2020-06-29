@@ -108,18 +108,31 @@ public class Lang {
 	public static final String ERROR_ACCESSING_FUTURE = "accessing_future";
 	public static final String ERROR_INSUFFICIENT_PERMISSION = "insufficient_permission";
 	public static final String ERROR_NOT_A_PLAYER = "not_a_player";
+	@Deprecated
 	public static final String ERROR_BANK_DOES_NOT_EXIST = "bank_does_not_exist";
+	@Deprecated
 	public static final String ERROR_INVALID_COMPANY_TYPE = "invalid_company_type";
+	@Deprecated
 	public static final String ERROR_COMPANY_DOES_NOT_EXIST = "company_does_not_exist";
 	public static final String ERROR_HAND_EMPTY = "hand_empty";
 	public static final String ERROR_ILLEGAL_ITEM = "illegal_item";
 	public static final String ERROR_PRODUCT_ALREADY_EXISTS = "product_already_exists";
 	public static final String ERROR_INVALID_NUMBER = "invalid_number";
+	public static final String ERROR_LOOK_AT_CHEST = "look_at_chest";
+	public static final String ERROR_MOVE_CLOSER = "move_closer";
+	public static final String ERROR_EMPTY_HAND = "empty_hand";
+	public static final String ERROR_BANK_ACCOUNT_DOES_NOT_EXIST = "bank_account_does_not_exist";
 
 	public static final String SUCCESS_REGISTER_BANK = "register_bank";
 	public static final String SUCCESS_REGISTER_BANK_ACCOUNT = "register_bank_account";
+	@Deprecated
 	public static final String SUCCESS_REGISTER_CORPORATION = "register_corporation";
+	@Deprecated
 	public static final String SUCCESS_REGISTER_PRIVATE_COMPANY = "register_private_company";
+	@Deprecated
+	public static final String SUCCESS_REGISTER_SUPPLY_CHEST = "register_supply_chest";
+	@Deprecated
+	public static final String SUCCESS_REGISTER_PRODUCT = "register_product";
 
 	public static final String CHATDIALOG_REGISTER_PRODUCT_NAME = "register_product_name";
 	public static final String CHATDIALOG_REGISTER_PRODUCT_PRICE = "register_product_price";
@@ -172,8 +185,8 @@ public class Lang {
 	}
 
 	public static String getRegisteredPrivateCompany(CommandSender sender, String company_name, long companyID) {
-		return WorldEconomyPlugin.PREFIX + "§a" + get(sender, Lang.SUCCESS_REGISTER_PRIVATE_COMPANY)
-				.replace("%companyName%", company_name).replace("%companyID%", String.valueOf(companyID));
+		return getSuccess(sender, Lang.SUCCESS_REGISTER_PRIVATE_COMPANY).replace("%companyName%", company_name)
+				.replace("%companyID%", String.valueOf(companyID));
 	}
 
 	public static String getInvalidCompanyType(CommandSender sender, String companyType) {
@@ -188,6 +201,19 @@ public class Lang {
 
 	public static String getChatDialog(CommandSender sender, String chatDialogTextID) {
 		return WorldEconomyPlugin.PREFIX + get(sender, "msg.chatdialog." + chatDialogTextID);
+	}
+
+	public static String getRegisteredSupplyChest(CommandSender sender, String companyName) {
+		return getSuccess(sender, Lang.SUCCESS_REGISTER_SUPPLY_CHEST).replace("%companyName%", companyName);
+	}
+
+	public static String getRegisteredSupplyChest(CommandSender sender, Company company) {
+		return getRegisteredSupplyChest(sender, company.companyName);
+	}
+
+	public static String getRegisteredProduct(CommandSender sender, String productName, String companyName) {
+		return getSuccess(sender, Lang.SUCCESS_REGISTER_PRODUCT).replace("%productName%", productName)
+				.replace("%companyName%", companyName);
 	}
 
 }
