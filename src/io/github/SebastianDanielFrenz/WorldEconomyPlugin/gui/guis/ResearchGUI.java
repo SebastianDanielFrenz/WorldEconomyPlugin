@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
@@ -16,7 +17,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class ResearchGUI extends WEGUI {
 
 	public ResearchGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, "Research");
+		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_RESEARCH), player);
 
 		WEGUI _this = this;
 
@@ -30,7 +31,7 @@ public class ResearchGUI extends WEGUI {
 
 						@Override
 						public void event(InventoryClickEvent event) {
-							new ResearchAgeGUI(_this, age, profile).openInventory(player);
+							new ResearchAgeGUI(_this, age, profile, player).openInventory();
 						}
 					});
 					slot++;

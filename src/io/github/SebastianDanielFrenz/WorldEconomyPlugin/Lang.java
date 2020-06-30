@@ -19,8 +19,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 
 public class Lang {
 
-	public static String getLanguage(Player p) throws IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchFieldException, SecurityException {
+	public static String getLanguage(Player p)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException, SecurityException {
 		Object ep = getMethod("getHandle", p.getClass()).invoke(p, (Object[]) null);
 		Field f = ep.getClass().getDeclaredField("locale");
 		f.setAccessible(true);
@@ -31,8 +31,7 @@ public class Lang {
 	public static String getLanguageSafe(Player p) {
 		try {
 			return getLanguage(p);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException
-				| SecurityException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 			return "en_us";
 		}
@@ -153,6 +152,8 @@ public class Lang {
 
 	public static final String GUI_TITLE_RESEARCH = "gui.title.research";
 
+	public static final String GUI_ITEM_SELL_RESOURCE__CUSTOM_AMOUNT = "gui.item.sell_resource.custom_amount";
+
 	public static final String OTHER_PLAYER = "other.player";
 	public static final String OTHER_AI = "other.ai";
 	public static final String OTHER_CORPORATION = "other.corporation";
@@ -199,33 +200,30 @@ public class Lang {
 	}
 
 	public static String getRegisteredCorporation(CommandSender sender, String company_name, long companyID) {
-		return WorldEconomyPlugin.PREFIX + "§a" + get(sender, "register_corporation")
-				.replace("%companyName%", company_name).replace("%companyID%", String.valueOf(companyID));
+		return WorldEconomyPlugin.PREFIX + "§a"
+				+ get(sender, "register_corporation").replace("%companyName%", company_name).replace("%companyID%", String.valueOf(companyID));
 	}
 
 	public static String getRegisteredPrivateCompany(CommandSender sender, String company_name, long companyID) {
-		return getSuccess(sender, "register_private_company").replace("%companyName%", company_name)
-				.replace("%companyID%", String.valueOf(companyID));
+		return getSuccess(sender, "register_private_company").replace("%companyName%", company_name).replace("%companyID%",
+				String.valueOf(companyID));
 	}
 
 	public static String getInvalidCompanyType(CommandSender sender, String companyType) {
-		return WorldEconomyPlugin.PREFIX + "§4"
-				+ get(sender, "invalid_company_type").replace("%companyType%", companyType);
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "invalid_company_type").replace("%companyType%", companyType);
 	}
 
 	public static String getCompanyDoesNotExist(CommandSender sender, String companyName) {
-		return WorldEconomyPlugin.PREFIX + "§4"
-				+ get(sender, "company_does_not_exist").replace("%companyName%", companyName);
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "company_does_not_exist").replace("%companyName%", companyName);
 	}
 
 	public static String getNotEnoughSpaceDetailed(CommandSender sender, long available, long needed) {
-		return getError(sender, "not_enough_space_details").replace("%needed%", String.valueOf(needed))
-				.replace("%available%", String.valueOf(available));
+		return getError(sender, "not_enough_space_details").replace("%needed%", String.valueOf(needed)).replace("%available%",
+				String.valueOf(available));
 	}
 
 	public static String getNotEnoughMoney(CommandSender sender, double balance, double price) {
-		return getError(sender, "not_enough_money").replace("%balance%", String.valueOf(balance)).replace("%price%",
-				String.valueOf(price));
+		return getError(sender, "not_enough_money").replace("%balance%", String.valueOf(balance)).replace("%price%", String.valueOf(price));
 	}
 
 	public static String getChatDialog(CommandSender sender, String chatDialogTextID) {
@@ -241,19 +239,16 @@ public class Lang {
 	}
 
 	public static String getRegisteredProduct(CommandSender sender, String productName, String companyName) {
-		return getSuccess(sender, "register_product").replace("%productName%", productName).replace("%companyName%",
-				companyName);
+		return getSuccess(sender, "register_product").replace("%productName%", productName).replace("%companyName%", companyName);
 	}
 
 	public static String getRegisteredPlayerBankAccount(CommandSender sender, String bankAccountName, String bankName) {
-		return getSuccess(sender, "register_player_bank_account").replace("%bankAccountName%", bankAccountName)
-				.replace("%bankName%", bankName);
+		return getSuccess(sender, "register_player_bank_account").replace("%bankAccountName%", bankAccountName).replace("%bankName%", bankName);
 	}
 
-	public static String getRegisteredCompanyBankAccount(CommandSender sender, String bankAccountName, String bankName,
-			String companyName) {
-		return getSuccess(sender, "register_company_bank_account").replace("%bankAccountName%", bankAccountName)
-				.replace("%bankName%", bankName).replace("%companyName%", companyName);
+	public static String getRegisteredCompanyBankAccount(CommandSender sender, String bankAccountName, String bankName, String companyName) {
+		return getSuccess(sender, "register_company_bank_account").replace("%bankAccountName%", bankAccountName).replace("%bankName%", bankName)
+				.replace("%companyName%", companyName);
 	}
 
 	public static String GUI_TITLE_BANK_ACCOUNT(CommandSender sender, String bankAccountName) {
@@ -265,8 +260,7 @@ public class Lang {
 	}
 
 	public static String GUI_ITEM_BUY_RESOURCE__SIGN(CommandSender sender, String resourceName, double price) {
-		return get(sender, "gui.item.buy_resource.sign").replace("%resourceName%", resourceName)
-				.replace("%resourcePrice%", String.valueOf(price));
+		return get(sender, "gui.item.buy_resource.sign").replace("%resourceName%", resourceName).replace("%resourcePrice%", String.valueOf(price));
 	}
 
 	public static String GUI_ITEM_BUY_RESOURCE__BUY_AMOUNT(CommandSender sender, long amount) {

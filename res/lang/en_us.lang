@@ -208,6 +208,9 @@ gui.title.products_from_company=Products from %companyName%
 
 gui.title.research=Research
 
+gui.title.sell_resource=Sell Resource - %resourceName%
+gui.item.sell_resource.custom_amount=Enter a custom amount
+
 # ========== Other ==========
 
 other.player=Player

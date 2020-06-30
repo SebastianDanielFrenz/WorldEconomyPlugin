@@ -31,7 +31,7 @@ public class SellResourceGUI extends WEGUI {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.SIGN, "Enter a custom amount")) {
+		items.add(new GUIItem(1, 0, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_ITEM_SELL_RESOURCE__CUSTOM_AMOUNT))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				// TODO
@@ -43,21 +43,19 @@ public class SellResourceGUI extends WEGUI {
 				@Override
 				public void event(InventoryClickEvent event) {
 					try {
-						new ChooseBankAccountGUI(parent, WEDB.getUserProfile(player).bankingID,
-								new BankAccountChooserEvent() {
-									@Override
-									public void event(InventoryClickEvent event, BankAccount account) {
-										try {
-											// code
-											throw new SQLException();
+						new ChooseBankAccountGUI(parent, WEDB.getUserProfile(player).bankingID, new BankAccountChooserEvent() {
+							@Override
+							public void event(InventoryClickEvent event, BankAccount account) {
+								try {
+									// code
+									throw new SQLException();
 
-										} catch (SQLException e) {
-											e.printStackTrace();
-											player.sendMessage(
-													WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
-										}
-									}
-								}, player).openInventory();
+								} catch (SQLException e) {
+									e.printStackTrace();
+									player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+								}
+							}
+						}, player).openInventory();
 
 					} catch (SQLException e) {
 						e.printStackTrace();
