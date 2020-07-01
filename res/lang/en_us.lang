@@ -211,6 +211,10 @@ gui.title.research=Research
 gui.title.sell_resource=Sell Resource - %resourceName%
 gui.item.sell_resource.custom_amount=Enter a custom amount
 
+gui.title.stock_market=Stock Market
+
+gui.title.transfer_money=Transfer Money
+
 # ========== Other ==========
 
 other.player=Player

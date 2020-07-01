@@ -9,14 +9,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 
 public class TradeResourcesGUI extends ChooseItemGUI {
 
-	public TradeResourcesGUI() {
+	public TradeResourcesGUI(Player player) {
 		super(new ResourceChooserEvent() {
 			@Override
 			public void event(InventoryClickEvent event, CustomItem item) {
-				new ResourceGUI((WEGUI) event.getClickedInventory().getHolder(), item)
-						.openInventory((Player) event.getWhoClicked());
+				new ResourceGUI((WEGUI) event.getClickedInventory().getHolder(), item, (Player) event.getWhoClicked())
+						.openInventory();
 			}
-		});
+		}, player);
 	}
 
 }

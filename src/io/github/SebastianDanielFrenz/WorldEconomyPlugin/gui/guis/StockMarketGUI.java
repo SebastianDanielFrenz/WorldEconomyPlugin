@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
@@ -17,7 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 public class StockMarketGUI extends WEGUI {
 
 	public StockMarketGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, "Stock Market");
+		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_STOCK_MARKET), player);
 
 		int slot = 9;
 		try {
@@ -29,7 +30,7 @@ public class StockMarketGUI extends WEGUI {
 
 					@Override
 					public void event(InventoryClickEvent event) {
-						
+
 					}
 				});
 			}
