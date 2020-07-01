@@ -4,4 +4,6 @@ main: io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin
 commands:
   we:
     help: type "/we help" for help.
+  kill:
+    help: /kill
 load: startup
