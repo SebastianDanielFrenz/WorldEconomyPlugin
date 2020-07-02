@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
@@ -43,13 +44,13 @@ public class MailSubsystem {
 			List<Mail> mails = WEDB.getMails(player, 10);
 			player.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
 			for (int i = 0; i < mails.size() && i < 10; i++) {
-				player.sendMessage("[" + mails.get(i).ID + "]: Mail from "
-						+ WEDB.getMailboxOwner(mails.get(i).senderMailboxID).getDisplayName() + ":");
-				player.sendMessage(mails.get(i).message);
+				player.sendMessage("§e[§4" + mails.get(i).ID + "§e]: Mail from "
+						+ WEDB.getMailboxOwner(mails.get(i).senderMailboxID).getMailboxDisplayName() + ":");
+				player.sendMessage("§e" + mails.get(i).message);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			player.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+			player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
 		}
 	}
 
@@ -58,12 +59,13 @@ public class MailSubsystem {
 			List<Mail> mails = WEDB.getMails(company, 10);
 			player.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying at most 10 mails:");
 			for (int i = 0; i < mails.size() || i < 10; i++) {
-				player.sendMessage("[" + mails.get(i).ID + "]: Mail from " + mails.get(i).senderMailboxID + ":");
-				player.sendMessage(mails.get(i).message);
+				player.sendMessage("§e[§4" + mails.get(i).ID + "§e]: Mail from §f"
+						+ WEDB.getMailboxOwner(mails.get(i).senderMailboxID).getMailboxDisplayName() + "§e:");
+				player.sendMessage("§e" + mails.get(i).message);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			player.sendMessage(WorldEconomyPlugin.PREFIX + "§4An internal error occured!");
+			player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
 		}
 	}
 

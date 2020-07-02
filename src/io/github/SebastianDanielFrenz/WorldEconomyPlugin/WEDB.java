@@ -48,6 +48,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Stati
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.SystemMailboxOwner;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.Product;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
@@ -1245,6 +1246,9 @@ public class WEDB {
 	public static String getMailboxOwnerType(long mailboxID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin.runSQLquery("SELECT ownerType FROM mailboxes WHERE mailboxID = " + mailboxID);
 
+		if (mailboxID == 0) {
+			return "system";
+		}
 		if (!r.next()) {
 			return null;
 		}
@@ -1362,6 +1366,8 @@ public class WEDB {
 			return getMailboxOwnerAsCompany(mailboxID);
 		case "bank":
 			return getMailboxOwnerAsBankCompany(mailboxID);
+		case "system":
+			return new SystemMailboxOwner();
 		default:
 			throw new RuntimeException("The mailbox owner's type is invalid (\"" + type + "\"!");
 		}
@@ -1802,7 +1808,7 @@ public class WEDB {
 	 */
 
 	public static void sendToHeaven(UserProfile profile, long millis) throws SQLException {
-		WorldEconomyPlugin.runSQL("UPDATE user_profiles SET inHeaven = true, heavenEndTimeMillis = " + millis
+		WorldEconomyPlugin.runSQL("UPDATE user_profiles SET inHeaven = 1, heavenEndTimeMillis = " + millis
 				+ " WHERE playerUUID = \"" + profile.uuid.toString() + "\"");
 		Player player = Bukkit.getPlayer(profile.uuid);
 		player.teleport(new Location(Bukkit.getWorld("heaven"), 0, 2, 0));

@@ -12,7 +12,7 @@ public class BankCompany extends Company {
 	public long bankID;
 
 	@Override
-	public String getDisplayName() {
+	public String getMailboxDisplayName() {
 		return companyName;
 	}
 

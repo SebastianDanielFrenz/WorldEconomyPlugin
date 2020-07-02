@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import org.bukkit.ChatColor;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailboxOwner;
 
@@ -39,6 +41,11 @@ public abstract class Company implements MailboxOwner, ResearchEntity {
 	@Override
 	public long getResearchSpecifiyEntityID() {
 		return ID;
+	}
+
+	@Override
+	public String getMailboxDisplayName() {
+		return ChatColor.YELLOW + companyName;
 	}
 
 }

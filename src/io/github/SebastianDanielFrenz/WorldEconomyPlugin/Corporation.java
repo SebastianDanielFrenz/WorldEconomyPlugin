@@ -15,9 +15,4 @@ public class Corporation extends Company {
 		return CEO_employeeID;
 	}
 
-	@Override
-	public String getDisplayName() {
-		return companyName;
-	}
-
 }

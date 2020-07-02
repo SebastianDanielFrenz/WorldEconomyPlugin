@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
@@ -49,8 +50,8 @@ public class UserProfile extends PlayingEntity implements MailboxOwner, Research
 	}
 
 	@Override
-	public String getDisplayName() {
-		return username;
+	public String getMailboxDisplayName() {
+		return ChatColor.GREEN + username;
 	}
 
 	@Override

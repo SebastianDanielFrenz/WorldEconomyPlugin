@@ -1,0 +1,220 @@
+# en_us sollte der Standard sein
+item.coal_ore=Kohlenerz
+item.coal=Kohle
+item.charcoal=Kohle=Kohle
+item.ash=Ash
+item.iron_ore=Eisenerz
+item.iron_ingot=Eisenbarren
+item.iron_plate=Eisenplatte
+item.iron_rod=Eisenstange
+item.iron_pickaxe=Eisenspitzhacke
+item.iron_helmet=Eisenhelm
+item.iron_chestplate=Eisen-Brustplatte
+item.iron_leggings=Eisen-Leggings
+item.iron_boots=Eisenstiefel
+
+item.redstone=Redstone
+item.steel_ingot=Stahlbarren
+item.steel_plate=Stahlplatte
+item.steel_rod=Stahlstab
+
+item.copper_ore=Kupfererz
+item.copper_ingot=Kupferbarren
+item.copper_plate=Kupferplatte
+item.copper_rod=Kupferstab
+
+item.bronze_ingot=Bronze-Barren
+item.bronze_plate=Bronzeplatte
+item.bronze_rod=Bronze-Stange
+
+item.aluminum_ingot=Aluminium-Barren
+item.aluminum_plate=Aluminiumplatte
+item.aluminum_rod=Aluminium-Stab
+
+item.tin_ingot=Zinn-Barren
+item.tin_plate=Weissblech
+item.tin_rod=Zinnstab
+
+item.osmium_ingot=Osmium-Barren
+item.osmium_plate=Osmium-Platte
+item.osmium_Stab=Osmium-Stab
+
+item.lead_ingot=Bleibarren
+item.lead_plate=Bleiplatte
+item.lead_rod=Blei-Stab
+
+item.gold_ore=Golderz
+item.gold_nugget=Gold-Nugget
+item.gold_ingot=Goldbarren
+item.gold_cable=Goldenes Kabel
+
+item.diamond=Diamant
+item.diamond_ore=Diamanderz
+
+item.lapis_lazuli=Lapis Lazuli
+item.lapis_lazuli_ore=Lapislazuli-Erz
+
+item.clay_ball=Tonkugel
+
+item.raw_hardened_cobblestone=Rohes gehärtetes Kopfsteinpflaster
+item.raw_hardened_cobblestone_plate=Rohes gehärtetes Kopfsteinpflaster
+item.gehärtetes_Pflasterstein=gehärtetes Kopfsteinpflaster
+item.harden_cobblestone_plate=gehärtete Kopfsteinpflaster-Platte
+item.processed_cobblestone=Verarbeitetes Kopfsteinpflaster
+item.processed_cobblestone_plate=Verarbeitete Kopfsteinpflasterplatte
+
+item.oil_bucket=Öleimer=Öleimer
+item.bucket=Leerer Eimer
+item.water_bucket=Wassereimer
+item.raw_clay_bucket=Rohton-Eimer
+item.clay_bucket=Ton-Eimer
+item.water_clay_bucket=Wasser-Ton-Eimer
+
+item.wooden_shovel=Holzschaufel
+item.cobblestone_shovel=Pflasterstein-Schaufel
+item.hardened_cobblestone_shovel=gehärtete Kopfsteinpflaster-Schaufel
+item.processed_cobblestone_shovel=Verarbeitete Kopfsteinpflaster-Schaufel
+item.processed_cobblestone_pickaxe=Verarbeitete Kopfsteinpflaster-Spitzhacke
+
+item.stick=Stab
+item.stone=Stein
+item.grass_block=Grass-Block
+item.dirt=Schmutz
+item.cobblestone=Pflasterstein
+item.oak_planks=Eichendielen=Eichendielen
+item.oak_log=Eichenprotokoll
+item.eiche_plate=Eiche Platte
+item.oak_leaves=Eichenlaub=Eichenlaub
+item.oak_dry_leaves=Eiche trockenes Laub=Eiche trockenes Laub
+item.coarse_dirt=Grobschmutz=Grobschmutz
+item.sand=Sand
+item.granite=Granit
+item.polished_granite=Polierter Granit
+item.diorite=Diorit
+item.polished_diorite=Polierter Diorit
+item.andesite=Andesite
+item.polished_andesite=Polierter Andesit
+
+item.cut_sandstone=Sandstein geschliffen
+item.smooth_sandstone=Glatter Sandstein
+
+item.stone_age_campire=Steinzeitliches Lagerfeuer
+item.egyptian_campire_stage1=Ägyptisches Lagerfeuer Stufe 1
+
+# =================================
+
+block.egyptian_campire_stage1=Ägyptisches Lagerfeuer Stufe 1
+block.stone_age_campire=Steinzeitliches Lagerfeuer
+block.andesite=$item.andesite
+block.clay=Ton
+block.coarse_dirt=$item.coarse_dirt
+block.copper_ore=$item.copper_ore
+block.cut_sandstone=$item.cut_sandstone
+block.diorite=$item.diorite
+block.granite=$item.granite
+block.oak_leaves=$item.sandstone
+block.sand=$item.sand
+block.sandstone=$item.sandstone
+block.smooth_sandstone=§item.smooth_sandstone
+block.tree_oak_leaves=Eichenblätter
+
+# =============== Alter ================
+
+age.early_stone_age=Frühe Steinzeit
+age.stone_age=Steinzeit
+age.new_stone_age=Neue Steinzeit
+age.copper_age=Kupferzeit
+age.iron_age=Eisenzeit
+age.early_medieval_times=Frühmittelalter
+age.middle_medieval_times=Hochmittelalter
+age.late_medieval_times=Spätmittelalter
+
+
+# Nachrichten ============================
+
+msg.error.internal=Ein interner Fehler ist aufgetreten!
+msg.error.command_not_found=Befehl nicht gefunden!
+msg.error.not_enough_arguments=Nicht genug Argumente!
+msg.error.invalid_argument=Ungültiges Argument!
+msg.error.accessing_future=Sie können nicht auf die Zukunft zugreifen!
+msg.error.insufficient_permission=Sie haben keine ausreichende Berechtigung. Dazu benötigen Sie mindestens eine der folgenden Berechtigungen:
+msg.error.not_a_player=Sie müssen ein Spieler sein, um dies zu tun!
+msg.error.bank_does_not_exist=Die Bank "%bankName%" existiert nicht!
+msg.error.invalid_company_type=Ungültiger Firmentyp "%companyType%"!
+msg.error.company_does_not_exist=Die Firma "%companyName%" existiert nicht!
+msg.error.hand_empty=Ihre Hand ist leer!
+msg.error.product_already_exists=Das Produkt existiert bereits!
+msg.error.invalid_number=Ungültige Nummer!
+msg.error.look_at_chest=Bitte schauen Sie sich eine Truhe an!
+msg.error.move_closer=Bitte kommen Sie näher!
+msg.error.empty_hand=Ihre Hand ist leer!
+msg.error.bank_account_does_not_exist=Das Bankkonto existiert nicht!
+msg.error.not_enough_space_details=%needed% ist zu viel. Sie können nur %available% anpassen!
+msg.error.not_enough_space=Nicht genug Platz!
+msg.error.not_enough_money=Sie haben nicht genug Geld! Die Kosten betragen %price% und Ihr Guthaben nur %balance%.
+
+msg.success=Erfolg!
+msg.success.register_bank=Erfolgreiche Registrierung der Bank %bank%!
+msg.success.register_corporation=Erfolgreiche Registrierung der Gesellschaft "%companyName%" mit ID %companyID%!
+msg.success.register_private_company=Erfolgreiche Registrierung der privaten Firma "%companyName%" mit der ID %companyID%!
+msg.success.register_supply_chest=Erfolgreich registrierte Vorratskiste für %companyName%!
+msg.success.register_product=Erfolgreich registriertes Produkt "%productName%" für "%companyName%"!
+msg.success.register_company_bank_account=Erfolgreich registriertes Bankkonto "%bankAccountName%" bei "%bankName%" für "%companyName%"!
+msg.success.register_player_bank_account=Erfolgreich das Bankkonto "%bankAccountName%" bei "%bankName%" registriert!
+
+msg.chatdialog.register_product_name=Bitte geben Sie den gewünschten Produktnamen ein!
+msg.chatdialog.register_product_invalid_price=Ungültiger Preis! Bitte geben Sie einen gültigen Preis ein.
+msg.chatdialog.register_product_price=Bitte geben Sie den gewünschten Preis ein!
+
+# =============== GUI ==============
+
+gui.item.back=Zurück
+
+gui.title.bank_account_credits=Kredite
+
+gui.title.bank_account=Bankkonto - %bankAccountName%
+gui.item.bank.konto.credits=$gui.title.bank_account_credits
+
+gui.title.bank_accounts=Bankkonten
+
+gui.title.banks=Banken
+
+gui.title.buy_resource=Ressource kaufen - %resourceName%
+gui.item.buy_resource.sign=Ressource kaufen - %resourceName% - %resourcePrice%
+gui.item.buy_resource.custom_amount=Benutzerdefinierten Betrag eingeben
+gui.item.buy_resource.buy_amount=Kaufen %amount%
+
+gui.title.choose_bank_account=Bankkonto-Auswahl
+
+gui.title.companies=Firmen
+
+gui.item.company.products=Produkte
+gui.item.company.register_product=Produkt registrieren
+gui.item.company.sales=Verkäufe
+gui.item.company.employees=Mitarbeiter
+
+gui.title.create_bank_account=Bankkonto anlegen
+
+gui.title.employees_from_company=Mitarbeiter von %companyName%
+
+gui.title.main_menu=Hauptmenü
+gui.item.main_menu.mailbox=Postfach
+gui.item.main_menu.write_mail=Nachricht schreiben
+
+gui.title.products_from_company=Produkte von %companyName%
+
+gui.title.research=Forschung
+
+gui.title.sell_resource=Ressource verkaufen=Ressource verkaufen - %resourceName%
+gui.item.sell_resource.custom_amount=Benutzerdefinierten Betrag eingeben
+
+gui.title.stock_market=Aktienmarkt
+
+gui.title.transfer_money=Überweisungsgeld
+
+# ===============================
+
+other.player=Spieler
+other.ai=AI
+other.corporation=Kapitalgesellschaft
+other.private_company=Privates Unternehmen

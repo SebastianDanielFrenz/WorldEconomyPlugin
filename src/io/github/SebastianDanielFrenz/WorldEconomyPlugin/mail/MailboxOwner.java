@@ -4,6 +4,6 @@ public interface MailboxOwner {
 
 	public long getMailboxID();
 
-	public String getDisplayName();
+	public String getMailboxDisplayName();
 
 }
