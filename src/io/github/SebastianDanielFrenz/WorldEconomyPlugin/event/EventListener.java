@@ -351,6 +351,9 @@ public class EventListener implements Listener {
 					}
 				}
 			}
+			else {
+				Bukkit.getWorld("heaven").
+			}
 		}
 	}
 
