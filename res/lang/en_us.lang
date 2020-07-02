@@ -203,6 +203,7 @@ gui.title.employees_from_company=Employees of %companyName%
 
 gui.title.main_menu=Main Menu
 gui.item.main_menu.mailbox=Mailbox
+gui.item.main_menu.write_mail=Write Mail
 
 gui.title.products_from_company=Products from %companyName%
 
