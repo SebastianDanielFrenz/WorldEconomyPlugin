@@ -34,7 +34,7 @@ public class MailSubsystem {
 			OfflinePlayer player = Bukkit.getOfflinePlayer(((UserProfile) owner).uuid);
 			if (player.isOnline()) {
 				Player nplayer = (Player) player;
-				nplayer.sendMessage(WorldEconomyPlugin.PREFIX + "You recieved a mail!");
+				nplayer.sendMessage(Lang.getMsg((Player) player, Lang.MAIL_RECIEVED));
 			}
 		}
 	}

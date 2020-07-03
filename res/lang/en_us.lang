@@ -166,6 +166,8 @@ msg.success.register_product=Successfully registered product "%productName%" for
 msg.success.register_company_bank_account=Successfully registered the bank account "%bankAccountName%" at "%bankName%" for "%companyName%"!
 msg.success.register_player_bank_account=Successfully registered the bank account "%bankAccountName%" at "%bankName%"!
 
+msg.received_mail=You received mail!
+
 msg.chatdialog.register_product_name=Please enter the desired product name!
 msg.chatdialog.register_product_invalid_price=Invalid price! Please enter a valid price.
 msg.chatdialog.register_product_price=Please enter the desired price!

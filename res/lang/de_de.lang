@@ -162,6 +162,8 @@ msg.success.register_product=Erfolgreich registriertes Produkt "%productName%" f
 msg.success.register_company_bank_account=Erfolgreich registriertes Bankkonto "%bankAccountName%" bei "%bankName%" für "%companyName%"!
 msg.success.register_player_bank_account=Erfolgreich das Bankkonto "%bankAccountName%" bei "%bankName%" registriert!
 
+msg.mail_received=Post empfangen!
+
 msg.chatdialog.register_product_name=Bitte geben Sie den gewünschten Produktnamen ein!
 msg.chatdialog.register_product_invalid_price=Ungültiger Preis! Bitte geben Sie einen gültigen Preis ein.
 msg.chatdialog.register_product_price=Bitte geben Sie den gewünschten Preis ein!
