@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
+
 public class TaskWorkerStatus {
 
 	public TaskWorkerStatus(Task[] tasks, boolean overloaded, int pending_tasks, float[] idle_durations,
@@ -18,7 +20,7 @@ public class TaskWorkerStatus {
 	public final float[] working_durations;
 
 	public String[] getFormattedStatus() {
-		String[] out = new String[tasks.length + 1];
+		String[] out = new String[tasks.length + 2];
 		out[0] = "==========";
 		out[0] += " " + tasks.length + " threads on " + Runtime.getRuntime().availableProcessors() + " logical cores ";
 		out[0] += "=========";
@@ -53,6 +55,58 @@ public class TaskWorkerStatus {
 			}
 			out[i + 1] += Math.round(load) + "%";
 		}
+
+		double ram_usage = (1 - Runtime.getRuntime().freeMemory() / (double) Runtime.getRuntime().maxMemory());
+
+		out[out.length - 1] = "§eRAM: ";
+
+		if (ram_usage < 20) {
+			out[out.length - 1] += "§1";
+		} else if (ram_usage < 40) {
+			out[out.length - 1] += "§3";
+		} else if (ram_usage < 60) {
+			out[out.length - 1] += "§2";
+		} else if (ram_usage < 70) {
+			out[out.length - 1] += "§a";
+		} else if (ram_usage < 80) {
+			out[out.length - 1] += "§e";
+		} else if (ram_usage < 90) {
+			out[out.length - 1] += "§6";
+		} else if (ram_usage < 95) {
+			out[out.length - 1] += "§c";
+		} else {
+			out[out.length - 1] += "§4";
+		}
+
+		out[out.length - 1] += Math
+				.round(Runtime.getRuntime().freeMemory() / (double) Runtime.getRuntime().maxMemory() * 100) + "% (";
+
+		long usage = (Runtime.getRuntime().freeMemory());
+		if (usage < Units.GB * 8) {
+			out[out.length - 1] += usage / Units.MB + "MB";
+		} else if (usage < Units.GB * 32) {
+			out[out.length - 1] += Math.round((usage / (double) Units.GB) * 10) / 10.0 + "GB";
+		} else if (usage < Units.TB * 4) {
+			out[out.length - 1] += usage / Units.GB + "GB";
+		} else {
+			out[out.length - 1] += Math.round((usage / (double) Units.TB) * 10) / 10.0 + "TB";
+		}
+
+		out[out.length - 1] += "/";
+		long max = Runtime.getRuntime().maxMemory();
+
+		if (max < Units.GB * 8) {
+			out[out.length - 1] += max / Units.MB + "MB";
+		} else if (max < Units.GB * 32) {
+			out[out.length - 1] += Math.round((max / (double) Units.GB) * 10) / 10.0 + "GB";
+		} else if (max < Units.TB * 4) {
+			out[out.length - 1] += max / Units.GB + "GB";
+		} else {
+			out[out.length - 1] += Math.round((max / (double) Units.TB) * 1000) / 1000.0 + "TB";
+		}
+
+		out[out.length - 1] += ")";
+
 		return out;
 	}
 

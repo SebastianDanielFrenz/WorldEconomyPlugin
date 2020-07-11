@@ -38,8 +38,6 @@ public class TaskWorker implements Runnable {
 					}
 				}
 				request_data = false;
-
-				System.out.println("continuing program");
 			}
 			if (last_purge + 1000 < System.currentTimeMillis()) {
 				purgeOldTrackingData();

@@ -15,7 +15,7 @@ public class ResearchItemStick extends ResearchItem {
 	public ResearchItemStick() {
 		super("Stick", CustomItemRegistry.STICK, new ResearchItem[] {},
 				new ResearchCondition[] {
-						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES, StatisticCategoryRegistry.MINED, 100) },
+						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES1, StatisticCategoryRegistry.MINED, 100) },
 				Age.EARLY_STONE_AGE, "Stick", Material.STICK, 0);
 	}
 

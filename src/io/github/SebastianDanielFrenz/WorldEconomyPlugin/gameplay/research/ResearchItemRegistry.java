@@ -9,7 +9,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.resea
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemSharpStick;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemStick;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemStoneAgeCraftingTable;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemTreeOakLeaves;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemTreeOakLeaves1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.early_stone_age.ResearchItemTreeOakLeaves2;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.researchItems.new_stone_age.ResearchItemNewStoneAgeHouse;
 
 public class ResearchItemRegistry {
@@ -22,7 +23,8 @@ public class ResearchItemRegistry {
 
 	public static final ResearchItem STICK = new ResearchItemStick();
 	public static final ResearchItem OAK_LEAVES = new ResearchItemOakLeaves();
-	public static final ResearchItem TREE_OAK_LEAVES = new ResearchItemTreeOakLeaves();
+	public static final ResearchItem TREE_OAK_LEAVES1 = new ResearchItemTreeOakLeaves1();
+	public static final ResearchItem TREE_OAK_LEAVES2 = new ResearchItemTreeOakLeaves2();
 	public static final ResearchItem BABY_DEER = new ResearchItemBabyDeer();
 
 	public static final ResearchItem OAK_PLANKS = new ResearchItemOakPlanks();
@@ -33,7 +35,8 @@ public class ResearchItemRegistry {
 
 	public static void init() {
 		register(OAK_LEAVES);
-		register(TREE_OAK_LEAVES);
+		register(TREE_OAK_LEAVES1);
+		register(TREE_OAK_LEAVES2);
 		register(STICK);
 		register(BABY_DEER);
 

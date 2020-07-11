@@ -16,11 +16,13 @@ public class BenchmarkTask extends Task {
 	private boolean done = false;
 
 	private CommandSender sender;
+	private BenchmarkResult result;
 
-	public BenchmarkTask(int runs, CommandSender sender) {
+	public BenchmarkTask(int runs, CommandSender sender, BenchmarkResult result) {
 		this.runs = runs;
 		flos = slice * runs;
 		this.sender = sender;
+		this.result = result;
 	}
 
 	@Override
@@ -46,8 +48,7 @@ public class BenchmarkTask extends Task {
 			done = true;
 			double time = (System.currentTimeMillis() - start) / 1000f;
 			if (!(sender instanceof CommandBlock)) {
-				sender.sendMessage("[Benchmark]: " + flos / 1000000000.0 + " GFLOS in " + time + "s ("
-						+ Math.round(flos / time / 1000000) / 1000.0 + " GFLOPS)");
+				result.push(flos);
 			}
 		}
 	}

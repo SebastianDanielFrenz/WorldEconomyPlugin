@@ -26,6 +26,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Stati
 
 public class CustomBlockEventHandler implements Listener {
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockBreakEvent(BlockBreakEvent event) throws SQLException {
 		Player player = event.getPlayer();
@@ -37,14 +38,17 @@ public class CustomBlockEventHandler implements Listener {
 		if (metadata_values.size() == 0) {
 			customBlock = CustomBlockType.getVanillaBlock(block);
 			if (customBlock == null) {
+				System.out.println(
+						"broke a truly vanilla block (material=" + block.getType() + ", data=" + block.getData() + "!");
 				return;
 			}
+			System.out.println("broke custom vanilla block " + customBlock.ID);
 		} else {
 			customBlock = ((CustomBlockMetadataValue) metadata_values.get(0)).getBlock();
+			System.out.println("broke custom block " + customBlock.ID);
 		}
 
 		if (player.getGameMode() != GameMode.CREATIVE) {
-			@SuppressWarnings("deprecation")
 			ItemStack hand = player.getInventory().getItemInHand();
 			ToolItemDetail toolDetails;
 
@@ -69,6 +73,19 @@ public class CustomBlockEventHandler implements Listener {
 			if (drops.size() == 0) {
 				// if no drops are found, you are not allowed to mine the block.
 				event.setCancelled(true);
+				return;
+			}
+
+			int i = 0;
+			while (i < drops.size()) {
+				if (drops.get(i).getCount() == 0) {
+					drops.remove(i);
+					continue;
+				}
+				i++;
+			}
+
+			if (drops.size() == 0) {
 				return;
 			}
 

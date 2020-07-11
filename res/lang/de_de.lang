@@ -212,7 +212,7 @@ gui.item.sell_resource.custom_amount=Benutzerdefinierten Betrag eingeben
 
 gui.title.stock_market=Aktienmarkt
 
-gui.title.transfer_money=Überweisungsgeld
+gui.title.transfer_money=Geld überweisen
 
 # ===============================
 

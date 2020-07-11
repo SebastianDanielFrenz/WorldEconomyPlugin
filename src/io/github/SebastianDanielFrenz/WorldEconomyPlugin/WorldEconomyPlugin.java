@@ -104,9 +104,10 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ItemPickupIntegrationEventHandler(), this);
 		getServer().getPluginManager().registerEvents(new CustomBlockEventHandler(), this);
 		getServer().getPluginManager().registerEvents(new CustomItemInteractionEventHandler(), this);
+		getServer().getPluginManager().registerEvents(new DeathEventHandler(), this);
 
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
-		getCommand("kill").setExecutor(new WorldEconomyCommandExecutor());
+		// getCommand("kill").setExecutor(new WorldEconomyCommandExecutor());
 
 		startThreads();
 

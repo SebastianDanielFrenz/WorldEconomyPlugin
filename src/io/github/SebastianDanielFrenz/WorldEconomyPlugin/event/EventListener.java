@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
@@ -34,7 +33,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldInitEvent;
-import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Permissions;
@@ -56,7 +54,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResources
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.WorldEconomyBlockPopulator;
 
 public class EventListener implements Listener {
 
@@ -273,8 +270,7 @@ public class EventListener implements Listener {
 
 		System.out.println(event.getWorld().getName());
 
-		if (event.getWorld().getName().equals("world_the_end")) {
-
+		if (event.getWorld().getName().equals("world")) {
 			WorldEconomyPlugin.plugin.getLogger().info("Loading extensions...");
 
 			String log_output = "Found " + WorldEconomyExtensionRegistry.getExtensions().size() + " extensions: [";
@@ -300,13 +296,9 @@ public class EventListener implements Listener {
 			CustomBlockTypeRegistry.check();
 
 			WorldEconomyPlugin.plugin.getLogger().info("Finished checks!");
+		}
 
-			for (BlockPopulator pop : event.getWorld().getPopulators()) {
-				System.out.println("Found block populator " + pop.getClass().getCanonicalName());
-			}
-			event.getWorld().getPopulators().clear();
-
-			event.getWorld().getPopulators().add(new WorldEconomyBlockPopulator());
+		else if (event.getWorld().getName().equals("world_the_end")) {
 
 			// fill custom block cache
 

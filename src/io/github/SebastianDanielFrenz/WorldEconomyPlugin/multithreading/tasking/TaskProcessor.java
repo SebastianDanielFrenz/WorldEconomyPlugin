@@ -23,6 +23,7 @@ public class TaskProcessor {
 		for (int i = 0; i < threads; i++) {
 			workers[i] = new TaskWorker();
 			worker_threads[i] = new Thread(workers[i], "World Economy Task Worker #" + String.valueOf(i + 1));
+			worker_threads[i].setPriority(Thread.MAX_PRIORITY);
 			worker_threads[i].start();
 		}
 	}

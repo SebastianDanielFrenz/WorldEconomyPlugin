@@ -51,6 +51,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.BenchmarkResult;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.BenchmarkTask;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 
@@ -972,8 +973,10 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					int runs = Integer.parseInt(args[1]);
 					int threads = Config.getBackGroundThreadCount();
 
+					BenchmarkResult result = new BenchmarkResult(sender, threads);
+
 					for (int x = 0; x < threads; x++) {
-						TaskProcessor.registerTask(new BenchmarkTask(runs, sender));
+						TaskProcessor.registerTask(new BenchmarkTask(runs, sender, result));
 					}
 
 					return true;

@@ -15,7 +15,7 @@ public class ResearchItemPlanks extends ResearchItem {
 	public ResearchItemPlanks() {
 		super("Planks", CustomItemRegistry.OAK_PLANKS, new ResearchItem[] {},
 				new ResearchCondition[] {
-						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES, StatisticCategoryRegistry.MINED, 10) },
+						new ExperienceResearchCondition(CustomBlockTypeRegistry.TREE_OAK_LEAVES1, StatisticCategoryRegistry.MINED, 10) },
 				Age.EARLY_STONE_AGE, "Planks", Material.WOOD, 0);
 	}
 

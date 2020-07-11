@@ -20,7 +20,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSandstoneTrigger;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSmoothSandstone;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockTreeOakLeaves;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockTreeOakLeaves1;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockTreeOakLeaves2;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockEgyptianCampfireStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockStoneAgeCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.crafting_tables.BlockStoneAgeCraftingTable;
@@ -47,7 +48,8 @@ public class CustomBlockTypeRegistry {
 	public static final CustomBlockType SANDSTONE_TRIGGER = new BlockSandstoneTrigger();
 	public static final CustomBlockType SMOOTH_SANDSTONE = new BlockSmoothSandstone();
 	public static final CustomBlockType OAK_LEAVES = new BlockOakLeaves();
-	public static final CustomBlockType TREE_OAK_LEAVES = new BlockTreeOakLeaves();
+	public static final CustomBlockType TREE_OAK_LEAVES1 = new BlockTreeOakLeaves1();
+	public static final CustomBlockType TREE_OAK_LEAVES2 = new BlockTreeOakLeaves2();
 
 	public static final CustomBlockType STONE_AGE_CRAFTING_TABLE = new BlockStoneAgeCraftingTable();
 	public static final CustomBlockType STONE_AGE_CAMPFIRE = new BlockStoneAgeCampfire();
@@ -67,7 +69,8 @@ public class CustomBlockTypeRegistry {
 		register(SANDSTONE_TRIGGER);
 		register(SMOOTH_SANDSTONE);
 		register(OAK_LEAVES);
-		register(TREE_OAK_LEAVES);
+		register(TREE_OAK_LEAVES1);
+		register(TREE_OAK_LEAVES2);
 
 		register(STONE_AGE_CRAFTING_TABLE);
 		register(STONE_AGE_CAMPFIRE);
