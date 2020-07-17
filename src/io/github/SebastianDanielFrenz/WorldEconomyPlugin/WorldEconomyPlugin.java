@@ -25,6 +25,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.DeathEventHandler
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.EventListener;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.ItemPickupIntegrationEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.TickListenerRunnable;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.NMSUtil;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
@@ -161,6 +162,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		CustomBlockTypeRegistry.init();
 		CustomItemRegistry.init();
 		ResearchItemRegistry.init();
+		Age.init();
 
 		// if plugins are supposed to work, there is a need for event calls here
 		// (in order to register items, blocks, research items, etc.

@@ -1079,6 +1079,18 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						sender.sendMessage(Lang.getError(sender, Lang.ERROR_NOT_A_PLAYER));
 						return true;
 					}
+				} else if (args[0].equalsIgnoreCase("dump")) {
+					if (args.length == 1) {
+						sender.sendMessage(Age.dump());
+						return true;
+					} else {
+						if (args[1].equalsIgnoreCase("ages")) {
+							sender.sendMessage(Age.dump());
+							return true;
+						} else {
+							return false;
+						}
+					}
 				} else if (args[0].equalsIgnoreCase("help")) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");
 					if (hasPermission(sender, Permissions.REGISTER_BANK_CMD, Age.LATE_MIDDLE_AGES, false)) {

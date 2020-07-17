@@ -92,7 +92,7 @@ public class WEDB {
 					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
 					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
 					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
-					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
+					r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -108,7 +108,7 @@ public class WEDB {
 					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
 					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
 					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
-					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
+					r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -124,7 +124,7 @@ public class WEDB {
 					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
 					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
 					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
-					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
+					r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -140,7 +140,7 @@ public class WEDB {
 					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
 					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
 					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
-					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age"))));
+					r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age"))));
 		}
 		return out;
 	}
@@ -174,9 +174,23 @@ public class WEDB {
 						+ " VALUES (\"" + player.getUniqueId().toString() + "\", " + ID + ", "
 						+ getNextEnumerator("employerID") + ", " + registerBankingEntity("player") + ", \""
 						+ player.getName() + "\", " + registerBaseMailbox("player") + ", \""
-						+ Age.EARLY_STONE_AGE.name() + "\"" + ")");
+						+ Age.EARLY_STONE_AGE.getID() + "\"" + ")");
 
 		moveEnumerator("employerID");
+	}
+
+	public static void setUserAge(UserProfile profile, Age age) throws SQLException {
+		WorldEconomyPlugin.runSQL(
+				"UPDATE user_profiles SET age = " + age.getID() + " WHERE playerUUID = \"" + profile.uuid + "\"");
+	}
+
+	public static void setEntityAge(PlayingEntity entity, Age age) throws SQLException {
+		if (entity instanceof UserProfile)
+			setUserAge((UserProfile) entity, age);
+		else if (entity instanceof AIProfile)
+			setAIAge((AIProfile) entity, age);
+		else
+			throw new RuntimeException("invalid entity type " + entity.getClass().getCanonicalName());
 	}
 
 	/*
@@ -1162,7 +1176,7 @@ public class WEDB {
 				getProfessions(r.getLong("employeeID")), r.getDouble("health"), r.getDouble("maxHealth"),
 				r.getDouble("saturation"), r.getDouble("happyness"), r.getBoolean("religious"),
 				r.getDouble("religious_satisfaction"), r.getDouble("endurance"), r.getDouble("maxEndurance"),
-				r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
+				r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age")));
 	}
 
 	public static List<AIProfile> getAllAIs() throws SQLException {
@@ -1175,9 +1189,13 @@ public class WEDB {
 					getProfessions(r.getLong("employeeID")), r.getDouble("health"), r.getDouble("maxHealth"),
 					r.getDouble("saturation"), r.getDouble("happyness"), r.getBoolean("religious"),
 					r.getDouble("religious_satisfaction"), r.getDouble("endurance"), r.getDouble("maxEndurance"),
-					r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age"))));
+					r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age"))));
 		}
 		return out;
+	}
+
+	public static void setAIAge(AIProfile profile, Age age) throws SQLException {
+		WorldEconomyPlugin.runSQL("UPDATE ai_profiles SET age = \"" + age.getID() + "\" WHERE aiID = " + profile.aiID);
 	}
 
 	/*
@@ -1306,7 +1324,7 @@ public class WEDB {
 					r.getDouble("health"), r.getDouble("maxHealth"), r.getDouble("saturation"),
 					r.getDouble("happyness"), r.getBoolean("religious"), r.getDouble("religious_satisfaction"),
 					r.getDouble("endurance"), r.getDouble("maxEndurance"), r.getBoolean("inHeaven"),
-					r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
+					r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age")));
 		} else {
 			return null;
 		}
@@ -1323,7 +1341,7 @@ public class WEDB {
 				getProfessions(r.getLong("employeeID")), r.getDouble("health"), r.getDouble("maxHealth"),
 				r.getDouble("saturation"), r.getDouble("happyness"), r.getBoolean("religious"),
 				r.getDouble("religious_satisfaction"), r.getDouble("endurance"), r.getDouble("maxEndurance"),
-				r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.valueOf(r.getString("age")));
+				r.getBoolean("inHeaven"), r.getLong("heavenEndTimeMillis"), Age.getAge(r.getString("age")));
 	}
 
 	public static long getMailboxOwnerAsCompanyID(long mailboxID) throws SQLException {

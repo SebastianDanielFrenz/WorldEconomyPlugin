@@ -25,9 +25,9 @@ public class ResearchGUI extends WEGUI {
 		int slot = 9;
 		try {
 			UserProfile profile = WEDB.getUserProfile(player);
-			for (Age age : Age.values()) {
+			for (Age age : Age.getAllAges()) {
 				if (age.index <= profile.getAge().index) {
-					items.add(new GUIItem(slot, mkItem(age.representation, 1, age.repr_dmg, age.name())) {
+					items.add(new GUIItem(slot, mkItem(age.representation, 1, age.repr_dmg, age.getID())) {
 
 						@Override
 						public void event(InventoryClickEvent event) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
@@ -108,6 +109,9 @@ public abstract class ResearchItem implements ResearchableObject {
 			return false;
 		}
 		return true;
+	}
+
+	public void onItemResearchedEvent(UserProfile profile) {
 	}
 
 }

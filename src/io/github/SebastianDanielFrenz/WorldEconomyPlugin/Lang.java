@@ -187,7 +187,7 @@ public class Lang {
 	}
 
 	public static String getAge(CommandSender sender, Age age) {
-		return get(sender, "age." + age.name().toLowerCase());
+		return get(sender, "age." + age.getID().toLowerCase());
 	}
 
 	public static String getMsg(CommandSender sender, String msg) {

@@ -294,6 +294,10 @@ public class EventListener implements Listener {
 			WorldEconomyPlugin.plugin.getLogger().info("Extensions loaded, performing plausibility checks...");
 
 			CustomBlockTypeRegistry.check();
+			// custom block ID check
+			// custom item ID check
+			// custom item vanilla item check
+			Age.check();
 
 			WorldEconomyPlugin.plugin.getLogger().info("Finished checks!");
 		}
@@ -325,7 +329,7 @@ public class EventListener implements Listener {
 				heaven.setDifficulty(Difficulty.EASY);
 
 				WorldEconomyPlugin.plugin.getLogger().info(
-						"Due to horribly optimized code, the heaven world will now need to place 36,000,000 blocks. This takes about 40 seconds on an Intel Coffe Lake processor at 4.6GHz (i7 9700kf).");
+						"Due to horribly optimized code, the heaven world will now need to place 36,000,000 blocks. This takes about 40 seconds on an Intel Coffe Lake processor at 4.6GHz (i7 9700kf); task single threaded.");
 
 				for (int x = -101; x < 101; x++) {
 					for (int y = 0; y < 201; y++) {

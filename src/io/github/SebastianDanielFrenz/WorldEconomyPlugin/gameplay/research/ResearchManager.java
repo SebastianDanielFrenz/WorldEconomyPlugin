@@ -7,7 +7,9 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.PlayingEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
 public class ResearchManager {
 
@@ -38,6 +40,20 @@ public class ResearchManager {
 			}
 		}
 		return changed;
+	}
+
+	public static Age updateAge(ResearchEntity entity) throws SQLException {
+		Age current_age = ((PlayingEntity) entity).getAge();
+		Age next_age = Age.getIncrementalAge(current_age);
+
+		List<ResearchItem> explored = WEDB.getRawResearchItems(entity);
+		for (ResearchItem item : next_age.getNeededItems()) {
+			if (!explored.contains(item)) {
+				return null;
+			}
+		}
+		WEDB.setEntityAge((PlayingEntity) entity, next_age);
+		return next_age;
 	}
 
 }

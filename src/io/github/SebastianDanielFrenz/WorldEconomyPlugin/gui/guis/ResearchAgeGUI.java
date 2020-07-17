@@ -17,7 +17,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class ResearchAgeGUI extends WEGUI {
 
 	public ResearchAgeGUI(WEGUI parent, Age age, UserProfile profile, Player player) {
-		super(parent, new GUIItem[] {}, Lang.GUI_TITLE_RESEARCH + " - " + age.name(), player);
+		super(parent, new GUIItem[] {}, Lang.GUI_TITLE_RESEARCH + " - " + age.getID(), player);
 
 		try {
 			List<ResearchItem> researchItems = profile.getResearchedItems();

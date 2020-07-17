@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.rese
 
 import org.bukkit.Material;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchCondition;
@@ -11,8 +12,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Resea
 public class ResearchItemSharpStick extends ResearchItem {
 
 	public ResearchItemSharpStick() {
-		super("sharp_stick", CustomItemRegistry.SHARP_STICK, new ResearchItem[] { ResearchItemRegistry.STONE_AGE_CRAFTING_TABLE },
-				new ResearchCondition[] {}, Age.EARLY_STONE_AGE, "Sharp Stick", Material.STICK, 0);
+		super("sharp_stick", CustomItemRegistry.SHARP_STICK,
+				new ResearchItem[] { ResearchItemRegistry.STONE_AGE_CRAFTING_TABLE }, new ResearchCondition[] {},
+				Age.EARLY_STONE_AGE, "Sharp Stick", Material.STICK, 0);
+	}
+
+	@Override
+	public void onItemResearchedEvent(UserProfile profile) {
+		profile.incrementAgeTo(Age.MID_STONE_AGE);
 	}
 
 }

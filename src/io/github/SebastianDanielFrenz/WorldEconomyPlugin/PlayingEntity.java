@@ -10,9 +10,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeePro
 
 public abstract class PlayingEntity {
 
-	public PlayingEntity(long employeeID, Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness,
-			boolean religious, double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven, long heaven_time_end_millis,
-			Age age) {
+	public PlayingEntity(long employeeID, Set<EmployeeProfession> professions, double health, double maxHealth,
+			double saturation, double happyness, boolean religious, double religious_satisfaction, double endurance,
+			double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
 		this.employeeID = employeeID;
 		this.professions = professions;
 		this.health = health;
@@ -108,4 +108,30 @@ public abstract class PlayingEntity {
 	}
 
 	public abstract Inventory getInventory();
+
+	public void incrementAgeTo(Age age) {
+		if (getActualAge().index < age.index) {
+			this.age = age;
+			try {
+				WEDB.setEntityAge(this, age);
+			} catch (SQLException e) {
+				throw new RuntimeException();
+			}
+		}
+	}
+
+	/**
+	 * <b>DO NOT USE THIS METHOD UNLESS NECESARY.</b> If you want to level up
+	 * the entity's age, use incrementAgeTo(Age age) instead.
+	 * 
+	 * @param age
+	 */
+	@Deprecated
+	protected void setAge(Age age) {
+		this.age = age;
+	}
+
+	public Age getActualAge() {
+		return age;
+	}
 }

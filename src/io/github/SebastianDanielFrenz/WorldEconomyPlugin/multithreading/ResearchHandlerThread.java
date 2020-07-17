@@ -6,7 +6,9 @@ import org.bukkit.Bukkit;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.PlayingEntity;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.UserProfile;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;
@@ -46,6 +48,13 @@ public class ResearchHandlerThread implements Runnable {
 								WEDB.addAllStatistics((StatisticalObject) item.getResearchableObject(),
 										entity.getResearchSpecifiyEntityID(), entity.getResearchEntityType());
 							}
+						}
+					}
+					Age new_age = ResearchManager.updateAge(entity);
+					if (new_age != null) {
+						if (entity instanceof UserProfile) {
+							Bukkit.getPlayer(((UserProfile) entity).uuid).sendMessage(
+									WorldEconomyPlugin.PREFIX + "§aYou are now in: " + new_age.color + new_age.getID());
 						}
 					}
 				} catch (SQLException e) {
