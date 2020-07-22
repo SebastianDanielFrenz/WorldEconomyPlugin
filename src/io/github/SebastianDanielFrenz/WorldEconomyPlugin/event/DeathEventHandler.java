@@ -12,11 +12,7 @@ public class DeathEventHandler implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		try {
-			WEDB.getUserProfile(event.getEntity()).kill();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		event.setDeathMessage("Er gab sich KANT");
 	}
 
 }

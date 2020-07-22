@@ -50,10 +50,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.OrePopulator;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.WorldEconomyBlockPopulator;
 
 public class EventListener implements Listener {
 
@@ -271,6 +274,10 @@ public class EventListener implements Listener {
 		System.out.println(event.getWorld().getName());
 
 		if (event.getWorld().getName().equals("world")) {
+
+			Bukkit.getWorld("world").getPopulators().add(new WorldEconomyBlockPopulator());
+			Bukkit.getWorld("world").getPopulators().add(new OrePopulator());
+
 			WorldEconomyPlugin.plugin.getLogger().info("Loading extensions...");
 
 			String log_output = "Found " + WorldEconomyExtensionRegistry.getExtensions().size() + " extensions: [";
@@ -294,6 +301,7 @@ public class EventListener implements Listener {
 			WorldEconomyPlugin.plugin.getLogger().info("Extensions loaded, performing plausibility checks...");
 
 			CustomBlockTypeRegistry.check();
+			// CustomItemRegistry.check();
 			// custom block ID check
 			// custom item ID check
 			// custom item vanilla item check
@@ -318,7 +326,7 @@ public class EventListener implements Listener {
 
 				WorldCreator wc = new WorldCreator("heaven");
 				wc.environment(World.Environment.NORMAL);
-				wc.type(WorldType.NORMAL);
+				wc.type(WorldType.FLAT);
 				wc.generateStructures(false);
 
 				wc.generatorSettings(

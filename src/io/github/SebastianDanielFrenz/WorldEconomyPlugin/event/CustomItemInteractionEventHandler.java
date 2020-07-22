@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.event;
 
+import java.sql.SQLException;
+
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.MeleeWeaponItemDetail;
@@ -42,6 +46,19 @@ public class CustomItemInteractionEventHandler implements Listener {
 			} else {
 				event.setDamage(1);
 				event.getDamager().sendMessage("You have dealt 1 damage using your hand.");
+			}
+		}
+
+		if (event.getEntity() instanceof Player) {
+			if (((Player) event.getEntity()).getHealth() - event.getDamage() <= 0) {
+				event.setCancelled(true);
+				try {
+					WEDB.getUserProfile((Player) event.getEntity()).kill();
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+					event.getEntity().sendMessage("something went wrong; the gods do not allow you to enter heaven!");
+				}
 			}
 		}
 	}

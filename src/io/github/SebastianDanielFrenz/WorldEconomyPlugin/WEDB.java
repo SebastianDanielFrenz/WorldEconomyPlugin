@@ -181,7 +181,7 @@ public class WEDB {
 
 	public static void setUserAge(UserProfile profile, Age age) throws SQLException {
 		WorldEconomyPlugin.runSQL(
-				"UPDATE user_profiles SET age = " + age.getID() + " WHERE playerUUID = \"" + profile.uuid + "\"");
+				"UPDATE user_profiles SET age = \"" + age.getID() + "\" WHERE playerUUID = \"" + profile.uuid + "\"");
 	}
 
 	public static void setEntityAge(PlayingEntity entity, Age age) throws SQLException {
@@ -1649,15 +1649,15 @@ public class WEDB {
 
 	public static void registerCustomBlock(Location location, CustomBlockType block, CustomBlockData data)
 			throws SQLException {
-		WorldEconomyPlugin
-				.runSQL("INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType, blockData) VALUES ("
+		WorldEconomyPlugin.runSQLTask(
+				"INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType, blockData) VALUES ("
 						+ location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \""
 						+ location.getWorld().getName() + "\", \"" + block.ID + "\", \"" + data.save() + "\")");
 	}
 
 	public static void updateBlockData(Block block, String data) throws SQLException {
 		Location l = block.getLocation();
-		WorldEconomyPlugin.runSQL("UPDATE custom_blocks SET blockData = \"" + data + "\" WHERE blockX = "
+		WorldEconomyPlugin.runSQLTask("UPDATE custom_blocks SET blockData = \"" + data + "\" WHERE blockX = "
 				+ l.getBlockX() + " AND blockY = " + l.getBlockY() + " AND blockZ = " + l.getBlockZ());
 	}
 
@@ -1682,9 +1682,9 @@ public class WEDB {
 	}
 
 	public static void removeCustomBlock(Location location) throws SQLException {
-		WorldEconomyPlugin.runSQL("DELETE FROM custom_blocks WHERE blockX = " + location.getBlockX() + " AND blockY = "
-				+ location.getBlockY() + " AND blockZ = " + location.getBlockZ() + " AND blockWorld = \""
-				+ location.getWorld().getName() + "\"");
+		WorldEconomyPlugin.runSQLTask("DELETE FROM custom_blocks WHERE blockX = " + location.getBlockX()
+				+ " AND blockY = " + location.getBlockY() + " AND blockZ = " + location.getBlockZ()
+				+ " AND blockWorld = \"" + location.getWorld().getName() + "\"");
 	}
 
 	/*
@@ -1829,6 +1829,9 @@ public class WEDB {
 		WorldEconomyPlugin.runSQL("UPDATE user_profiles SET inHeaven = 1, heavenEndTimeMillis = " + millis
 				+ " WHERE playerUUID = \"" + profile.uuid.toString() + "\"");
 		Player player = Bukkit.getPlayer(profile.uuid);
+
+		System.out.println("sent player " + player.getName() + " to heaven!");
+
 		player.teleport(new Location(Bukkit.getWorld("heaven"), 0, 2, 0));
 	}
 

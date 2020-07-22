@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.recipes.MachineRecipe;
@@ -10,7 +12,7 @@ public abstract class Machine extends CustomBlockType {
 
 	public Machine(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends CustomBlockMachineData> blockDataType) {
-		super(ID, material, vanilla, drop_table, blockDataType);
+		super(WorldEconomyPlugin.plugin, ID, material, vanilla, drop_table, blockDataType);
 	}
 
 	public static MachineRecipe[] mergeRecipes(MachineRecipe[] recipes1, MachineRecipe[] recipes2) {

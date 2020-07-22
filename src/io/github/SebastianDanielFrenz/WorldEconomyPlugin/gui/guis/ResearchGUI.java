@@ -31,6 +31,7 @@ public class ResearchGUI extends WEGUI {
 
 						@Override
 						public void event(InventoryClickEvent event) {
+							System.out.println(age.getID());
 							new ResearchAgeGUI(_this, age, profile, player).openInventory();
 						}
 					});

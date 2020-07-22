@@ -3,13 +3,13 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockda
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
-public class CustomEmptyBlockData extends CustomBlockData {
+public class EmptyCustomBlockData extends CustomBlockData {
 
-	public CustomEmptyBlockData(String rawData) throws CustomBlockDataCreationException {
+	public EmptyCustomBlockData(String rawData) throws CustomBlockDataCreationException {
 		super(rawData);
 	}
 
-	public CustomEmptyBlockData() throws CustomBlockDataCreationException {
+	public EmptyCustomBlockData() throws CustomBlockDataCreationException {
 		super();
 	}
 

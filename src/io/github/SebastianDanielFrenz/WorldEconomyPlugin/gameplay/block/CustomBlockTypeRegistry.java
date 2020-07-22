@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,8 +32,13 @@ public class CustomBlockTypeRegistry {
 
 	private static List<CustomBlockType> blocks = new ArrayList<CustomBlockType>();
 
+	private static List<CustomOre> ores = new ArrayList<CustomOre>();
+
 	public static void register(CustomBlockType block) {
 		blocks.add(block);
+		if (block instanceof CustomOre) {
+			ores.add((CustomOre) block);
+		}
 	}
 
 	public static final CustomBlockType COARSE_DIRT = new BlockCoarseDirt();
@@ -123,7 +129,39 @@ public class CustomBlockTypeRegistry {
 			}
 
 			throw new RuntimeException(
-					"Dublicate custom block entry for CustomBlockType[vanilla=true]. More details above.");
+					"Dublicate custom block entry for CustomBlockType[vanilla=true]. More details above. Now shutting down the server for security reasons.");
+		}
+
+		Map<String, LinkedList<CustomBlockType>> ID_map = new TreeMap<String, LinkedList<CustomBlockType>>();
+
+		for (CustomBlockType blockType : blocks) {
+			if (ID_map.get(blockType.ID) != null) {
+				ID_map.get(blockType.ID).add(blockType);
+				broken = true;
+			} else {
+				LinkedList<CustomBlockType> list = new LinkedList<CustomBlockType>();
+				list.add(blockType);
+				ID_map.put(blockType.ID, list);
+			}
+		}
+
+		if (broken) {
+			WorldEconomyPlugin.plugin.getLogger()
+					.severe("The block registry is broken. There are multiple blocks registered with the same ID!");
+			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
+			String out;
+			List<CustomBlockType> list;
+			for (String ID : ID_map.keySet()) {
+				list = ID_map.get(ID);
+				out = ID + " - [";
+				for (int i = 0; i < list.size() - 1; i++) {
+					out += list.get(i).plugin.getName() + ", ";
+				}
+				out += list.get(list.size() - 1).plugin.getName();
+				out += "]";
+
+				WorldEconomyPlugin.plugin.getLogger().severe(out);
+			}
 		}
 	}
 
@@ -156,6 +194,10 @@ public class CustomBlockTypeRegistry {
 
 	public static CustomBlockType getBlock(Location location) {
 		return getBlock(location.getBlock());
+	}
+
+	public static List<CustomOre> getOreContents() {
+		return ores;
 	}
 
 }

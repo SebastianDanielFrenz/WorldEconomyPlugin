@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockDataDoesNotExistException;
@@ -23,8 +24,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Stati
 
 public abstract class CustomBlockType implements StatisticalObject, ResearchableObject {
 
-	public CustomBlockType(String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
-			Class<? extends CustomBlockData> blockDataType) {
+	public CustomBlockType(Plugin plugin, String ID, Material material, boolean vanilla,
+			CustomBlockDropTable drop_table, Class<? extends CustomBlockData> blockDataType) {
+		this.plugin = plugin;
+
 		this.ID = ID;
 		this.material = material;
 		this.vanilla_data = 0;
@@ -33,8 +36,10 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 		this.blockDataType = blockDataType;
 	}
 
-	public CustomBlockType(String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
-			Class<? extends CustomBlockData> blockDataType) {
+	public CustomBlockType(Plugin plugin, String ID, Material material, int data, boolean vanilla,
+			CustomBlockDropTable drop_table, Class<? extends CustomBlockData> blockDataType) {
+		this.plugin = plugin;
+
 		this.ID = ID;
 		this.material = material;
 		if (data > 255) {
@@ -47,6 +52,7 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 		this.blockDataType = blockDataType;
 	}
 
+	public final Plugin plugin;
 	public final String ID;
 	public final Material material;
 	public final byte vanilla_data;
