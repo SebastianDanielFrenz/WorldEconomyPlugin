@@ -157,7 +157,10 @@ public class TaskWorker implements Runnable {
 		requesting_thread = thread;
 		while (true) {
 			try {
-				Thread.sleep(Long.MAX_VALUE);
+				if (finished) {
+					return;
+				}
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				break;
 			}

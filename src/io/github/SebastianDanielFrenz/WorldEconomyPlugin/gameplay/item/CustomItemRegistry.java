@@ -66,6 +66,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWoodenShovel;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.admin_tools.ItemAdminSword;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestoneShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestoneShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemProcessedCobblestoneShovel;
@@ -204,6 +205,10 @@ public class CustomItemRegistry {
 	public static final CustomItem EGYPTIAN_CAMPFIRE_STAGE1 = new ItemEgyptianCampfireStage1();
 
 	public static final CustomItem SHARP_STICK = new ItemSharpStick();
+	
+	// admin stuff
+	
+	public static final CustomItem ADMIN_SWORD = new ItemAdminSword();
 
 	public static void init() {
 		register(COAL_ORE);
@@ -305,6 +310,7 @@ public class CustomItemRegistry {
 		register(EGYPTIAN_CAMPFIRE_STAGE1, CustomBlockTypeRegistry.EGYPTIAN_CAMPFIRE_STAGE1);
 
 		register(SHARP_STICK);
+		register(ADMIN_SWORD);
 	}
 
 	public static CustomItem getItem(String ID) {

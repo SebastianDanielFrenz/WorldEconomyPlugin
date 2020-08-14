@@ -201,6 +201,14 @@ public class WorldEconomyPlugin extends JavaPlugin {
 			try {
 				Thread.sleep(1000);
 				getLogger().info("Waiting for background threads to finish...");
+				// if (TaskProcessor.isRunning()) {
+				if (TaskProcessor.getQueueLength() > 0) {
+					getLogger().info(TaskProcessor.getQueueLength() + " tasks pending...");
+					for (String line : TaskProcessor.getStatus().getFormattedStatus()) {
+						getLogger().info(line);
+					}
+				}
+				// }
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -440,6 +448,21 @@ public class WorldEconomyPlugin extends JavaPlugin {
 					+ "earnings real," + "PRIMARY KEY(companyID, year),"
 					// references
 					+ "$ref$FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
+
+			runSQL("CREATE TABLE company_positions (companyPositionID integer PRIMARY KEY," + "companyID integer,"
+					+ "positionName text,"
+					// references
+					+ "$ref$FOREIGN KEY(companyID) REFERENCES companies(companyID)" + ");");
+
+			runSQL("CREATE TABLE company_position_professions (companyPositionID integer," + "professionName text,"
+					+ "PRIMARY KEY(companyPositionID, professionName),"
+					// references
+					+ "$ref$FOREIGN KEY(companyPositionID) REFERENCES company_positions(companyPositionID)" + ");");
+
+			runSQL("CREATE TABLE job_offers (jobOfferID integer PRIMARY KEY," + "companyPositionID integer,"
+					+ "salary real," + "positions integer,"
+					// references
+					+ "$ref$FOREIGN KEY(companyPositionID) REFERENCES company_positions(companyPositionID)" + ");");
 
 			// enumerator
 

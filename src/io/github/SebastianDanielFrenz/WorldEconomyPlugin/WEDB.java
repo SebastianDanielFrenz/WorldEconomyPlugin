@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -54,6 +55,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SignData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.SupplyChestData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.EmployeeProfession;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.professions.JobOffer;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.resources.ItemTransactionManager;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.StockMarketProduct;
@@ -930,7 +932,7 @@ public class WEDB {
 	public static Map<Long, Long> getEmploymentInformation(long employeeID) throws SQLException {
 		ResultSet r = WorldEconomyPlugin
 				.runSQLquery("SELECT (employerID, contractID) FROM employee_matching WHERE employeeID = " + employeeID);
-		Map<Long, Long> map = new HashMap<Long, Long>();
+		Map<Long, Long> map = new TreeMap<Long, Long>();
 		while (r.next()) {
 			map.put(r.getLong("employerID"), r.getLong("contractID"));
 		}
@@ -1815,6 +1817,79 @@ public class WEDB {
 	public static void addProfession(PlayingEntity entity, EmployeeProfession profession) throws SQLException {
 		WorldEconomyPlugin.runSQL("INSERT INTO employee_professions (employeeID, professionName) VALUES ("
 				+ entity.employeeID + ", \"" + profession.name() + "\"");
+	}
+
+	/*
+	 * ==================================================
+	 * 
+	 * This section is dedicated to job offers.
+	 * 
+	 * ==================================================
+	 */
+
+	public static List<JobOffer> getAllJobOffers() throws SQLException {
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM job_offers");
+		List<JobOffer> out = new ArrayList<JobOffer>();
+		while (res.next()) {
+			out.add(new JobOffer(res.getLong("companyPositionID"), res.getDouble("salary"), res.getInt("positions")));
+		}
+		return out;
+	}
+
+	public static List<JobOffer> getMatchingJobOffers(long employeeID) throws SQLException {
+		ResultSet res = WorldEconomyPlugin.runSQLquery("SELECT * FROM job_offers");
+		List<JobOffer> out = new ArrayList<JobOffer>();
+
+		Set<EmployeeProfession> professions = getProfessions(employeeID);
+
+		long companyPositionID;
+		ResultSet res2;
+		while (res.next()) {
+			companyPositionID = res.getLong("companyPositionID");
+			res2 = WorldEconomyPlugin
+					.runSQLquery("SELECT professionName FROM company_position_professions WHERE companyPositionID = "
+							+ companyPositionID);
+			boolean match = true;
+			while (res2.next()) {
+				if (!professions.contains(EmployeeProfession.valueOf(res2.getString("professionName")))) {
+					match = false;
+					break;
+				}
+			}
+			if (match) {
+				out.add(new JobOffer(companyPositionID, res.getDouble("salary"), res.getInt("positions")));
+			}
+		}
+		return out;
+	}
+
+	public static void registerJobOffer(long companyPositionID, double salary, int positions) throws SQLException {
+		WorldEconomyPlugin.runSQL("INSERT INTO job_offers (companyPositionID, salary, positions) VALUES ("
+				+ companyPositionID + ", " + salary + ", " + positions);
+	}
+
+	public static void registerJobOffer(long companyPositionID, double salary) throws SQLException {
+		registerJobOffer(companyPositionID, salary, 1);
+	}
+
+	public static void registerCompanyPosition(long companyID, String positionName,
+			List<EmployeeProfession> professions) throws SQLException {
+		WorldEconomyPlugin.runSQL("INSERT INTO company_positions (companyID, positionName) VALUES (" + companyID
+				+ ", \"" + positionName + "\")");
+	}
+
+	public static void addCompanyPositionRequirements(long companyPositionID, List<EmployeeProfession> professions)
+			throws SQLException {
+		for (EmployeeProfession profession : professions) {
+			addCompanyPositionRequirement(companyPositionID, profession);
+		}
+	}
+
+	public static void addCompanyPositionRequirement(long companyPositionID, EmployeeProfession profession)
+			throws SQLException {
+		WorldEconomyPlugin
+				.runSQL("INSERT INTO company_position_professions (companyPositionID, professionName) VALUES ("
+						+ companyPositionID + ", \"" + profession + "\")");
 	}
 
 	/*

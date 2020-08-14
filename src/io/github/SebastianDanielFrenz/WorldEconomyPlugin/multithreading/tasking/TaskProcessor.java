@@ -44,6 +44,11 @@ public class TaskProcessor {
 					}
 				}
 			}
+			if (task.discardOnOverload()) {
+				task.discard();
+			} else {
+				tasks.add(task);
+			}
 		} else {
 			tasks.add(task);
 		}

@@ -33,26 +33,21 @@ public class SQLTask extends Task {
 
 	@Override
 	public void discard() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean startOnShutdown() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean continueOnShutdown() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean hasFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

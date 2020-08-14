@@ -1,5 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
+import java.sql.SQLException;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +31,11 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 	public long aiID;
 
 	public long mailboxID;
+	
+	/**
+	 * 1/4 --> 6 hours per day (24/4)
+	 */
+	public double work_per_day;
 
 	public AIProfile(long aiID, String username, long bankingID, long employeeID, long aiAsEmployerID, long mailboxID,
 			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness,
@@ -90,5 +97,13 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 	@Override
 	public Inventory getInventory() {
 		return ((Villager) Bukkit.getEntity(uuid)).getInventory();
+	}
+	
+	public void planLife() throws SQLException {
+		Map<Long,Long> map = WEDB.getEmploymentInformation(employeeID);
+		if (map.size() == 0) {
+			// look for a job
+			
+		}
 	}
 }
