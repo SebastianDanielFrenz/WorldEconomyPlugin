@@ -13,7 +13,6 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.Cus
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomToolType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCopperOre;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.NoiseOreGenerator;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.OreGenerator;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.OrePatchType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain.PatchOreGenerator;
