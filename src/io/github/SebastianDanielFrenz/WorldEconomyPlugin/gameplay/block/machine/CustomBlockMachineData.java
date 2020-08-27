@@ -1,21 +1,25 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.InventoryIO;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
 public class CustomBlockMachineData extends CustomBlockData implements InventoryHolder {
 
 	private Inventory inv;
 
-	public CustomBlockMachineData() {
+	public CustomBlockMachineData(Location location) {
+		super(location);
 		inv = Bukkit.createInventory(this, 9);
 	}
 
-	public CustomBlockMachineData(String raw) {
+	public CustomBlockMachineData(Location location, String raw) throws CustomBlockDataCreationException {
+		super(location, raw);
 		inv = InventoryIO.loadInventory(this, raw);
 	}
 

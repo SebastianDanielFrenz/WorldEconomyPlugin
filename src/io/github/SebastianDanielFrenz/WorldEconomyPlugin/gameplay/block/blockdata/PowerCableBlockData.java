@@ -1,31 +1,34 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
+import org.bukkit.Location;
 
-public class PowerCableBlockData extends CustomBlockData {
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.electric.PowerGridMemberType;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.electric.PowerGridRegistry;
 
-	private long powerGridID;
+public class PowerCableBlockData extends PowerConnectedBlockData {
 
-	public PowerCableBlockData() {
-		powerGridID = PowerGridRegistry.lastPowerGridID + 1;
+	public PowerCableBlockData(Location location) {
+		super(location);
+
+		powerGrid = PowerGridRegistry.extendPowerGridTo(location, PowerGridMemberType.CABLE);
 		PowerGridRegistry.lastPowerGridID++;
 	}
 
-	public PowerCableBlockData(String rawData) {
-		powerGridID = Long.parseLong(rawData);
-	}
+	public PowerCableBlockData(Location location, String rawData) throws CustomBlockDataCreationException {
+		super(location, rawData);
 
-	public void setPowerGridID(long ID) {
-		powerGridID = ID;
-	}
-
-	public long getPowerGridID() {
-		return powerGridID;
+		powerGrid = PowerGridRegistry.getPowerGrid(Long.parseLong(rawData));
 	}
 
 	@Override
 	public String save() {
-		return String.valueOf(powerGridID);
+		return String.valueOf(powerGrid.ID);
+	}
+
+	@Override
+	public PowerGridMemberType getPowerGridMemberType() {
+		return PowerGridMemberType.CABLE;
 	}
 
 }

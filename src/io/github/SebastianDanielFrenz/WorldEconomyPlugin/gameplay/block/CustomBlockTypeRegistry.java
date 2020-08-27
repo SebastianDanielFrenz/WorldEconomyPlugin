@@ -105,8 +105,8 @@ public class CustomBlockTypeRegistry {
 		}
 
 		if (broken) {
-			WorldEconomyPlugin.plugin.getLogger().severe(
-					"The block registry is broken. There are multiple blocks registered as the same vanilla block!");
+			WorldEconomyPlugin.plugin.getLogger()
+					.severe("The block registry is broken. There are multiple blocks registered as the same vanilla block!");
 			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
 			List<CustomBlockType> list;
 			String msg;
@@ -117,14 +117,12 @@ public class CustomBlockTypeRegistry {
 					for (int i = 0; i < list.size() - 1; i++) {
 						msg += list.get(i).ID + "[" + list.get(i).getClass().getCanonicalName() + "]" + ", ";
 					}
-					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName()
-							+ "])";
+					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName() + "])";
 
 					WorldEconomyPlugin.plugin.getLogger().warning(msg);
 				} else {
-					WorldEconomyPlugin.plugin.getLogger()
-							.info("1x " + identifier.material.name() + "[" + identifier.data + "] (" + list.get(0).ID
-									+ "[" + list.get(0).getClass().getCanonicalName() + "])");
+					WorldEconomyPlugin.plugin.getLogger().info("1x " + identifier.material.name() + "[" + identifier.data + "] (" + list.get(0).ID
+							+ "[" + list.get(0).getClass().getCanonicalName() + "])");
 				}
 			}
 
@@ -146,8 +144,7 @@ public class CustomBlockTypeRegistry {
 		}
 
 		if (broken) {
-			WorldEconomyPlugin.plugin.getLogger()
-					.severe("The block registry is broken. There are multiple blocks registered with the same ID!");
+			WorldEconomyPlugin.plugin.getLogger().severe("The block registry is broken. There are multiple blocks registered with the same ID!");
 			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
 			String out;
 			List<CustomBlockType> list;
@@ -179,21 +176,32 @@ public class CustomBlockTypeRegistry {
 	}
 
 	public static CustomBlockType getBlock(Block block) {
+		return getBlockDetails(block).getBlock();
+	}
+
+	public static CustomBlockType getBlock(Location location) {
+		return getBlock(location.getBlock());
+	}
+
+	public static CustomBlockMetadataValue getBlockDetails(Block block) {
 		List<MetadataValue> metadata_values = block.getMetadata("customBlockType");
 
 		CustomBlockType customBlock;
 
 		if (metadata_values.size() == 0) {
 			customBlock = CustomBlockType.getVanillaBlock(block);
+			if (customBlock == null) {
+				return null;
+			}
+			try {
+				return new CustomBlockMetadataValue(customBlock, customBlock.blockDataType.newInstance());
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+				return null;
+			}
 		} else {
-			customBlock = ((CustomBlockMetadataValue) metadata_values.get(0)).getBlock();
+			return ((CustomBlockMetadataValue) metadata_values.get(0));
 		}
-
-		return customBlock;
-	}
-
-	public static CustomBlockType getBlock(Location location) {
-		return getBlock(location.getBlock());
 	}
 
 	public static List<CustomOre> getOreContents() {

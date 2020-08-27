@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.bukkit.Location;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 
 /**
@@ -18,17 +20,16 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCr
  */
 public abstract class CustomBlockData {
 
-	public CustomBlockData(String rawData) throws CustomBlockDataCreationException {
+	public CustomBlockData(Location location, String rawData) throws CustomBlockDataCreationException {
 	}
 
-	public CustomBlockData() {
+	public CustomBlockData(Location location) {
 	}
 
 	public abstract String save();
 
-	public static CustomBlockData create(Class<? extends CustomBlockData> type, String raw)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+	public static CustomBlockData create(Class<? extends CustomBlockData> type, String raw) throws NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		return type.getConstructor(String.class).newInstance(raw);
 	}
 

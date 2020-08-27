@@ -1,16 +1,21 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata;
 
+import org.bukkit.Location;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
 public class PowerStorageBlockData extends CustomBlockData {
 
 	private double stored_power;
 
-	public PowerStorageBlockData() {
+	public PowerStorageBlockData(Location location) {
+		super(location);
 		stored_power = 0;
 	}
 
-	public PowerStorageBlockData(String rawData) {
+	public PowerStorageBlockData(Location location, String rawData) throws CustomBlockDataCreationException {
+		super(location, rawData);
 		stored_power = Double.parseDouble(rawData);
 	}
 

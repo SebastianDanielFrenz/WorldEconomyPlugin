@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.event.EventHandler;
@@ -45,6 +46,18 @@ public class WEGUIRegistry implements Listener {
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
 		GUIs.remove(event.getInventory().getHolder());
+	}
+
+	public static List<LiveGUI> getLiveGUIs() {
+		List<LiveGUI> out = new LinkedList<LiveGUI>();
+
+		for (WEGUI gui : GUIs) {
+			if (gui instanceof LiveGUI) {
+				out.add((LiveGUI) gui);
+			}
+		}
+
+		return out;
 	}
 
 }

@@ -19,6 +19,11 @@ public class CustomBlockMetadataValue implements MetadataValue {
 		return block;
 	}
 
+	/**
+	 * Editing this data does not survive a server restart.
+	 * 
+	 * @return
+	 */
 	public CustomBlockData getBlockData() {
 		return data;
 	}

@@ -12,15 +12,22 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.GUIItem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.LiveGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 
-public class StockMarketGUI extends WEGUI {
+public class StockMarketGUI extends LiveGUI {
 
 	public StockMarketGUI(WEGUI parent, Player player) {
 		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_STOCK_MARKET), player);
 
+		update();
+	}
+
+	@Override
+	public void update() {
 		int slot = 9;
+
 		try {
 			List<GUIItem> items = new ArrayList<GUIItem>();
 			Company company;
@@ -34,6 +41,9 @@ public class StockMarketGUI extends WEGUI {
 					}
 				});
 			}
+
+			setItems(convert(items));
+
 		} catch (SQLException e) {
 			setErrorGUI();
 			e.printStackTrace();
