@@ -28,6 +28,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelIngot;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelPlate;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemSteelRod;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemAluminumIngot;
@@ -67,6 +68,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.Ite
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWaterClayBucket;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemWoodenShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.admin_tools.ItemAdminSword;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.power_grid.ItemPowerCable;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemCobblestoneShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemHardenedCobblestoneShovel;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.items.ItemProcessedCobblestoneShovel;
@@ -106,7 +108,14 @@ public class CustomItemRegistry {
 
 	public static void register(CustomItem item, CustomBlockType block) {
 		register(item);
-		((CustomPlaceableItem) item).setBlock(block);
+		if (item instanceof CustomPlaceableItem) {
+			((CustomPlaceableItem) item).setBlock(block);
+		} else {
+			WorldEconomyPlugin.plugin.getLogger()
+					.severe("Failed to assign " + block.getClass().getCanonicalName() + " to "
+							+ item.getClass().getCanonicalName()
+							+ " because the item has to extend CustomPlaceableItem!");
+		}
 	}
 
 	public static final CustomItem COAL_ORE = new ItemCoalOre();
@@ -205,10 +214,14 @@ public class CustomItemRegistry {
 	public static final CustomItem EGYPTIAN_CAMPFIRE_STAGE1 = new ItemEgyptianCampfireStage1();
 
 	public static final CustomItem SHARP_STICK = new ItemSharpStick();
-	
+
 	// admin stuff
-	
+
 	public static final CustomItem ADMIN_SWORD = new ItemAdminSword();
+
+	// power grid stuff
+
+	public static final CustomItem POWER_CABLE = new ItemPowerCable();
 
 	public static void init() {
 		register(COAL_ORE);
@@ -311,6 +324,8 @@ public class CustomItemRegistry {
 
 		register(SHARP_STICK);
 		register(ADMIN_SWORD);
+
+		register(POWER_CABLE, CustomBlockTypeRegistry.POWER_CABLE);
 	}
 
 	public static CustomItem getItem(String ID) {

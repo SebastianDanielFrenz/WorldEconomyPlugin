@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata.PowerConnectedBlockData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
@@ -31,6 +32,8 @@ public class PowerGridRegistry {
 	}
 
 	public static void dumpPowerGrids(CommandSender sender) {
+		sender.sendMessage("dumping power grids:");
+
 		for (PowerGrid powerGrid : powerGrids) {
 			sender.sendMessage(" ------ " + powerGrid.ID + ":");
 			sender.sendMessage(" --- supplyers:");
@@ -42,10 +45,18 @@ public class PowerGridRegistry {
 			for (Block storage : powerGrid.storages) {
 				sender.sendMessage(CustomBlockTypeRegistry.getBlock(storage).ID);
 			}
-			
+
 			sender.sendMessage(" --- consumers:");
 			for (Block consumer : powerGrid.consumers) {
 				sender.sendMessage(CustomBlockTypeRegistry.getBlock(consumer).ID);
+			}
+
+			sender.sendMessage(" --- cables:");
+			for (Block cable : powerGrid.all_connected) {
+				if (((CustomBlockMetadataValue) cable.getMetadata("customBlockType").get(0))
+						.getBlock() instanceof PowerCableBlockType) {
+					sender.sendMessage(CustomBlockTypeRegistry.getBlock(cable).ID);
+				}
 			}
 		}
 	}
@@ -69,7 +80,8 @@ public class PowerGridRegistry {
 					out.integrateForeignPowerGrid(powerGrid);
 					powerGrids.remove(powerGrid);
 					for (Block block : powerGrid.all_connected) {
-						PowerConnectedBlockData data = ((PowerConnectedBlockData) CustomBlockTypeRegistry.getBlockDetails(block).getBlockData());
+						PowerConnectedBlockData data = ((PowerConnectedBlockData) CustomBlockTypeRegistry
+								.getBlockDetails(block).getBlockData());
 						data.powerGrid = out;
 						TaskProcessor.registerTask(new Task() {
 
@@ -128,7 +140,9 @@ public class PowerGridRegistry {
 		}
 
 		if (out == null) {
-			return new PowerGrid(location.getBlock(), memberType);
+			out = new PowerGrid(location.getBlock(), memberType);
+			powerGrids.add(out);
+			return out;
 		} else {
 			out.all_connected.add(location.getBlock());
 			if (memberType == PowerGridMemberType.SUPPLYER) {

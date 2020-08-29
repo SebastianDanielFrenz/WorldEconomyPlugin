@@ -7,9 +7,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata.PowerConnectedBlockData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 
-public class PowerConnectedBlock extends CustomBlockType {
+public class PowerConnectedBlockType extends CustomBlockType {
 
-	public PowerConnectedBlock(Plugin plugin, String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
+	public PowerConnectedBlockType(Plugin plugin, String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends PowerConnectedBlockData> blockDataType) {
 		super(plugin, ID, material, data, vanilla, drop_table, blockDataType);
 	}

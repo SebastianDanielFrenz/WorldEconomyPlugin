@@ -8,13 +8,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 
-public abstract class PowerConsumerBlock extends CustomBlockType {
+public abstract class PowerSupplyerBlockType extends CustomBlockType {
 
-	public PowerConsumerBlock(Plugin plugin, String ID, Material material, int data, boolean vanilla,
+	public PowerSupplyerBlockType(Plugin plugin, String ID, Material material, int data, boolean vanilla,
 			CustomBlockDropTable drop_table, Class<? extends CustomBlockData> blockDataType) {
 		super(plugin, ID, material, data, vanilla, drop_table, blockDataType);
 	}
 
-	public abstract double getPowerRequested(Location location, CustomBlockData blockData);
+	public abstract double getPowerOutput(Location location, CustomBlockData blockData);
 
 }

@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockda
 
 import org.bukkit.Location;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.electric.PowerGridMemberType;
 
 public class PowerSupplyerBlockData extends PowerConnectedBlockData {
@@ -10,13 +11,13 @@ public class PowerSupplyerBlockData extends PowerConnectedBlockData {
 		super(location);
 	}
 
-	public PowerSupplyerBlockData(Location location, String raw) {
+	public PowerSupplyerBlockData(Location location, String raw) throws CustomBlockDataCreationException {
 		super(location, raw);
 	}
 
 	@Override
 	public PowerGridMemberType getPowerGridMemberType() {
-		return 
+		return PowerGridMemberType.SUPPLYER;
 	}
 
 	@Override

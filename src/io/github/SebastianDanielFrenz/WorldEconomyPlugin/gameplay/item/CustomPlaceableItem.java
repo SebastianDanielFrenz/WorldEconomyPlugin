@@ -1,7 +1,9 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -72,10 +74,12 @@ public abstract class CustomPlaceableItem extends CustomItem {
 			BlockFace face = event.getBlockFace();
 			try {
 				Block _block = event.getClickedBlock().getRelative(face);
-				CustomBlockData data = block.blockDataType.newInstance();
+				CustomBlockData data = block.blockDataType.getConstructor(Location.class)
+						.newInstance(_block.getLocation());
 
-				CustomBlockType.placeBlock(_block, block, data);
 				event.setCancelled(true);
+				CustomBlockType.placeBlock(_block, block, data);
+				// event.setCancelled(true);
 				ItemStack hand = event.getPlayer().getInventory().getItemInMainHand();
 
 				if (hand.getAmount() == 1) {
@@ -83,7 +87,8 @@ public abstract class CustomPlaceableItem extends CustomItem {
 				} else {
 					hand.setAmount(hand.getAmount() - 1);
 				}
-			} catch (InstantiationException | IllegalAccessException | SQLException e) {
+			} catch (InstantiationException | IllegalAccessException | SQLException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				throw new RuntimeException(e);
 			}
 		}

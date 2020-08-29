@@ -7,9 +7,9 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blockdata.PowerStorageBlockData;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.drop.CustomBlockDropTable;
 
-public abstract class PowerStorageBlock extends CustomBlockType {
+public abstract class PowerStorageBlockType extends CustomBlockType {
 
-	public PowerStorageBlock(Plugin plugin, String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
+	public PowerStorageBlockType(Plugin plugin, String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
 			Class<? extends PowerStorageBlockData> blockDataType) {
 		super(plugin, ID, material, data, vanilla, drop_table, blockDataType);
 	}
