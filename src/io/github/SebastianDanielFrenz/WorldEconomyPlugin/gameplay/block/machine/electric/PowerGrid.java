@@ -5,13 +5,18 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
+
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.util.OrderedList;
 
 public class PowerGrid {
 
 	public PowerGrid(Block block, PowerGridMemberType type) {
 		ID = PowerGridRegistry.lastPowerGridID + 1;
 		PowerGridRegistry.lastPowerGridID++;
-		
+
 		if (type == PowerGridMemberType.CONSUMER) {
 			consumers.add(block);
 		} else if (type == PowerGridMemberType.STORAGE) {
@@ -25,9 +30,9 @@ public class PowerGrid {
 
 	public final long ID;
 
-	public List<Block> consumers = new ArrayList<Block>();
-	public List<Block> storages = new ArrayList<Block>();
-	public List<Block> supplyers = new ArrayList<Block>();
+	public List<Block> consumers = new OrderedList<Block>(new PriorityComparator());
+	public List<Block> storages = new OrderedList<Block>(new PriorityComparator());
+	public List<Block> supplyers = new OrderedList<Block>(new PriorityComparator());
 
 	public List<Block> all_connected = new ArrayList<Block>();
 
@@ -68,6 +73,94 @@ public class PowerGrid {
 		}
 		for (Block connected : powerGrid.all_connected) {
 			all_connected.add(connected);
+		}
+	}
+
+	public void distributePower() {
+		double total_possible_consumption = 0;
+
+		for (Block consumer : consumers) {
+			CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(consumer);
+			total_possible_consumption += ((PowerConsumerBlockType) meta.getBlock()).getMaxPower(consumer.getLocation(), meta.getBlockData());
+		}
+
+		double total_possible_supply = 0;
+
+		for (Block supplyer : supplyers) {
+			CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(supplyer);
+			total_possible_supply += ((PowerSupplyerBlockType) meta.getBlock()).getPowerOutput(supplyer.getLocation(), meta.getBlockData(),
+					total_possible_consumption - total_possible_supply);
+		}
+
+		if (total_possible_consumption > total_possible_supply) {
+			double total_possible_storage_out = 0;
+
+			for (Block storage : storages) {
+				CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(storage);
+				total_possible_storage_out += ((PowerStorageBlockType) meta.getBlock()).getMaxPowerOutput(storage.getLocation(), meta.getBlockData());
+			}
+
+			if (total_possible_consumption > total_possible_supply + total_possible_storage_out) {
+				for (Block consumer : consumers) {
+					CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(consumer);
+					PowerConsumerBlockType blockType = ((PowerConsumerBlockType) meta.getBlock());
+
+					double max = blockType.getMaxPower(consumer.getLocation(), meta.getBlockData());
+
+					if (max > total_possible_supply + total_possible_storage_out) {
+						if (blockType.acceptPower(consumer.getLocation(), meta.getBlockData(), total_possible_storage_out + total_possible_supply)) {
+							for (Block supplyer : supplyers) {
+								CustomBlockMetadataValue supplyerMeta = CustomBlockTypeRegistry.getBlockDetails(supplyer);
+								double max_supplyer_output = ((PowerSupplyerBlockType) meta.getBlock()).getPowerOutput(supplyer.getLocation(),
+										meta.getBlockData(), max);
+								((PowerSupplyerBlockType) supplyerMeta.getBlock()).usePower(supplyer.getLocation(), supplyerMeta.getBlockData(),
+										max_supplyer_output);
+								// if getPowerOutput makes ingame changes, this
+								// needs to be run
+							}
+							for (Block storage : storages) {
+								CustomBlockMetadataValue storageMeta = CustomBlockTypeRegistry.getBlockDetails(storage);
+								double max_storage_output = ((PowerStorageBlockType) meta.getBlock()).getMaxPowerOutput(supplyer.getLocation(),
+										meta.getBlockData());
+								((PowerSupplyerBlockType) supplyerMeta.getBlock()).usePower(supplyer.getLocation(), supplyerMeta.getBlockData(),
+										max_supplyer_output);
+							}
+							return; // all the power is used up
+						} else {
+							continue;
+						}
+					} else {
+						if (max > total_possible_supply) {
+
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void dump(CommandSender sender) {
+		sender.sendMessage(" ------ " + ID + ":");
+		sender.sendMessage(" --- supplyers:");
+		for (Block supplyer : supplyers) {
+			sender.sendMessage(CustomBlockTypeRegistry.getBlock(supplyer).ID);
+		}
+
+		sender.sendMessage(" --- storages:");
+		for (Block storage : storages) {
+			sender.sendMessage(CustomBlockTypeRegistry.getBlock(storage).ID);
+		}
+
+		sender.sendMessage(" --- consumers:");
+		for (Block consumer : consumers) {
+			sender.sendMessage(CustomBlockTypeRegistry.getBlock(consumer).ID);
+		}
+
+		sender.sendMessage(" --- cables:");
+		for (Block cable : all_connected) {
+			if (((CustomBlockMetadataValue) cable.getMetadata("customBlockType").get(0)).getBlock() instanceof PowerCableBlockType) {
+				sender.sendMessage(CustomBlockTypeRegistry.getBlock(cable).ID);
+			}
 		}
 	}
 

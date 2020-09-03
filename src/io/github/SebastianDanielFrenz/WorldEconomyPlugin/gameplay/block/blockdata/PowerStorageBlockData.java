@@ -5,9 +5,9 @@ import org.bukkit.Location;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockData;
 
-public class PowerStorageBlockData extends CustomBlockData {
+public abstract class PowerStorageBlockData extends CustomBlockData {
 
-	private double stored_power;
+	protected double stored_power;
 
 	public PowerStorageBlockData(Location location) {
 		super(location);
@@ -16,7 +16,6 @@ public class PowerStorageBlockData extends CustomBlockData {
 
 	public PowerStorageBlockData(Location location, String rawData) throws CustomBlockDataCreationException {
 		super(location, rawData);
-		stored_power = Double.parseDouble(rawData);
 	}
 
 	public double getStoredPower() {
@@ -25,11 +24,6 @@ public class PowerStorageBlockData extends CustomBlockData {
 
 	public void setStoredPower(double stored) {
 		stored_power = stored;
-	}
-
-	@Override
-	public String save() {
-		return String.valueOf(stored_power);
 	}
 
 }

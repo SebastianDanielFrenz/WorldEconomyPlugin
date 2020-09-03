@@ -18,7 +18,10 @@ public class PowerCableBlockData extends PowerConnectedBlockData {
 	public PowerCableBlockData(Location location, String rawData) throws CustomBlockDataCreationException {
 		super(location, rawData);
 
-		powerGrid = PowerGridRegistry.getPowerGrid(Long.parseLong(rawData));
+		powerGrid = PowerGridRegistry.getPowerGrid(Long.parseLong(rawData)); // needs
+																				// to
+																				// be
+																				// reworked
 	}
 
 	@Override
@@ -29,6 +32,11 @@ public class PowerCableBlockData extends PowerConnectedBlockData {
 	@Override
 	public PowerGridMemberType getPowerGridMemberType() {
 		return PowerGridMemberType.CABLE;
+	}
+
+	@Override
+	public int getPriority() {
+		return 0;
 	}
 
 }

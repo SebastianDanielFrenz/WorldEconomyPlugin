@@ -5,19 +5,28 @@ import org.bukkit.Location;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.CustomBlockDataCreationException;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.electric.PowerGridMemberType;
 
-public abstract class PowerSupplyerBlockData extends PowerConnectedBlockData {
+public abstract class PowerConsumerBlockData extends PowerConnectedBlockData {
 
-	public PowerSupplyerBlockData(Location location) {
+	protected int priority;
+
+	public PowerConsumerBlockData(Location location) {
 		super(location);
+
+		priority = 0;
 	}
 
-	public PowerSupplyerBlockData(Location location, String raw) throws CustomBlockDataCreationException {
-		super(location, raw);
+	public PowerConsumerBlockData(Location location, String rawData) throws CustomBlockDataCreationException {
+		super(location, rawData);
 	}
 
 	@Override
 	public PowerGridMemberType getPowerGridMemberType() {
-		return PowerGridMemberType.SUPPLYER;
+		return PowerGridMemberType.CONSUMER;
+	}
+
+	@Override
+	public int getPriority() {
+		return priority;
 	}
 
 }

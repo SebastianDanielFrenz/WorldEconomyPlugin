@@ -33,4 +33,6 @@ public abstract class PowerConnectedBlockData extends CustomBlockData {
 
 	public abstract PowerGridMemberType getPowerGridMemberType();
 
+	public abstract int getPriority();
+
 }
