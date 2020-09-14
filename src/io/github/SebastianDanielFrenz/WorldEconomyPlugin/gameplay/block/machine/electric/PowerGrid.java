@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.PowerDistributionTask;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.util.OrderedList;
 
 public class PowerGrid {
@@ -28,7 +29,12 @@ public class PowerGrid {
 		all_connected.add(block);
 	}
 
+	// public void setDistributionTask(PowerDistributionTask task) {
+	// powerDistributionTask = task;
+	// }
+
 	public final long ID;
+	// public PowerDistributionTask powerDistributionTask;
 
 	public List<Block> consumers = new OrderedList<Block>(new PriorityComparator());
 	public List<Block> storages = new OrderedList<Block>(new PriorityComparator());
@@ -102,17 +108,18 @@ public class PowerGrid {
 
 			if (total_possible_consumption > total_possible_supply + total_possible_storage_out) {
 				for (Block consumer : consumers) {
-					CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(consumer);
-					PowerConsumerBlockType blockType = ((PowerConsumerBlockType) meta.getBlock());
+					CustomBlockMetadataValue consumerMeta = CustomBlockTypeRegistry.getBlockDetails(consumer);
+					PowerConsumerBlockType blockType = ((PowerConsumerBlockType) consumerMeta.getBlock());
 
-					double max = blockType.getMaxPower(consumer.getLocation(), meta.getBlockData());
+					double max = blockType.getMaxPower(consumer.getLocation(), consumerMeta.getBlockData());
 
 					if (max > total_possible_supply + total_possible_storage_out) {
-						if (blockType.acceptPower(consumer.getLocation(), meta.getBlockData(), total_possible_storage_out + total_possible_supply)) {
+						if (blockType.acceptPower(consumer.getLocation(), consumerMeta.getBlockData(),
+								total_possible_storage_out + total_possible_supply)) {
 							for (Block supplyer : supplyers) {
 								CustomBlockMetadataValue supplyerMeta = CustomBlockTypeRegistry.getBlockDetails(supplyer);
-								double max_supplyer_output = ((PowerSupplyerBlockType) meta.getBlock()).getPowerOutput(supplyer.getLocation(),
-										meta.getBlockData(), max);
+								double max_supplyer_output = ((PowerSupplyerBlockType) consumerMeta.getBlock()).getPowerOutput(supplyer.getLocation(),
+										consumerMeta.getBlockData(), max);
 								((PowerSupplyerBlockType) supplyerMeta.getBlock()).usePower(supplyer.getLocation(), supplyerMeta.getBlockData(),
 										max_supplyer_output);
 								// if getPowerOutput makes ingame changes, this
@@ -120,10 +127,10 @@ public class PowerGrid {
 							}
 							for (Block storage : storages) {
 								CustomBlockMetadataValue storageMeta = CustomBlockTypeRegistry.getBlockDetails(storage);
-								double max_storage_output = ((PowerStorageBlockType) meta.getBlock()).getMaxPowerOutput(supplyer.getLocation(),
-										meta.getBlockData());
-								((PowerSupplyerBlockType) supplyerMeta.getBlock()).usePower(supplyer.getLocation(), supplyerMeta.getBlockData(),
-										max_supplyer_output);
+								double max_storage_output = ((PowerStorageBlockType) storageMeta.getBlock()).getMaxPowerOutput(storage.getLocation(),
+										storageMeta.getBlockData());
+								((PowerStorageBlockType) storageMeta.getBlock()).usePower(storage.getLocation(), storageMeta.getBlockData(),
+										max_storage_output);
 							}
 							return; // all the power is used up
 						} else {

@@ -40,6 +40,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduli
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TimeMeasurementType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.LiveGUIUpdateSchedulerTask;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.PowerDistributionSchedulerTask;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.PowerDistributionTask;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.SQLTask;
 import net.minecraft.server.v1_12_R1.EntityZombie;
@@ -192,7 +193,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TickListenerRunnable(), 1l, 1l);
 
 		TaskScheduler.scheduleRepeatingTask(new LiveGUIUpdateSchedulerTask(), 1, TimeMeasurementType.TICKS);
-		TaskScheduler.scheduleRepeatingTask(new PowerDistributionTask(), 200, TimeMeasurementType.REAL_TIME);
+		TaskScheduler.scheduleRepeatingTask(new PowerDistributionSchedulerTask(), 200, TimeMeasurementType.REAL_TIME);
 	}
 
 	@Override

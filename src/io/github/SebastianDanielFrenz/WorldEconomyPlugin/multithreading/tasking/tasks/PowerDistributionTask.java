@@ -1,8 +1,15 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.electric.PowerGrid;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 
 public class PowerDistributionTask extends Task {
+
+	public PowerDistributionTask(PowerGrid powerGrid) {
+		this.powerGrid = powerGrid;
+	}
+
+	private PowerGrid powerGrid;
 
 	@Override
 	public int getPriority() {
@@ -15,7 +22,7 @@ public class PowerDistributionTask extends Task {
 
 	@Override
 	public void work() {
-
+		powerGrid.distributePower();
 	}
 
 	@Override
@@ -29,25 +36,21 @@ public class PowerDistributionTask extends Task {
 
 	@Override
 	public boolean continueOnShutdown() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean hasFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Power Grid #" + powerGrid.ID + " Distribution";
 	}
 
 	@Override
 	public boolean discardOnOverload() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

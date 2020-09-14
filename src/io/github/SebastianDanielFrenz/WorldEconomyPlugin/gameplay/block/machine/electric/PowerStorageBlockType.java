@@ -28,4 +28,6 @@ public abstract class PowerStorageBlockType extends CustomBlockType {
 	 */
 	public abstract double getMaxPowerOutput(Location location, CustomBlockData blockData);
 
+	public abstract void usePower(Location location, CustomBlockData blockData, double amount);
+
 }
