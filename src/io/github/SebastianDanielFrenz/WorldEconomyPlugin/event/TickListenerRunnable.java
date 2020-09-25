@@ -33,13 +33,15 @@ public class TickListenerRunnable implements Runnable {
 			block = customBlock.getLocation().toLocation().getBlock();
 			block.setType(customBlock.getType().material);
 			block.setData(customBlock.getType().vanilla_data);
-			block.setMetadata("customBlockType", new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
+			block.setMetadata("customBlockType",
+					new CustomBlockMetadataValue(customBlock.getType(), customBlock.getData()));
 
 			placed_blocks++;
 		}
 
 		if (placed_blocks != 0) {
 			System.out.println("tick listener (main thread) placed " + placed_blocks + " blocks!");
+			placing_list.clear();
 		}
 
 		if ((int) WEDB.getYear() != year) {
@@ -58,7 +60,8 @@ public class TickListenerRunnable implements Runnable {
 		Task task;
 
 		// handle scheduled tasks for tick time
-		for (task = TaskScheduler.assign(TimeMeasurementType.TICKS); task != null; task = TaskScheduler.assign(TimeMeasurementType.TICKS)) {
+		for (task = TaskScheduler.assign(TimeMeasurementType.TICKS); task != null; task = TaskScheduler
+				.assign(TimeMeasurementType.TICKS)) {
 			// debugging
 			System.out.println("scheduler pushed real time based task " + task + " to task processor!");
 			TaskProcessor.registerTask(task);
