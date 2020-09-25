@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,8 +25,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Stati
 
 public abstract class CustomBlockType implements StatisticalObject, ResearchableObject {
 
-	public CustomBlockType(Plugin plugin, String ID, Material material, boolean vanilla,
-			CustomBlockDropTable drop_table, Class<? extends CustomBlockData> blockDataType) {
+	public CustomBlockType(Plugin plugin, String ID, Material material, boolean vanilla, CustomBlockDropTable drop_table,
+			Class<? extends CustomBlockData> blockDataType) {
 		this.plugin = plugin;
 
 		this.ID = ID;
@@ -36,15 +37,14 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 		this.blockDataType = blockDataType;
 	}
 
-	public CustomBlockType(Plugin plugin, String ID, Material material, int data, boolean vanilla,
-			CustomBlockDropTable drop_table, Class<? extends CustomBlockData> blockDataType) {
+	public CustomBlockType(Plugin plugin, String ID, Material material, int data, boolean vanilla, CustomBlockDropTable drop_table,
+			Class<? extends CustomBlockData> blockDataType) {
 		this.plugin = plugin;
 
 		this.ID = ID;
 		this.material = material;
 		if (data > 255) {
-			throw new RuntimeException(
-					"error registering custom block type " + ID + " as its provided data value is >255!");
+			throw new RuntimeException("error registering custom block type " + ID + " as its provided data value is >255!");
 		}
 		this.vanilla_data = (byte) data;
 		this.drop_table = drop_table;
@@ -81,14 +81,11 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 		if (!block.vanilla) {
 			WEDB.registerCustomBlock(location, block, data);
 		}
-		location.getBlock().setType(block.material);
-		location.getBlock().setData(block.vanilla_data);
-		location.getBlock().setMetadata("customBlockType", new CustomBlockMetadataValue(block, data));
+		
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void placeBlock(Location location, CustomBlockType block)
-			throws SQLException, InstantiationException, IllegalAccessException {
+	public static void placeBlock(Location location, CustomBlockType block) throws SQLException, InstantiationException, IllegalAccessException {
 		CustomBlockData data = block.blockDataType.newInstance();
 
 		if (!block.vanilla) {
@@ -111,9 +108,9 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void placeBlock(Block vanillaBlock, CustomBlockType block)
-			throws SQLException, InstantiationException, IllegalAccessException {
-		CustomBlockData data = block.blockDataType.newInstance();
+	public static void placeBlock(Block vanillaBlock, CustomBlockType block) throws SQLException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		CustomBlockData data = block.blockDataType.getConstructor(Location.class).newInstance(vanillaBlock.getLocation());
 
 		if (!block.vanilla) {
 			WEDB.registerCustomBlock(vanillaBlock.getLocation(), block, data);
@@ -141,8 +138,8 @@ public abstract class CustomBlockType implements StatisticalObject, Researchable
 	}
 
 	public static CustomBlockDropTable easyDrop(CustomItem item) {
-		return new CustomBlockDropTable(new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND,
-				new CustomBlockDropDefaultComponent(new CustomItemStack(item, 1))));
+		return new CustomBlockDropTable(
+				new CustomBlockDrop(CustomToolType.ALL, CustomMaterialLevel.HAND, new CustomBlockDropDefaultComponent(new CustomItemStack(item, 1))));
 	}
 
 }

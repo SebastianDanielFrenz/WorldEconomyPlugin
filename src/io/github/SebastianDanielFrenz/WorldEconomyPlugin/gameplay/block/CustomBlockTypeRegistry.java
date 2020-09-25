@@ -23,6 +23,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.B
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockSmoothSandstone;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockTreeOakLeaves1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.BlockTreeOakLeaves2;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.admin.BlockPowerConsumerTester;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockEgyptianCampfireStage1;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.campfires.BlockStoneAgeCampfire;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.blocks.machines.crafting_tables.BlockStoneAgeCraftingTable;
@@ -67,6 +68,7 @@ public class CustomBlockTypeRegistry {
 	 */
 
 	public static final CustomBlockType POWER_CABLE = new BlockPowerCable();
+	public static final CustomBlockType POWER_CONSUMER_TESTER = new BlockPowerConsumerTester();
 
 	public static void init() {
 		register(COARSE_DIRT);
@@ -90,6 +92,7 @@ public class CustomBlockTypeRegistry {
 		register(EGYPTIAN_CAMPFIRE_STAGE1);
 
 		register(POWER_CABLE);
+		register(POWER_CONSUMER_TESTER);
 	}
 
 	/**
@@ -114,8 +117,8 @@ public class CustomBlockTypeRegistry {
 		}
 
 		if (broken) {
-			WorldEconomyPlugin.plugin.getLogger().severe(
-					"The block registry is broken. There are multiple blocks registered as the same vanilla block!");
+			WorldEconomyPlugin.plugin.getLogger()
+					.severe("The block registry is broken. There are multiple blocks registered as the same vanilla block!");
 			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
 			List<CustomBlockType> list;
 			String msg;
@@ -126,14 +129,12 @@ public class CustomBlockTypeRegistry {
 					for (int i = 0; i < list.size() - 1; i++) {
 						msg += list.get(i).ID + "[" + list.get(i).getClass().getCanonicalName() + "]" + ", ";
 					}
-					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName()
-							+ "])";
+					msg += list.get(list.size() - 1).ID + "[" + list.get(list.size() - 1).getClass().getCanonicalName() + "])";
 
 					WorldEconomyPlugin.plugin.getLogger().warning(msg);
 				} else {
-					WorldEconomyPlugin.plugin.getLogger()
-							.info("1x " + identifier.material.name() + "[" + identifier.data + "] (" + list.get(0).ID
-									+ "[" + list.get(0).getClass().getCanonicalName() + "])");
+					WorldEconomyPlugin.plugin.getLogger().info("1x " + identifier.material.name() + "[" + identifier.data + "] (" + list.get(0).ID
+							+ "[" + list.get(0).getClass().getCanonicalName() + "])");
 				}
 			}
 
@@ -155,8 +156,7 @@ public class CustomBlockTypeRegistry {
 		}
 
 		if (broken) {
-			WorldEconomyPlugin.plugin.getLogger()
-					.severe("The block registry is broken. There are multiple blocks registered with the same ID!");
+			WorldEconomyPlugin.plugin.getLogger().severe("The block registry is broken. There are multiple blocks registered with the same ID!");
 			WorldEconomyPlugin.plugin.getLogger().severe("Dumping custom block registry...");
 			String out;
 			List<CustomBlockType> list;

@@ -1,5 +1,6 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.terrain;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -11,8 +12,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomOr
 
 public class PatchOreGenerator extends OreGenerator {
 
-	public PatchOreGenerator(World world, Chunk chunk, CustomOre ore, int minTries, int maxTries, int minVolume,
-			int maxVolume, OrePatchType orePatchType) {
+	public PatchOreGenerator(World world, Chunk chunk, CustomOre ore, int minTries, int maxTries, int minVolume, int maxVolume,
+			OrePatchType orePatchType) {
 		super(world, chunk, ore);
 
 		this.minTries = minTries;
@@ -38,12 +39,23 @@ public class PatchOreGenerator extends OreGenerator {
 		if (orePatchType == OrePatchType.WORM) {
 			for (int i = 0; i < tries; i++) {
 				volume = random.nextInt(maxVolume - minVolume + 1) + minVolume;
-				loc = new int[] { chunk.getX() * 16 + random.nextInt(16) + 1, random.nextInt(255),
-						chunk.getZ() * 16 + random.nextInt(16) + 1 };
+				loc = new int[] { chunk.getX() * 16 + random.nextInt(16) + 1, random.nextInt(255), chunk.getZ() * 16 + random.nextInt(16) + 1 };
 
 				try {
 					CustomBlockType.placeBlock(world.getBlockAt(loc[0], loc[1], loc[2]), ore);
 				} catch (InstantiationException | IllegalAccessException | SQLException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -71,7 +83,8 @@ public class PatchOreGenerator extends OreGenerator {
 
 					try {
 						CustomBlockType.placeBlock(world.getBlockAt(loc[0], loc[1], loc[2]), ore);
-					} catch (InstantiationException | IllegalAccessException | SQLException e) {
+					} catch (InstantiationException | IllegalAccessException | SQLException | IllegalArgumentException | InvocationTargetException
+							| NoSuchMethodException | SecurityException e) {
 						e.printStackTrace();
 					}
 				}
