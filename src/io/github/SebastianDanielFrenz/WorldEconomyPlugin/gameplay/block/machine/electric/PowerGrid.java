@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.PowerDistributionTask;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.util.OrderedList;
 
 public class PowerGrid {
@@ -83,15 +82,14 @@ public class PowerGrid {
 	}
 
 	public void distributePower() {
-		
-		
+
 		for (Block consumer : consumers) {
 			CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(consumer);
 			((PowerConsumerBlockType) meta.getBlock()).assignPower(consumer.getLocation(), meta.getBlockData(),
 					((PowerConsumerBlockType) meta.getBlock()).getMaxPower(consumer.getLocation(), meta.getBlockData()));
 		}
-		
-		for (Block consumer:consumers) {
+
+		for (Block consumer : consumers) {
 			CustomBlockMetadataValue meta = CustomBlockTypeRegistry.getBlockDetails(consumer);
 			((PowerConsumerBlockType) meta.getBlock()).usePower(consumer.getLocation(), meta.getBlockData());
 		}
