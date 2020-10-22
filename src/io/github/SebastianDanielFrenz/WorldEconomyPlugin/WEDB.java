@@ -1650,7 +1650,7 @@ public class WEDB {
 
 	public static void registerCustomBlock(Location location, CustomBlockType block, CustomBlockData data)
 			throws SQLException {
-		WorldEconomyPlugin.runSQLTask(
+		WorldEconomyPlugin.queueSQL(
 				"INSERT INTO custom_blocks (blockX, blockY, blockZ, blockWorld, blockType, blockData) VALUES ("
 						+ location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ", \""
 						+ location.getWorld().getName() + "\", \"" + block.ID + "\", \"" + data.save() + "\")");
@@ -1658,7 +1658,7 @@ public class WEDB {
 
 	public static void updateBlockData(Block block, String data) throws SQLException {
 		Location l = block.getLocation();
-		WorldEconomyPlugin.runSQLTask("UPDATE custom_blocks SET blockData = \"" + data + "\" WHERE blockX = "
+		WorldEconomyPlugin.queueSQL("UPDATE custom_blocks SET blockData = \"" + data + "\" WHERE blockX = "
 				+ l.getBlockX() + " AND blockY = " + l.getBlockY() + " AND blockZ = " + l.getBlockZ());
 	}
 
@@ -1683,7 +1683,7 @@ public class WEDB {
 	}
 
 	public static void removeCustomBlock(Location location) throws SQLException {
-		WorldEconomyPlugin.runSQLTask("DELETE FROM custom_blocks WHERE blockX = " + location.getBlockX()
+		WorldEconomyPlugin.queueSQL("DELETE FROM custom_blocks WHERE blockX = " + location.getBlockX()
 				+ " AND blockY = " + location.getBlockY() + " AND blockZ = " + location.getBlockZ()
 				+ " AND blockWorld = \"" + location.getWorld().getName() + "\"");
 	}
@@ -1951,12 +1951,12 @@ public class WEDB {
 	}
 
 	public static void registerCompanyEarning(long companyID, double amount) {
-		WorldEconomyPlugin.runSQLTask("UPDATE company_revenues SET earnings = earnings + " + amount
+		WorldEconomyPlugin.queueSQL("UPDATE company_revenues SET earnings = earnings + " + amount
 				+ " WHERE companyID = " + companyID + " AND year = " + (int) getYear());
 	}
 
 	public static void registerCompanySpending(long companyID, double amount) {
-		WorldEconomyPlugin.runSQLTask("UPDATE company_revenues SET spendings = spendings + " + amount
+		WorldEconomyPlugin.queueSQL("UPDATE company_revenues SET spendings = spendings + " + amount
 				+ " WHERE companyID = " + companyID + " AND year = " + (int) getYear());
 	}
 
