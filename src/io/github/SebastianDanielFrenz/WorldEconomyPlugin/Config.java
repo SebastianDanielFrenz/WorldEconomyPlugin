@@ -22,7 +22,10 @@ public class Config {
 		cfg.addDefault("performance.AI_count", 10);
 		cfg.addDefault("performance.pending_task_limit", 1000);
 		cfg.addDefault("debug.overload_warning", true);
-		cfg.addDefault("debug.overload_warning_interval", 1);
+		cfg.addDefault("debug.overload_warning.interval", 1);
+		cfg.addDefault("debug.overload_warning.light", 0.01);
+		cfg.addDefault("debug.overload_warning.middle", 0.1);
+		cfg.addDefault("debug.overload_warning.hard", 1);
 		cfg.addDefault("gameplay.heaven_time", 5.0);
 		cfg.addDefault("gameplay.server_language", "en_us");
 		cfg.addDefault("gameplay.year_real_time_hours", 7 * 24);
@@ -99,7 +102,7 @@ public class Config {
 	public static String getServerLanguage() {
 		return cfg.getString("gameplay.server_language");
 	}
-	
+
 	public static double getYearRealTimeHours() {
 		return cfg.getDouble("gameplay.year_real_time_hours");
 	}

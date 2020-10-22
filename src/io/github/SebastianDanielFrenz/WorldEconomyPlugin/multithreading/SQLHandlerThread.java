@@ -11,17 +11,25 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 
 public class SQLHandlerThread implements Runnable {
 
-	private static List<String> queries = new ArrayList<String>();
+	private static Queue<String> queries = new LinkedList<String>();
 
-	private Queue<long[]> idles = new LinkedList<long[]>();
-	private Queue<long[]> working = new LinkedList<long[]>();
+	private static Queue<long[]> idles = new LinkedList<long[]>();
+	private static Queue<long[]> working = new LinkedList<long[]>();
 
-	private int period = Config.getPerformanceMonitoringPeriod() * 1000;
+	private static int period = Config.getPerformanceMonitoringPeriod() * 1000;
 
-	private Thread requesting_thread;
+	private static Thread requesting_thread;
+	private static boolean finished;
+
+	private static Thread this_thread;
+
+	private static long last_idle_millis;
 
 	@Override
 	public void run() {
+		last_idle_millis = System.currentTimeMillis();
+		this_thread = Thread.currentThread();
+
 		long loop_start;
 		int runs;
 
@@ -30,6 +38,7 @@ public class SQLHandlerThread implements Runnable {
 				try {
 					Thread.sleep(10);
 					idles.add(new long[] { 10, System.currentTimeMillis() + period });
+					last_idle_millis = System.currentTimeMillis();
 				} catch (InterruptedException e) {
 					if (WorldEconomyPlugin.status == WorldEconomyPlugin.STATUS_STOPPING) {
 						break;
@@ -42,7 +51,7 @@ public class SQLHandlerThread implements Runnable {
 			} else {
 				runs = 0;
 
-				for (String query : queries) {
+				for (String query = queries.poll(); query != null; query = queries.poll()) {
 					loop_start = System.currentTimeMillis();
 
 					try {
@@ -51,7 +60,8 @@ public class SQLHandlerThread implements Runnable {
 						e.printStackTrace();
 					}
 
-					working.add(new long[] { System.currentTimeMillis() - loop_start, System.currentTimeMillis() + period });
+					working.add(new long[] { System.currentTimeMillis() - loop_start,
+							System.currentTimeMillis() + period });
 					runs++;
 					if (runs == 10) {
 						try {
@@ -64,10 +74,13 @@ public class SQLHandlerThread implements Runnable {
 								requesting_thread.interrupt();
 							}
 						}
+						runs = 0;
 					}
 				}
 			}
 		}
+
+		finished = true;
 	}
 
 	public void purgeOldTrackingData() {
@@ -93,7 +106,7 @@ public class SQLHandlerThread implements Runnable {
 		}
 	}
 
-	public float getIdleTime() {
+	public static float getIdleTime() {
 		long total = 0;
 		for (long[] idle : idles) {
 			total += idle[0];
@@ -101,12 +114,49 @@ public class SQLHandlerThread implements Runnable {
 		return total / 1000f;
 	}
 
-	public float getWorkingTime() {
+	public static float getWorkingTime() {
 		long total = 0;
 		for (long[] work : working) {
 			total += work[0];
 		}
 		return total / 1000000000f;
+	}
+
+	/**
+	 * This function exists with a halted worker thread.
+	 */
+	public static void requestData(Thread thread) {
+		requesting_thread = thread;
+		while (true) {
+			try {
+				if (finished) {
+					return;
+				}
+				this_thread.interrupt();
+
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Returns the last point, at which the handler thread was idle, measured in
+	 * milliseconds.
+	 * 
+	 * @return
+	 */
+	public static long lastIdle() {
+		return last_idle_millis;
+	}
+
+	public static void queueSQL(String query) {
+		queries.add(query);
+	}
+
+	public static int queueLength() {
+		return queries.size();
 	}
 
 }

@@ -22,11 +22,16 @@ public class TaskWorker implements Runnable {
 	private boolean request_data = false;
 	private Thread requesting_thread;
 
+	private long last_idle_millis;
+
 	@Override
 	public void run() {
+		last_idle_millis = System.currentTimeMillis();
+
 		long start;
 		Task task;
 		long last_purge = 0;
+
 		while (true) {
 			if (request_data) {
 				requesting_thread.interrupt();
@@ -55,6 +60,7 @@ public class TaskWorker implements Runnable {
 				try {
 					Thread.sleep(TaskProcessor.getWaitDuration());
 					idles.add(new long[] { TaskProcessor.getWaitDuration(), System.currentTimeMillis() + period });
+					last_idle_millis = System.currentTimeMillis();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -165,6 +171,16 @@ public class TaskWorker implements Runnable {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Returns the last point, at which the handler thread was idle, measured in
+	 * milliseconds.
+	 * 
+	 * @return
+	 */
+	public long lastIdle() {
+		return last_idle_millis;
 	}
 
 }

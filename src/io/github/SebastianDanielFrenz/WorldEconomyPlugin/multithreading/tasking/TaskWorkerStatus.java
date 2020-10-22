@@ -1,6 +1,7 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Units;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SQLHandlerThread;
 
 public class TaskWorkerStatus {
 
@@ -20,7 +21,7 @@ public class TaskWorkerStatus {
 	public final float[] working_durations;
 
 	public String[] getFormattedStatus() {
-		String[] out = new String[tasks.length + 2];
+		String[] out = new String[tasks.length + 3];
 		out[0] = "==========";
 		out[0] += " " + tasks.length + " threads on " + Runtime.getRuntime().availableProcessors() + " logical cores ";
 		out[0] += "=========";
@@ -55,6 +56,28 @@ public class TaskWorkerStatus {
 			}
 			out[i + 1] += Math.round(load) + "%";
 		}
+
+		out[out.length - 2] = "§eSQL Thread§f: §e" + SQLHandlerThread.queueLength() + "waiting§f; §eload: ";
+		load = (SQLHandlerThread.getWorkingTime()
+				/ (SQLHandlerThread.getIdleTime() + SQLHandlerThread.getWorkingTime() * 100));
+		if (load < 20) {
+			out[out.length - 2] += "§1";
+		} else if (load < 40) {
+			out[out.length - 2] += "§3";
+		} else if (load < 60) {
+			out[out.length - 2] += "§2";
+		} else if (load < 70) {
+			out[out.length - 2] += "§a";
+		} else if (load < 80) {
+			out[out.length - 2] += "§e";
+		} else if (load < 90) {
+			out[out.length - 2] += "§6";
+		} else if (load < 95) {
+			out[out.length - 2] += "§c";
+		} else {
+			out[out.length - 2] += "§4";
+		}
+		out[out.length - 2] += Math.round(load) + "%";
 
 		double ram_usage = (1 - Runtime.getRuntime().freeMemory() / (double) Runtime.getRuntime().maxMemory());
 
