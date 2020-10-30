@@ -5,8 +5,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.SQLHandl
 
 public class TaskWorkerStatus {
 
-	public TaskWorkerStatus(Task[] tasks, boolean overloaded, int pending_tasks, float[] idle_durations,
-			float[] working_durations) {
+	public TaskWorkerStatus(Task[] tasks, boolean overloaded, int pending_tasks, float[] idle_durations, float[] working_durations) {
 		this.tasks = tasks;
 		this.overloaded = overloaded;
 		this.pending_tasks = pending_tasks;
@@ -58,8 +57,7 @@ public class TaskWorkerStatus {
 		}
 
 		out[out.length - 2] = "§eSQL Thread§f: §e" + SQLHandlerThread.queueLength() + "waiting§f; §eload: ";
-		load = (SQLHandlerThread.getWorkingTime()
-				/ (SQLHandlerThread.getIdleTime() + SQLHandlerThread.getWorkingTime() * 100));
+		load = (SQLHandlerThread.getWorkingTime() / (SQLHandlerThread.getIdleTime() + SQLHandlerThread.getWorkingTime() * 100));
 		if (load < 20) {
 			out[out.length - 2] += "§1";
 		} else if (load < 40) {
@@ -101,8 +99,7 @@ public class TaskWorkerStatus {
 			out[out.length - 1] += "§4";
 		}
 
-		out[out.length - 1] += Math
-				.round(Runtime.getRuntime().freeMemory() / (double) Runtime.getRuntime().maxMemory() * 100) + "% (";
+		out[out.length - 1] += Math.round(Runtime.getRuntime().freeMemory() / (double) Runtime.getRuntime().maxMemory() * 100) + "% (";
 
 		long usage = (Runtime.getRuntime().freeMemory());
 		if (usage < Units.GB * 8) {
@@ -131,6 +128,14 @@ public class TaskWorkerStatus {
 		out[out.length - 1] += ")";
 
 		return out;
+	}
+
+	public int[] getLoads() {
+		int[] loads = new int[tasks.length];
+		for (int i = 0; i < loads.length; i++) {
+			loads[i] = (int) (working_durations[i] / (idle_durations[i] + working_durations[i]) * 100);
+		}
+		return loads;
 	}
 
 }

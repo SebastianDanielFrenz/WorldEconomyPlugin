@@ -47,6 +47,11 @@ public class SQLHandlerThread implements Runnable {
 
 					purgeOldTrackingData();
 					requesting_thread.interrupt();
+					try {
+						Thread.sleep(10000); // other thread should
+												// fetch the data
+					} catch (InterruptedException e1) {
+					}
 				}
 			} else {
 				runs = 0;
@@ -60,8 +65,7 @@ public class SQLHandlerThread implements Runnable {
 						e.printStackTrace();
 					}
 
-					working.add(new long[] { System.currentTimeMillis() - loop_start,
-							System.currentTimeMillis() + period });
+					working.add(new long[] { System.currentTimeMillis() - loop_start, System.currentTimeMillis() + period });
 					runs++;
 					if (runs == 10) {
 						try {
@@ -72,6 +76,12 @@ public class SQLHandlerThread implements Runnable {
 							} else {
 								purgeOldTrackingData();
 								requesting_thread.interrupt();
+								try {
+									Thread.sleep(10000); // other thread should
+															// fetch the data
+								} catch (InterruptedException e1) {
+								}
+
 							}
 						}
 						runs = 0;
@@ -127,12 +137,14 @@ public class SQLHandlerThread implements Runnable {
 	 */
 	public static void requestData(Thread thread) {
 		requesting_thread = thread;
+
+		this_thread.interrupt();
+
 		while (true) {
 			try {
 				if (finished) {
 					return;
 				}
-				this_thread.interrupt();
 
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -157,6 +169,10 @@ public class SQLHandlerThread implements Runnable {
 
 	public static int queueLength() {
 		return queries.size();
+	}
+
+	public static void continueWork() {
+		this_thread.interrupt();
 	}
 
 }

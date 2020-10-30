@@ -18,6 +18,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -50,8 +52,11 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomIte
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemStack;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.MainMenu;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.server.PerformanceGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.Mail;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TaskScheduler;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling.TimeMeasurementType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.TaskProcessor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.BenchmarkResult;
@@ -1039,6 +1044,61 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 						CustomEntityTypeRegistry.spawn(CustomEntityTypeRegistry.BABY_DEER, player.getLocation());
 					}
 					return true;
+				} else if (args[0].equalsIgnoreCase("dummy")) {
+					if (sender instanceof Player) {
+						Entity entity = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.ZOMBIE_VILLAGER);
+						TaskScheduler.scheduleRepeatingTask(new Task() {
+
+							Location loc;
+
+							@Override
+							public void work() {
+								loc.add(0.05, 0, 0);
+								entity.teleport(loc);
+							}
+
+							@Override
+							public boolean startOnShutdown() {
+								// TODO Auto-generated method stub
+								return false;
+							}
+
+							@Override
+							public void init() {
+							}
+
+							@Override
+							public boolean hasFinished() {
+								return true;
+							}
+
+							@Override
+							public int getPriority() {
+								return 0;
+							}
+
+							@Override
+							public String getName() {
+								return "DEBUG";
+							}
+
+							@Override
+							public boolean discardOnOverload() {
+								return false;
+							}
+
+							@Override
+							public void discard() {
+							}
+
+							@Override
+							public boolean continueOnShutdown() {
+								// TODO Auto-generated method stub
+								return false;
+							}
+						}, 1, TimeMeasurementType.TICKS);
+					}
+					return true;
 				} else if (args[0].equalsIgnoreCase("powergrids")) {
 					PowerGridRegistry.dumpPowerGrids(sender);
 					return true;
@@ -1080,6 +1140,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 					for (WorldEconomyExtension extension : WorldEconomyExtensionRegistry.getExtensions()) {
 						sender.sendMessage(extension.getName());
 					}
+					return true;
+				} else if (args[0].equalsIgnoreCase("monitor")) {
+					PerformanceGUI gui = new PerformanceGUI();
 					return true;
 				} else if (args[0].equalsIgnoreCase("help")) {
 					sender.sendMessage(WorldEconomyPlugin.PREFIX + "Displaying help for /we commands:");

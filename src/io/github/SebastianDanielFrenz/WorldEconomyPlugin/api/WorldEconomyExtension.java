@@ -11,4 +11,12 @@ public abstract class WorldEconomyExtension extends JavaPlugin {
 
 	public abstract void constructionEvent();
 
+	/**
+	 * In case any of the returned dependencies are found, they will run their
+	 * constructionEvent() before this extension's.
+	 * 
+	 * @return
+	 */
+	public abstract Class<? extends WorldEconomyExtension>[] getDependencies();
+
 }
