@@ -1,4 +1,4 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -13,6 +13,9 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.Inventory;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.DataBaseRepresentation;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.PlayingEntity;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.entity.entities.EntityAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchEntity;

@@ -9,10 +9,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.AIProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Company;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIProfile;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.Employee;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeeAI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.contracting.EmployeePlayer;
