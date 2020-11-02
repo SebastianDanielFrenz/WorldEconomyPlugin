@@ -18,7 +18,8 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.
 public class TaskScheduler implements Runnable {
 
 	private static Queue<ScheduledTask> tasks_ticks = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
-	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
+	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(
+			new ScheduledTaskComparator());
 
 	private boolean request_shutdown = false;
 	private boolean running = true;
@@ -30,7 +31,8 @@ public class TaskScheduler implements Runnable {
 
 	public synchronized static void scheduleTask(Task task, long time, TimeMeasurementType measurement_type) {
 		if (measurement_type == TimeMeasurementType.REAL_TIME) {
-			tasks_real_time.add(new ScheduledTask(task, TimeMeasurementType.REAL_TIME, System.currentTimeMillis() + time));
+			tasks_real_time
+					.add(new ScheduledTask(task, TimeMeasurementType.REAL_TIME, System.currentTimeMillis() + time));
 		} else {
 			// ticks
 			tasks_ticks.add(new ScheduledTask(task, TimeMeasurementType.TICKS, WorldEconomyPlugin.tick_counter + time));
@@ -47,6 +49,8 @@ public class TaskScheduler implements Runnable {
 					TaskProcessor.registerTask(task);
 				}
 			}, delay, time);
+		} else {
+			tasks_ticks.add(new ScheduledTask(task, measurement_type, delay));
 		}
 	}
 
@@ -100,7 +104,8 @@ public class TaskScheduler implements Runnable {
 			start = System.currentTimeMillis();
 			// logic
 
-			for (task = assign(TimeMeasurementType.REAL_TIME); task != null; task = assign(TimeMeasurementType.REAL_TIME)) {
+			for (task = assign(TimeMeasurementType.REAL_TIME); task != null; task = assign(
+					TimeMeasurementType.REAL_TIME)) {
 				// debugging
 				System.out.println("scheduler pushed real time based task " + task + " to task processor!");
 				TaskProcessor.registerTask(task);

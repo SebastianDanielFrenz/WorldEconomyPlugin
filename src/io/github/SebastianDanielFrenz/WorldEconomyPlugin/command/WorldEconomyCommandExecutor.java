@@ -1055,6 +1055,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 							public void work() {
 								loc.add(0.05, 0, 0);
 								entity.teleport(loc);
+								System.out.println("moving!");
 							}
 
 							@Override
@@ -1069,7 +1070,7 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 
 							@Override
 							public boolean hasFinished() {
-								return true;
+								return false;
 							}
 
 							@Override
