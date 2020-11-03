@@ -1,5 +1,8 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.scheduling;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -18,6 +21,10 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.
 public class TaskScheduler implements Runnable {
 
 	private static Queue<ScheduledTask> tasks_ticks = new PriorityQueue<ScheduledTask>(new ScheduledTaskComparator());
+	private static List<ScheduledRepeatingTask> tasks_ticks_repeating = new ArrayList<ScheduledRepeatingTask>();
+	private static int tasks_ticks_repeating_index = 0;
+	private static boolean tasks_ticks_repeating_done = false;
+
 	private static Queue<ScheduledTask> tasks_real_time = new PriorityQueue<ScheduledTask>(
 			new ScheduledTaskComparator());
 
@@ -50,7 +57,7 @@ public class TaskScheduler implements Runnable {
 				}
 			}, delay, time);
 		} else {
-			tasks_ticks.add(new ScheduledTask(task, measurement_type, delay));
+			tasks_ticks_repeating.add(new ScheduledRepeatingTask(task, delay + WorldEconomyPlugin.tick_counter, time));
 		}
 	}
 
@@ -59,6 +66,7 @@ public class TaskScheduler implements Runnable {
 	}
 
 	private static ScheduledTask assign_tmp;
+	private static ScheduledRepeatingTask assign_tmp2;
 
 	public synchronized static Task assign(TimeMeasurementType type) {
 		// this can be improved to pull both kinds of tasks on CPU overload.
@@ -74,11 +82,29 @@ public class TaskScheduler implements Runnable {
 			return null;
 		} else {
 			assign_tmp = tasks_ticks.peek();
-			if (assign_tmp == null) {
+			if (assign_tmp != null) {
+				if (assign_tmp.due <= WorldEconomyPlugin.tick_counter) {
+					return tasks_ticks.remove().task;
+				}
 				return null;
 			}
-			if (assign_tmp.due <= WorldEconomyPlugin.tick_counter) {
-				return tasks_ticks.remove().task;
+
+			if (tasks_ticks_repeating.size() == tasks_ticks_repeating_index) {
+				return null;
+			}
+
+			// now looking at repeating tasks
+			if (tasks_ticks_repeating_done) {
+				return null;
+			}
+
+			assign_tmp2 = tasks_ticks_repeating.get(tasks_ticks_repeating_index);
+			long overdue = assign_tmp2.due - WorldEconomyPlugin.tick_counter;
+			if (overdue >= 0 && overdue % assign_tmp2.interval == 0) {
+				tasks_ticks_repeating_index++;
+				return assign_tmp2.task;
+			} else {
+				tasks_ticks_repeating_done = true;
 			}
 			return null;
 		}
@@ -128,6 +154,33 @@ public class TaskScheduler implements Runnable {
 
 	public static void orderShutdown() {
 		instance.request_shutdown = true;
+	}
+
+	public static void resetTickBasedAssignmentIndex() {
+		tasks_ticks_repeating_index = 0;
+		tasks_ticks_repeating.sort(new Comparator<ScheduledRepeatingTask>() {
+
+			long t1;
+			long t2;
+
+			@Override
+			public int compare(ScheduledRepeatingTask o1, ScheduledRepeatingTask o2) {
+				t1 = o1.timeUntilDueAgain();
+				t2 = o2.timeUntilDueAgain();
+
+				if (t1 < t2) {
+					return -1;
+				} else if (t1 == t2) {
+					return 0;
+				} else {
+					return 1;
+				}
+			}
+		});
+
+		tasks_ticks_repeating_done = false;
+
+		System.out.println(tasks_ticks_repeating.size());
 	}
 
 }
