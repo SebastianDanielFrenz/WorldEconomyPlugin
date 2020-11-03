@@ -35,17 +35,18 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 
 	public long mailboxID;
 	
+	public AIProperties properties;
+
 	/**
 	 * 1/4 --> 6 hours per day (24/4)
 	 */
-	public double work_per_day;
+	// public double work_per_day;
 
 	public AIProfile(long aiID, String username, long bankingID, long employeeID, long aiAsEmployerID, long mailboxID,
-			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness,
-			boolean religious, double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven,
-			long heaven_time_end_millis, Age age) {
-		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction,
-				endurance, max_endurance, in_heaven, heaven_time_end_millis, age);
+			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness, boolean religious,
+			double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
+		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction, endurance, max_endurance,
+				in_heaven, heaven_time_end_millis, age);
 
 		this.aiID = aiID;
 		this.username = username;
@@ -101,12 +102,12 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 	public Inventory getInventory() {
 		return ((Villager) Bukkit.getEntity(uuid)).getInventory();
 	}
-	
+
 	public void planLife() throws SQLException {
-		Map<Long,Long> map = WEDB.getEmploymentInformation(employeeID);
+		Map<Long, Long> map = WEDB.getEmploymentInformation(employeeID);
 		if (map.size() == 0) {
 			// look for a job
-			
+
 		}
 	}
 }
