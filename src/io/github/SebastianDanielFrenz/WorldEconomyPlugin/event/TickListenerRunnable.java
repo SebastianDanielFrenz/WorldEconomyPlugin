@@ -57,7 +57,9 @@ public class TickListenerRunnable implements Runnable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		Task task;
+		TaskScheduler.resetTickBasedAssignmentIndex();
 
 		// handle scheduled tasks for tick time
 		for (task = TaskScheduler.assign(TimeMeasurementType.TICKS); task != null; task = TaskScheduler
