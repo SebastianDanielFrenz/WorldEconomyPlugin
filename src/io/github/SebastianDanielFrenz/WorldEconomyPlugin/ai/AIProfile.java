@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.Inventory;
@@ -27,14 +28,14 @@ import net.minecraft.server.v1_12_R1.World;
 @DataBaseRepresentation
 public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEntity {
 
-	public UUID uuid;
+	public org.bukkit.entity.Entity entity;
 	public String username;
 	public long bankingID;
 	public long aiAsEmployerID;
 	public long aiID;
 
 	public long mailboxID;
-	
+
 	public AIProperties properties;
 
 	/**
@@ -43,10 +44,11 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 	// public double work_per_day;
 
 	public AIProfile(long aiID, String username, long bankingID, long employeeID, long aiAsEmployerID, long mailboxID,
-			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness, boolean religious,
-			double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven, long heaven_time_end_millis, Age age) {
-		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction, endurance, max_endurance,
-				in_heaven, heaven_time_end_millis, age);
+			Set<EmployeeProfession> professions, double health, double maxHealth, double saturation, double happyness,
+			boolean religious, double religious_satisfaction, double endurance, double max_endurance, boolean in_heaven,
+			long heaven_time_end_millis, Age age) {
+		super(employeeID, professions, health, maxHealth, saturation, happyness, religious, religious_satisfaction,
+				endurance, max_endurance, in_heaven, heaven_time_end_millis, age);
 
 		this.aiID = aiID;
 		this.username = username;
@@ -82,32 +84,28 @@ public class AIProfile extends PlayingEntity implements MailboxOwner, ResearchEn
 	}
 
 	public void spawn(Location location) {
-		if (uuid != null) {
+		if (entity != null) {
 			throw new RuntimeException("AI representation villager already summened!");
 		}
 
-		World nmsworld = ((CraftWorld) location.getWorld()).getHandle();
-		Entity entity;
+		// World nmsworld = ((CraftWorld) location.getWorld()).getHandle();
+		// Entity entity;
+		//
+		// entity = new EntityAI(nmsworld);
+		//
+		// entity.setLocation(location.getX(), location.getY(), location.getZ(),
+		// location.getYaw(), location.getPitch());
+		//
+		// nmsworld.addEntity(entity, SpawnReason.CUSTOM);
+		//
+		// uuid = entity.getUniqueID();
 
-		entity = new EntityAI(nmsworld);
-
-		entity.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-
-		nmsworld.addEntity(entity, SpawnReason.CUSTOM);
-
-		uuid = entity.getUniqueID();
+		entity = location.getWorld().spawnEntity(location, EntityType.VILLAGER);
 	}
 
 	@Override
 	public Inventory getInventory() {
-		return ((Villager) Bukkit.getEntity(uuid)).getInventory();
-	}
-
-	public void planLife() throws SQLException {
-		Map<Long, Long> map = WEDB.getEmploymentInformation(employeeID);
-		if (map.size() == 0) {
-			// look for a job
-
-		}
+		// return ((Villager) Bukkit.getEntity(uuid)).getInventory();
+		return ((Villager) entity).getInventory();
 	}
 }

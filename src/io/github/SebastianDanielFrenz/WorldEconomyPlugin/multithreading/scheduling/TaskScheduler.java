@@ -83,25 +83,37 @@ public class TaskScheduler implements Runnable {
 		} else {
 			assign_tmp = tasks_ticks.peek();
 			if (assign_tmp != null) {
+				// System.out.println("attempting to assign single tick
+				// scheduled task " + assign_tmp.task.getName());
 				if (assign_tmp.due <= WorldEconomyPlugin.tick_counter) {
 					return tasks_ticks.remove().task;
 				}
 				return null;
 			}
-
-			if (tasks_ticks_repeating.size() == tasks_ticks_repeating_index) {
-				return null;
-			}
+			// System.out.println("no single tasks found!");
 
 			// now looking at repeating tasks
 			if (tasks_ticks_repeating_done) {
 				return null;
 			}
 
+			if (tasks_ticks_repeating_index == tasks_ticks_repeating.size()) {
+				tasks_ticks_repeating_done = true;
+				return null;
+			}
+
 			assign_tmp2 = tasks_ticks_repeating.get(tasks_ticks_repeating_index);
-			long overdue = assign_tmp2.due - WorldEconomyPlugin.tick_counter;
+			long overdue = WorldEconomyPlugin.tick_counter - assign_tmp2.due;
+
+			// System.out.println(assign_tmp2.task.getName() + " is overdue " +
+			// overdue + " with interval "
+			// + assign_tmp2.interval + " --> " + (overdue %
+			// assign_tmp2.interval));
+
 			if (overdue >= 0 && overdue % assign_tmp2.interval == 0) {
 				tasks_ticks_repeating_index++;
+				// System.out.println("assigning " +
+				// assign_tmp2.task.getName());
 				return assign_tmp2.task;
 			} else {
 				tasks_ticks_repeating_done = true;
@@ -180,7 +192,14 @@ public class TaskScheduler implements Runnable {
 
 		tasks_ticks_repeating_done = false;
 
-		System.out.println(tasks_ticks_repeating.size());
+		// String strg = "";
+		// strg += tasks_ticks_repeating.size();
+		// strg += ": ";
+		//
+		// for (ScheduledRepeatingTask task : tasks_ticks_repeating) {
+		// strg += task.task.getName() + ", ";
+		// }
+		// System.out.println(strg);
 	}
 
 }

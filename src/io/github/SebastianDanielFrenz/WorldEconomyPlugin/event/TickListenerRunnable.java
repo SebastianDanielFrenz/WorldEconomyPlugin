@@ -65,7 +65,8 @@ public class TickListenerRunnable implements Runnable {
 		for (task = TaskScheduler.assign(TimeMeasurementType.TICKS); task != null; task = TaskScheduler
 				.assign(TimeMeasurementType.TICKS)) {
 			// debugging
-			System.out.println("scheduler pushed real time based task " + task + " to task processor!");
+			// System.out.println("scheduler pushed real time based task " +
+			// task.getName() + " to task processor!");
 			TaskProcessor.registerTask(task);
 		}
 	}
