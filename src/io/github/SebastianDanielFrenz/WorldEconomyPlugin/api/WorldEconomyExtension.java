@@ -19,4 +19,8 @@ public abstract class WorldEconomyExtension extends JavaPlugin {
 	 */
 	public abstract Class<? extends WorldEconomyExtension>[] getDependencies();
 
+	public WorldEconomyExtensionManager getExtensionManager() {
+		return WorldEconomyExtensionManager.instance;
+	}
+
 }
