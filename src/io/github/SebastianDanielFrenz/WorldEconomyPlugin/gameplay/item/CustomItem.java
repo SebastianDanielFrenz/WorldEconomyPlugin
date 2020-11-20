@@ -4,7 +4,10 @@ import org.bukkit.Material;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WorldEconomyExtension;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchableObject;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.StatisticalObject;
@@ -12,6 +15,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Stati
 public abstract class CustomItem implements ResearchableObject, StatisticalObject {
 
 	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, boolean vanilla) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = 0;
@@ -23,8 +27,8 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		this.vanilla = vanilla;
 	}
 
-	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details,
-			boolean vanilla) {
+	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = 0;
@@ -37,6 +41,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	}
 
 	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = 0;
@@ -49,6 +54,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	}
 
 	public CustomItem(String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = 0;
@@ -62,8 +68,8 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 
 	// now with data values
 
-	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
-			boolean vanilla) {
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category, boolean vanilla) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = (byte) data;
@@ -75,8 +81,8 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		this.vanilla = vanilla;
 	}
 
-	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
-			ItemDetail[] details, boolean vanilla) {
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category, ItemDetail[] details, boolean vanilla) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = (byte) data;
@@ -89,6 +95,7 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 	}
 
 	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = (byte) data;
@@ -100,8 +107,8 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		this.vanilla = false;
 	}
 
-	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category,
-			ItemDetail[] details) {
+	public CustomItem(String ID, Material base, int data, Age age, String name, ItemCategory category, ItemDetail[] details) {
+		this.plugin = WorldEconomyPlugin.plugin;
 		this.ID = ID;
 		base_material = base;
 		vanilla_data = (byte) data;
@@ -113,6 +120,119 @@ public abstract class CustomItem implements ResearchableObject, StatisticalObjec
 		this.vanilla = false;
 	}
 
+	// now with external plugin support
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, Age age, String name, ItemCategory category, boolean vanilla) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = 0;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		details = new ItemDetail[] {};
+		this.vanilla = vanilla;
+	}
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details,
+			boolean vanilla) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = 0;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		this.details = details;
+		this.vanilla = vanilla;
+	}
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, Age age, String name, ItemCategory category) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = 0;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		details = new ItemDetail[] {};
+		this.vanilla = false;
+	}
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, Age age, String name, ItemCategory category, ItemDetail[] details) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = 0;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		this.details = details;
+		this.vanilla = false;
+	}
+
+	// now with data values
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, int data, Age age, String name, ItemCategory category,
+			boolean vanilla) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		details = new ItemDetail[] {};
+		this.vanilla = vanilla;
+	}
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, int data, Age age, String name, ItemCategory category,
+			ItemDetail[] details, boolean vanilla) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		this.details = details;
+		this.vanilla = vanilla;
+	}
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, int data, Age age, String name, ItemCategory category) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		details = new ItemDetail[] {};
+		this.vanilla = false;
+	}
+
+	public CustomItem(WorldEconomyExtension plugin, String ID, Material base, int data, Age age, String name, ItemCategory category,
+			ItemDetail[] details) {
+		this.plugin = plugin;
+		this.ID = plugin.getID() + ID;
+		base_material = base;
+		vanilla_data = (byte) data;
+		raw_item_name = name;
+		item_name = age.color.toString() + name;
+		this.age = age;
+		this.category = category;
+		this.details = details;
+		this.vanilla = false;
+	}
+
+	public final Plugin plugin;
 	public final String ID;
 	public final Material base_material;
 	public final byte vanilla_data;

@@ -2,9 +2,15 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.api;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Config;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Version;
+
 public abstract class WorldEconomyExtension extends JavaPlugin {
 
+	private final Version processed_version;
+
 	public WorldEconomyExtension() {
+		processed_version = Version.parseVersion(getDescription().getVersion());
 		WorldEconomyExtensionRegistry.register(this);
 		getLogger().info("Bukkit is constructing the plugin...");
 	}
@@ -21,6 +27,18 @@ public abstract class WorldEconomyExtension extends JavaPlugin {
 
 	public WorldEconomyExtensionManager getExtensionManager() {
 		return WorldEconomyExtensionManager.instance;
+	}
+
+	public String getServerLanguage() {
+		return Config.getServerLanguage();
+	}
+
+	public Version getVersion() {
+		return processed_version;
+	}
+
+	public String getID() {
+		return getName().toLowerCase();
 	}
 
 }
