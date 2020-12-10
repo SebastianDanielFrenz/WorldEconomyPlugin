@@ -54,6 +54,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBl
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.machine.electric.PowerConnectedBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.armor.CustomArmorMaterialManager;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.guis.TradeResourcesGUI;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.market.ShopSignData;
@@ -340,6 +341,8 @@ public class EventListener implements Listener {
 			// custom item ID check
 			// custom item vanilla item check
 			Age.check();
+			
+			CustomArmorMaterialManager.init();
 
 			WorldEconomyPlugin.plugin.getLogger().info("Finished checks!");
 		}
