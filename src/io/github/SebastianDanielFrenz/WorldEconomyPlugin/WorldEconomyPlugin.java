@@ -17,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCommandCompleter;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCommandExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomEntityInvincebilityHandler;
@@ -123,6 +124,7 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new DeathEventHandler(), this);
 
 		getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
+		getCommand("we").setTabCompleter(new WorldEconomyCommandCompleter());
 		// getCommand("kill").setExecutor(new WorldEconomyCommandExecutor());
 
 		startThreads();

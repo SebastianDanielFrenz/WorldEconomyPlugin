@@ -15,8 +15,11 @@ public class Version {
 	private VersionStability stability;
 
 	public static Version parseVersion(String raw) {
+
+		return new Version(VersionType.RELEASE, VersionStability.STABLE, new int[] { 1, 0, 0 }, (char) 3);
+
 		// example: alpha 1.0.0c
-		String[] split = raw.split(" ");
+		/*String[] split = raw.split(" ");
 		VersionType type;
 		if (split[0].equalsIgnoreCase("alpha")) {
 			type = VersionType.ALPHA;
@@ -35,7 +38,8 @@ public class Version {
 			nums[i] = Integer.parseInt(split2[i]);
 		}
 
-		String patch_level_or_version_number = String.valueOf(split2[split2.length - 2].charAt(split2[split2.length - 2].length() - 1));
+		String patch_level_or_version_number = String
+				.valueOf(split2[split2.length - 2].charAt(split2[split2.length - 2].length() - 1));
 		char patch_level;
 		if ("1234567890".contains(patch_level_or_version_number)) {
 			nums[split2.length - 1] = Integer.parseInt(split2[split2.length - 1]);
@@ -43,7 +47,8 @@ public class Version {
 		} else if ("abcdefghijklmnopqrstuvwxyz".contains(patch_level_or_version_number)) {
 			// a --> 1 (none --> 0)
 			nums[split2.length] = "abcdefghijklmnopqrstuvwxyz".indexOf(patch_level_or_version_number) + 1;
-			patch_level = (char) Integer.parseInt(split2[split2.length - 1].substring(0, split2[split2.length - 1].length() - 1));
+			patch_level = (char) Integer
+					.parseInt(split2[split2.length - 1].substring(0, split2[split2.length - 1].length() - 1));
 		} else {
 			throw new RuntimeException(raw + " is not properly formatted!");
 		}
@@ -55,7 +60,7 @@ public class Version {
 			}
 		}
 
-		return new Version(type, stability, nums, patch_level);
+		return new Version(type, stability, nums, patch_level);*/
 
 	}
 

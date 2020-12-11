@@ -156,8 +156,10 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 				return true;
 			} else {
 				if (args[0].equalsIgnoreCase("restartthreads")) {
-					WorldEconomyPlugin.stopThreads();
-					WorldEconomyPlugin.startThreads();
+					if (hasPermission(sender, Permissions.RESTART_THREADS)) {
+						WorldEconomyPlugin.stopThreads();
+						WorldEconomyPlugin.startThreads();
+					}
 					return true;
 				} else if (args[0].equalsIgnoreCase("register")) {
 					if (args.length > 1) {
