@@ -2,6 +2,7 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.command;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.Command;
@@ -33,31 +34,44 @@ public class WorldEconomyCommandCompleter implements TabCompleter {
 		List<String> out = new ArrayList<String>();
 
 		if (args.length == 1) {
-			if (sender instanceof Player) {
-				out.add("");
-			}
 			if (hasPermission(sender, Permissions.RESTART_THREADS)) {
 				out.add("restartthreads");
 			}
-			if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT_CMD)) {
-				out.add("register bank_account");
+			if (hasPermission(sender, Permissions.REGISTER_BANK_ACCOUNT_CMD)
+					|| hasPermission(sender, Permissions.REGISTER_BANK_CMD)
+					|| hasPermission(sender, Permissions.REGISTER_COMPANY_CMD)
+					|| hasPermission(sender, Permissions.REGISTER_PRODUCT_CMD)
+					|| hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST_CMD)) {
+				out.add("register");
 			}
-			if (hasPermission(sender, Permissions.REGISTER_BANK_CMD)) {
-				out.add("register bank");
+			if (hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_BALANCE)
+					|| hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_CREDIT_TAKE_CMD)
+					|| hasPermission(sender, Permissions.MANAGE_BANK_ACCOUNT_NAME_CMD)
+					|| hasPermission(sender, Permissions.MANAGE_COMPANY_BANK_ACCOUNTS_REGISTER_CMD)
+					|| hasPermission(sender, Permissions.MANAGE_COMPANY_EMPLOY)
+					|| hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_READ)
+					|| hasPermission(sender, Permissions.MANAGE_COMPANY_MAIL_REMOVE)) {
+				out.add("manage");
 			}
-			if (hasPermission(sender, Permissions.REGISTER_COMPANY_CMD)) {
-				out.add("register company");
+			if (hasPermission(sender, Permissions.MAIL_READ) || hasPermission(sender, Permissions.MAIL_REMOVE)) {
+				out.add("mail");
 			}
-			if (hasPermission(sender, Permissions.REGISTER_PRODUCT_CMD)) {
-				out.add("register product");
+			if (hasPermission(sender, Permissions.ITEM_GIVE_CMD)) {
+				out.add("give");
 			}
-			if (hasPermission(sender, Permissions.REGISTER_SUPPLY_CHEST_CMD)) {
-				out.add("register supply_chest");
+			if (hasPermission(sender, Permissions.ADMIN_ACCESS)) {
+				out.add("reset");
+
 			}
-			// /we manage - next cmd to implement
-		} else if (args.length == 1) {
+			if (hasPermission(sender, Permissions.BLOCK_SET_CMD)) {
+				out.add("setblock");
+			}
+			// /we mail - next cmd to implement
+		} else if (args.length == 2) {
 
 		}
+
+		Collections.sort(out);
 
 		return out;
 	}

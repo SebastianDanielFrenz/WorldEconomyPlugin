@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin;
 
 public class Permissions {
 
+	public static final String[] ADMIN_ACCESS = new String[] {};
+
 	public static final String[] LIST = new String[] { "list" };
 
 	public static final String[] REGISTER_COMPANY_CMD = new String[] { "register.*", "register.company", "user" };
