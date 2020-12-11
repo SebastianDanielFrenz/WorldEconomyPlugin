@@ -46,4 +46,5 @@ public class Permissions {
 	public static final String[] ASCEND_OTHERS = new String[] { "ascend.others", "ascend.*" };
 
 	public static final String[] PERFORMANCE = new String[] { "performance" };
+	public static final String[] RESTART_THREADS = new String[] { "restartthreads" };
 }
