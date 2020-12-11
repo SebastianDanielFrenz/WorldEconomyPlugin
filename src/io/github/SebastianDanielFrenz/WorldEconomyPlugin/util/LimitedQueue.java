@@ -10,10 +10,25 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.NotImplementedExc
 
 public class LimitedQueue<T> implements Queue<T> {
 
+	public LimitedQueue(int size) {
+
+	}
+
 	private QueueElement<T> first;
 	private QueueElement<T> last;
 
 	private int size;
+	private int populated_size;
+
+	public void changeSize(int size) {
+		while (populated_size > size) {
+			remove();
+		}
+
+		this.size = size;
+	}
+
+	// queue stuff
 
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
@@ -27,7 +42,7 @@ public class LimitedQueue<T> implements Queue<T> {
 	public void clear() {
 		first = null;
 		last = null;
-		size = 0;
+		populated_size = 0;
 	}
 
 	@Override
@@ -86,6 +101,7 @@ public class LimitedQueue<T> implements Queue<T> {
 			if (first == null) {
 				last = null;
 			}
+			populated_size--;
 			return true;
 		}
 		for (QueueElement<T> e = first; e.getNext() != null; e = e.getNext()) {
@@ -95,6 +111,7 @@ public class LimitedQueue<T> implements Queue<T> {
 					last = e;
 					size--;
 				}
+				populated_size--;
 				return true;
 			}
 		}
@@ -103,12 +120,14 @@ public class LimitedQueue<T> implements Queue<T> {
 				first = null;
 				last = null;
 				size = 0;
+				populated_size--;
 				return true;
 			}
 			for (QueueElement<T> e = first; e != null; e = e.getNext()) {
 				if (e.getNext() == last) {
 					last = e;
 					size--;
+					populated_size--;
 					return true;
 				}
 			}
@@ -173,8 +192,12 @@ public class LimitedQueue<T> implements Queue<T> {
 
 	@Override
 	public boolean add(T e) {
+		if (populated_size >= size) {
+			remove();
+		}
 		last.setNext(new QueueElement<T>(null, e));
 		last = last.getNext();
+		populated_size++;
 		return true;
 	}
 
@@ -205,6 +228,7 @@ public class LimitedQueue<T> implements Queue<T> {
 		}
 		T out = first.getValue();
 		first = first.getNext();
+		populated_size--;
 		return out;
 	}
 
@@ -215,7 +239,12 @@ public class LimitedQueue<T> implements Queue<T> {
 		}
 		T out = first.getValue();
 		first = first.getNext();
+		populated_size--;
 		return out;
+	}
+
+	public boolean isFull() {
+		return populated_size >= size;
 	}
 
 }

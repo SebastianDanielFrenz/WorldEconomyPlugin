@@ -5,15 +5,20 @@ import java.sql.SQLException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WEDB;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.ArmorItemDetail;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomDamageType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.MeleeWeaponItemDetail;
@@ -31,33 +36,31 @@ public class CustomItemInteractionEventHandler implements Listener {
 	@EventHandler
 	public void onEntityDamageEvent(EntityDamageEvent raw_event) {
 		try {
-			Bukkit.getLogger().info(raw_event.getEventName() + ": " + raw_event.getEntity().getType()
-					+ " damaged (cause=" + raw_event.getCause().name() + ")");
+			// Bukkit.getLogger().info(raw_event.getEventName() + ": " +
+			// raw_event.getEntity().getType()
+			// + " damaged (cause=" + raw_event.getCause().name() + ")");
 
 			if (raw_event instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) raw_event;
 
 				if (event.getDamager() instanceof Player) {
 					ItemStack stack = ((Player) event.getDamager()).getInventory().getItemInMainHand();
-					if (stack.getType() == Material.WOOD_AXE || stack.getType() == Material.WOOD_SPADE
-							|| stack.getType() == Material.WOOD_PICKAXE || stack.getType() == Material.WOOD_HOE
-							|| stack.getType() == Material.WOOD_SWORD || stack.getType() == Material.IRON_AXE
+					if (stack.getType() == Material.WOOD_AXE || stack.getType() == Material.WOOD_SPADE || stack.getType() == Material.WOOD_PICKAXE
+							|| stack.getType() == Material.WOOD_HOE || stack.getType() == Material.WOOD_SWORD || stack.getType() == Material.IRON_AXE
 							|| stack.getType() == Material.IRON_SPADE || stack.getType() == Material.IRON_PICKAXE
-							|| stack.getType() == Material.IRON_HOE || stack.getType() == Material.IRON_SWORD
-							|| stack.getType() == Material.STONE_AXE || stack.getType() == Material.STONE_SPADE
-							|| stack.getType() == Material.STONE_PICKAXE || stack.getType() == Material.STONE_HOE
-							|| stack.getType() == Material.STONE_SWORD || stack.getType() == Material.DIAMOND_AXE
-							|| stack.getType() == Material.DIAMOND_SPADE || stack.getType() == Material.DIAMOND_PICKAXE
-							|| stack.getType() == Material.DIAMOND_HOE || stack.getType() == Material.DIAMOND_SWORD
-							|| stack.getType() == Material.GOLD_AXE || stack.getType() == Material.GOLD_SPADE
-							|| stack.getType() == Material.GOLD_PICKAXE || stack.getType() == Material.GOLD_HOE
-							|| stack.getType() == Material.GOLD_SWORD) {
+							|| stack.getType() == Material.IRON_HOE || stack.getType() == Material.IRON_SWORD || stack.getType() == Material.STONE_AXE
+							|| stack.getType() == Material.STONE_SPADE || stack.getType() == Material.STONE_PICKAXE
+							|| stack.getType() == Material.STONE_HOE || stack.getType() == Material.STONE_SWORD
+							|| stack.getType() == Material.DIAMOND_AXE || stack.getType() == Material.DIAMOND_SPADE
+							|| stack.getType() == Material.DIAMOND_PICKAXE || stack.getType() == Material.DIAMOND_HOE
+							|| stack.getType() == Material.DIAMOND_SWORD || stack.getType() == Material.GOLD_AXE
+							|| stack.getType() == Material.GOLD_SPADE || stack.getType() == Material.GOLD_PICKAXE
+							|| stack.getType() == Material.GOLD_HOE || stack.getType() == Material.GOLD_SWORD) {
 						stack.setDurability((short) 0);
 					}
 				}
 
-				Bukkit.getLogger()
-						.info("Entity " + event.getEntity().getType() + " damaged by " + event.getDamager().getType());
+				Bukkit.getLogger().info("Entity " + event.getEntity().getType() + " damaged by " + event.getDamager().getType());
 
 				if (event.getDamager() instanceof Player) {
 					Player player = (Player) event.getDamager();
@@ -73,8 +76,7 @@ public class CustomItemInteractionEventHandler implements Listener {
 						MeleeWeaponItemDetail detail = customItem.getDetail(MeleeWeaponItemDetail.class);
 						if (detail != null) {
 							detail.processEvent(event);
-							player.sendMessage("You have dealt " + event.getDamage() + " damage using "
-									+ customItem.item_name + ".");
+							player.sendMessage("You have dealt " + event.getDamage() + " damage using " + customItem.item_name + ".");
 						} else {
 							event.setDamage(0);
 							player.sendMessage("You have dealt 0 damage. Use your fist or a weapon to deal damage.");
@@ -84,6 +86,26 @@ public class CustomItemInteractionEventHandler implements Listener {
 						event.getDamager().sendMessage("You have dealt 1 damage using your hand.");
 					}
 				}
+			}
+
+			// calculating damage resistance
+			if (raw_event.getEntity() instanceof Player || raw_event.getEntity() instanceof Villager) {
+				LivingEntity entity = (LivingEntity) raw_event.getEntity();
+				if (entity instanceof Player) {
+					double resistance_level = 0;
+					for (ItemStack itemStack : ((Player) entity).getInventory().getArmorContents()) {
+						CustomItem customItem = CustomItem.getItem(itemStack);
+						if (customItem != null) {
+							if (customItem.hasDetail(ArmorItemDetail.class)) {
+								resistance_level += customItem.getDetail(ArmorItemDetail.class).processEvent(CustomDamageType.HIT,
+										raw_event.getDamage());
+							}
+						}
+					}
+					double damage = Math.pow(0.5, resistance_level) * raw_event.getDamage();
+					raw_event.setDamage(damage);
+				}
+
 			}
 
 			// no matter why the entity dies...
@@ -96,11 +118,11 @@ public class CustomItemInteractionEventHandler implements Listener {
 					} catch (SQLException e) {
 						e.printStackTrace();
 
-						raw_event.getEntity()
-								.sendMessage("something went wrong; the gods do not allow you to enter heaven!");
+						raw_event.getEntity().sendMessage("something went wrong; the gods do not allow you to enter heaven!");
 					}
 				}
 			}
+
 		} catch (Exception e) {
 			raw_event.setCancelled(true);
 		}

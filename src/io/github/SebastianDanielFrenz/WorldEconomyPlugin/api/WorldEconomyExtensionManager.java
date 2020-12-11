@@ -1,6 +1,9 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.api;
 
+import java.util.logging.Level;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Version;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIProperty;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIPropertyRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
@@ -20,10 +23,18 @@ public class WorldEconomyExtensionManager {
 
 	public void registerCustomItemWithoutBlock(CustomItem item) {
 		CustomItemRegistry.register(item);
+		if (!Age.getAllAges().contains(item.age)) {
+			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING,
+					"Registering item " + item.ID + " [" + item.getClass() + "] " + "without block using non-registered age!");
+		}
 	}
 
 	public void registerCustomItemWithBlock(CustomItem item, CustomBlockType blockType) {
 		CustomItemRegistry.register(item, blockType);
+		if (!Age.getAllAges().contains(item.age)) {
+			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING,
+					"Registering item " + item.ID + " [" + item.getClass() + "] " + "with block using non-registered age!");
+		}
 	}
 
 	public void registerAge(Age age, ResearchItem[] requirements) {
