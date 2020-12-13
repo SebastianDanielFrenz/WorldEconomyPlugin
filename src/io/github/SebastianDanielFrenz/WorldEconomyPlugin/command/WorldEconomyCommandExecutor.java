@@ -1276,6 +1276,9 @@ public class WorldEconomyCommandExecutor implements CommandExecutor {
 			}
 		} else {
 			// not a WorldEconomy command that is implemented...
+			
+			// custom command system
+			
 			return false;
 		}
 	}

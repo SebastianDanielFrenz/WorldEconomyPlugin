@@ -9,6 +9,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIActionCondition;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIActionHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIProperty;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIPropertyRegistry;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WECP.CustomCommand;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
@@ -60,6 +61,10 @@ public class WorldEconomyExtensionManager {
 
 	public static void registerAIAction(AIAction action, AIActionCondition condition) {
 		AIActionHandler.conditional_behaviour.put(action, condition);
+	}
+	
+	public static void registerCommand(CustomCommand command) {
+		
 	}
 
 }
