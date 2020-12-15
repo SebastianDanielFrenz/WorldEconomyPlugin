@@ -9,14 +9,15 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIActionCondition;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIActionHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIProperty;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIPropertyRegistry;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WECP.CustomCommand;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CustomCommand;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CustomCommandGroup;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCustomCommandRegistryCommandExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItemRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.ResearchItem;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.Task;
 
 public class WorldEconomyExtensionManager {
 
@@ -29,16 +30,16 @@ public class WorldEconomyExtensionManager {
 	public static void registerCustomItemWithoutBlock(CustomItem item) {
 		CustomItemRegistry.register(item);
 		if (!Age.getAllAges().contains(item.age)) {
-			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING,
-					"Registering item " + item.ID + " [" + item.getClass() + "] " + "without block using non-registered age!");
+			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Registering item " + item.ID + " ["
+					+ item.getClass() + "] " + "without block using non-registered age!");
 		}
 	}
 
 	public static void registerCustomItemWithBlock(CustomItem item, CustomBlockType blockType) {
 		CustomItemRegistry.register(item, blockType);
 		if (!Age.getAllAges().contains(item.age)) {
-			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING,
-					"Registering item " + item.ID + " [" + item.getClass() + "] " + "with block using non-registered age!");
+			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Registering item " + item.ID + " ["
+					+ item.getClass() + "] " + "with block using non-registered age!");
 		}
 	}
 
@@ -62,9 +63,17 @@ public class WorldEconomyExtensionManager {
 	public static void registerAIAction(AIAction action, AIActionCondition condition) {
 		AIActionHandler.conditional_behaviour.put(action, condition);
 	}
-	
+
 	public static void registerCommand(CustomCommand command) {
-		
+		command.parent.children.add(command);
+	}
+
+	public static void registerCommand(CustomCommandGroup command) {
+		command.parent.children.add(command);
+	}
+
+	public static void registerCommandRoot(CustomCommandGroup command) {
+		WorldEconomyCustomCommandRegistryCommandExecutor.root.put(command.command, command);
 	}
 
 }

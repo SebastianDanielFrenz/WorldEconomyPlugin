@@ -1,17 +1,25 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WECP;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.command;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
+
 public abstract class CustomCommandGroupContent {
 
-	public CustomCommandGroupContent(CustomCommandGroup parent, String command) {
+	public CustomCommandGroupContent(Plugin plugin, CustomCommandGroup parent, String command) {
 		this.parent = parent;
 		this.command = command;
+		this.plugin = plugin;
 	}
 
+	public final Plugin plugin;
 	public final CustomCommandGroup parent;
 	public final String command;
+
+	public abstract boolean run(CommandSender sender, Command cmd, String label, String[] args);
 
 	protected void addCommandToList(List<String> list) {
 		if (parent != null) {
@@ -24,19 +32,6 @@ public abstract class CustomCommandGroupContent {
 		List<String> out = new ArrayList<String>(5);
 		addCommandToList(out);
 		return out;
-	}
-
-	public boolean matches(String[] cmd_args) {
-		List<String> cmd = getCompleteCommand();
-		if (cmd_args.length != cmd.size()) {
-			return false;
-		}
-		for (int i = 0; i < cmd_args.length; i++) {
-			if (!cmd_args[i].equalsIgnoreCase(cmd.get(i))) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 }

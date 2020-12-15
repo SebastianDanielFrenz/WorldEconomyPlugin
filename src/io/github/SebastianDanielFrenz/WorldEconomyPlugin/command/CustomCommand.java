@@ -1,12 +1,17 @@
-package io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WECP;
+package io.github.SebastianDanielFrenz.WorldEconomyPlugin.command;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
 public abstract class CustomCommand extends CustomCommandGroupContent {
 
+	public CustomCommand(Plugin plugin, CustomCommandGroup parent, String command, String[] perms) {
+		super(plugin, parent, command);
+		this.perms = perms;
+	}
+
 	public CustomCommand(CustomCommandGroup parent, String command, String[] perms) {
-		super(parent, command);
+		super(parent.plugin, parent, command);
 		this.perms = perms;
 	}
 
@@ -20,7 +25,5 @@ public abstract class CustomCommand extends CustomCommandGroupContent {
 		}
 		return false;
 	}
-
-	public abstract void run(CommandSender sender, Command cmd, String label, String[] args);
 
 }
