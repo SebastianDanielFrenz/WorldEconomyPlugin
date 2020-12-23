@@ -18,7 +18,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class BankAccountCreditsGUI extends WEGUI {
 
 	public BankAccountCreditsGUI(WEGUI parent, BankAccount account, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANK_ACCOUNT_CREDITS), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleBankAccountCredits(player), player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;

@@ -34,13 +34,13 @@ public class RegisterProductChatDialog extends ChatDialog {
 				if (product == null) {
 					productName = msg;
 				} else {
-					reply(Lang.getError(player, Lang.ERROR_PRODUCT_ALREADY_EXISTS));
+					reply(Lang.getErrorProductAlreadyExists(player));
 					close();
 					return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				reply(Lang.getError(player, Lang.ERROR_INTERNAL));
+				reply(Lang.getErrorInternal(player));
 				close();
 				return;
 			}
@@ -57,7 +57,7 @@ public class RegisterProductChatDialog extends ChatDialog {
 					close();
 				} catch (SQLException e) {
 					e.printStackTrace();
-					reply(Lang.getError(player, Lang.ERROR_INTERNAL));
+					reply(Lang.getErrorInternal(player));
 					close();
 				}
 			} catch (NumberFormatException e) {

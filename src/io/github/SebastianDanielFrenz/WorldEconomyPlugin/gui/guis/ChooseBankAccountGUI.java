@@ -45,7 +45,7 @@ public class ChooseBankAccountGUI extends WEGUI {
 	}
 
 	public ChooseBankAccountGUI(WEGUI parent, long bankingID, BankAccountChooserEvent chooserEvent, Player player) {
-		this(parent, Lang.get(player, Lang.GUI_TITLE_CHOOSE_BANK_ACCOUNT), bankingID, chooserEvent, player);
+		this(parent, Lang.getGuiTitleChooseBankAccount(player), bankingID, chooserEvent, player);
 	}
 
 }

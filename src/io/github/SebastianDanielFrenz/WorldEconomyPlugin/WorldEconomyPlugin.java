@@ -16,10 +16,9 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WorldEconomyExtensionManager;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CmdReg;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCommandCompleter;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCommandExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCustomCommandRegistryCommandExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomEntityInvincebilityHandler;
@@ -47,6 +46,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.multithreading.tasking.tasks.PowerDistributionSchedulerTask;
 import net.minecraft.server.v1_12_R1.EntityZombie;
 
+/**
+ * Bukkit docs:<br>
+ * <a href="https://helpch.at/docs/1.12.2/overview-summary.html">here</a>
+ * 
+ * @author crash
+ *
+ */
 public class WorldEconomyPlugin extends JavaPlugin {
 
 	public static Connection sql_connection;
@@ -74,9 +80,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 	private static Version version;
 
 	public static List<UserProfile> research_age_bypass = new ArrayList<UserProfile>(1);
-	
+
 	public WorldEconomyPlugin() {
-		CmdReg.init();
 	}
 
 	@Override
@@ -129,8 +134,8 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new CustomItemInteractionEventHandler(), this);
 		getServer().getPluginManager().registerEvents(new DeathEventHandler(), this);
 
-		//getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
-		//getCommand("we").setTabCompleter(new WorldEconomyCommandCompleter());
+		// getCommand("we").setExecutor(new WorldEconomyCommandExecutor());
+		// getCommand("we").setTabCompleter(new WorldEconomyCommandCompleter());
 		// getCommand("kill").setExecutor(new WorldEconomyCommandExecutor());
 
 		startThreads();
@@ -214,14 +219,19 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		TaskScheduler.scheduleRepeatingTask(new LiveGUIUpdateSchedulerTask(), 1, TimeMeasurementType.TICKS);
 		TaskScheduler.scheduleRepeatingTask(new PowerDistributionSchedulerTask(), 200, TimeMeasurementType.REAL_TIME);
 
-		// register custom commands
-		
-		
-		for (String root : WorldEconomyCustomCommandRegistryCommandExecutor.root.keySet()) {
-			getCommand(root).setExecutor(new WorldEconomyCustomCommandRegistryCommandExecutor(root));
-		}
-
 		status = STATUS_STARTING;
+
+		// register custom commands
+
+		WorldEconomyPlugin.plugin.getLogger().info("Constructing command tree...");
+		WorldEconomyCustomCommandRegistryCommandExecutor.root.put("we", CmdReg.WE);
+
+		WorldEconomyCustomCommandRegistryCommandExecutor WECCRCE;
+		for (String root : WorldEconomyCustomCommandRegistryCommandExecutor.root.keySet()) {
+			WECCRCE = new WorldEconomyCustomCommandRegistryCommandExecutor(root);
+			WorldEconomyPlugin.plugin.getCommand(root).setExecutor(WECCRCE);
+			WorldEconomyPlugin.plugin.getCommand(root).setTabCompleter(WECCRCE);
+		}
 	}
 
 	@Override

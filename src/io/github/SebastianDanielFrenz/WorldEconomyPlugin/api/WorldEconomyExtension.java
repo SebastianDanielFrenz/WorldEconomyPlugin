@@ -8,11 +8,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Version;
 public abstract class WorldEconomyExtension extends JavaPlugin {
 
 	private final Version processed_version;
+	public final WorldEconomyExtensionManager manager;
 
 	public WorldEconomyExtension() {
 		processed_version = Version.parseVersion(getDescription().getVersion());
 		WorldEconomyExtensionRegistry.register(this);
 		getLogger().info("Bukkit is constructing the plugin...");
+		manager = new WorldEconomyExtensionManager(this);
 	}
 
 	public abstract void constructionEvent();
@@ -24,10 +26,6 @@ public abstract class WorldEconomyExtension extends JavaPlugin {
 	 * @return
 	 */
 	public abstract Class<? extends WorldEconomyExtension>[] getDependencies();
-
-	public WorldEconomyExtensionManager getExtensionManager() {
-		return WorldEconomyExtensionManager.instance;
-	}
 
 	public String getServerLanguage() {
 		return Config.getServerLanguage();

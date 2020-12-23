@@ -49,7 +49,7 @@ public class WEGUI implements InventoryHolder {
 
 			ItemStack backButtonItem = mkItem(Material.WOOL, 1, 14, "Back");
 			ItemMeta meta = backButtonItem.getItemMeta();
-			meta.setDisplayName("§4" + Lang.get(player, Lang.GUI_ITEM_BACK));
+			meta.setDisplayName("§4" + Lang.getGuiItemBack(player));
 			backButtonItem.setItemMeta(meta);
 
 			items2[items.length] = new GUIItem(0, 8, backButtonItem) {
@@ -91,7 +91,7 @@ public class WEGUI implements InventoryHolder {
 
 		ItemStack backButtonItem = new ItemStack(Material.WOOL, 1, (short) 14);
 		ItemMeta meta = backButtonItem.getItemMeta();
-		meta.setDisplayName("§4" + Lang.get(player, Lang.GUI_ITEM_BACK));
+		meta.setDisplayName("§4" + Lang.getGuiItemBack(player));
 		backButtonItem.setItemMeta(meta);
 
 		items2[items.length] = new GUIItem(0, 8, backButtonItem) {

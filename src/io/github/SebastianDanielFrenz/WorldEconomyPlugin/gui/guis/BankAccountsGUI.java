@@ -18,14 +18,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class BankAccountsGUI extends WEGUI {
 
 	public BankAccountsGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANK_ACCOUNTS), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleBankAccounts(player), player);
 
 		BankAccountsGUI out = this;
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_BANK_ACCOUNTS))) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.getGuiTitleBankAccounts(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

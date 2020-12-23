@@ -17,7 +17,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class ResearchGUI extends WEGUI {
 
 	public ResearchGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_RESEARCH), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleResearch(player), player);
 
 		WEGUI _this = this;
 

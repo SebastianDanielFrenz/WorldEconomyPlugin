@@ -18,14 +18,14 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class CompaniesGUI extends WEGUI {
 
 	public CompaniesGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_COMPANIES), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleCompanies(player), player);
 
 		CompaniesGUI _this = this;
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_COMPANIES))) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.getGuiTitleCompanies(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

@@ -15,24 +15,24 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.mail.MailSubsystem;
 public class MainMenu extends WEGUI {
 
 	public MainMenu(Player player) {
-		super(new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_MAIN_MENU), player);
+		super(new GUIItem[] {}, Lang.getGuiTitleMainMenu(player), player);
 		MainMenu _this = this;
 
-		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_MAIN_MENU))) {
+		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.SIGN, Lang.getGuiTitleMainMenu(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
-		}, new GUIItem(1, 0, mkItem(Material.WOOL, 1, 14, "§4" + Lang.get(player, Lang.GUI_ITEM_MAIN_MENU__MAILBOX))) {
+		}, new GUIItem(1, 0, mkItem(Material.WOOL, 1, 14, "§4" + Lang.getGuiItemMainMenu_Mailbox(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				MailSubsystem.showPlayerInbox((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(2, 0, mkItem(Material.WOOL, 1, 10, Lang.get(player, Lang.GUI_ITEM_MAIN_MENU__WRITE_MAIL))) {
+		}, new GUIItem(2, 0, mkItem(Material.WOOL, 1, 10, Lang.getGuiItemMainMenu_WriteMail(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new WriteMailChatDialog((Player) event.getWhoClicked());
 			}
-		}, new GUIItem(1, 1, mkItem(Material.WOOL, 1, 7, Lang.get(player, Lang.GUI_TITLE_BANKS)), Age.MIDDLE_AGES) {
+		}, new GUIItem(1, 1, mkItem(Material.WOOL, 1, 7, Lang.getGuiTitleBanks(player)), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				Player player = (Player) event.getWhoClicked();
@@ -42,38 +42,33 @@ public class MainMenu extends WEGUI {
 											// inventory close event or not
 				new BanksGUI(_this, player).openInventory();
 			}
-		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, Lang.get(player, Lang.GUI_TITLE_BANK_ACCOUNTS)),
-				Age.MIDDLE_AGES) {
+		}, new GUIItem(2, 1, mkItem(Material.WOOL, 1, 15, Lang.getGuiTitleBankAccounts(player)), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new BankAccountsGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
-		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, Lang.get(player, Lang.GUI_TITLE_CREATE_BANK_ACCOUNT)),
-				Age.MIDDLE_AGES) {
+		}, new GUIItem(3, 1, mkItem(Material.WOOL, 1, 12, Lang.getGuiTitleCreateBankAccount(player)), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CreateBankAccountGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
-		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, Lang.get(player, Lang.GUI_TITLE_TRANSFER_MONEY)),
-				Age.MIDDLE_AGES) {
+		}, new GUIItem(4, 1, mkItem(Material.WOOL, 1, 15, Lang.getGuiTitleTransferMoney(player)), Age.MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new TransferMoneyGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
-		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, Lang.get(player, Lang.GUI_TITLE_COMPANIES)),
-				Age.LATE_MIDDLE_AGES) {
+		}, new GUIItem(1, 2, mkItem(Material.WOOL, 1, 8, Lang.getGuiTitleCompanies(player)), Age.LATE_MIDDLE_AGES) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new CompaniesGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
-		}, new GUIItem(1, 3, mkItem(Material.GLASS_BOTTLE, 1, 0, "§a" + Lang.get(player, Lang.GUI_TITLE_RESEARCH))) {
+		}, new GUIItem(1, 3, mkItem(Material.GLASS_BOTTLE, 1, 0, "§a" + Lang.getGuiTitleResearch(player))) {
 
 			@Override
 			public void event(InventoryClickEvent event) {
 				new ResearchGUI(_this, (Player) event.getWhoClicked()).openInventory();
 			}
-		}, new GUIItem(1, 4, mkItem(Material.PAPER, "§e" + Lang.get(player, Lang.GUI_TITLE_STOCK_MARKET)),
-				Age.LATE_MIDDLE_AGES) {
+		}, new GUIItem(1, 4, mkItem(Material.PAPER, "§e" + Lang.getGuiTitleStockMarket(player)), Age.LATE_MIDDLE_AGES) {
 
 			@Override
 			public void event(InventoryClickEvent event) {

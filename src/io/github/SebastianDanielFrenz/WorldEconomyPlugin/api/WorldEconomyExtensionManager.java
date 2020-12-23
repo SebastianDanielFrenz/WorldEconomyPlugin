@@ -2,6 +2,8 @@ package io.github.SebastianDanielFrenz.WorldEconomyPlugin.api;
 
 import java.util.logging.Level;
 
+import org.bukkit.plugin.Plugin;
+
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Version;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIAction;
@@ -21,13 +23,17 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.research.Resea
 
 public class WorldEconomyExtensionManager {
 
-	public static WorldEconomyExtensionManager instance = new WorldEconomyExtensionManager();
+	private Plugin plugin;
 
-	public static void registerCustomBlock(CustomBlockType blockType) {
+	public WorldEconomyExtensionManager(Plugin plugin) {
+		this.plugin = plugin;
+	}
+
+	public void registerCustomBlock(CustomBlockType blockType) {
 		CustomBlockTypeRegistry.register(blockType);
 	}
 
-	public static void registerCustomItemWithoutBlock(CustomItem item) {
+	public void registerCustomItemWithoutBlock(CustomItem item) {
 		CustomItemRegistry.register(item);
 		if (!Age.getAllAges().contains(item.age)) {
 			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Registering item " + item.ID + " ["
@@ -35,7 +41,7 @@ public class WorldEconomyExtensionManager {
 		}
 	}
 
-	public static void registerCustomItemWithBlock(CustomItem item, CustomBlockType blockType) {
+	public void registerCustomItemWithBlock(CustomItem item, CustomBlockType blockType) {
 		CustomItemRegistry.register(item, blockType);
 		if (!Age.getAllAges().contains(item.age)) {
 			WorldEconomyPlugin.plugin.getLogger().log(Level.WARNING, "Registering item " + item.ID + " ["
@@ -43,15 +49,15 @@ public class WorldEconomyExtensionManager {
 		}
 	}
 
-	public static void registerAge(Age age, ResearchItem[] requirements) {
+	public void registerAge(Age age, ResearchItem[] requirements) {
 		Age.registerAge(age, requirements);
 	}
 
-	public static void registerAIproperty(AIProperty property) {
+	public void registerAIproperty(AIProperty property) {
 		AIPropertyRegistry.registerProperty(property);
 	}
 
-	public static Version getExtensionVersion(Class<? extends WorldEconomyExtension> extension) {
+	public Version getExtensionVersion(Class<? extends WorldEconomyExtension> extension) {
 		for (WorldEconomyExtension ext : WorldEconomyExtensionRegistry.getExtensions()) {
 			if (extension.isInstance(ext)) {
 				return ext.getVersion();
@@ -60,19 +66,11 @@ public class WorldEconomyExtensionManager {
 		return null;
 	}
 
-	public static void registerAIAction(AIAction action, AIActionCondition condition) {
+	public void registerAIAction(AIAction action, AIActionCondition condition) {
 		AIActionHandler.conditional_behaviour.put(action, condition);
 	}
 
-	public static void registerCommand(CustomCommand command) {
-		command.parent.children.add(command);
-	}
-
-	public static void registerCommand(CustomCommandGroup command) {
-		command.parent.children.add(command);
-	}
-
-	public static void registerCommandRoot(CustomCommandGroup command) {
+	public void registerCommandRoot(CustomCommandGroup command) {
 		WorldEconomyCustomCommandRegistryCommandExecutor.root.put(command.command, command);
 	}
 

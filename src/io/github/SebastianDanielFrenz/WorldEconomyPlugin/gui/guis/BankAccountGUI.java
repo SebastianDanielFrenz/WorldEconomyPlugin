@@ -16,17 +16,18 @@ public class BankAccountGUI extends WEGUI {
 
 		BankAccountGUI out = this;
 
-		setItems(new GUIItem[] { new GUIItem(0, 4, mkItem(Material.SIGN, Lang.GUI_TITLE_BANK_ACCOUNT(player, account.getName()))) {
-			@Override
-			public void event(InventoryClickEvent event) {
+		setItems(new GUIItem[] {
+				new GUIItem(0, 4, mkItem(Material.SIGN, Lang.GUI_TITLE_BANK_ACCOUNT(player, account.getName()))) {
+					@Override
+					public void event(InventoryClickEvent event) {
 
-			}
-		}, new GUIItem(1, 0, mkItem(Material.PAPER, Lang.get(player, Lang.GUI_ITEM_BANK_ACCOUNT__CREDITS))) {
-			@Override
-			public void event(InventoryClickEvent event) {
-				new BankAccountCreditsGUI(out, account, player).openInventory();
-			}
-		} });
+					}
+				}, new GUIItem(1, 0, mkItem(Material.PAPER, Lang.getGuiItemBankAccount_Credits(player))) {
+					@Override
+					public void event(InventoryClickEvent event) {
+						new BankAccountCreditsGUI(out, account, player).openInventory();
+					}
+				} });
 	}
 
 }

@@ -17,6 +17,13 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.item.CustomItem;
 
+/**
+ * Capitalized methods doe not require message IDs.<br>
+ * Use get(String msg) to retrieve
+ * 
+ * @author crash
+ *
+ */
 public class Lang {
 
 	public static String getLanguage(Player p) throws IllegalAccessException, IllegalArgumentException,
@@ -101,65 +108,157 @@ public class Lang {
 		}
 	}
 
-	public static final String ERROR_NOT_ENOUGH_ARGUMENTS = "not_enough_arguments";
-	public static final String ERROR_COMMAND_NOT_FOUND = "command_not_found";
-	public static final String ERROR_INVALID_ARGUMENT = "invalid_argument";
-	public static final String ERROR_INTERNAL = "internal";
-	public static final String ERROR_ACCESSING_FUTURE = "accessing_future";
-	public static final String ERROR_INSUFFICIENT_PERMISSION = "insufficient_permission";
-	public static final String ERROR_NOT_A_PLAYER = "not_a_player";
-	public static final String ERROR_HAND_EMPTY = "hand_empty";
-	public static final String ERROR_ILLEGAL_ITEM = "illegal_item";
-	public static final String ERROR_PRODUCT_ALREADY_EXISTS = "product_already_exists";
-	public static final String ERROR_INVALID_NUMBER = "invalid_number";
-	public static final String ERROR_LOOK_AT_CHEST = "look_at_chest";
-	public static final String ERROR_MOVE_CLOSER = "move_closer";
-	public static final String ERROR_EMPTY_HAND = "empty_hand";
-	public static final String ERROR_BANK_ACCOUNT_DOES_NOT_EXIST = "bank_account_does_not_exist";
-	public static final String ERROR_NOT_ENOUGH_SPACE = "not_enough_space";
+	public static String getErrorNotEnoughArguments(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.not_enough_arguments");
+	}
+
+	public static String getErrorCommandNotFound(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.command_not_found");
+	}
+
+	public static String getErrorInvalidArgument(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.invalid_argument");
+	}
+
+	public static String getErrorInternal(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.internal");
+	}
+
+	public static String getErrorAccessingFuture(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.accessing_future");
+	}
+
+	public static String getErrorInsufficientPermission(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.insufficient_permission");
+	}
+
+	public static String getErrorNotAPlayer(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.not_a_player");
+	}
+
+	public static String getErrorHandEmpty(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.hand_empty");
+	}
+
+	public static String getErrorIllegalItem(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.illegal_item");
+	}
+
+	public static String getErrorProductAlreadyExists(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.product_already_exists");
+	}
+
+	public static String getErrorInvalidNumber(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.invalid_number");
+	}
+
+	public static String getErrorLookAtChest(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.look_at_chest");
+	}
+
+	public static String getErrorMoveCloser(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.move_closer");
+	}
+
+	public static String getErrorEmptyHand(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.empty_hand");
+	}
+
+	public static String getErrorBankAccountDoesNotExist(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.bank_account_does_not_exist");
+	}
+
+	public static String getErrorNotEnoughSpace(CommandSender sender) {
+		return WorldEconomyPlugin.PREFIX + "§4" + get(sender, "msg.error.not_enough_space");
+	}
 
 	public static final String SUCCESS_REGISTER_BANK = "register_bank";
 
-	public static final String MAIL_RECIEVED = "mail_recieved";
+	public static final String MSG_MAIL_RECIEVED = "mail_recieved";
 
 	public static final String CHATDIALOG_REGISTER_PRODUCT_NAME = "register_product_name";
 	public static final String CHATDIALOG_REGISTER_PRODUCT_PRICE = "register_product_price";
 	public static final String CHATDIALOG_REGISTER_PRODUCT_INVALID_PRICE = "register_product_invalid_price";
 
-	public static final String GUI_ITEM_BACK = "gui.item.back";
+	public static String getGuiItemBack(CommandSender player) {
+		return get(player, "gui.item.back");
+	}
 
-	public static final String GUI_TITLE_BANK_ACCOUNT_CREDITS = "gui.title.bank_account_credits";
+	public static String getGuiTitleBankAccountCredits(CommandSender player) {
+		return get(player, "gui.title.bank_account_credits");
+	}
 
-	public static final String GUI_ITEM_BANK_ACCOUNT__CREDITS = "gui.item.bank_account.credits";
+	public static String getGuiItemBankAccount_Credits(CommandSender player) {
+		return get(player, "gui.item.bank_account.credits");
+	}
 
-	public static final String GUI_TITLE_BANK_ACCOUNTS = "gui.title.bank_accounts";
+	public static String getGuiTitleBankAccounts(CommandSender player) {
+		return get(player, "gui.title.bank_accounts");
+	}
 
-	public static final String GUI_TITLE_BANKS = "gui.title.banks";
+	public static String getGuiTitleBanks(CommandSender player) {
+		return get(player, "gui.title.banks");
+	}
 
-	public static final String GUI_ITEM_BUY_RESOURCE__CUSTOM_AMOUNT = "gui.item.buy_resource.custom_amount";
+	public static String getGuiItemBuyResource_CustomAmount(CommandSender player) {
+		return get(player, "gui.item.buy_resource.custom_amount");
+	}
 
-	public static final String GUI_TITLE_CHOOSE_BANK_ACCOUNT = "gui.title.choose_bank_account";
+	public static String getGuiTitleChooseBankAccount(CommandSender player) {
+		return get(player, "gui.title.choose_bank_account");
+	}
 
-	public static final String GUI_TITLE_COMPANIES = "gui.title.companies";
+	public static String getGuiTitleCompanies(CommandSender player) {
+		return get(player, "gui.title.companies");
+	}
 
-	public static final String GUI_ITEM_COMPANY__PRODUCTS = "gui.item.company.products";
-	public static final String GUI_ITEM_COMPANY__REGISTER_PRODUCT = "gui.item.company.register_product";
-	public static final String GUI_ITEM_COMPANY__SALES = "gui.item.company.sales";
-	public static final String GUI_ITEM_COMPANY__EMPLOYEES = "gui.item.company.employees";
+	public static String getGuiItemCompany_Products(CommandSender player) {
+		return get(player, "gui.item.company.products");
+	}
 
-	public static final String GUI_TITLE_CREATE_BANK_ACCOUNT = "gui.title.create_bank_account";
+	public static String getGuiItemCompany_RegisterProduct(CommandSender player) {
+		return get(player, "gui.item.company.register_product");
+	}
 
-	public static final String GUI_TITLE_MAIN_MENU = "gui.title.main_menu";
-	public static final String GUI_ITEM_MAIN_MENU__MAILBOX = "gui.item.main_menu.mailbox";
-	public static final String GUI_ITEM_MAIN_MENU__WRITE_MAIL = "gui.item.main_menu.write_mail";
+	public static String getGuiItemCompany_Sales(CommandSender player) {
+		return get(player, "gui.item.company.sales");
+	}
 
-	public static final String GUI_TITLE_RESEARCH = "gui.title.research";
+	public static String getGuiItemCompany_Employees(CommandSender player) {
+		return get(player, "gui.item.company.employees");
+	}
 
-	public static final String GUI_ITEM_SELL_RESOURCE__CUSTOM_AMOUNT = "gui.item.sell_resource.custom_amount";
+	public static String getGuiTitleCreateBankAccount(CommandSender player) {
+		return get(player, "gui.title.create_bank_account");
+	}
 
-	public static final String GUI_TITLE_STOCK_MARKET = "gui.title.stock_market";
+	public static String getGuiTitleMainMenu(CommandSender player) {
+		return get(player, "gui.title.main_menu");
+	}
 
-	public static final String GUI_TITLE_TRANSFER_MONEY = "gui.title.transfer_money";
+	public static String getGuiItemMainMenu_Mailbox(CommandSender player) {
+		return get(player, "gui.item.main_menu.mailbox");
+	}
+
+	public static String getGuiItemMainMenu_WriteMail(CommandSender player) {
+		return get(player, "gui.item.main_menu.write_mail");
+	}
+
+	public static String getGuiTitleResearch(CommandSender player) {
+		return get(player, "gui.title.research");
+	}
+
+	public static String getGuiItemSellResource_CustomAmount(CommandSender player) {
+		return get(player, "gui.item.sell_resource.custom_amount");
+	}
+
+	public static String getGuiTitleStockMarket(CommandSender player) {
+		return get(player, "gui.title.stock_market");
+	}
+
+	public static String getGuiTitleTransferMoney(CommandSender player) {
+		return get(player, "gui.title.transfer_money");
+	}
 
 	public static final String OTHER_PLAYER = "other.player";
 	public static final String OTHER_AI = "other.ai";

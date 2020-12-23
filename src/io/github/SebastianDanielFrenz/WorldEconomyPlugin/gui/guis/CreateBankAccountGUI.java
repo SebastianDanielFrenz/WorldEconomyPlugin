@@ -17,7 +17,7 @@ public class CreateBankAccountGUI extends ChooseBankGUI {
 			public void event(InventoryClickEvent event, Bank bank) {
 				new CreateBankAccountChatDialog(player, bank);
 			}
-		}, Lang.get(player, Lang.GUI_TITLE_CREATE_BANK_ACCOUNT));
+		}, Lang.getGuiTitleCreateBankAccount(player));
 	}
 
 	public CreateBankAccountGUI(Player player) {
@@ -26,7 +26,7 @@ public class CreateBankAccountGUI extends ChooseBankGUI {
 			public void event(InventoryClickEvent event, Bank bank) {
 				new CreateBankAccountChatDialog(player, bank);
 			}
-		}, Lang.get(player, Lang.GUI_TITLE_CREATE_BANK_ACCOUNT));
+		}, Lang.getGuiTitleCreateBankAccount(player));
 	}
 
 }

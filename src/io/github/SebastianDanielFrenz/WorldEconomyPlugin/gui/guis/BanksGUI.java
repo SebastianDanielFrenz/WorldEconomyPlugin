@@ -18,12 +18,12 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class BanksGUI extends WEGUI {
 
 	public BanksGUI(Player player) {
-		super(new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANKS), player);
+		super(new GUIItem[] {}, Lang.getGuiTitleBanks(player), player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_BANKS))) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.getGuiTitleBanks(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}
@@ -48,12 +48,12 @@ public class BanksGUI extends WEGUI {
 	}
 
 	public BanksGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_BANKS), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleBanks(player), player);
 
 		List<GUIItem> items = new ArrayList<GUIItem>();
 		int slot = 9;
 
-		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_TITLE_BANKS))) {
+		items.add(new GUIItem(0, 4, mkItem(Material.SIGN, Lang.getGuiTitleBanks(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 			}

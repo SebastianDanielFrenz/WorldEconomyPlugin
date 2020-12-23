@@ -1,13 +1,19 @@
 package io.github.SebastianDanielFrenz.WorldEconomyPlugin.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
-public class WorldEconomyCustomCommandRegistryCommandExecutor implements CommandExecutor {
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+
+public class WorldEconomyCustomCommandRegistryCommandExecutor implements CommandExecutor, TabCompleter {
 
 	public static Map<String, CustomCommandGroup> root = new TreeMap<String, CustomCommandGroup>();
 
@@ -24,7 +30,33 @@ public class WorldEconomyCustomCommandRegistryCommandExecutor implements Command
 			sender.sendMessage("command not found!");
 			return true;
 		}
+		if (content instanceof CustomCommand) {
+			if (!((CustomCommand) content).hasAge(sender)) {
+				sender.sendMessage(Lang.getErrorAccessingFuture(sender));
+				return true;
+			} else if (!((CustomCommand) content).hasRawPermission(sender)) {
+				sender.sendMessage(Lang.getErrorInsufficientPermission(sender));
+				for (String perm : ((CustomCommand) content).perms) {
+					sender.sendMessage(WorldEconomyPlugin.PREFIX + " - WorldEconomy." + perm);
+				}
+			}
+		}
 		return content.run(sender, cmd, label, args);
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+		List<String> out = new ArrayList<String>(5);
+		CustomCommandGroupContent content = root.get(base_cmd).getTabCompleteProcessor(args);
+		if (content == null) {
+			return out;
+		} else {
+			List<String> tmp = content.onTabComplete(sender, args);
+			if (tmp != null) {
+				out.addAll(tmp);
+			}
+		}
+		return out;
 	}
 
 }

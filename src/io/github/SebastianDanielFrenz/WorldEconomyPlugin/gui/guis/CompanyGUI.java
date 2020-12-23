@@ -31,19 +31,18 @@ public class CompanyGUI extends WEGUI {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(new GUIItem(1, 0, mkItem(Material.WOOL, 1, 1, Lang.get(player, Lang.GUI_ITEM_COMPANY__PRODUCTS))) {
+		items.add(new GUIItem(1, 0, mkItem(Material.WOOL, 1, 1, Lang.getGuiItemCompany_Products(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new ProductsFromCompanyGUI(_this, company, player).openInventory();
 			}
 		});
-		items.add(new GUIItem(2, 0,
-				mkItem(Material.WOOL, 1, 13, Lang.get(player, Lang.GUI_ITEM_COMPANY__REGISTER_PRODUCT))) {
+		items.add(new GUIItem(2, 0, mkItem(Material.WOOL, 1, 13, Lang.getGuiItemCompany_RegisterProduct(player))) {
 
 			@Override
 			public void event(InventoryClickEvent event) {
 				new ChooseResearchedItemGUI(_this,
-						Lang.get(player, Lang.GUI_ITEM_COMPANY__REGISTER_PRODUCT) + " - " + company.companyName, player,
+						Lang.getGuiItemCompany_RegisterProduct(player) + " - " + company.companyName, player,
 						new ResearchItemChooserEvent() {
 
 							@Override
@@ -59,13 +58,13 @@ public class CompanyGUI extends WEGUI {
 						}).openInventory();
 			}
 		});
-		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, Lang.get(player, Lang.GUI_ITEM_COMPANY__SALES))) {
+		items.add(new GUIItem(1, 1, mkItem(Material.WOOL, 1, 4, Lang.getGuiItemCompany_Sales(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				throw new NotImplementedException();
 			}
 		});
-		items.add(new GUIItem(1, 2, mkItem(Material.WOOL, 1, 5, Lang.get(player, Lang.GUI_ITEM_COMPANY__EMPLOYEES))) {
+		items.add(new GUIItem(1, 2, mkItem(Material.WOOL, 1, 5, Lang.getGuiItemCompany_Employees(player))) {
 			@Override
 			public void event(InventoryClickEvent event) {
 				new EmployeesFromCompanyGUI(_this, company, player).openInventory();

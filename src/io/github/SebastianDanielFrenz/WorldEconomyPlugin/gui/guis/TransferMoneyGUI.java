@@ -24,7 +24,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gui.WEGUI;
 public class TransferMoneyGUI extends WEGUI {
 
 	public TransferMoneyGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_TRANSFER_MONEY), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleTransferMoney(player), player);
 
 		TransferMoneyGUI out = this;
 
@@ -53,7 +53,7 @@ public class TransferMoneyGUI extends WEGUI {
 													}, player).openInventory();
 										} catch (SQLException e) {
 											e.printStackTrace();
-											player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+											player.sendMessage(Lang.getErrorInternal(player));
 										}
 									}
 								}, player).openInventory();
@@ -82,7 +82,7 @@ public class TransferMoneyGUI extends WEGUI {
 													}, player).openInventory();
 										} catch (SQLException e) {
 											e.printStackTrace();
-											player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+											player.sendMessage(Lang.getErrorInternal(player));
 										}
 									}
 								}, player).openInventory();
@@ -140,7 +140,7 @@ public class TransferMoneyGUI extends WEGUI {
 														}, player).openInventory();
 											} catch (SQLException e) {
 												e.printStackTrace();
-												player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+												player.sendMessage(Lang.getErrorInternal(player));
 											}
 										}
 									}, player).openInventory();

@@ -30,13 +30,12 @@ public class SellResourceGUI extends WEGUI {
 			public void event(InventoryClickEvent event) {
 			}
 		});
-		items.add(
-				new GUIItem(1, 0, mkItem(Material.SIGN, Lang.get(player, Lang.GUI_ITEM_SELL_RESOURCE__CUSTOM_AMOUNT))) {
-					@Override
-					public void event(InventoryClickEvent event) {
-						// TODO
-					}
-				});
+		items.add(new GUIItem(1, 0, mkItem(Material.SIGN, Lang.getGuiItemSellResource_CustomAmount(player))) {
+			@Override
+			public void event(InventoryClickEvent event) {
+				// TODO
+			}
+		});
 		for (long i = 1; i < 100000; i *= 8) {
 			// long x = i;
 			items.add(new GUIItem(1, 1, mkItem(BlockLib.SELL, String.valueOf(i))) {
@@ -53,7 +52,7 @@ public class SellResourceGUI extends WEGUI {
 
 										} catch (SQLException e) {
 											e.printStackTrace();
-											player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+											player.sendMessage(Lang.getErrorInternal(player));
 										}
 									}
 								}, player).openInventory();

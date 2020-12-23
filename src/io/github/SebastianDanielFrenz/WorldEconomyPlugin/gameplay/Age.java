@@ -39,7 +39,7 @@ public class Age {
 			Double.MAX_VALUE);
 
 	private String ID;
-	private Plugin plugin;
+	private final Plugin plugin;
 
 	public final int index;
 	public final ChatColor color;
@@ -150,8 +150,6 @@ public class Age {
 		registerAge(LATE_MIDDLE_AGES, new ResearchItem[] {});
 
 		registerAge(UNDEFINED, new ResearchItem[] { new ImpossibleResearchItem() });
-
-		int i;
 	}
 
 	public static void check() {
@@ -197,7 +195,7 @@ public class Age {
 			return;
 		}
 
-		// broken shoulb always be false here
+		// broken should always be false here
 
 		Map<String, LinkedList<Age>> ID_map = new TreeMap<String, LinkedList<Age>>();
 		for (Age age : ages) {

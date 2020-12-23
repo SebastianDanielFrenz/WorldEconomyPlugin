@@ -19,7 +19,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.stockmarket.Share;
 public class StockMarketGUI extends LiveGUI {
 
 	public StockMarketGUI(WEGUI parent, Player player) {
-		super(parent, new GUIItem[] {}, Lang.get(player, Lang.GUI_TITLE_STOCK_MARKET), player);
+		super(parent, new GUIItem[] {}, Lang.getGuiTitleStockMarket(player), player);
 
 		update();
 	}

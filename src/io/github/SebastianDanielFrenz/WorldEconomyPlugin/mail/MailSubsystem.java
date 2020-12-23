@@ -34,7 +34,7 @@ public class MailSubsystem {
 			OfflinePlayer player = Bukkit.getOfflinePlayer(((UserProfile) owner).uuid);
 			if (player.isOnline()) {
 				Player nplayer = (Player) player;
-				nplayer.sendMessage(Lang.getMsg((Player) player, Lang.MAIL_RECIEVED));
+				nplayer.sendMessage(Lang.getMsg((Player) player, Lang.MSG_MAIL_RECIEVED));
 			}
 		}
 	}
@@ -50,7 +50,7 @@ public class MailSubsystem {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+			player.sendMessage(Lang.getErrorInternal(player));
 		}
 	}
 
@@ -65,7 +65,7 @@ public class MailSubsystem {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			player.sendMessage(Lang.getError(player, Lang.ERROR_INTERNAL));
+			player.sendMessage(Lang.getErrorInternal(player));
 		}
 	}
 
