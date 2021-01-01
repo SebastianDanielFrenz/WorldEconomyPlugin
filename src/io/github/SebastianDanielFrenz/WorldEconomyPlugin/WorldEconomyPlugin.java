@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.api.WorldEconomyExtensionManager;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialog.ChatDialogRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CmdReg;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCustomCommandRegistryCommandExecutor;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WEPCmdRegExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomBlockEventHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomEntityInvincebilityHandler;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.event.CustomItemInteractionEventHandler;
@@ -224,11 +224,11 @@ public class WorldEconomyPlugin extends JavaPlugin {
 		// register custom commands
 
 		WorldEconomyPlugin.plugin.getLogger().info("Constructing command tree...");
-		WorldEconomyCustomCommandRegistryCommandExecutor.root.put("we", CmdReg.WE);
+		WEPCmdRegExecutor.root.put("we", CmdReg.WE);
 
-		WorldEconomyCustomCommandRegistryCommandExecutor WECCRCE;
-		for (String root : WorldEconomyCustomCommandRegistryCommandExecutor.root.keySet()) {
-			WECCRCE = new WorldEconomyCustomCommandRegistryCommandExecutor(root);
+		WEPCmdRegExecutor WECCRCE;
+		for (String root : WEPCmdRegExecutor.root.keySet()) {
+			WECCRCE = new WEPCmdRegExecutor(root);
 			WorldEconomyPlugin.plugin.getCommand(root).setExecutor(WECCRCE);
 			WorldEconomyPlugin.plugin.getCommand(root).setTabCompleter(WECCRCE);
 		}

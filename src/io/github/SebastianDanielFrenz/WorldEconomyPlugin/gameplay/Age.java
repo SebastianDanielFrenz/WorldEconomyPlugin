@@ -136,7 +136,7 @@ public class Age {
 	public static void registerAge(Age age, ResearchItem[] items) {
 		age.needed_items = items;
 		ages.add(age);
-		System.out.println("registered age " + age.ID + " from " + age.plugin.getName());
+		//System.out.println("registered age " + age.ID + " from " + age.plugin.getName());
 	}
 
 	public static void init() {

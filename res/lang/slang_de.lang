@@ -1,112 +1,112 @@
 # en_us sollte der Standard sein
-item.coal_ore=Kohlenerz
-item.coal=Kohle
-item.charcoal=Holzkohle
-item.ash=Asche
-item.iron_ore=Eisenerz
-item.iron_ingot=Eisenbarren
-item.iron_plate=Eisenplatte
-item.iron_rod=Eisener Cock
-item.iron_pickaxe=Scheißenspitzhacke
-item.iron_helmet=Eisenhelm
-item.iron_chestplate=Eisen-Brustplatte
-item.iron_leggings=Eisen-Leggings
-item.iron_boots=Eisenstiefel
+item.coal_ore=Kohle im Herz
+item.coal=Lohle
+item.charcoal=Kolzhohle
+item.ash=Die Asche Deiner Mutter
+item.iron_ore=Eisenschmerz
+item.iron_ingot=Eisenknarren
+item.iron_plate=Eisenspielplatte
+item.iron_rod=Meine harte Stange
+item.iron_pickaxe=Eisenstumpfhacke
+item.iron_helmet=Eisenerne Corona-Prävention
+item.iron_chestplate=Eisen-Hähnchenbrustplatte
+item.iron_leggings=Eisen-Strumpfhosen (sehr verführerisch!)
+item.iron_boots=Eisensocken
 
-item.redstone=Redstone
-item.steel_ingot=Stahlbarren
-item.steel_plate=Stahlplatte
-item.steel_rod=Stahlstab
+item.redstone=Rotes stück Scheiße
+item.steel_ingot=Stahlknarren
+item.steel_plate=StahlfußplatteLOL
+item.steel_rod=Seine härtere Stange
 
-item.copper_ore=Kupfererz
-item.copper_ingot=Kupferbarren
-item.copper_plate=Kupferplatte
-item.copper_rod=Kupferstab
+item.copper_ore=Kupferschmerz
+item.copper_ingot=Kupferknarren
+item.copper_plate=Kupferteller
+item.copper_rod=Verkupferter Schwanz
 
-item.bronze_ingot=Bronze-Barren
-item.bronze_plate=Bronzeplatte
-item.bronze_rod=Bronze-Stange
+item.bronze_ingot=Bronze-Knarren
+item.bronze_plate=Bronzescheibe
+item.bronze_rod=Brauner Schwanz
 
-item.aluminum_ingot=Aluminium-Barren
-item.aluminum_plate=Aluminiumplatte
-item.aluminum_rod=Aluminium-Stab
+item.aluminum_ingot=Aluminiumknarren
+item.aluminum_plate=Aluminiumscheiße
+item.aluminum_rod=Biegsamer Schwanz
 
-item.tin_ingot=Zinn-Barren
-item.tin_plate=Weissblech
-item.tin_rod=Zinnstab
+item.tin_ingot=Kinn-Barren
+item.tin_plate=Schwarzscheesch
+item.tin_rod=Adoniskinn
 
-item.osmium_ingot=Osmium-Barren
-item.osmium_plate=Osmium-Platte
-item.osmium_Stab=Osmium-Stab
+item.osmium_ingot=Kotzmium-Barren
+item.osmium_plate=Kotzmium-Platte
+item.osmium_rod=Kotzmium-Dildo
 
-item.lead_ingot=Bleibarren
-item.lead_plate=Bleiplatte
-item.lead_rod=Blei-Stab
+item.lead_ingot=Blei-oder-so-keineahnung
+item.lead_plate=Bleikant
+item.lead_rod=Bleischwanz
 
-item.gold_ore=Golderz
-item.gold_nugget=Gold-Nugget
-item.gold_ingot=Goldbarren
-item.gold_cable=Goldenes Kabel
+item.gold_ore=Glitzerndes Stück Scheiße
+item.gold_nugget=ChickenMacNuggets
+item.gold_ingot=Goldene Knarren
+item.gold_cable=Goldene Kadelabel
 
-item.diamond=Diamant
-item.diamond_ore=Diamanderz
+item.diamond=Nichts
+item.diamond_ore=Die Quelle vom NICHTS
 
-item.lapis_lazuli=Lapis Lazuli
-item.lapis_lazuli_ore=Lapislazuli-Erz
+item.lapis_lazuli=La-orina Lazuli
+item.lapis_lazuli_ore=La-orina-lazuli-Mineral
 
-item.clay_ball=Tonkugel
+item.clay_ball=GeräuschkugelLEL
 
-item.raw_hardened_cobblestone=Rohes gehärtetes Kopfsteinpflaster
-item.raw_hardened_cobblestone_plate=Rohes gehärtetes Kopfsteinpflaster
-item.gehärtetes_Pflasterstein=gehärtetes Kopfsteinpflaster
-item.harden_cobblestone_plate=gehärtete Kopfsteinpflaster-Platte
-item.processed_cobblestone=Verarbeitetes Kopfsteinpflaster
-item.processed_cobblestone_plate=Verarbeitete Kopfsteinpflasterplatte
+item.raw_hardened_cobblestone=Rohes abgeweichtes Cocksteinraster
+item.raw_hardened_cobblestone_plate=Rohes abgeweichtes Cocksteinpflasterteller
+item.gehärtetes_Pflasterstein=Abgeweichtes Cocksteinpflaster
+item.harden_cobblestone_plate=Abgeweichtes Cocksteinpflasterteller
+item.processed_cobblestone=Vergewaltigte Cocksteinpasta
+item.processed_cobblestone_plate=Vergewaltigte Cocksteinpastateller
 
-item.oil_bucket=Öleimer=Öleimer
-item.bucket=Leerer Eimer
-item.water_bucket=Wassereimer
-item.raw_clay_bucket=Rohton-Eimer
-item.clay_bucket=Ton-Eimer
-item.water_clay_bucket=Wasser-Ton-Eimer
+item.oil_bucket=Eimer im ÖL
+item.bucket=remiE
+item.water_bucket=Wasserflüssigkeit-Eimer
+item.raw_clay_bucket=Nacktegeräusche-Eimer
+item.clay_bucket=Geräusche-Eimer
+item.water_clay_bucket=WasserflüssigkeitgeräuscheEimer
 
-item.wooden_shovel=Holzschaufel
-item.cobblestone_shovel=Pflasterstein-Schaufel
-item.hardened_cobblestone_shovel=gehärtete Kopfsteinpflaster-Schaufel
-item.processed_cobblestone_shovel=Verarbeitete Kopfsteinpflaster-Schaufel
-item.processed_cobblestone_pickaxe=Verarbeitete Kopfsteinpflaster-Spitzhacke
+item.wooden_shovel=StolzHaufel
+item.cobblestone_shovel=Steinpflaster-Schaufel
+item.hardened_cobblestone_shovel=abgeweichte Cocksteinpflaster-Schaufel
+item.processed_cobblestone_shovel=Vergewaltigte Cocksteinpflaster-Schaufel
+item.processed_cobblestone_pickaxe=Vergewaltigte Cocksteinpflaster-Stumpfhacke
 
-item.stick=Stab
-item.stone=Stein
-item.grass_block=Grass-Block
-item.dirt=Schmutz
-item.cobblestone=Pflasterstein
-item.oak_planks=Eichendielen=Eichendielen
-item.oak_log=Eichenprotokoll
-item.eiche_plate=Eiche Platte
-item.oak_leaves=Eichenlaub=Eichenlaub
-item.oak_dry_leaves=Eiche trockenes Laub=Eiche trockenes Laub
-item.coarse_dirt=Grobschmutz=Grobschmutz
-item.sand=Sand
-item.granite=Granit
-item.polished_granite=Polierter Granit
-item.diorite=Diorit
-item.polished_diorite=Polierter Diorit
-item.andesite=Andesite
-item.polished_andesite=Polierter Andesit
+item.stick=Zauberfick
+item.stone=Cand Granyon
+item.grass_block=Das Gras haben wir zertrampelt.
+item.dirt=Mensch
+item.cobblestone=Festerrein
+item.oak_planks=Eicheldealen
+item.oak_log=Eichelquelle
+item.eiche_plate=Eichel auf dem Teller
+item.oak_leaves=LaubamEichel
+item.oak_dry_leaves=Ausgetrocknete Eichel
+item.coarse_dirt=BlöderSchmutz
+item.sand=Snad
+item.granite=Granate
+item.polished_granite=Polnische Granate
+item.diorite=Andriorit
+item.polished_diorite=Polierter Android
+item.andesite=Andere Seite
+item.polished_andesite=Polnische Andere Seite
 
-item.cut_sandstone=Sandstein geschliffen
-item.smooth_sandstone=Glatter Sandstein
+item.cut_sandstone=Snadschwanz - geschnitten
+item.smooth_sandstone=FlacherSnadscheiß
 
-item.stone_age_campire=Steinzeitliches Lagerfeuer
-item.egyptian_campire_stage1=Ägyptisches Lagerfeuer Stufe 1
+item.stone_age_campire=ZeitsteinlichesFeuerlager
+item.egyptian_campire_stage1=Ägyp..keineAhnungFeuerlager Stufe 1
 
 # =================================
 
-block.egyptian_campire_stage1=Ägyptisches Lagerfeuer Stufe 1
-block.stone_age_campire=Steinzeitliches Lagerfeuer
+block.egyptian_campire_stage1=Ägyp..keine Ahnung Feuerlager Stufe 1
+block.stone_age_campire=Lagerfeuer mit Steinen
 block.andesite=$item.andesite
-block.clay=Ton
+block.clay=Geräusch
 block.coarse_dirt=$item.coarse_dirt
 block.copper_ore=$item.copper_ore
 block.cut_sandstone=$item.cut_sandstone
@@ -116,42 +116,30 @@ block.oak_leaves=$item.sandstone
 block.sand=$item.sand
 block.sandstone=$item.sandstone
 block.smooth_sandstone=§item.smooth_sandstone
-block.tree_oak_leaves=Eichenblätter
-
-# =============== Alter ================
-
-age.early_stone_age=Frühe Steinzeit
-age.stone_age=Steinzeit
-age.new_stone_age=Neue Steinzeit
-age.copper_age=Kupferzeit
-age.iron_age=Eisenzeit
-age.early_medieval_times=Frühmittelalter
-age.middle_medieval_times=Hochmittelalter
-age.late_medieval_times=Spätmittelalter
-
+block.tree_oak_leaves=Eichelhaare
 
 # Nachrichten ============================
 
-msg.error.internal=Ein interner Fehler ist aufgetreten!
-msg.error.command_not_found=Befehl nicht gefunden!
-msg.error.not_enough_arguments=Nicht genug Argumente!
-msg.error.invalid_argument=Ungültiges Argument!
-msg.error.accessing_future=Sie können nicht auf die Zukunft zugreifen!
-msg.error.insufficient_permission=Sie haben keine ausreichende Berechtigung. Dazu benötigen Sie mindestens eine der folgenden Berechtigungen:
-msg.error.not_a_player=Sie müssen ein Spieler sein, um dies zu tun!
-msg.error.bank_does_not_exist=Die Bank "%bankName%" existiert nicht!
-msg.error.invalid_company_type=Ungültiger Firmentyp "%companyType%"!
-msg.error.company_does_not_exist=Die Firma "%companyName%" existiert nicht!
-msg.error.hand_empty=Ihre Hand ist leer!
+msg.error.internal=Ein aufgetreten ist intern Fehler!
+msg.error.command_not_found=Das geht nicht!
+msg.error.not_enough_arguments=Nicht ausreichende Argumentation
+msg.error.invalid_argument=Was ist was denn?! Domme, was ist den hier passiert?!
+msg.error.accessing_future=Wir sind hier nicht bei Zurück in die Zukunft II, oder?
+msg.error.insufficient_permission=Wer rechnen will, muss ein Chinese sein.
+msg.error.not_a_player=Denn die Einen sind im Lichte, und man siehet die im Dunkeln, und die Anderen sieht man nicht. Und die im Dunkeln sind im Licht. (Dich sieht man auch nicht, denn du bist kein Spieler, du Opfer!)
+msg.error.bank_does_not_exist=Die Bank "%bankName%" ist keine Bank.
+msg.error.invalid_company_type=Der Firmentyp "%companyType%" ist kein Firmentyp.
+msg.error.company_does_not_exist=Du suchtst die Firma "%companyName%"? Das geht nicht!
+msg.error.hand_empty=Ihre Hand? Hier befindet sich nichts. Hier befindet sich...DER GEOLOGE MAT GEPLINSKI VON DER UNIVERSITÄT FLAGSTAFF.
 msg.error.product_already_exists=Das Produkt existiert bereits!
 msg.error.invalid_number=Ungültige Nummer!
-msg.error.look_at_chest=Bitte schauen Sie sich eine Truhe an!
-msg.error.move_closer=Bitte kommen Sie näher!
+msg.error.look_at_chest=Bitte schauen Sie sich eine Truhe an, um sich eine Truhe anzuschauen! Und wenn du die Truhe näher ansiehst, dann siehst du...eine Truhe!
+msg.error.move_closer=Komm her!
 msg.error.empty_hand=Ihre Hand ist leer!
-msg.error.bank_account_does_not_exist=Das Bankkonto existiert nicht!
+msg.error.bank_account_does_not_exist=Das Bankkonto ist kein Bankkonto!
 msg.error.not_enough_space_details=%needed% ist zu viel. Sie können nur %available% anpassen!
-msg.error.not_enough_space=Nicht genug Platz!
-msg.error.not_enough_money=Sie haben nicht genug Geld! Die Kosten betragen %price% und Ihr Guthaben nur %balance%.
+msg.error.not_enough_space=Sein Schwanz ist nicht statisch. Er wird immer größer, und GRÖßer und GRÖßer... (Alter, mach Platz!)
+msg.error.not_enough_money=Mit welchem Geld? Du brauchst %price% und du hast nur %balance%.
 
 msg.success=Erfolg!
 msg.success.register_bank=Erfolgreiche Registrierung der Bank %bank%!
@@ -162,46 +150,46 @@ msg.success.register_product=Erfolgreich registriertes Produkt "%productName%" f
 msg.success.register_company_bank_account=Erfolgreich registriertes Bankkonto "%bankAccountName%" bei "%bankName%" für "%companyName%"!
 msg.success.register_player_bank_account=Erfolgreich das Bankkonto "%bankAccountName%" bei "%bankName%" registriert!
 
-msg.mail_received=Post empfangen!
+msg.mail_received=Post empfangen oder so keine Ahnung bin kein Postbote.
 
 msg.chatdialog.register_product_name=Bitte geben Sie den gewünschten Produktnamen ein!
-msg.chatdialog.register_product_invalid_price=Ungültiger Preis! Bitte geben Sie einen gültigen Preis ein.
+msg.chatdialog.register_product_invalid_price=Das geht nicht! Bitte geben Sie einen gültigen Preis ein.
 msg.chatdialog.register_product_price=Bitte geben Sie den gewünschten Preis ein!
 
 # =============== GUI ==============
 
-gui.item.back=Zurück
+gui.item.back=RÜCKZUG!
 
-gui.title.bank_account_credits=Kredite
+gui.title.bank_account_credits=Kredite oder so keine Ahnung bin kein Bänker
 
-gui.title.bank_account=Bankkonto - %bankAccountName%
+gui.title.bank_account=Bankkonto von %bankAccountName%
 gui.item.bank.konto.credits=$gui.title.bank_account_credits
 
-gui.title.bank_accounts=Bankkonten
+gui.title.bank_accounts=Kontobanken
 
 gui.title.banks=Banken
 
-gui.title.buy_resource=Ressource kaufen - %resourceName%
+gui.title.buy_resource=Ressource saufen - %resourceName%
 gui.item.buy_resource.sign=Ressource kaufen - %resourceName% - %resourcePrice%
 gui.item.buy_resource.custom_amount=Benutzerdefinierten Betrag eingeben
 gui.item.buy_resource.buy_amount=Kaufen %amount%
 
-gui.title.choose_bank_account=Bankkonto-Auswahl
+gui.title.choose_bank_account=Kontobank-Auswahl
 
 gui.title.companies=Firmen
 
 gui.item.company.products=Produkte
 gui.item.company.register_product=Produkt registrieren
 gui.item.company.sales=Verkäufe
-gui.item.company.employees=Mitarbeiter
+gui.item.company.employees=Armitbeiter
 
 gui.title.create_bank_account=Bankkonto anlegen
 
 gui.title.employees_from_company=Mitarbeiter von %companyName%
 
-gui.title.main_menu=Hauptmenü
-gui.item.main_menu.mailbox=Postfach
-gui.item.main_menu.write_mail=Nachricht schreiben
+gui.title.main_menu=1&1 Kundenservice
+gui.item.main_menu.mailbox=Fachpost
+gui.item.main_menu.write_mail=Nachricht schreien
 
 gui.title.products_from_company=Produkte von %companyName%
 
@@ -210,13 +198,13 @@ gui.title.research=Forschung
 gui.title.sell_resource=Ressource verkaufen=Ressource verkaufen - %resourceName%
 gui.item.sell_resource.custom_amount=Benutzerdefinierten Betrag eingeben
 
-gui.title.stock_market=Aktienmarkt
+gui.title.stock_market=Markt von die Aktien
 
-gui.title.transfer_money=Geld überweisen
+gui.title.transfer_money=Geld überscheißen
 
 # ===============================
 
 other.player=Spieler
-other.ai=KI
-other.corporation=Kapitalgesellschaft
+other.ai=Künstliche Unintelligenz
+other.corporation=KapitalgesellSCHAFT
 other.private_company=Privatunternehmen

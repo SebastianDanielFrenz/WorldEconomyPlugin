@@ -13,13 +13,13 @@ import org.bukkit.command.TabCompleter;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.Lang;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
 
-public class WorldEconomyCustomCommandRegistryCommandExecutor implements CommandExecutor, TabCompleter {
+public class WEPCmdRegExecutor implements CommandExecutor, TabCompleter {
 
 	public static Map<String, CustomCommandGroup> root = new TreeMap<String, CustomCommandGroup>();
 
 	public final String base_cmd;
 
-	public WorldEconomyCustomCommandRegistryCommandExecutor(String base_cmd) {
+	public WEPCmdRegExecutor(String base_cmd) {
 		this.base_cmd = base_cmd;
 	}
 
@@ -27,7 +27,7 @@ public class WorldEconomyCustomCommandRegistryCommandExecutor implements Command
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		CustomCommandGroupContent content = root.get(base_cmd).getCommandProcessor(args);
 		if (content == null) {
-			sender.sendMessage("command not found!");
+			sender.sendMessage(WorldEconomyPlugin.PREFIX + "Command not found!");
 			return true;
 		}
 		if (content instanceof CustomCommand) {
@@ -41,6 +41,9 @@ public class WorldEconomyCustomCommandRegistryCommandExecutor implements Command
 				}
 			}
 		}
+
+		String[] _args = new String[] {};
+
 		return content.run(sender, cmd, label, args);
 	}
 

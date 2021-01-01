@@ -57,9 +57,9 @@ item.lapis_lazuli_ore=Lapislazuli-Erz
 item.clay_ball=Tonkugel
 
 item.raw_hardened_cobblestone=Rohes gehärtetes Kopfsteinpflaster
-item.raw_hardened_cobblestone_plate=Rohes gehärtetes Kopfsteinpflaster
+item.raw_hardened_cobblestone_plate=Rohe gehärtete Kopfsteinpflasterplatte
 item.gehärtetes_Pflasterstein=gehärtetes Kopfsteinpflaster
-item.harden_cobblestone_plate=gehärtete Kopfsteinpflaster-Platte
+item.harden_cobblestone_plate=gehärtete Kopfsteinpflasterplatte
 item.processed_cobblestone=Verarbeitetes Kopfsteinpflaster
 item.processed_cobblestone_plate=Verarbeitete Kopfsteinpflasterplatte
 

@@ -13,7 +13,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIProperty;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.ai.AIPropertyRegistry;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CustomCommand;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CustomCommandGroup;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCustomCommandRegistryCommandExecutor;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WEPCmdRegExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockType;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockTypeRegistry;
@@ -71,7 +71,7 @@ public class WorldEconomyExtensionManager {
 	}
 
 	public void registerCommandRoot(CustomCommandGroup command) {
-		WorldEconomyCustomCommandRegistryCommandExecutor.root.put(command.command, command);
+		WEPCmdRegExecutor.root.put(command.command, command);
 	}
 
 }

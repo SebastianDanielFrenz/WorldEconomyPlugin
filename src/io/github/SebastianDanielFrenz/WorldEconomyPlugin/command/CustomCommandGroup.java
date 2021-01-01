@@ -7,6 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+
 public class CustomCommandGroup extends CustomCommandGroupContent {
 
 	public CustomCommandGroup(Plugin plugin, CustomCommandGroup parent, String command) {
@@ -72,12 +74,12 @@ public class CustomCommandGroup extends CustomCommandGroupContent {
 
 	@Override
 	public boolean run(CommandSender sender, Command cmd, String label, String[] args) {
-		sender.sendMessage("Subcommands for " + getPrefix() + ":");
+		sender.sendMessage(WorldEconomyPlugin.PREFIX + "Subcommands for " + getPrefix() + ":");
 		for (CustomCommandGroupContent child : children) {
 			if (child instanceof CustomCommandGroup) {
-				sender.sendMessage(getPrefix() + " " + child.command + " (super command)");
+				sender.sendMessage(WorldEconomyPlugin.PREFIX + getPrefix() + " " + child.command + " (super command)");
 			} else if (child instanceof CustomCommand) {
-				sender.sendMessage(getPrefix() + " " + child.command);
+				sender.sendMessage(WorldEconomyPlugin.PREFIX + getPrefix() + " " + child.command);
 			}
 		}
 		return true;

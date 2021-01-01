@@ -49,7 +49,7 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.banking.BankAccount;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.chatdialogs.CreateBankAccountChatDialog;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.CmdReg;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCommandExecutor;
-import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WorldEconomyCustomCommandRegistryCommandExecutor;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.command.WEPCmdRegExecutor;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlock;
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.block.CustomBlockMetadataValue;
