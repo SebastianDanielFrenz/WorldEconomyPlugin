@@ -11,18 +11,23 @@ import io.github.SebastianDanielFrenz.WorldEconomyPlugin.gameplay.Age;
 
 public abstract class CustomCommand extends CustomCommandGroupContent {
 
-	public CustomCommand(Plugin plugin, CustomCommandGroup parent, String command, String[] perms) {
-		this(plugin, parent, command, perms, null);
+	public CustomCommand(Plugin plugin, CustomCommandGroup parent, String command, String[] perms,
+			CommandArgument... arguments) {
+		this(plugin, parent, command, perms, null, arguments);
 	}
 
-	public CustomCommand(Plugin plugin, CustomCommandGroup parent, String command, String[] perms, Age min_age) {
+	public CustomCommand(Plugin plugin, CustomCommandGroup parent, String command, String[] perms, Age min_age,
+			CommandArgument... arguments) {
 		super(plugin, parent, command);
 		this.perms = perms;
 		this.min_age = min_age;
+
+		this.arguments = arguments;
 	}
 
 	public final String[] perms;
 	public final Age min_age;
+	public final CommandArgument[] arguments;
 
 	public boolean hasRawPermission(CommandSender sender) {
 		if (sender.isOp()) {
