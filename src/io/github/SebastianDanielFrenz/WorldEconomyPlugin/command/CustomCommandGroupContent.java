@@ -17,9 +17,9 @@ public abstract class CustomCommandGroupContent {
 		this.plugin = plugin;
 		if (parent != null) {
 			parameter_offset = parent.parameter_offset + 1;
-			parent.children.add(this);
+			parent.registerChild(this);
 		} else {
-			parameter_offset = 1;
+			parameter_offset = 0;
 		}
 	}
 
@@ -50,6 +50,15 @@ public abstract class CustomCommandGroupContent {
 		List<String> out = new ArrayList<String>(5);
 		addCommandToList(out);
 		return out;
+	}
+
+	public String getCompleteCommandAsString() {
+		String out = "/";
+		List<String> tmp = getCompleteCommand();
+		for (int i = 0; i < tmp.size() - 1; i++) {
+			out += tmp.get(i) + " ";
+		}
+		return out + tmp.get(tmp.size() - 1);
 	}
 
 	public boolean isVisible(CommandSender sender) {

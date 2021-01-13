@@ -67,7 +67,7 @@ public class CmdReg {
 			if (args.length > 2) {
 				if (hasPermission(sender)) {
 					try {
-						WEDB.registerBank(args[2]);
+						WEDB.registerBank(args[0]);
 						sender.sendMessage(Lang.getSuccess(sender, Lang.SUCCESS_REGISTER_BANK));
 						return true;
 					} catch (SQLException e) {
@@ -99,25 +99,25 @@ public class CmdReg {
 				return true;
 			}
 			try {
-				Bank bank = WEDB.getBank(args[2]);
+				Bank bank = WEDB.getBank(args[0]);
 				if (bank == null) {
-					sender.sendMessage(Lang.getBankDoesNotExist(sender, args[2]));
+					sender.sendMessage(Lang.getBankDoesNotExist(sender, args[0]));
 					return true;
 				}
-				WEDB.registerBankAccount(new BankAccount(0, (Player) sender, bank.ID, 0, args[3]));
+				WEDB.registerBankAccount(new BankAccount(0, (Player) sender, bank.ID, 0, args[1]));
 
 				ItemStack creditCard = new ItemStack(Material.PAPER);
 				ItemMeta itemMeta = creditCard.getItemMeta();
 
 				List<String> lore = new ArrayList<String>();
 				lore.add("Credit Card");
-				lore.add(args[3]);
+				lore.add(args[1]);
 				itemMeta.setLore(lore);
 				creditCard.setItemMeta(itemMeta);
 
 				((Player) sender).getInventory().addItem(creditCard);
 
-				sender.sendMessage(Lang.getRegisteredPlayerBankAccount(sender, args[3], bank.name));
+				sender.sendMessage(Lang.getRegisteredPlayerBankAccount(sender, args[1], bank.name));
 				return true;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -134,6 +134,48 @@ public class CmdReg {
 				out += " ";
 			}
 			sender.sendMessage(out);
+			return null;
+		}
+	};
+	public static final CustomCommand WE__REGISTER__COMPANY = new CustomCommand(WorldEconomyPlugin.plugin, WE__REGISTER,
+			"company", Permissions.REGISTER_COMPANY_CMD, Age.LATE_MIDDLE_AGES) {
+
+		@Override
+		public boolean run(CommandSender sender, Command cmd, String label, String[] args) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(Lang.getError(sender, Lang.getErrorNotAPlayer(sender)));
+				return true;
+			}
+			if (args.length > 3) {
+				try {
+					String name = args[0];
+
+					switch (args[1]) {
+					case "corporation":
+						sender.sendMessage(Lang.getRegisteredCorporation(sender, args[2],
+								WEDB.registerCorporation(name, (Player) sender)));
+						break;
+					case "private":
+						sender.sendMessage(Lang.getRegisteredPrivateCompany(sender, args[2],
+								WEDB.registerPrivateCompany(name, (Player) sender)));
+						break;
+					default:
+						sender.sendMessage(Lang.getInvalidCompanyType(sender, args[3]));
+					}
+					return true;
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+					sender.sendMessage(Lang.getErrorInternal(sender));
+					return true;
+				}
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public List<String> onTabComplete(CommandSender sender, String[] args) {
 			return null;
 		}
 	};

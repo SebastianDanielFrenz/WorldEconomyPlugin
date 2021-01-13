@@ -42,9 +42,12 @@ public class WEPCmdRegExecutor implements CommandExecutor, TabCompleter {
 			}
 		}
 
-		String[] _args = new String[] {};
+		String[] _args = new String[args.length - content.parameter_offset];
+		for (int i = 0; i < _args.length; i++) {
+			_args[i] = args[i + content.parameter_offset];
+		}
 
-		return content.run(sender, cmd, label, args);
+		return content.run(sender, cmd, label, _args);
 	}
 
 	@Override

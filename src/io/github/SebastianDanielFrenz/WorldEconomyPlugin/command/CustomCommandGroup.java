@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 import io.github.SebastianDanielFrenz.WorldEconomyPlugin.WorldEconomyPlugin;
+import io.github.SebastianDanielFrenz.WorldEconomyPlugin.error.custom_command.CustomCommandRegistrationError;
 
 public class CustomCommandGroup extends CustomCommandGroupContent {
 
@@ -15,9 +16,78 @@ public class CustomCommandGroup extends CustomCommandGroupContent {
 		super(plugin, parent, command);
 	}
 
-	public List<CustomCommandGroupContent> children = new ArrayList<CustomCommandGroupContent>();
+	public CustomCommandGroup(Plugin plugin, CustomCommandGroup parent, String command,
+			CustomCommand simultainious_command) {
+		super(plugin, parent, command);
+		this.simultainious_command = simultainious_command;
+	}
+
+	private List<CustomCommandGroupContent> children = new ArrayList<CustomCommandGroupContent>();
+
+	public void registerChild(CustomCommand customCommand) {
+		CustomCommandGroupContent child = getChildFor(customCommand.command);
+		if (child == null) {
+			return;
+		}
+		if (child instanceof CustomCommand) {
+			throw new CustomCommandRegistrationError("Failed to register duplicate command \"/"
+					+ customCommand.getCompleteCommandAsString() + " for " + customCommand.plugin.getName()
+					+ "\" as it was already registered by " + child.plugin + "!", customCommand);
+		}
+		if (((CustomCommandGroup) child).simultainious_command != null) {
+			throw new CustomCommandRegistrationError(
+					"Failed to register duplicate command \"/" + customCommand.getCompleteCommandAsString()
+							+ "\" as it was already registered by " + child.plugin.getName() + "!",
+					customCommand);
+		}
+
+		children.add(customCommand);
+	}
+
+	public void registerChild(CustomCommandGroup customCommand) {
+		CustomCommandGroupContent child = getChildFor(customCommand.command);
+		if (child == null) {
+			return;
+		}
+		if (child instanceof CustomCommandGroup) {
+			throw new CustomCommandRegistrationError("Failed to register duplicate command \"/"
+					+ customCommand.getCompleteCommandAsString() + " for " + customCommand.plugin.getName()
+					+ "\" as it was already registered by " + child.plugin + "!", customCommand);
+		}
+		if (customCommand.simultainious_command != null) {
+			throw new CustomCommandRegistrationError(
+					"Failed to register duplicate command \"/" + customCommand.getCompleteCommandAsString()
+							+ "\" as it was already registered by " + child.plugin.getName() + "!",
+					customCommand);
+		}
+
+		children.add(customCommand);
+	}
+
+	public void registerChild(CustomCommandGroupContent content) {
+		if (content instanceof CustomCommand) {
+			registerChild((CustomCommand) content);
+		} else {
+			registerChild((CustomCommandGroup) content);
+		}
+	}
+
+	public CustomCommandGroupContent getChildFor(String cmd) {
+		for (CustomCommandGroupContent child : children) {
+			if (child.command.equalsIgnoreCase(cmd)) {
+				return child;
+			}
+		}
+		return null;
+	}
+
+	public CustomCommand simultainious_command;
 
 	public CustomCommandGroupContent getChild(String[] args, int index, int stop) {
+		if (index == 0 && stop == 0) {
+			return simultainious_command;
+		}
+
 		if (index == stop) {
 			return this;
 		}
